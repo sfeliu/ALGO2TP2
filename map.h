@@ -7,7 +7,7 @@
  * Autores:
  * - Santiago Feliu (santiagofeliu@hotmail.com)
  * - Gianfranco Bogetti (gianbogetti7@hotmail.com)
- * - Nombre y Apellido (mail)
+ * - Pablo Ingaramo (pablo2martin@Hotmail.com)
  * - Nombre y Apellido (mail)
  *
  * Algoritmos y Estructuras de Datos II -- FCEN -- UBA.
