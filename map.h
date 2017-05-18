@@ -754,8 +754,8 @@ public:
      * @param c comparador (functor de orden) a utilizar
      * @retval res diccionario recién construido
      *
-     * \pre \aedpre{completar}
-     * \post \aedpost{completar}
+     * \pre \aedpre{TRUE}
+     * \post \aedpost{res = vacio}
      *
      * \complexity{\O(1)}
      *
