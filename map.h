@@ -5,7 +5,7 @@
  * terminología de la biblioteca estándar.
  *
  * Autores:
- * - Santiago Feliu (santiagofeliu@hotmail.com)
+ * - Santiago Feliu (santiagofeliu@hotmail.com) (gato)
  * - Nombre y Apellido (mail)
  * - Nombre y Apellido (mail)
  * - Nombre y Apellido (mail)
