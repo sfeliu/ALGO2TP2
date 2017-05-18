@@ -6,7 +6,7 @@
  *
  * Autores:
  * - Santiago Feliu (santiagofeliu@hotmail.com)
- * - Nombre y Apellido (mail)
+ * - Gianfranco Bogetti (gianbogetti7@hotmail.com)
  * - Nombre y Apellido (mail)
  * - Nombre y Apellido (mail)
  *
