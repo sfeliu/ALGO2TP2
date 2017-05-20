@@ -1230,17 +1230,20 @@ public:
      * \complexity{\O(1)}
      */
     iterator begin() {
-    	//completar
+        iterator it = iterator(header.child[0]);
+        return it;
     }
 
     /** \overload */
     const_iterator begin() const {
-    	//completar
+        const_iterator it = const_iterator(header.child[0]);
+        return it;
     }
 
     /** \overload */
     const_iterator cbegin() {
-    	//completar
+        const_iterator it = const_iterator(header.child[0]);
+        return it;
     }
 
     /**
@@ -1256,17 +1259,20 @@ public:
      * \complexity{\O(1)}
      */
     iterator end() {
-    	//completar
+        iterator it = iterator(header.child[1]);
+        return it;
     }
 
     /** \overload */
     const_iterator end() const {
-    	//completar
+        const_iterator it = const_iterator(header.child[1]);
+        return it;
     }
 
     /** \overload */
     const_iterator cend() {
-    	//completar
+        const_iterator it = const_iterator(header.child[1]);
+        return it;
     }
 
     /**
@@ -1282,17 +1288,20 @@ public:
      * \complexity{\O(1)}
      */
     reverse_iterator rbegin() {
-    	//completar
+        reverse_iterator it = reverse_iterator(header.child[0]);
+        return it;
     }
 
     /** \overload */
     const_reverse_iterator rbegin() const {
-    	//completar
+        const_reverse_iterator it = const_reverse_iterator(header.child[0]);
+        return it;
     }
 
     /** \overload */
     const_reverse_iterator crbegin() {
-    	//completar
+        const_reverse_iterator it = const_reverse_iterator(header.child[0]);
+        return it;
 	}
 
     /**
@@ -1308,17 +1317,20 @@ public:
      * \complexity{\O(1)}
      */
     reverse_iterator rend() {
-    	//completar
+        reverse_iterator it = reverse_iterator(header.child[1]);
+        return it;
     }
 
     /** \overload */
     const_reverse_iterator rend() const {
-    	//completar
+        const_reverse_iterator it = const_reverse_iterator(header.child[1]);
+        return it;
     }
 
     /** \overload */
     const_reverse_iterator crend() {
-    	//completar
+        const_reverse_iterator it = const_reverse_iterator(header.child[1]);
+        return it;
     }
     //@}
 
