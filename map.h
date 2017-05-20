@@ -948,7 +948,8 @@ public:
      *
      */
     Meaning& operator[](const Key& key) {
-    	//completar
+        iterator it = find(key);
+        return it.n->value().second;
     }
 
     /**
@@ -974,12 +975,38 @@ public:
      *
      */
     iterator find(const Key& key) {
-    	//completar
+        iterator it = iterator(header.parent);
+        while(it.n != nullptr){
+            if(it.n->key() == key){
+                return it;
+            }else{
+                if(it.n->key() < key){
+                    it.n = it.n->child[0];
+                }else{
+                    it.n = it.n->child[1];
+                }
+            }
+        }
+        it = iterator(&header);
+        return it;
     }
 
     /** \overload */
     const_iterator find(const Key& key) const {
-    	//completar
+        iterator it = iterator(header.parent);
+        while(it.n != nullptr){
+            if(it.n->key() == key){
+                return it;
+            }else{
+                if(it.n->key() < key){
+                    it.n = it.n->child[0];
+                }else{
+                    it.n = it.n->child[1];
+                }
+            }
+        }
+        it = iterator(&header);
+        return it;
     }
 
     /**
@@ -1025,7 +1052,7 @@ public:
      * \complexity{\O(1)}
      */
     bool empty() const {
-    	//completar
+        return header.parent == nullptr;
     }
 
     /**
@@ -1039,7 +1066,7 @@ public:
      * \complexity{\O(1)}
      */
     size_t size() const {
-    	//completar
+        return count;
     }
     //@}
 
