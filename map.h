@@ -1407,7 +1407,7 @@ public:
          * \complexity{\O(1)}
          */
         reference operator*() const {
-        	//completar
+            return n->value();
         }
         /**
          * \brief Retorna la dirección del valor apuntado por \P{*this}
@@ -1425,7 +1425,7 @@ public:
          * eso que la postcondición es más débil de lo que debiera.  Eso no ocurre en las otras funciones del TP.
          */
         pointer operator->() const {
-			//completar
+			return n;
 		}
         /**
          * \brief Avanza el iterador a la siguiente posición
@@ -1443,7 +1443,19 @@ public:
          * }
          */
         iterator& operator++() {
-        	//completar
+            if(n->color == Color::Header){
+                n = n->child[0];
+            }else if(n->child[1] != nullptr){
+                n->child[1].min();
+            }else{
+                Node* y = n->parent;
+                while(y != nullptr and n == y->child[1]){
+                    n = y;
+                    y = y->parent;
+                }
+                n = y;
+            }
+            return this&;
         }
         /**
          * \brief Avanza el iterador a la siguiente posición
@@ -1461,7 +1473,12 @@ public:
          * }
          */
         iterator operator++(int) {
-        	//completar
+            int i = 0;
+            while(i < x){
+                this++;
+                i++;
+            }
+            return this;
         }
         /**
          * \brief Retrocede el iterador a la posición anterior
@@ -1479,7 +1496,19 @@ public:
          * }
          */
         iterator& operator--() {
-        	//completar
+            if(n->color == Color::Header){
+                n = n->child[1];
+            }else if(n->child[0] != nullptr){
+                n->child[0].max();
+            }else{
+                Node* y = n->parent;
+                while(y != nullptr and n == y->child[0]){
+                    n = y;
+                    y = y->parent;
+                }
+                n = y;
+            }
+            return this&;
         }
         /**
          * \brief Retrocede el iterador a la posición anterior
@@ -1497,7 +1526,12 @@ public:
          * }
          */
         iterator operator--(int) {
-        	//completar
+            int i = 0;
+            while(i < x){
+                this--;
+                i++;
+            }
+            return this;
         }
         /**
          * \brief Operador de igualdad
@@ -1517,11 +1551,11 @@ public:
          * \complexity{\O(1)}
          */
         bool operator==(iterator other) const {
-        	//completar
+            return n == other.n;
         }
         /** \brief idem !|operator== */
         bool operator!=(iterator other) const {
-        	//completar
+            return n != other.n;
         }
 
     private:
@@ -1623,39 +1657,73 @@ public:
          * \complexity{\O(1)}
          */
         const_iterator(iterator it) {
-          //completar
+            n = it.n;
         }
         /** \brief Ver aed2::map::iterator::operator*() */
         reference operator*() const  {
-          //completar
+            return n->value();
         }
         /** \brief Ver aed2::map::iterator::operator->() */
         pointer operator->() const {
-          //completar
+            return n;
         }
         /** \brief Ver aed2::map::iterator::operator++() */
         const_iterator& operator++()  {
-          //completar
+            if(n->color == Color::Header){
+                n = n->child[0];
+            }else if(n->child[1] != nullptr){
+                n->child[1].min();
+            }else{
+                Node* y = n->parent;
+                while(y != nullptr and n == y->child[1]){
+                    n = y;
+                    y = y->parent;
+                }
+                n = y;
+            }
+            return this&;
         }
         /** \brief Ver aed2::map::iterator::operator++(int) */
         const_iterator operator++(int)  {
-          //completar
+            int i = 0;
+            while(i < x){
+                this++;
+                i++;
+            }
+            return this;
         }
         /** \brief Ver aed2::map::iterator::operator--() */
         const_iterator& operator--()  {
-          //completar
+            if(n->color == Color::Header){
+                n = n->child[1];
+            }else if(n->child[0] != nullptr){
+                n->child[0].max();
+            }else{
+                Node* y = n->parent;
+                while(y != nullptr and n == y->child[0]){
+                    n = y;
+                    y = y->parent;
+                }
+                n = y;
+            }
+            return this&;
         }
         /** \brief Ver aed2::map::iterator::operator--(int) */
         const_iterator operator--(int)  {
-          //completar
+            int i = 0;
+            while(i < x){
+                this--;
+                i++;
+            }
+            return this;
         }
         /** \brief Ver aed2::map::iterator::operator==() */
         bool operator==(const_iterator other) const  {
-          //completar
+            return n == other.n;
         }
         /** \brief Ver aed2::map::iterator::operator!=() */
         bool operator!=(const_iterator other) const  {
-          //completar
+            return n != other.n;
         }
 
     private:
