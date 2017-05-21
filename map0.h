@@ -52,9 +52,12 @@ public:
     using reverse_iterator = std::reverse_iterator<iterator>;
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
-// \complexity{\O(1)}
+
     explicit map(Compare c = Compare()) {
-    	//completar
+        lt = c;
+        count = 0;
+        Node n = Node();
+        header = n;
     }
 
 // \complexity{\O(\COPY(\P{other}))}
@@ -94,16 +97,42 @@ public:
 // - \a x = 1 si def?(\a self, \P{key}), y
 // - \a x = \a c en caso contrario.}
     Meaning& operator[](const Key& key) {
-    	//completar
+        iterator it = find(key);
+        return it.n->value().second;
     }
 
-// \complexity{\O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}))}
     iterator find(const Key& key) {
-    	//completar
-    }
+        iterator it = iterator(header.parent);
+        while(it.n != nullptr){
+            if(it.n->key() == key){
+                return it;
+            }else{
+                if(it.n->key() < key){
+                    it.n = it.n->child[0];
+                }else{
+                    it.n = it.n->child[1];
+                }
+            }
+        }
+        it = iterator(&header);
+        return it;
+}
 
     const_iterator find(const Key& key) const {
-    	//completar
+        iterator it = iterator(header.parent);
+        while(it.n != nullptr){
+            if(it.n->key() == key){
+                return it;
+            }else{
+                if(it.n->key() < key){
+                    it.n = it.n->child[0];
+                }else{
+                    it.n = it.n->child[1];
+                }
+            }
+        }
+        it = iterator(&header);
+        return it;
     }
 
 // \complexity{\O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}))}
@@ -115,14 +144,12 @@ public:
         //completar
     }
 
-// \complexity{\O(1)}
     bool empty() const {
-    	//completar
+        return header.parent == nullptr;
     }
 
-// \complexity{\O(1)}
     size_t size() const {
-    	//completar
+        return count;
     }
 
 // \complexity{
@@ -185,56 +212,64 @@ public:
         if(other.root() == nullptr) other.header.child[0] = other.header.child[1] = &other.header;
     }
 
-// \complexity{\O(1)}
     iterator begin() {
-    	//completar
+        iterator it = iterator(header.child[0]);
+        return it;
     }
 
     const_iterator begin() const {
-    	//completar
+        const_iterator it = const_iterator(header.child[0]);
+        return it;
     }
 
     const_iterator cbegin() {
-    	//completar
+        const_iterator it = const_iterator(header.child[0]);
+        return it;
     }
 
-// \complexity{\O(1)}
     iterator end() {
-    	//completar
+        iterator it = iterator(header.child[1]);
+        return it;
     }
 
     const_iterator end() const {
-    	//completar
+        const_iterator it = const_iterator(header.child[1]);
+        return it;
     }
 
     const_iterator cend() {
-    	//completar
+        const_iterator it = const_iterator(header.child[1]);
+        return it;
     }
 
-// \complexity{\O(1)}
     reverse_iterator rbegin() {
-    	//completar
+        reverse_iterator it = reverse_iterator(header.child[0]);
+        return it;
     }
 
     const_reverse_iterator rbegin() const {
-    	//completar
+        const_reverse_iterator it = const_reverse_iterator(header.child[0]);
+        return it;
     }
 
     const_reverse_iterator crbegin() {
-    	//completar
+        const_reverse_iterator it = const_reverse_iterator(header.child[0]);
+        return it;
 	}
 
-// \complexity{\O(1)}
     reverse_iterator rend() {
-    	//completar
+        reverse_iterator it = reverse_iterator(header.child[1]);
+        return it;
     }
 
     const_reverse_iterator rend() const {
-    	//completar
+        const_reverse_iterator it = const_reverse_iterator(header.child[1]);
+        return it;
     }
 
     const_reverse_iterator crend() {
-    	//completar
+        const_reverse_iterator it = const_reverse_iterator(header.child[1]);
+        return it;
     }
 
     class iterator {
@@ -252,55 +287,70 @@ public:
 
         iterator() {}
 
-// \complexity{\O(1)}
         reference operator*() const {
-        	//completar
+            return n->value();
         }
 
-// \complexity{\O(1)}
         pointer operator->() const {
-			//completar
+			return n;
 		}
 
-// \complexity{
-// - Peor caso: \O(\LOG(SIZE(\a d)) donde \a d es el diccionario asociado a \P{*this}.
-// - Peor caso amortizado: \O(1)
-// }
         iterator& operator++() {
-        	//completar
+            if(n->color == Color::Header){
+                n = n->child[0];
+            }else if(n->child[1] != nullptr){
+                n->child[1].min();
+            }else{
+                Node* y = n->parent;
+                while(y != nullptr and n == y->child[1]){
+                    n = y;
+                    y = y->parent;
+                }
+                n = y;
+            }
+            return this;
         }
 
-// \complexity{
-// - Peor caso: \O(\LOG(SIZE(\a d)) donde \a d es el diccionario asociado a \P{*this}.
-// - Peor caso amortizado: \O(1)
-// }
         iterator operator++(int) {
-        	//completar
+            int i = 0;
+            while(i < x){
+                this++;
+                i++;
+            }
+            return this;
         }
 
-// \complexity{
-// - Peor caso: \O(\LOG(SIZE(\a d)) donde \a d es el diccionario asociado a \P{*this}.
-// - Peor caso amortizado: \O(1)
-// }
         iterator& operator--() {
-        	//completar
+            if(n->color == Color::Header){
+                n = n->child[1];
+            }else if(n->child[0] != nullptr){
+                n->child[0].max();
+            }else{
+                Node* y = n->parent;
+                while(y != nullptr and n == y->child[0]){
+                    n = y;
+                    y = y->parent;
+                }
+                n = y;
+            }
+            return this&;
         }
 
-// \complexity{
-// - Peor caso: \O(\LOG(SIZE(\a d)) donde \a d es el diccionario asociado a \P{*this}.
-// - Peor caso amortizado: \O(1)
-// }
         iterator operator--(int) {
-        	//completar
+            int i = 0;
+            while(i < x){
+                this--;
+                i++;
+            }
+            return this;
         }
 
-// \complexity{\O(1)}
         bool operator==(iterator other) const {
-        	//completar
+            return n == other.n;
         }
 
         bool operator!=(iterator other) const {
-        	//completar
+            return n != other.n;
         }
 
     private:
@@ -323,41 +373,74 @@ public:
 
         const_iterator() {}
 
-// \complexity{\O(1)}
         const_iterator(iterator it) {
-          //completar
+            n = it.n;
         }
 
         reference operator*() const  {
-          //completar
+            return n->value();
         }
 
         pointer operator->() const {
-          //completar
+            return n;
         }
 
         const_iterator& operator++()  {
-          //completar
+            if(n->color == Color::Header){
+                n = n->child[0];
+            }else if(n->child[1] != nullptr){
+                n->child[1].min();
+            }else{
+                Node* y = n->parent;
+                while(y != nullptr and n == y->child[1]){
+                    n = y;
+                    y = y->parent;
+                }
+                n = y;
+            }
+            return this&;
         }
 
         const_iterator operator++(int)  {
-          //completar
+            int i = 0;
+            while(i < x){
+                this++;
+                i++;
+            }
+            return this;
         }
 
         const_iterator& operator--()  {
-          //completar
+            if(n->color == Color::Header){
+                n = n->child[1];
+            }else if(n->child[0] != nullptr){
+                n->child[0].max();
+            }else{
+                Node* y = n->parent;
+                while(y != nullptr and n == y->child[0]){
+                    n = y;
+                    y = y->parent;
+                }
+                n = y;
+            }
+            return this&;
         }
 
         const_iterator operator--(int)  {
-          //completar
+            int i = 0;
+            while(i < x){
+                this--;
+                i++;
+            }
+            return this;
         }
 
         bool operator==(const_iterator other) const  {
-          //completar
+            return n == other.n;
         }
 
         bool operator!=(const_iterator other) const  {
-          //completar
+            return n != other.n;
         }
 
     private:
