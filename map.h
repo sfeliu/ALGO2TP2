@@ -1107,7 +1107,75 @@ public:
 
     /** \overload*/
     iterator insert(const value_type& value) {
-    	//completar
+    	iterator it1 = iterator(&header);// porque no funciona header*?
+        iterator it2 = iterator(root());
+        while(it2.n != nullptr && it2.n ->value() != value){ //se puede asumir que root es nullptr si el arbol es vacio?
+            it1 = it2;
+            if(value < it2.n->value()){
+                it2 = it2.n->child[1];
+            }else{
+                it2 = it2.n->child[2];
+            }
+        }
+        if(it2.n->value() == value){
+            return it2;
+        }
+        if(it1.n == &header){
+            header.parent = new Node(&header, Color ::Red);//como se inicializa un innerNode?
+            header.parent->child[1] = header.parent->child[1] = nullptr;//hace falta decir esto o es implicito?
+        }else {
+            if(value <it1.n->value()){
+                it1.n->child[1] = new Node(it1.n, Color::Red);
+                it1.n->child[1]->value() = value;
+                it1.n->child[1]->child[1] = it1.n->child[1]->child[2] = nullptr;
+                insertFixUp(it1.n->child[1]);
+            }else{
+                it1.n->child[2] = new Node(it1.n, Color::Red);
+                it1.n->child[2]->value() = value;
+                it1.n->child[2]->child[1] = it1.n->child[2]->child[2] = nullptr;
+                insertFixUp(it1.n->child[2]);
+            }
+        }
+        return  it2;
+    }
+
+    void insertFixUp(Node* n){                //n deveria ser un innerNode?
+        while(n->parent->color == Color::Red){
+            if(n->parent == n->parent->parent->child[1]){
+                iterator y = iterator(n->parent->parent->child[2]);
+                if(y.n->color == Color::Red){
+                    n->parent->color = Color ::Black;
+                    y.n->color = Color ::Black;
+                    n->parent->parent->color = Color ::Red;
+                    n = n->parent->parent;
+                }else{
+                    if(n == n->parent->child[2]){
+                        n = n->parent;
+                        Rotate(n,2);
+                    }
+                    n->parent->color = Color ::Black;
+                    n->parent->parent->color = Color ::Red;
+                    Rotate(n->parent->parent,1);
+                }
+            }else{
+                iterator y = iterator(n->parent->parent->child[1]);
+                if(y.n->color == Color::Red){
+                    n->parent->color = Color ::Black;
+                    y.n->color = Color ::Black;
+                    n->parent->parent->color = Color ::Red;
+                    n = n->parent->parent;
+                }else{
+                    if(n == n->parent->child[2]){
+                        n = n->parent;
+                        Rotate(n,2);
+                    }
+                    n->parent->color = Color ::Black;
+                    n->parent->parent->color = Color ::Red;
+                    Rotate(n->parent->parent,1);
+                }
+            }
+        }
+        root()->color = Color ::Black;
     }
 
     /**
@@ -1167,6 +1235,26 @@ public:
      */
     iterator erase(const_iterator pos) {
     	//completar
+    }
+
+
+    //Si i=2 entonce es un left-Rotate. De lo contrario (i=1) es un right-Rotate.
+    iterator Rotate(Node* n, int i){
+        iterator it = iterator(n->child[i]);
+        n->child[i] = it.n->child[(i+1)%2];
+        if(it.n->child[(i+1)%2] != nullptr){
+            it.n->child[(i+1)%2]->parent = n;
+        }
+        it.n ->parent = n->parent;
+        if(n->parent->is_header()){
+            root() = it.n;
+        }else if(n == n->parent->child[1]){
+            n->parent->child[(i+1)%2] = it.n;
+        }else{
+            n->parent->child[i] = it.n;
+        }
+        it.n -> child[(i+1)%2] = n;
+        n->parent = it.n;
     }
 
     /**
