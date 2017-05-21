@@ -1238,7 +1238,7 @@ public:
     }
 
 
-    //Si i=2 entonce es un left-Rotate. De lo contrario (i=1) es un right-Rotate.
+    //Si i=0 entonce es un left-Rotate. De lo contrario (i=1) es un right-Rotate.
     iterator Rotate(Node* n, int i){
         iterator it = iterator(n->child[i]);
         n->child[i] = it.n->child[(i+1)%2];
