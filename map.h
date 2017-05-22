@@ -947,7 +947,7 @@ public:
      * - \a x = \a c en caso contrario.}
      *
      */
-    Meaning& operator[](const Key& key) {
+    Meaning& operator[](const Key& key) { //Mas heavy de lo que parecia
         iterator it = find(key);
         return it.n->value().second;
     }
@@ -975,38 +975,16 @@ public:
      *
      */
     iterator find(const Key& key) {
-        iterator it = iterator(header.parent);
-        while(it.n != nullptr){
-            if(it.n->key() == key){
-                return it;
-            }else{
-                if(it.n->key() < key){
-                    it.n = it.n->child[0];
-                }else{
-                    it.n = it.n->child[1];
-                }
-            }
+        iterator it = lower_bound(key);
+        if(it.n->value().first() != key){
+            it = iterator(&header);
         }
-        it = iterator(&header);
         return it;
     }
 
     /** \overload */
     const_iterator find(const Key& key) const {
-        iterator it = iterator(header.parent);
-        while(it.n != nullptr){
-            if(it.n->key() == key){
-                return it;
-            }else{
-                if(it.n->key() < key){
-                    it.n = it.n->child[0];
-                }else{
-                    it.n = it.n->child[1];
-                }
-            }
-        }
-        it = iterator(&header);
-        return it;
+        return const_iterator(find(key)); //ME parece q esta mal, pero alta idea.....Santiago
     }
 
     /**
@@ -1028,12 +1006,33 @@ public:
      *
      */
     const_iterator lower_bound(const Key& key) const {
-    	//completar
+        return const_iterator(lower_bound(key)); //Idem arriba....Santiago
     }
 
     /** \overload */
     iterator lower_bound(const Key& key)  {
-        //completar
+        iterator it = iterator(header.parent);
+        while(it.n != nullptr){
+            if(it.n->key() == key){
+                return it;
+            }else{
+                if(it.n->key() < key){
+                    if(it.n->child[1] == nullptr) {
+                        return it++;
+                    }else{
+                        it.n = it.n->child[1];
+                    }
+                }else{
+                    if(it.n->child[0] == nullptr){
+                        return it;
+                    }else {
+                        it.n = it.n->child[0];
+                    }
+                }
+            }
+        }
+        it = iterator(&header);
+        return it;
     }
     ///@}
 
