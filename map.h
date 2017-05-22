@@ -1548,7 +1548,7 @@ public:
             if(n->color == Color::Header){
                 n = n->child[0];
             }else if(n->child[1] != nullptr){
-                n->child[1].min();
+                n = min(n->child[1]);
             }else{
                 Node* y = n->parent;
                 while(y != nullptr and n == y->child[1]){
@@ -1601,7 +1601,7 @@ public:
             if(n->color == Color::Header){
                 n = n->child[1];
             }else if(n->child[0] != nullptr){
-                n->child[0].max();
+                n = max(n->child[0]);
             }else{
                 Node* y = n->parent;
                 while(y != nullptr and n == y->child[0]){
@@ -1721,6 +1721,22 @@ public:
         Node* n{nullptr};
         //@}
         friend class map;
+
+		Node* max(Node* n){
+            Node* ret = n;
+            while (ret->child[1] != nullptr){
+                ret = ret->child[1];
+            }
+            return ret;
+        }
+
+        Node* min(Node* n){
+            Node* ret = n;
+            while (ret->child[0] != nullptr){
+                ret = ret->child[0];
+            }
+            return ret;
+        }
     };
 
     /**
@@ -1774,7 +1790,7 @@ public:
             if(n->color == Color::Header){
                 n = n->child[0];
             }else if(n->child[1] != nullptr){
-                n->child[1].min();
+                n = min(n->child[1]);
             }else{
                 Node* y = n->parent;
                 while(y != nullptr and n == y->child[1]){
@@ -1799,7 +1815,7 @@ public:
             if(n->color == Color::Header){
                 n = n->child[1];
             }else if(n->child[0] != nullptr){
-                n->child[0].max();
+                n = max(n->child[0]);
             }else{
                 Node* y = n->parent;
                 while(y != nullptr and n == y->child[0]){
@@ -1836,6 +1852,22 @@ public:
         /** \brief Ver aed2::map::iterator::n */
         Node* n{nullptr};
         friend class map;
+
+        Node* max(Node* n){
+            Node* ret = n;
+            while (ret->child[1] != nullptr){
+                ret = ret->child[1];
+            }
+            return ret;
+        }
+
+        Node* min(Node* n){
+            Node* ret = n;
+            while (ret->child[0] != nullptr){
+                ret = ret->child[0];
+            }
+            return ret;
+        }
     };
 
 private:
