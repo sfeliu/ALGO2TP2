@@ -1111,7 +1111,7 @@ public:
     iterator insert(const value_type& value) {
         iterator anterior = lower_bound(value.first());
         if(empty()){
-            iterator nuevo = new Node(&header, Color::Black);
+            iterator nuevo = iterato(new Node(&header, Color::Black));
             header.child[0] = nuevo;
             header.child[1] = nuevo;
             //Agregar valor
@@ -1120,18 +1120,34 @@ public:
         if(actual.n->value() == value) {
             return anterior;
         }
-        iterator nuevo = new Node(anterior, Color::Red);
-        //Agregar valor.
-        if(value.first < anterior.n->key()) {
-            if(begin() == anterior){
-                header.child[0] = nuevo;
+        if(anterior.n->color == Color::Header){
+            anterior = anterior.n->child[1];
+            iterator nuevo = new Node(anterior);
+            //Agregar valor
+            anterior.n->child[1];
+            header.child[1] = nuevo;
+        }else {
+            if (value.first < anterior.n->key()) {
+                if(anterior.n->child[0] != nullptr){
+                    anterior--;
+                    iterator nuevo = iterator(new Node(anterior, Color::Red));
+                    //Agregar valor
+                    anterior.n->child[1] = nuevo;
+                }else{
+                    iterator nuevo = iterator(new Node(anterior, Color::Red));
+                    //Agregar valor.
+                    if (begin() == anterior) {
+                        header.child[0] = nuevo;
+                    }
+                    anterior.n->child[0] = nuevo;
+                }
+            } else {
+                if(anterior.n->child[1] != nullptr){
+                    anterior++;
+                }
+                iterator nuevo = new Node(anterior);
+                anterior.n->child[1] = nuevo;
             }
-            anterior.n->child[0] = nuevo;
-        }else{
-            if(end() == anterior){
-                header.child[1] = nuevo;
-            }
-            anterior.n->child[1] = nuevo;
         }
         insertFixUp(nuevo);
         return  nuevo;
