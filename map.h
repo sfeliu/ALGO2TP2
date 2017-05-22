@@ -763,7 +763,10 @@ public:
      * \LT = \P{c}.operator()
      */
     explicit map(Compare c = Compare()) {
-    	//completar
+        lt = c;
+        count = 0;
+        Node n = Node();
+        header = n;
     }
 
     /**
@@ -1780,7 +1783,7 @@ public:
                 }
                 n = y;
             }
-            return this&;
+            return &this;
         }
         /** \brief Ver aed2::map::iterator::operator++(int) */
         const_iterator operator++(int)  {
@@ -1805,7 +1808,7 @@ public:
                 }
                 n = y;
             }
-            return this&;
+            return &this;
         }
         /** \brief Ver aed2::map::iterator::operator--(int) */
         const_iterator operator--(int)  {
