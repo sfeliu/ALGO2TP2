@@ -1543,7 +1543,8 @@ public:
          * eso que la postcondición es más débil de lo que debiera.  Eso no ocurre en las otras funciones del TP.
          */
         pointer operator->() const {
-			return n;
+			value_type* p = n->value();
+			return p;
 		}
         /**
          * \brief Avanza el iterador a la siguiente posición
@@ -1799,7 +1800,8 @@ public:
         }
         /** \brief Ver aed2::map::iterator::operator->() */
         pointer operator->() const {
-            return n;
+        	value_type* p = n->value();
+            return p;
         }
         /** \brief Ver aed2::map::iterator::operator++() */
         const_iterator& operator++()  {
