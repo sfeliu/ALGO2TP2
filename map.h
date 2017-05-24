@@ -1122,7 +1122,7 @@ public:
 
     /** \overload*/
     iterator insert(const value_type& value) {
-/*        iterator anterior = lower_bound(value.first());
+        /*        iterator anterior = lower_bound(value.first());
         if(empty()){
             iterator nuevo = iterato(new Node(&header, Color::Black));
             header.child[0] = nuevo;
@@ -1180,17 +1180,14 @@ public:
         }
         if(it1.n == &header){
             header.parent = new Node(&header, Color ::Red);//como se inicializa un innerNode?
-            header.parent->child[1] = header.parent->child[1] = nullptr;//hace falta decir esto o es implicito?
         }else {
             if(value <it1.n->value()){
                 it1.n->child[1] = new Node(it1.n, Color::Red);
                 it1.n->child[1]->value() = value;
-                it1.n->child[1]->child[1] = it1.n->child[1]->child[2] = nullptr;
                 insertFixUp(it1.n->child[1]);
             }else{
                 it1.n->child[2] = new Node(it1.n, Color::Red);
                 it1.n->child[2]->value() = value;
-                it1.n->child[2]->child[1] = it1.n->child[2]->child[2] = nullptr;
                 insertFixUp(it1.n->child[2]);
             }
         }
@@ -2082,7 +2079,8 @@ private:
      * \remark Como \T{InnerNode} es una estructura privada, no tiene ventajas imporantes implementarla en forma modular.
      */
     struct InnerNode : public Node {
-        /** Valor del nodo */
+       InnerNode( Node* p, Color c = Color::Red ,value_type v):_value(v), Node(p,c){}
+        
         value_type _value;
     };
 
