@@ -2152,11 +2152,11 @@ private:
                 }else{
                     if(n == n->parent->child[1]){
                         n = n->parent;
-                        Rotate(n,2); //Verlo bien
+                        Rotate(n,1); //Verlo bien
                     }
                     n->parent->color = Color::Black;
                     n->parent->parent->color = Color::Red;
-                    Rotate(n->parent->parent,1);//verlo bien
+                    Rotate(n->parent->parent,0);//verlo bien
                 }
             }else{
                 iterator y = iterator(n->parent->parent->child[0]);
@@ -2166,13 +2166,13 @@ private:
                     n->parent->parent->color = Color::Red;
                     n = n->parent->parent;
                 }else{
-                    if(n == n->parent->child[0]){ //0 o 1??
+                    if(n == n->parent->child[1]){ //0 o 1??
                         n = n->parent;
-                        Rotate(n,2); //verlo bien
+                        Rotate(n,1); //verlo bien
                     }
                     n->parent->color = Color::Black;
                     n->parent->parent->color = Color::Red;
-                    Rotate(n->parent->parent,1);//verlo bien
+                    Rotate(n->parent->parent,0);//verlo bien
                 }
             }
         }
@@ -2217,7 +2217,7 @@ private:
         root()->color = Color ::Black;*/
     }
 
-    //Si i=0 entonce es un left-Rotate. De lo contrario (i=1) es un right-Rotate.
+    //Si i=1 entonce es un left-Rotate. De lo contrario (i=0) es un right-Rotate.
     iterator Rotate(Node* n, int i){
         iterator it = iterator(n->child[i]);
         n->child[i] = it.n->child[(i+1)%2];
