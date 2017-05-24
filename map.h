@@ -960,9 +960,12 @@ public:
      * - \a x = \a c en caso contrario.}
      *
      */
-    Meaning& operator[](const Key& key) { //Mas heavy de lo que parecia
-//        iterator it = find(key);
-//        return it.n->value().second;
+    Meaning& operator[](const Key& key) {
+        iterator it = find(key);
+        if(it.n->color == Color::Header){
+            insert(key);
+        }
+        return it.n->value().second;
     }
 
     /**
@@ -1610,12 +1613,9 @@ public:
          * }
          */
         iterator operator++(int) {
-/*            int i = 0;
-            while(i < x){
-                this++;
-                i++;
-            }
-            return this;*/
+            iterator ret = *this;
+            this++;
+            return ret;
         }
         /**
          * \brief Retrocede el iterador a la posición anterior
@@ -1663,12 +1663,9 @@ public:
          * }
          */
         iterator operator--(int) {
-/*            int i = 0;
-            while(i < x){
-                this--;
-                i++;
-            }
-            return this;*/
+            iterator ret = *this;
+            this--;
+            return ret;
         }
         /**
          * \brief Operador de igualdad
@@ -1839,12 +1836,9 @@ public:
         }
         /** \brief Ver aed2::map::iterator::operator++(int) */
         const_iterator operator++(int)  {
-/*            int i = 0;
-            while(i < x){
-                this++;
-                i++;
-            }
-            return this;*/
+            const_iterator ret = *this;
+            this++;
+            return ret;
         }
         /** \brief Ver aed2::map::iterator::operator--() */
         const_iterator& operator--()  {
@@ -1864,12 +1858,9 @@ public:
         }
         /** \brief Ver aed2::map::iterator::operator--(int) */
         const_iterator operator--(int)  {
-/*            int i = 0;
-            while(i < x){
-                this--;
-                i++;
-            }
-            return this;*/
+            const_iterator ret = *this;
+            this--;
+            return ret;
         }
         /** \brief Ver aed2::map::iterator::operator==() */
         bool operator==(const_iterator other) const  {
