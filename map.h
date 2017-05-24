@@ -785,7 +785,14 @@ public:
      *
      */
     map(const map& other) {
-    	//completar
+        //orden de insercion
+        iterator it = other.begin();
+        int i = 0;
+        while(i < other.count){
+            insert(it.n->value());
+            it++;
+            i++;
+        }
     }
 
     /**
@@ -856,7 +863,8 @@ public:
      * \note Es importante remarcar que no se realiza ninguna comparación entre los elementos.
      */
     map& operator=(map other) {
-    	//completar
+        this = new map(other);
+        return *this;
     }
 
     /**
@@ -881,7 +889,7 @@ public:
      * liberación de la memoria
      */
     ~map() {
-        //completar
+        clear();
     }
     ///@}
 
@@ -908,12 +916,14 @@ public:
      * recurrir a la función find.
      */
     const Meaning& at(const Key& key) const {
-    	//completar
+        iterator it = find(key);
+        return it.n->value().second;
     }
 
     /** \overload */
     Meaning& at(const Key& key) {
-    	//completar
+        iterator it = find(key);
+        return it.n->value().second;
     }
 
     /**
@@ -951,8 +961,8 @@ public:
      *
      */
     Meaning& operator[](const Key& key) { //Mas heavy de lo que parecia
-        iterator it = find(key);
-        return it.n->value().second;
+//        iterator it = find(key);
+//        return it.n->value().second;
     }
 
     /**
@@ -1109,7 +1119,7 @@ public:
 
     /** \overload*/
     iterator insert(const value_type& value) {
-        iterator anterior = lower_bound(value.first());
+/*        iterator anterior = lower_bound(value.first());
         if(empty()){
             iterator nuevo = iterato(new Node(&header, Color::Black));
             header.child[0] = nuevo;
@@ -1151,7 +1161,7 @@ public:
         }
         insertFixUp(nuevo);
         return  nuevo;
-
+*/
     	/*iterator it1 = iterator(&header);// porque no funciona header*?
         iterator it2 = iterator(root());
         while(it2.n != nullptr && it2.n ->value() != value){ //se puede asumir que root es nullptr si el arbol es vacio?
@@ -1276,7 +1286,15 @@ public:
      * \complexity{\O(\DEL(\P{*this}))}
      */
     void clear() {
-        //completar
+        iterator it = begin();
+        int i = 0;
+        size_t j = count;
+        while(i < j){
+            key_type k = it.n->value();
+            it++;
+            erase(it.n->value());
+            i++;
+        }
     }
 
     /**
@@ -1574,7 +1592,7 @@ public:
                 }
                 n = y;
             }
-            return this&;
+            return *this;
         }
         /**
          * \brief Avanza el iterador a la siguiente posición
@@ -1592,12 +1610,12 @@ public:
          * }
          */
         iterator operator++(int) {
-            int i = 0;
+/*            int i = 0;
             while(i < x){
                 this++;
                 i++;
             }
-            return this;
+            return this;*/
         }
         /**
          * \brief Retrocede el iterador a la posición anterior
@@ -1627,7 +1645,7 @@ public:
                 }
                 n = y;
             }
-            return this&;
+            return *this;
         }
         /**
          * \brief Retrocede el iterador a la posición anterior
@@ -1645,12 +1663,12 @@ public:
          * }
          */
         iterator operator--(int) {
-            int i = 0;
+/*            int i = 0;
             while(i < x){
                 this--;
                 i++;
             }
-            return this;
+            return this;*/
         }
         /**
          * \brief Operador de igualdad
@@ -1817,16 +1835,16 @@ public:
                 }
                 n = y;
             }
-            return &this;
+            return *this;
         }
         /** \brief Ver aed2::map::iterator::operator++(int) */
         const_iterator operator++(int)  {
-            int i = 0;
+/*            int i = 0;
             while(i < x){
                 this++;
                 i++;
             }
-            return this;
+            return this;*/
         }
         /** \brief Ver aed2::map::iterator::operator--() */
         const_iterator& operator--()  {
@@ -1842,16 +1860,16 @@ public:
                 }
                 n = y;
             }
-            return &this;
+            return *this;
         }
         /** \brief Ver aed2::map::iterator::operator--(int) */
         const_iterator operator--(int)  {
-            int i = 0;
+/*            int i = 0;
             while(i < x){
                 this--;
                 i++;
             }
-            return this;
+            return this;*/
         }
         /** \brief Ver aed2::map::iterator::operator==() */
         bool operator==(const_iterator other) const  {
@@ -2308,7 +2326,7 @@ bool operator!=(const map<K, V, C>& m1, const map<K, V, C>& m2) {
  */
 template<class K, class V, class C>
 bool operator<(const map<K, V, C>& m1, const map<K, V, C>& m2) {
-	//completar.  Vale usar std::lexicographical_compare
+        return std::lexicographical_compare(m1.begin(), m1.end(), m2.begin(), m2.end());
 }
 
 /**
