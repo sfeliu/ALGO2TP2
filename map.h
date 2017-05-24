@@ -1123,7 +1123,7 @@ public:
     /** \overload*/
     iterator insert(const value_type& value) {
         if(empty()){
-            iterator nuevo = iterator(new innerNode(&header, Color::Black));
+            iterator nuevo = iterator(new InnerNode(&header, value, Color::Black));
             header.child[0] = nuevo;
             header.child[1] = nuevo;
             header.parent = nuevo;
@@ -1142,7 +1142,7 @@ public:
                 actual = actual.n->child[1];
             }
         }
-        iterator nuevo = iterator(new innerNode(padre,value));
+        iterator nuevo = iterator(new InnerNode(padre,value));
         if(value < padre.n->value()) {
             padre.n->child[0] = nuevo;
             if(begin() == padre){
