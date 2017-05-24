@@ -1150,7 +1150,7 @@ public:
             }
         }else {
             padre.n->child[1] = nuevo;
-            if(end() == padre){
+            if(header.child[1] == padre){
                 header.child[1] = nuevo;
             }
         }
@@ -1374,7 +1374,7 @@ public:
      * \complexity{\O(1)}
      */
     iterator end() {
-        iterator it = iterator(header.child[1]);
+        iterator it = iterator(root().parant);
         return it;
     }
 
