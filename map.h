@@ -1122,49 +1122,40 @@ public:
 
     /** \overload*/
     iterator insert(const value_type& value) {
-        /*        iterator anterior = lower_bound(value.first());
         if(empty()){
-            iterator nuevo = iterato(new Node(&header, Color::Black));
+            iterator nuevo = iterator(new innerNode(&header, Color::Black));
             header.child[0] = nuevo;
             header.child[1] = nuevo;
-            //Agregar valor
+            header.parent = nuevo;
             return nuevo;
         }
-        if(actual.n->value() == value) {
-            return anterior;
+        iterator padre = iterator(header.parent);// porque no funciona header*?
+        iterator actual = iterator(header.parent);
+        while(actual.n != nullptr){ //se puede asumir que root es nullptr si el arbol es vacio?
+            padre = actual;
+            if(actual.n->value().first == value.first){
+                return actual;
+            }
+            if(value.first < actual.n->value().first){
+                actual = actual.n->child[0];
+            }else{
+                actual = actual.n->child[1];
+            }
         }
-        if(anterior.n->color == Color::Header){
-            anterior = anterior.n->child[1];
-            iterator nuevo = new Node(anterior);
-            //Agregar valor
-            anterior.n->child[1];
-            header.child[1] = nuevo;
+        iterator nuevo = iterator(new innerNode(padre,value));
+        if(value < padre.n->value()) {
+            padre.n->child[0] = nuevo;
+            if(begin() == padre){
+                header.child[0] = nuevo;
+            }
         }else {
-            if (value.first < anterior.n->key()) {
-                if(anterior.n->child[0] != nullptr){
-                    anterior--;
-                    iterator nuevo = iterator(new Node(anterior, Color::Red));
-                    //Agregar valor
-                    anterior.n->child[1] = nuevo;
-                }else{
-                    iterator nuevo = iterator(new Node(anterior, Color::Red));
-                    //Agregar valor.
-                    if (begin() == anterior) {
-                        header.child[0] = nuevo;
-                    }
-                    anterior.n->child[0] = nuevo;
-                }
-            } else {
-                if(anterior.n->child[1] != nullptr){
-                    anterior++;
-                }
-                iterator nuevo = new Node(anterior);
-                anterior.n->child[1] = nuevo;
+            padre.n->child[1] = nuevo;
+            if(end() == padre){
+                header.child[1] = nuevo;
             }
         }
         insertFixUp(nuevo);
-        return  nuevo;
-*/
+        return  actual;
     	/*iterator it1 = iterator(&header);// porque no funciona header*?
         iterator it2 = iterator(root());
         while(it2.n != nullptr && it2.n ->value() != value){ //se puede asumir que root es nullptr si el arbol es vacio?
