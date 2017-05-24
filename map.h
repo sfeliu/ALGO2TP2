@@ -2079,7 +2079,7 @@ private:
      * \remark Como \T{InnerNode} es una estructura privada, no tiene ventajas imporantes implementarla en forma modular.
      */
     struct InnerNode : public Node {
-       InnerNode( Node* p, Color c = Color::Red ,value_type v):_value(v), Node(p,c){}
+       InnerNode( Node* p, value_type v ,Color c = Color::Red ):_value(v), Node(p,c){}
         
         value_type _value;
     };
