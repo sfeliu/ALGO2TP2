@@ -1117,7 +1117,48 @@ public:
      * \attention Para garantizar que el nuevo elemento se inserte sí o sí, usar aed2::map::insert_or_assign.
      */
     iterator insert(const_iterator hint, const value_type& value) {
-    	//completar
+        if(hint.n->color == Color::Header) {
+            if (empty()) {
+                iterator nuevo = iterator(new innerNode(&header, Color::Black, value));
+                header.child[0] = nuevo;
+                header.child[1] = nuevo;
+                header.parent = nuevo;
+                return nuevo;
+            }
+            if(header.child[1]->key() < value.first){
+                iterator nuevo = iterator(new InnerNode(header.child[1],value));
+                header.child[1]->child[1] = nuevo;
+                header.child[1] = nuevo;
+                insertFixUp(nuevo);
+                return nuevo;
+            }
+        }
+        if(hint.n->value().first == value.first) {
+            return hint;
+        }
+        if(hint.n->key() > value.first){
+            if(hint.n->child[0] == nullptr){
+                iterator nuevo = iterator(new InnerNode(hint, value));
+                if(hint == begin()){
+                    header.child[0] = nuevo;
+                }
+                hint.n->child[0] = nuevo;
+                insertFixUp(nuevo);
+                return nuevo;
+            }else {
+                if(hint--.n->key() < value.first){
+                    iterator nuevo = iterator(new InnerNode(hint.n->child[1], value));
+                    hint.n->child[1] = nuevo;
+                    insertFixUp(nuevo);
+                    return nuevo;
+                }else{
+                    return insert(value);
+                }
+            }
+        }else{
+            return insert(value);
+        }
+
     }
 
     /** \overload*/
