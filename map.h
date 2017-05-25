@@ -1258,12 +1258,19 @@ public:
      * \T{Meaning} tenga constructor sin parámetros.  La desventaja es que la notación no es tan bonita.
      */
     iterator insert_or_assign(const_iterator hint, const value_type& value) {
-    	//completar
+        iterator encontrado = find(value.first);
+        if(encontrado.n->color != Color::Header){
+            encontrado.n->value().second = value.second;
+            return encontrado;
+        }else{
+            return insert(hint, value);
+        }
     }
 
     /** \overload */
     iterator insert_or_assign(const value_type& value) {
-    	//completar
+        const_iterator hint = const_iterator(root());
+        return insert_or_assign(hint, value);
     }
 
     /**
