@@ -1291,7 +1291,60 @@ public:
      *
      */
     iterator erase(const_iterator pos) {
-    	//completar
+        iterator y = iterator(pos.n);
+        Color original = y.n->color;
+        iterator proximo = iterator(pos.n);
+        proximo++;
+        if(pos.n->child[0] == pos.n->child[1] == nullptr){
+            if(pos.n == header.parent){
+                header.parent = nullptr;
+                header.child[0] = header.child[1] = &header;
+            }else {
+                if (pos.n->parent->child[0] == pos.n) {
+                    if(begin() == pos){
+                        header.child[0] = pos.n->parent;
+                    }
+                    pos.n->parent->child[0] = nullptr;
+                } else {
+                    if(header.child[1] == pos.n){
+                        header.child[1] = pos.n->parent;
+                    }
+                    pos.n->parent->child[1] = nullptr;
+                }
+            }
+        }else{
+            if(pos.n->child[0] == nullptr){
+                iterator cambiado = iterator(pos.n->child[1]);
+                transplant(pos.n, pos.n->child[1]);
+            } else{
+                if(pos.n->child[1] == nullptr){
+                    iterator cambiado = iterator(pos.n->child[0]);
+                    transplant(pos.n, pos.n->child[0]);
+                } else{
+                    y++; //Esto creo q suplantaria a lo comentado debajo
+                    // y = pos.n->child[1].min();
+                    original = y.n->color;
+                    if(y.n->parent != pos) {
+                        if (y.n->child[1] != nullptr) {
+                            iterator cambiado = iterator(y.n->child[1]);
+                            transplant(y.n, y.n->child[1]);
+                        }
+                        y.n->child[1] = pos.n->child[1];
+                        y.n->child[1]->parent = y;
+                    }
+                    transplant(pos.n, y.n);
+                    y.n->child[0] = pos.n->child[0];
+                    y.n->child[0]->parent = y;
+                    y.n->color = pos.n->color;
+                }
+            }
+            if(original == Color::Black){
+                deleteFixUp(cambiado.n);
+            }
+        }
+        delete pos;
+        return proximo;
+
     }
 
 
@@ -1310,7 +1363,8 @@ public:
      * \complexity{\O(\DEL(\P{*pos}) + \LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}))}
      */
     void erase(const Key& key) {
-    	//completar
+        const_iterator pos = const_iterator(find(key)); //Chequear si el find que devuelve const o el otro
+        return erase(pos);
     }
 
     /**
