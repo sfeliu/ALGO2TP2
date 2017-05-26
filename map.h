@@ -582,6 +582,7 @@
 #include <utility>
 #include <cassert>
 #include <algorithm>
+#include <bits/valarray_before.h>
 
 #ifdef DEBUG
 //Aca se puede incluir cualquier cosa que consideren que necesitan para debug
@@ -963,7 +964,8 @@ public:
     Meaning& operator[](const Key& key) {
         iterator it = find(key);
         if(it.n->color == Color::Header){
-            insert(key);
+            value_type v = value_type(key, Meaning());
+            insert(v);
         }
         return it.n->value().second;
     }
@@ -1000,7 +1002,7 @@ public:
 
     /** \overload */
     const_iterator find(const Key& key) const {
-        return const_iterator(find(key)); //ME parece q esta mal, pero alta idea.....Santiago
+        return const_iterator(find(key));
     }
 
     /**
@@ -1022,7 +1024,7 @@ public:
      *
      */
     const_iterator lower_bound(const Key& key) const {
-        return const_iterator(lower_bound(key)); //Idem arriba....Santiago
+        return const_iterator(lower_bound(key));
     }
 
     /** \overload */
@@ -1119,7 +1121,7 @@ public:
     iterator insert(const_iterator hint, const value_type& value) {
         if(hint.n->color == Color::Header) {
             if (empty()) {
-                iterator nuevo = iterator(new innerNode(&header, Color::Black, value));
+                iterator nuevo = iterator(new InnerNode(&header, value, Color::Black));
                 header.child[0] = nuevo;
                 header.child[1] = nuevo;
                 header.parent = nuevo;
@@ -1134,11 +1136,12 @@ public:
             }
         }
         if(hint.n->value().first == value.first) {
-            return hint;
+            iterator it = iterator(hint.n);
+            return it;
         }
         if(hint.n->key() > value.first){
             if(hint.n->child[0] == nullptr){
-                iterator nuevo = iterator(new InnerNode(hint, value));
+                iterator nuevo = iterator(new InnerNode(hint.n, value));
                 if(hint == begin()){
                     header.child[0] = nuevo;
                 }
@@ -1344,7 +1347,6 @@ public:
         }
         delete pos;
         return proximo;
-
     }
 
 
