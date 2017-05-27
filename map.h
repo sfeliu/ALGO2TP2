@@ -2376,9 +2376,7 @@ private:
             it.n->child[(i+1)%2]->parent = n;
         }
         it.n ->parent = n->parent;
-        if(n->parent->is_header()){
-            root() = it.n;
-        }else if(n == n->parent->child[1]){
+        if(n == n->parent->child[1]){
             n->parent->child[(i+1)%2] = it.n;
         }else{
             n->parent->child[i] = it.n;
