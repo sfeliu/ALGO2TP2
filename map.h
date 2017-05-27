@@ -904,7 +904,7 @@ public:
      * @param key clave a buscar.
      * @retval res referencia al significado asociado a \P{key}.
      *
-     * \aliasing{res es modificable si y solo si res es modificable}
+     * \aliasing{res es modificable si y solo si *this es modificable}
      *
      * \pre \aedpre{def?(key,*this)}
      *
@@ -953,8 +953,11 @@ public:
      *
      * \aliasing{completar}
      *
-     * \pre \aedpre{*this = *this_0}
-     * \post \aedpost{ def?(key, *this) ^ aliasing(res =obs obtener(key, *this))}
+     * \pre \aedpre{*this = self}
+     * \post \aedpost{ (def?(key, self)\IMPLIES_L  aliasing(res =obs obtener(key,self)) ) \LAND
+     *                      (\LNOT(def?(key, self))\IMPLIES_L
+     *                  #claves(self) + 1 =obs #claves(this) \LAND  aliasing(res =obs obtener(key,*this)))
+     *  \LAND def?(key,*this) }
 	 *
      * \complexity{\O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}) + \a x) donde
      * - \a x = 1 si def?(\a self, \P{key}), y
@@ -1065,8 +1068,8 @@ public:
      *
      * @retval res denota true si y solo si el diccionario está vacío
      *
-     * \pre \aedpre{completar}
-     * \post \aedpost{completar}
+     * \pre \aedpre{TRUE}
+     * \post \aedpost{res=(\EMPTY(claves(*this)))}
      *
      * \complexity{\O(1)}
      */
@@ -1079,8 +1082,8 @@ public:
      *
      * @retval res cantidad de valores
 	 *
-     * \pre \aedpre{completar}
-     * \post \aedpost{completar}
+     * \pre \aedpre{TRUE}
+     * \post \aedpost{res= #(claves(*this))}
      *
      * \complexity{\O(1)}
      */
@@ -1109,10 +1112,10 @@ public:
      * \aliasing{completar}
      *
      *
-     *\pre \aedpre{this* =obs this_0}
-     * \post  \aedpost{ (def?(value.first, this*) entoncesluego this =obs this_0 )  ^
-     *                      (not(def?(value.first, this*)) entoncesluego this =obs definir(value.first, value.second, this_0))
-     *                      ^ coleccion(res) = this ^ #claves(this_0) + 1 =obs #claves(this))
+     *\pre \aedpre{*this =obs self}
+     * \post  \aedpost{ (def?(value.first, self) entoncesluego this =obs self )  ^
+     *                      (not(def?(value.first, self)) entoncesluego this =obs definir(value.first, value.second, self))
+     *                      ^ coleccion(res) = this ^ #claves(self) + 1 =obs #claves(this))
      *                      ^ siguiente(res) =obs value }
      *
      * \complexity{
@@ -1251,10 +1254,9 @@ public:
      *
      * \aliasing{completar}
      *
-     * \pre \aedpre{this* =obs this_0}
-     * \post  \aedpost{ (def?(value.first, *this) ^ aliasing(siguiente(it) =obs value)  ^  (colleccion(res) =obs this) ^
-     *                      not(def?(value.first, this)) entoncesluego this =obs definir(value.first, value.second, this_0))
-     *                       ^ #claves(this_0) + 1 =obs #claves(this) }
+     * \pre \aedpre{*this =obs self}
+     * \post  \aedpost{ (def?(value.first, *this) ^ aliasing(siguiente(res) =obs value)  ^  (colleccion(res) =obs this)
+     *                       ^ #claves(self) + 1 =obs #claves(this)) }
      *
      * \complexity{
      *  - Peor caso: \O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}) \PLUS \COPY(\P{value}))
@@ -1289,10 +1291,11 @@ public:
      * @param pos iterador apuntando al valor a eliminar.
      * @retval res iterador apuntando al primer valor con clave mayor a \P{pos} (o \P{this}->end(), si dicho valor no existe).
      *
-     * \aliasing{completar}.
+     * \aliasing{Todos los iteradores, salvo aquellos que apuntan a la misma posicion que pos, se mantienen validos.
+     *  Aquellos iteradores que apuntan a la misma posicion que pos, quedan invalidados.}.
      *
-     * \pre \aedpre{completar}
-     * \post \aedpost{completar}
+     * \pre \aedpre{colleccion(pos)=this \LAND siguiente(pos)!=header*** \LAND self =obs *this}
+     * \post \aedpost{*this=obs borrar(\PI1(siguiente(pos)), self) \LAND res =obs avanzar(pos)}
      *
      * \complexity{
      * - Peor caso: \O(\DEL(\P{*pos}) + \LOG(\SIZE(\P{*this})))
@@ -1364,16 +1367,17 @@ public:
      *
      * @param key clave del elemento a eliminar
      *
-     * \aliasing{completar}
+     * \aliasing{Todos los iteradores, salvo aquellos que apuntan al nodo donde se encuentra key, se mantienen validos.
+     *  Aquellos iteradores que apuntan al nodo donde se encuentra key, quedan invalidados.}
      *
-     * \pre \aedpre{completar}
-     * \post \aedpost{completar}
+     * \pre \aedpre{definido?(key, *this) \LAND self =obs *this}
+     * \post \aedpost{*this=obs borrar(key, self)}
      *
      * \complexity{\O(\DEL(\P{*pos}) + \LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}))}
      */
     void erase(const Key& key) {
         const_iterator pos = const_iterator(find(key)); //Chequear si el find que devuelve const o el otro
-        return erase(pos);
+        erase(pos);
     }
 
     /**
@@ -1450,8 +1454,8 @@ public:
      *
      * @retval res iterador al primer valor
      *
-     * \pre \aedpre{completar}
-     * \post \aedpost{completar}
+     * \pre \aedpre{TRUE}
+     * \post \aedpost{}
      *
      * \complexity{\O(1)}
      */
