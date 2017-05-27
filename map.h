@@ -2389,6 +2389,27 @@ private:
         n->parent = it.n;
     }
 
+    void transplant(Node* viejo, Node* nuevo){
+        if(viejo == root()){
+            header.parent = nuevo;
+        } else{
+            if(viejo == viejo->parent->child[0]){
+                viejo->parent->child[0] = nuevo;
+            } else{
+                viejo->parent->child[1]= nuevo;
+            }
+        }
+        if(viejo == header.child[0]){
+            iterator max = iterator(viejo);
+            header.child[0] = max++; //Chequear
+        }
+        if(viejo == header.child[1]){
+            iterator min = iterator(viejo);
+            header.child[1] = min--; //Chequear
+        }
+        nuevo->parent = viejo->parent;
+    }
+
 };
 
 //////////////////////////////////////
