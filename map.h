@@ -2243,6 +2243,46 @@ private:
         return lt(k1, k2) == lt(k2, k1);
     }
 
+    void deleteFixUp(Node* nodo){
+        iterator x = iterator(nodo);
+        while((root() != x)and(is_black(x.n))){
+            if(x.n == x.n->parent->child[0]){
+                deleteFixUpAux(x.n, 0);
+            } else{
+                deleteFixUpAux(x.n, 1);
+            }
+        }
+    }
+
+    void deleteFixUpAux(Node* nodo, int i){
+        iterator x = iterator(nodo);
+        iterator w = iterator(x.n->parent->child[i]);
+        if(not(is_black(w.n))){                     //1
+            w.n->color = Color::Black;              //1
+            x.n->parent->color = Color::Red;        //1
+            Rotate(x.n->parent, 1);                 //1
+            w = x.n->parent->child[1];              //1
+        }
+        if(w != nullptr){
+            if(is_black(w.n->child[0]) and is_black(w.n->child[1])){    //2
+                w.n->color = Color::Red;                                //2
+                x.n = x.n->parent;                                      //2
+            } else{
+                if(is_black(w.n->child[1])){
+                    w.n->color = Color::Red;                    //3
+                    w.n->child[0]->color = Color::Black;        //3
+                    Rotate(w.n, 0);                             //3
+                    w.n = x.n->parent->child[1];                //3
+                }
+                w.color = x.n->parent->color;                       //4
+                x.n->parent->color = Color::Black;                  //4
+                w.n->child[1]->color = Color::Black;                //4
+                Rotate(x.n->parent, 1);                             //4
+                x = root();                                         //4
+            }
+        }
+    }
+
     void insertFixUp(Node* n){
         //cambios menores..
         while(n->parent->color == Color::Red){
