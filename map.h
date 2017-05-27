@@ -904,11 +904,11 @@ public:
      * @param key clave a buscar.
      * @retval res referencia al significado asociado a \P{key}.
      *
-     * \aliasing{completar}
+     * \aliasing{res es modificable si y solo si res es modificable}
      *
-     * \pre \aedpre{completar}
+     * \pre \aedpre{def?(key,*this)}
      *
-     * \post \aedpost{completar}
+     * \post \aedpost{aliasing(obtener(key, *this) =obs res)}
      *
      * \complexity{\O(\LOG(\SIZE(\P{*this}) \CDOT \CMP(\P{*this}))}
      *
@@ -953,8 +953,8 @@ public:
      *
      * \aliasing{completar}
      *
-     * \pre \aedpre{completar}
-     * \post \aedpost{completar}
+     * \pre \aedpre{*this = *this_0}
+     * \post \aedpost{ def?(key, *this) ^ aliasing(res =obs obtener(key, *this))}
 	 *
      * \complexity{\O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}) + \a x) donde
      * - \a x = 1 si def?(\a self, \P{key}), y
@@ -982,8 +982,10 @@ public:
      *
      * \aliasing{completar}
      *
-     * \pre \aedpre{completar}
-     * \post \aedpost{completar}
+     * \pre \aedpre{TRUE}
+     * \post \aedpost{this =obs coleccion(res) ^ alias(siguiente(res).clave =obs key)
+     *                        ^     siguientes(res)=secuSuby(res)}
+     *
      *
      * \complexity{\O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}))}
      *
@@ -1107,8 +1109,11 @@ public:
      * \aliasing{completar}
      *
      *
-     * \pre \aedpre{completar}
-     * \post  \aedpost{completar}
+     *\pre \aedpre{this* =obs this_0}
+     * \post  \aedpost{ (def?(value.first, this*) entoncesluego this =obs this_0 )  ^
+     *                      (not(def?(value.first, this*)) entoncesluego this =obs definir(value.first, value.second, this_0))
+     *                      ^ coleccion(res) = this ^ #claves(this_0) + 1 =obs #claves(this))
+     *                      ^ siguiente(res) =obs value }
      *
      * \complexity{
      *  - Peor caso: \O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}) \PLUS \COPY(\P{value}))
@@ -1246,8 +1251,10 @@ public:
      *
      * \aliasing{completar}
      *
-     * \pre \aedpre{completar}
-     * \post  \aedpost{completar}
+     * \pre \aedpre{this* =obs this_0}
+     * \post  \aedpost{ (def?(value.first, *this) ^ aliasing(siguiente(it) =obs value)  ^  (colleccion(res) =obs this) ^
+     *                      not(def?(value.first, this)) entoncesluego this =obs definir(value.first, value.second, this_0))
+     *                       ^ #claves(this_0) + 1 =obs #claves(this) }
      *
      * \complexity{
      *  - Peor caso: \O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}) \PLUS \COPY(\P{value}))
