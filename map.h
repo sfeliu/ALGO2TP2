@@ -756,7 +756,7 @@ public:
      * @retval res diccionario recién construido
      *
      * \pre \aedpre{TRUE}
-     * \post \aedpost{res = vacio}
+     * \post \aedpost{*this \IGOBS vacio}
      *
      * \complexity{\O(1)}
      *
@@ -776,8 +776,8 @@ public:
      * @param other diccionario a copiar
      * @retval res diccionario recien construido
      *
-     * \pre \aedpre{completar}
-     * \post \aedpost{completar}
+     * \pre \aedpre{TRUE}
+     * \post \aedpost{*this =obs *other}
      *
      * \complexity{\O(\COPY(\P{other}))}
      *
@@ -855,17 +855,17 @@ public:
      * @param other diccionario a copiar
      * @retval res referencia a *this
      *
-     * \aliasing{completar}
+     * \aliasing{Si res se modifica se va a modificar *this}
      *
-     * \pre \aedpre{completar}
-     * \post \aedpost{completar}
+     * \pre \aedpre{TRUE}
+     * \post \aedpost{*this =obs *other \LAND alias(res =obs this)}
      *
      * \complexity{\O(\DEL(\P{*this}) \PLUS \COPY(\P{other}))}
      *
      * \note Es importante remarcar que no se realiza ninguna comparación entre los elementos.
      */
     map& operator=(map other) {
-        this = new map(other);
+        this* = map(other);
         return *this;
     }
 
@@ -873,10 +873,11 @@ public:
      * @brief Destructor
      *
      *
-     * \aliasing{completar}
+     * \aliasing{Se invalidan todos los iteradores asociados a \P{*this}, con excepcion de aquellos que apuntan
+     * a la posicion pasando-el-ultimo}
      *
-     * \pre \aedpre{true}
-     * \post \aedpost{true}
+     * \pre \aedpre{TRUE}
+     * \post \aedpost{*this \IGOBS vacio}
      *
      * \complexity{\O(\DEL(\P{*this}))}
      *
@@ -905,11 +906,11 @@ public:
      * @param key clave a buscar.
      * @retval res referencia al significado asociado a \P{key}.
      *
-     * \aliasing{res es modificable si y solo si *this es modificable}
+     * \aliasing{si res es modificable, si se modifica se modifica *this}
      *
      * \pre \aedpre{def?(key,*this)}
      *
-     * \post \aedpost{aliasing(obtener(key, *this) =obs res)}
+     * \post \aedpost{alias(obtener(key, *this) =obs res)}
      *
      * \complexity{\O(\LOG(\SIZE(\P{*this}) \CDOT \CMP(\P{*this}))}
      *
@@ -952,12 +953,12 @@ public:
      * \par Requerimientos sobre el tipo \T{Meaning}
      * Requiere que \T{Meaning} tenga un constructor sin parámetros con complejidad \O(\a c)
      *
-     * \aliasing{completar}
+     * \aliasing{si modificas res entonces se modifica *this}
      *
      * \pre \aedpre{*this = self}
-     * \post \aedpost{ (def?(key, self)\IMPLIES_L  aliasing(res =obs obtener(key,self)) ) \LAND
-     *                      (\LNOT(def?(key, self))\IMPLIES_L
-     *                  #claves(self) + 1 =obs #claves(this) \LAND  aliasing(res =obs obtener(key,*this)))
+     * \post \aedpost{ (def?(key, self) \IMPLIES_L  alias(res =obs obtener(key,self))) \LAND
+     *                      (\LNOT(def?(key, self)) \IMPLIES_L
+     *                  #claves(self) + 1 =obs #claves(this) \LAND  alias(res =obs obtener(key,*this)))
      *  \LAND def?(key,*this) }
 	 *
      * \complexity{\O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}) + \a x) donde
@@ -988,11 +989,11 @@ public:
      * @param key clave a buscar
      * @retval res iterador apuntando al valor con clave \P{key} (o a \P{this}->end() si dicho elemento no existe)
      *
-     * \aliasing{completar}
+     * \aliasing{si el iterador me permite modificar, si modificas a lo que apunta res se modifica *this}
      *
      * \pre \aedpre{TRUE}
-     * \post \aedpost{this =obs coleccion(res) ^ alias(siguiente(res).clave =obs key)
-     *                        ^     siguientes(res)=secuSuby(res)}
+     * \post \aedpost{this =obs coleccion(res) \LAND (def?(key, *this) \IMPLIES_L alias(PI1(siguiente(res)) =obs key))
+     *                        \LAND (\LNOT def?(key, *this) \IMPLIES_L alias(vacio?(siguientes(res)))}
      *
      *
      * \complexity{\O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}))}
@@ -1025,10 +1026,12 @@ public:
      * @param key clave a buscar
      * @retval res iterador apuntando al valor con clave al menos \P{key} (o a \P{this}->end() si dicho elemento no existe)
      *
-     * \aliasing{completar}
+     * \aliasing{si el iterador me permite modificar, si modificas a lo que apunta res se modifica *this}
      *
-     * \pre \aedpre{completar}
-     * \post \aedpost{completar}
+     * \pre \aedpre{TRUE}
+     * \post \aedpost{this =obs coleccion(res) \LAND (def?(key, *this) \IMPLIES_L alias(PI1(siguiente(res)) =obs key))
+	 *						\LAND (((\LNOT def?(key, *this) \LAND \PI1 ult(secuSuby(res)) < key) \IMPLIES_L (vacia?(siguientes(res)))
+	 *						\LAND ((\LNOT def?(key, *this) \IMPLIES_L (\PI1 siguiente(res) > key \LAND \PI1 anterior(res) < key))}
      *
      * \complexity{\O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}))}
      *
@@ -1074,7 +1077,7 @@ public:
      * @retval res denota true si y solo si el diccionario está vacío
      *
      * \pre \aedpre{TRUE}
-     * \post \aedpost{res=(\EMPTY(claves(*this)))}
+     * \post \aedpost{res =obs (\EMPTYSET ?(claves(*this)))}
      *
      * \complexity{\O(1)}
      */
@@ -1083,12 +1086,12 @@ public:
     }
 
     /**
-     * @brief Devuelve la cantidad de valores en el diccionario
+     * @brief Devuelve la cantidad de valores en el dicconario
      *
      * @retval res cantidad de valores
 	 *
      * \pre \aedpre{TRUE}
-     * \post \aedpost{res= #(claves(*this))}
+     * \post \aedpost{res =obs #(claves(*this))}
      *
      * \complexity{\O(1)}
      */
@@ -1114,14 +1117,14 @@ public:
      * Igualmente, la función es robusta y funciona correctamente aunque esto no ocurra.
      * @retval res iterador apuntando al elemento insertado o que previno la inserción
      *
-     * \aliasing{completar}
+     * \aliasing{Si modificas a lo que apunta res se modifica *this}
      *
      *
      *\pre \aedpre{*this =obs self}
-     * \post  \aedpost{ (def?(value.first, self) entoncesluego this =obs self )  ^
-     *                      (not(def?(value.first, self)) entoncesluego this =obs definir(value.first, value.second, self))
-     *                      ^ coleccion(res) = this ^ #claves(self) + 1 =obs #claves(this))
-     *                      ^ siguiente(res) =obs value }
+     * \post  \aedpost{ (def?(value.first, self) \IMPLIES_L this =obs self) \LAND
+     *                      (not(def?(value.first, self)) \IMPLIES_L this =obs definir(value.first, value.second, self))
+     *                      \LAND coleccion(res) = this \LAND #claves(self) + 1 =obs #claves(this))
+     *                      \LAND alias(siguiente(res) =obs value)}
      *
      * \complexity{
      *  - Peor caso: \O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}) \PLUS \COPY(\P{value}))
@@ -1186,9 +1189,9 @@ public:
             header.parent = nuevo;
             return nuevo;
         }
-        iterator padre = iterator(header.parent);// porque no funciona header*?
+        iterator padre = iterator(header.parent);
         iterator actual = iterator(header.parent);
-        while(actual.n != nullptr){ //se puede asumir que root es nullptr si el arbol es vacio?
+        while(actual.n != nullptr){ 
             padre = actual;
             if(actual.n->value().first == value.first){
                 return actual;
@@ -1257,11 +1260,11 @@ public:
      * Igualmente, la función es robusta y funciona correctamente aunque esto no ocurra.
      * @retval res iterador apuntando al elemento insertado o redefinido
      *
-     * \aliasing{completar}
+     * \aliasing{Si modificas a lo que apunta res se modifica *this}
      *
      * \pre \aedpre{*this =obs self}
-     * \post  \aedpost{ (def?(value.first, *this) ^ aliasing(siguiente(res) =obs value)  ^  (colleccion(res) =obs this)
-     *                       ^ #claves(self) + 1 =obs #claves(this)) }
+     * \post  \aedpost{ (alias(siguiente(res) =obs value))  \LAND  (colleccion(res) =obs this)
+     *                      \LAND (definir(\PI1 value, f$\pi_1\f$ value), self)}
      *
      * \complexity{
      *  - Peor caso: \O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}) \PLUS \COPY(\P{value}))
@@ -1299,8 +1302,8 @@ public:
      * \aliasing{Todos los iteradores, salvo aquellos que apuntan a la misma posicion que pos, se mantienen validos.
      *  Aquellos iteradores que apuntan a la misma posicion que pos, quedan invalidados.}.
      *
-     * \pre \aedpre{colleccion(pos)=this \LAND siguiente(pos)!=header*** \LAND self =obs *this}
-     * \post \aedpost{*this=obs borrar(\PI1(siguiente(pos)), self) \LAND res =obs avanzar(pos)}
+     * \pre \aedpre{colleccion(pos)=this \LAND \LNOT vacio?(siguientes(pos)) \LAND self =obs *this}
+     * \post \aedpost{*this =obs borrar(\PI1(siguiente(pos)), self) \LAND alias(res =obs avanzar(pos))}
      *
      * \complexity{
      * - Peor caso: \O(\DEL(\P{*pos}) + \LOG(\SIZE(\P{*this})))
@@ -1389,7 +1392,7 @@ public:
      * \aliasing{Se invalidan todos los iteradores asociados a \P{*this}, con excepcion de aquellos que apuntan
      * a la posicion pasando-el-ultimo.}
      *
-     * \pre \aedpre{true}
+     * \pre \aedpre{TRUE}
      * \post \aedpost{\P{*this} \IGOBS vacio}
      *
      * \complexity{\O(\DEL(\P{*this}))}
@@ -1453,12 +1456,12 @@ public:
     /**
      * @brief Devuelve un iterador al primer valor del diccionario
      *
-     * \aliasing{completar}
+     * \aliasingsi el iterador me permite modificar, si modificas a lo que apunta res se modifica *this}
      *
      * @retval res iterador al primer valor
      *
      * \pre \aedpre{TRUE}
-     * \post \aedpost{}
+     * \post \aedpost{colleccion(pos)=this \LAND res =obs prim(secuSbuy(res))}
      *
      * \complexity{\O(1)}
      */
@@ -1482,12 +1485,12 @@ public:
     /**
      * @brief Devuelve un iterador apuntando a la posición pasando-el-ultimo del diccionario
      *
-     * \aliasing{completar}
+     * \aliasing{si el iterador me permite modificar, si modificas a lo que apunta res se modifica *this}
      *
      * @retval res iterador a la posicion pasando-al-ultimo
      *
-     * \pre \aedpre{completar}
-     * \post \aedpost{completar}
+     * \pre \aedpre{TRUE}
+     * \post \aedpost{colleccion(pos)=this \LAND res =obs avanzar(ult(secuSbuy(res)))}
      *
      * \complexity{\O(1)}
      */
@@ -1511,12 +1514,12 @@ public:
     /**
      * @brief Devuelve un iterador al primer valor del diccionario, en un recorrido al revés
      *
-     * \aliasing{completar}
+     * \aliasing{si el iterador me permite modificar, si modificas a lo que apunta res se modifica *this}
      *
      * @retval res iterador a la primer posicion en un recorrido al revés
      *
-     * \pre \aedpre{completar}
-     * \post \aedpost{completar}
+     * \pre \aedpre{TRUE}
+     * \post \aedpost{colleccion(pos)=this \LAND res =obs avanzar(ult(secuSbuy(res)))}
      *
      * \complexity{\O(1)}
      */
@@ -1540,12 +1543,12 @@ public:
     /**
      * @brief Devuelve un iterador apuntando a la posición pasando-el-ultimo del diccionario, en un recorrido al revés
      *
-     * \aliasing{completar}
+     * \aliasing{si el iterador me permite modificar, si modificas a lo que apunta res se modifica *this}
      *
      * @retval res iterador a la posicion pasando-al-ultimo, en un recorrido al revés
      *
-     * \pre \aedpre{completar}
-     * \post \aedpost{completar}
+     * \pre \aedpre{TRUE}
+     * \post \aedpost{colleccion(pos)=this \LAND res =obs prim(secuSbuy(res))}
      *
      * \complexity{\O(1)}
      */
@@ -1644,10 +1647,10 @@ public:
          *
          * @retval res referencia al valor apuntado por \P{*this}
          *
-         * \aliasing{completar}
+         * \aliasing{Si modificas a res se va a modificar a lo que apunta this}
          *
-         * \pre \aedpre{completar}
-         * \post \aedpost{completar}
+         * \pre \aedpre{haySiguiente?(*this)}
+         * \post \aedpost{res =obs siguiente(this)}
          *
          * \complexity{\O(1)}
          */
@@ -1659,9 +1662,9 @@ public:
          *
          * @retval res puntero al valor apuntado por \P{*this}
          *
-         * \aliasing{completar}
+         * \aliasing{Si modificas a lo que aunta res se va a modificar a lo que apunta this}
          *
-         * \pre \aedpre{true}
+         * \pre \aedpre{haySiguiente?(*this)}
          * \post \aedpost{\P{*res} \IGOBS siguiente(\P{*this})}
          *
          * \complexity{\O(1)}
@@ -1678,10 +1681,10 @@ public:
          *
          * @retval res referencia a \P{*this}
          *
-         * \aliasing{completar}
+         * \aliasing{si el iterador me permite modificar, si modificas a lo que apunta res se modifica a lo que apunta *this}
          *
-         * \pre \aedpre{completar}
-         * \post \aedpost{completar}
+         * \pre \aedpre{haySiguiente?(*this)}
+         * \post \aedpost{res =obs avanzar(*this)}
          *
          * \complexity{
          * - Peor caso: \O(\LOG(SIZE(\a d)) donde \a d es el diccionario asociado a \P{*this}.
@@ -1708,10 +1711,10 @@ public:
          *
          * @retval res iterador apuntando a la dirección anterior de \P{*this}
          *
-         * \aliasing{completar}
+         * \aliasing{si el iterador me permite modificar, si modificas a lo que apunta res se modifica a lo que apunta *this}
          *
-         * \pre \aedpre{completar}
-         * \post \aedpost{completar}
+         * \pre \aedpre{haySiguiente?(*this) \LAND *this =obs self}
+         * \post \aedpost{res =obs self \LAND avanzar(*this)}
          *
          * \complexity{
          * - Peor caso: \O(\LOG(SIZE(\a d)) donde \a d es el diccionario asociado a \P{*this}.
@@ -1728,10 +1731,10 @@ public:
          *
          * @retval res referencia a \P{*this}
          *
-         * \aliasing{completar}
+         * \aliasing{si el iterador me permite modificar, si modificas a lo que apunta res se modifica a lo que apunta *this}
          *
-         * \pre \aedpre{completar}
-         * \post \aedpost{completar}
+         * \pre \aedpre{hayAnterior?(*this)}
+         * \post \aedpost{res =obs retroceder(*this)}
          *
          * \complexity{
          * - Peor caso: \O(\LOG(SIZE(\a d)) donde \a d es el diccionario asociado a \P{*this}.
@@ -1758,10 +1761,10 @@ public:
          *
          * @retval res iterador apuntando a la dirección siguiente de \P{*this}
          *
-         * \aliasing{completar}
+         * \aliasing{si el iterador me permite modificar, si modificas a lo que apunta res se modifica a lo que apunta *this}
          *
-         * \pre \aedpre{completar}
-         * \post \aedpost{completar}
+         * \pre \aedpre{hayAnterior?(*this) \LAND *this =obs self}
+         * \post \aedpost{res =obs self \LAND retroceder(*this)}
          *
          * \complexity{
          * - Peor caso: \O(\LOG(SIZE(\a d)) donde \a d es el diccionario asociado a \P{*this}.
@@ -1785,8 +1788,8 @@ public:
          * - false, cuando alguno de ellos es no nulo, o
          * - true, cuando ambos son nulos.}
          *
-         * \pre \aedpre{completar}
-         * \post \aedpost{completar}
+         * \pre \aedpre{haySiguiente?(*this) \LAND haySiguiente?(*this)}
+         * \post \aedpost{res =obs (anteriores(*this) =obs anteriores(other) \LAND siguientes(*this) =obs siguientes(other))}
          *
          * \complexity{\O(1)}
          */
