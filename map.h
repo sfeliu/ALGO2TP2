@@ -786,13 +786,14 @@ public:
      *
      */
     map(const map& other) {
-        //orden de insercion
-        iterator it = other.begin();
-        int i = 0;
-        while(i < other.count){
-            insert(it.n->value());
-            it++;
-            i++;
+        iterator it = --other.end();
+        header = Node();
+        count = 0;
+        lt = other.lt;
+        iterator hint = end();
+        while(it != other.end()){
+            hint = insert(hint, it.n->value());
+            --it;
         }
     }
 
@@ -966,11 +967,15 @@ public:
      */
     Meaning& operator[](const Key& key) {
         iterator it = find(key);
+        value_type v = value_type(key, Meaning());
         if(it.n->color == Color::Header){
-            value_type v = value_type(key, Meaning());
             insert(v);
+            return it.n->value().second;
+        }else{
+            value_type v2 = value_type(key, it.n->value().second);
+            insert_or_assign(v);
+            return v2.second;
         }
-        return it.n->value().second;
     }
 
     /**
@@ -1144,12 +1149,12 @@ public:
             }
         }
         if(hint.n->value().first == value.first) {
-            iterator it = iterator(hint.n);
+            iterator it = iterator(const_cast<Node*>(hint.n));
             return it;
         }
         if(hint.n->key() > value.first){
             if(hint.n->child[0] == nullptr){
-                iterator nuevo = iterator(new InnerNode(hint.n, value));
+                iterator nuevo = iterator(new InnerNode(const_cast<Node*>(hint.n), value));
                 if(hint == begin()){
                     header.child[0] = nuevo;
                 }
@@ -1304,9 +1309,9 @@ public:
      *
      */
     iterator erase(const_iterator pos) {
-        iterator y = iterator(pos.n);
+        iterator y = iterator(const_cast<Node*>(pos.n));
         Color original = y.n->color;
-        iterator proximo = iterator(pos.n);
+        iterator proximo = iterator(const_cast<Node*>(pos.n));
         proximo++;
         if(pos.n->child[0] == pos.n->child[1] == nullptr){
             if(pos.n == header.parent){
@@ -1326,26 +1331,24 @@ public:
                 }
             }
         }else{
+            iterator cambiado;
             if(pos.n->child[0] == nullptr){
-                iterator cambiado = iterator(pos.n->child[1]);
-                transplant(pos.n, pos.n->child[1]);
+                cambiado = iterator(pos.n->child[1]);
+                transplant(const_cast<Node*>(pos.n), pos.n->child[1]);
             } else{
                 if(pos.n->child[1] == nullptr){
-                    iterator cambiado = iterator(pos.n->child[0]);
-                    transplant(pos.n, pos.n->child[0]);
+                    cambiado = iterator(pos.n->child[0]);
+                    transplant(const_cast<Node*>(pos.n), pos.n->child[0]);
                 } else{
-                    y++; //Esto creo q suplantaria a lo comentado debajo
-                    // y = pos.n->child[1].min();
+                    y++;
                     original = y.n->color;
+                    cambiado = iterator(y.n->child[1]);
                     if(y.n->parent != pos) {
-                        if (y.n->child[1] != nullptr) {
-                            iterator cambiado = iterator(y.n->child[1]);
-                            transplant(y.n, y.n->child[1]);
-                        }
+                        transplant(y.n, y.n->child[1]);
                         y.n->child[1] = pos.n->child[1];
                         y.n->child[1]->parent = y;
                     }
-                    transplant(pos.n, y.n);
+                    transplant(const_cast<Node*>(pos.n), y.n);
                     y.n->child[0] = pos.n->child[0];
                     y.n->child[0]->parent = y;
                     y.n->color = pos.n->color;
@@ -1489,19 +1492,19 @@ public:
      * \complexity{\O(1)}
      */
     iterator end() {
-        iterator it = iterator(root().parant);
+        iterator it = iterator(&header);
         return it;
     }
 
     /** \overload */
     const_iterator end() const {
-        const_iterator it = const_iterator(header.child[1]);
+        const_iterator it = const_iterator(&header);
         return it;
     }
 
     /** \overload */
     const_iterator cend() {
-        const_iterator it = const_iterator(header.child[1]);
+        const_iterator it = const_iterator(&header);
         return it;
     }
 
@@ -1518,19 +1521,19 @@ public:
      * \complexity{\O(1)}
      */
     reverse_iterator rbegin() {
-        reverse_iterator it = reverse_iterator(header.child[0]);
+        reverse_iterator it = reverse_iterator(&header);
         return it;
     }
 
     /** \overload */
     const_reverse_iterator rbegin() const {
-        const_reverse_iterator it = const_reverse_iterator(header.child[0]);
+        const_reverse_iterator it = const_reverse_iterator(&header);
         return it;
     }
 
     /** \overload */
     const_reverse_iterator crbegin() {
-        const_reverse_iterator it = const_reverse_iterator(header.child[0]);
+        const_reverse_iterator it = const_reverse_iterator(&header);
         return it;
 	}
 
@@ -1547,19 +1550,19 @@ public:
      * \complexity{\O(1)}
      */
     reverse_iterator rend() {
-        reverse_iterator it = reverse_iterator(header.child[1]);
+        reverse_iterator it = reverse_iterator(header.child[0]);
         return it;
     }
 
     /** \overload */
     const_reverse_iterator rend() const {
-        const_reverse_iterator it = const_reverse_iterator(header.child[1]);
+        const_reverse_iterator it = const_reverse_iterator(header.child[0]);
         return it;
     }
 
     /** \overload */
     const_reverse_iterator crend() {
-        const_reverse_iterator it = const_reverse_iterator(header.child[1]);
+        const_reverse_iterator it = const_reverse_iterator(header.child[0]);
         return it;
     }
     //@}
@@ -2285,7 +2288,7 @@ private:
                     Rotate(w.n, 0);                             //3
                     w.n = x.n->parent->child[1];                //3
                 }
-                w.color = x.n->parent->color;                       //4
+                w.n->color = x.n->parent->color;                       //4
                 x.n->parent->color = Color::Black;                  //4
                 w.n->child[1]->color = Color::Black;                //4
                 Rotate(x.n->parent, 1);                             //4
@@ -2408,6 +2411,14 @@ private:
             header.child[1] = min--; //Chequear
         }
         nuevo->parent = viejo->parent;
+    }
+
+    bool is_black(Node* n){
+        if(n == nullptr) {
+            return true;
+        }else{
+            return n->color == Color::Black;
+        }
     }
 
 };
