@@ -1202,6 +1202,7 @@ public:
         while(actual.n != nullptr){ 
             padre = actual;
             if(not lt(actual.n->value().first, value.first) and not lt(value.first, actual.n->value().first)){
+                count++;
                 return actual;
             }
             if(value.first < actual.n->value().first){
@@ -1702,17 +1703,19 @@ public:
         iterator& operator++() {
             if(n->color == Color::Header) {
                 n = n->child[0];
-            }else if(n == max(n)){
-                n = buscarHeader(n);
             }else if(n->child[1] != nullptr){
                 n = min(n->child[1]);
             }else{
                 Node* y = n->parent;
-                while(y != nullptr and n == y->child[1]){
+                while(y->color != Color::Header and n == y->child[1]){
                     n = y;
                     y = y->parent;
                 }
-                n = y;
+                if(n == y->child[0]){
+                    n = y;
+                }else{
+                    n = y->parent;
+                }
             }
             return *this;
         }
@@ -1888,13 +1891,6 @@ public:
             }
             return ret;
         }
-
-        Node* buscarHeader(Node* n){
-            while(n->color != Color::Header){
-                n = n->parent;
-            }
-            return n;
-        }
     };
 
     /**
@@ -1946,19 +1942,21 @@ public:
         }
         /** \brief Ver aed2::map::iterator::operator++() */
         const_iterator& operator++()  {
-            if(n->color == Color::Header){
+            if(n->color == Color::Header) {
                 n = n->child[0];
-            }else if(n == max(n)){
-                n = buscarHeader(n);
             }else if(n->child[1] != nullptr){
                 n = min(n->child[1]);
             }else{
                 Node* y = n->parent;
-                while(y != nullptr and n == y->child[1]){
+                while(y->color != Color::Header and n == y->child[1]){
                     n = y;
                     y = y->parent;
                 }
-                n = y;
+                if(n == y->child[0]){
+                    n = y;
+                }else{
+                    n = y->parent;
+                }
             }
             return *this;
         }
@@ -2022,13 +2020,6 @@ public:
                 ret = ret->child[0];
             }
             return ret;
-        }
-
-        Node* buscarHeader(Node* n){
-            while(n->color != Color::Header){
-                n = n->parent;
-            }
-            return n;
         }
     };
 
