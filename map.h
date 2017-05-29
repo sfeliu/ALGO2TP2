@@ -844,7 +844,7 @@ public:
     map(iterator first, iterator last, Compare c = Compare()) : lt(c) {
     	auto it = end();
     	while(first != last) {
-    		insert(it, first.n->value());
+    		insert(it, *first);
     		++first;
     	}
     }
@@ -1693,8 +1693,10 @@ public:
          * }
          */
         iterator& operator++() {
-            if(n->color == Color::Header){
+            if(n->color == Color::Header) {
                 n = n->child[0];
+            }else if(n == max(n)){
+                *this = end();
             }else if(n->child[1] != nullptr){
                 n = min(n->child[1]);
             }else{
@@ -1879,6 +1881,15 @@ public:
             }
             return ret;
         }
+
+        Node* buscarHeader(Node* n){
+            if(n->parent != nullptr){
+                while(n == n->parent->parent){
+                    n = n->parent;
+                }
+            }
+            return n;
+        }
     };
 
     /**
@@ -1932,6 +1943,8 @@ public:
         const_iterator& operator++()  {
             if(n->color == Color::Header){
                 n = n->child[0];
+            }else if(n == max(n)){
+                *this = end();
             }else if(n->child[1] != nullptr){
                 n = min(n->child[1]);
             }else{
@@ -2004,6 +2017,15 @@ public:
                 ret = ret->child[0];
             }
             return ret;
+        }
+
+        Node* buscarHeader(Node* n){
+            if(n->parent != nullptr){
+                while(n == n->parent->parent){
+                    n = n->parent;
+                }
+            }
+            return n;
         }
     };
 
@@ -2322,7 +2344,7 @@ private:
                 }
             }else{
                 iterator y = iterator(n->parent->parent->child[0]);
-                if(y.n->color == Color::Red){
+                if(not is_black(y.n)){
                     n->parent->color = Color::Black;
                     y.n->color = Color::Black;
                     n->parent->parent->color = Color::Red;
