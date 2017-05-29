@@ -1141,6 +1141,7 @@ public:
                 header.child[0] = nuevo;
                 header.child[1] = nuevo;
                 header.parent = nuevo;
+                count++;
                 return nuevo;
             }
             if(header.child[1]->key() < value.first){
@@ -1148,11 +1149,13 @@ public:
                 header.child[1]->child[1] = nuevo;
                 header.child[1] = nuevo;
                 insertFixUp(nuevo);
+                count++;
                 return nuevo;
             }
         }
         if(hint.n->value().first == value.first) {
             iterator it = iterator(const_cast<Node*>(hint.n));
+            count++;
             return it;
         }
         if(hint.n->key() > value.first){
@@ -1164,6 +1167,7 @@ public:
                 iterator h = iterator(const_cast<Node*>(hint.n->child[0]));
                 h = nuevo.n;
                 insertFixUp(nuevo);
+                count++;
                 return nuevo;
             }else {
                 if(hint--.n->key() < value.first){
@@ -1171,15 +1175,17 @@ public:
                     iterator h = iterator(const_cast<Node*>(hint.n->child[1]));
                     h = nuevo.n;
                     insertFixUp(nuevo);
+                    count++;
                     return nuevo;
                 }else{
+                    count++;
                     return insert(value);
                 }
             }
         }else{
+            count++;
             return insert(value);
         }
-
     }
 
     /** \overload*/
@@ -1217,6 +1223,7 @@ public:
             }
         }
         insertFixUp(nuevo);
+        count++;
         return  actual;
     	/*iterator it1 = iterator(&header);// porque no funciona header*?
         iterator it2 = iterator(root());
@@ -1696,7 +1703,7 @@ public:
             if(n->color == Color::Header) {
                 n = n->child[0];
             }else if(n == max(n)){
-                *this = end();
+                n = buscarHeader(n);
             }else if(n->child[1] != nullptr){
                 n = min(n->child[1]);
             }else{
@@ -1883,10 +1890,8 @@ public:
         }
 
         Node* buscarHeader(Node* n){
-            if(n->parent != nullptr){
-                while(n == n->parent->parent){
-                    n = n->parent;
-                }
+            while(n->color != Color::Header){
+                n = n->parent;
             }
             return n;
         }
@@ -1944,7 +1949,7 @@ public:
             if(n->color == Color::Header){
                 n = n->child[0];
             }else if(n == max(n)){
-                *this = end();
+                n = buscarHeader(n);
             }else if(n->child[1] != nullptr){
                 n = min(n->child[1]);
             }else{
@@ -2020,10 +2025,8 @@ public:
         }
 
         Node* buscarHeader(Node* n){
-            if(n->parent != nullptr){
-                while(n == n->parent->parent){
-                    n = n->parent;
-                }
+            while(n->color != Color::Header){
+                n = n->parent;
             }
             return n;
         }
