@@ -1138,17 +1138,17 @@ public:
         if(hint.n->color == Color::Header) {
             if (empty()) {
                 iterator nuevo = iterator(new InnerNode(&header, value, Color::Black));
-                header.child[0] = nuevo;
-                header.child[1] = nuevo;
-                header.parent = nuevo;
+                header.child[0] = nuevo.n;
+                header.child[1] = nuevo.n;
+                header.parent = nuevo.n;
                 count++;
                 return nuevo;
             }
             if(header.child[1]->key() < value.first){
                 iterator nuevo = iterator(new InnerNode(header.child[1],value));
-                header.child[1]->child[1] = nuevo;
-                header.child[1] = nuevo;
-                insertFixUp(nuevo);
+                header.child[1]->child[1] = nuevo.n;
+                header.child[1] = nuevo.n;
+                insertFixUp(nuevo.n);
                 count++;
                 return nuevo;
             }
@@ -1162,11 +1162,11 @@ public:
             if(hint.n->child[0] == nullptr){
                 iterator nuevo = iterator(new InnerNode(const_cast<Node*>(hint.n), value));
                 if(hint == begin()){
-                    header.child[0] = nuevo;
+                    header.child[0] = nuevo.n;
                 }
                 iterator h = iterator(const_cast<Node*>(hint.n->child[0]));
                 h = nuevo.n;
-                insertFixUp(nuevo);
+                insertFixUp(nuevo.n);
                 count++;
                 return nuevo;
             }else {
@@ -1174,7 +1174,7 @@ public:
                     iterator nuevo = iterator(new InnerNode(hint.n->child[1], value));
                     iterator h = iterator(const_cast<Node*>(hint.n->child[1]));
                     h = nuevo.n;
-                    insertFixUp(nuevo);
+                    insertFixUp(nuevo.n);
                     count++;
                     return nuevo;
                 }else{
@@ -1192,9 +1192,9 @@ public:
     iterator insert(const value_type& value) {
         if(empty()){
             iterator nuevo = iterator(new InnerNode(&header, value, Color::Black));
-            header.child[0] = nuevo;
-            header.child[1] = nuevo;
-            header.parent = nuevo;
+            header.child[0] = nuevo.n;
+            header.child[1] = nuevo.n;
+            header.parent = nuevo.n;
             return nuevo;
         }
         iterator padre = iterator(header.parent);
@@ -1211,19 +1211,19 @@ public:
                 actual = actual.n->child[1];
             }
         }
-        iterator nuevo = iterator(new InnerNode(padre,value));
+        iterator nuevo = iterator(new InnerNode(padre.n,value));
         if(value < padre.n->value()) {
-            padre.n->child[0] = nuevo;
+            padre.n->child[0] = nuevo.n;
             if(begin() == padre){
-                header.child[0] = nuevo;
+                header.child[0] = nuevo.n;
             }
         }else {
-            padre.n->child[1] = nuevo;
-            if(header.child[1] == padre){
-                header.child[1] = nuevo;
+            padre.n->child[1] = nuevo.n;
+            if(header.child[1] == padre.n){
+                header.child[1] = nuevo.n;
             }
         }
-        insertFixUp(nuevo);
+        insertFixUp(nuevo.n);
         count++;
         return  actual;
     	/*iterator it1 = iterator(&header);// porque no funciona header*?
@@ -1884,12 +1884,12 @@ public:
             return ret;
         }
 
-        Node* min(Node* n){
-            Node* ret = n;
-            while (ret->child[0] != nullptr){
+       Node* min(Node* n){
+           Node* ret = n;
+           /*while (ret->child[0] != nullptr){
                 ret = ret->child[0];
-            }
-            return ret;
+           }*/
+           return ret;
         }
     };
 
@@ -2396,7 +2396,7 @@ private:
     }
 
     //Si i=1 entonce es un left-Rotate. De lo contrario (i=0) es un right-Rotate.
-    iterator Rotate(Node* n, int i){
+    void Rotate(Node* n, int i){
         iterator it = iterator(n->child[i]);
         n->child[i] = it.n->child[(i+1)%2];
         if(it.n->child[(i+1)%2] != nullptr){
