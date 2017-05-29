@@ -1195,6 +1195,7 @@ public:
             header.child[0] = nuevo.n;
             header.child[1] = nuevo.n;
             header.parent = nuevo.n;
+            count++;
             return nuevo;
         }
         iterator padre = iterator(header.parent);
@@ -1411,11 +1412,11 @@ public:
         iterator it = begin();
         int i = 0;
         size_t j = count;
-        while(i < j){
-            value_type k = it.n->value();
-            it++;
-            erase(it.n->value().first);
-            i++;
+        while(it.n != &header){
+            //value_type k = it.n->value();
+            //it++;
+            it = erase(it);
+            //erase(it.n->value().first);
         }
     }
 
