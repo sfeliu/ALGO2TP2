@@ -582,12 +582,12 @@
 #include <utility>
 #include <cassert>
 #include <algorithm>
-#include <bits/valarray_before.h>
+//#include <bits/valarray_before.h>
 
 #ifdef DEBUG
 //Aca se puede incluir cualquier cosa que consideren que necesitan para debug
-//#include <iostream>
-//#include <iomanip>
+#include <iostream>
+#include <iomanip>
 #endif
 
 /**
@@ -786,11 +786,11 @@ public:
      *
      */
     map(const map& other) {
-        iterator it = --other.end();
+        const_iterator it = --other.end();
         header = Node();
         count = 0;
         lt = other.lt;
-        iterator hint = end();
+        const_iterator hint = end();
         while(it != other.end()){
             hint = insert(hint, it.n->value());
             --it;
@@ -844,7 +844,7 @@ public:
     map(iterator first, iterator last, Compare c = Compare()) : lt(c) {
     	auto it = end();
     	while(first != last) {
-    		insert(*first, it);
+    		insert(it, first.n->value());
     		++first;
     	}
     }
@@ -865,7 +865,7 @@ public:
      * \note Es importante remarcar que no se realiza ninguna comparación entre los elementos.
      */
     map& operator=(map other) {
-        this* = map(other);
+        *this = map(other);
         return *this;
     }
 
@@ -1005,7 +1005,7 @@ public:
      */
     iterator find(const Key& key) {
         iterator it = lower_bound(key);
-        if(it.n->value().first() != key){
+        if(lt(it.n->value().first, key) or lt(key, it.n->value().first)){
             it = iterator(&header);
         }
         return it;
@@ -1044,7 +1044,7 @@ public:
     iterator lower_bound(const Key& key)  {
         iterator it = iterator(header.parent);
         while(it.n != nullptr){
-            if(it.n->key() == key){
+            if(not lt(it.n->key(), key) and not lt(key, it.n->key())){
                 return it;
             }else{
                 if(it.n->key() < key){
@@ -1161,13 +1161,15 @@ public:
                 if(hint == begin()){
                     header.child[0] = nuevo;
                 }
-                hint.n->child[0] = nuevo;
+                iterator h = iterator(const_cast<Node*>(hint.n->child[0]));
+                h = nuevo.n;
                 insertFixUp(nuevo);
                 return nuevo;
             }else {
                 if(hint--.n->key() < value.first){
                     iterator nuevo = iterator(new InnerNode(hint.n->child[1], value));
-                    hint.n->child[1] = nuevo;
+                    iterator h = iterator(const_cast<Node*>(hint.n->child[1]));
+                    h = nuevo.n;
                     insertFixUp(nuevo);
                     return nuevo;
                 }else{
@@ -1193,7 +1195,7 @@ public:
         iterator actual = iterator(header.parent);
         while(actual.n != nullptr){ 
             padre = actual;
-            if(actual.n->value().first == value.first){
+            if(not lt(actual.n->value().first, value.first) and not lt(value.first, actual.n->value().first)){
                 return actual;
             }
             if(value.first < actual.n->value().first){
@@ -1316,7 +1318,7 @@ public:
         Color original = y.n->color;
         iterator proximo = iterator(const_cast<Node*>(pos.n));
         proximo++;
-        if(pos.n->child[0] == pos.n->child[1] == nullptr){
+        if(pos.n->child[0] == nullptr and pos.n->child[1] == nullptr){
             if(pos.n == header.parent){
                 header.parent = nullptr;
                 header.child[0] = header.child[1] = &header;
@@ -1402,9 +1404,9 @@ public:
         int i = 0;
         size_t j = count;
         while(i < j){
-            key_type k = it.n->value();
+            value_type k = it.n->value();
             it++;
-            erase(it.n->value());
+            erase(it.n->value().first);
             i++;
         }
     }
@@ -1673,8 +1675,7 @@ public:
          * eso que la postcondición es más débil de lo que debiera.  Eso no ocurre en las otras funciones del TP.
          */
         pointer operator->() const {
-			value_type* p = n->value();
-			return p;
+			return &n->value();
 		}
         /**
          * \brief Avanza el iterador a la siguiente posición
@@ -1723,7 +1724,7 @@ public:
          */
         iterator operator++(int) {
             iterator ret = *this;
-            this++;
+            ++*this;
             return ret;
         }
         /**
@@ -1773,7 +1774,7 @@ public:
          */
         iterator operator--(int) {
             iterator ret = *this;
-            this--;
+            --*this;
             return ret;
         }
         /**
@@ -1946,7 +1947,7 @@ public:
         /** \brief Ver aed2::map::iterator::operator++(int) */
         const_iterator operator++(int)  {
             const_iterator ret = *this;
-            this++;
+            ++*this;
             return ret;
         }
         /** \brief Ver aed2::map::iterator::operator--() */
@@ -1968,7 +1969,7 @@ public:
         /** \brief Ver aed2::map::iterator::operator--(int) */
         const_iterator operator--(int)  {
             const_iterator ret = *this;
-            this--;
+            --*this;
             return ret;
         }
         /** \brief Ver aed2::map::iterator::operator==() */
@@ -2164,12 +2165,12 @@ private:
          * @brief imprime el subarbol apuntado por this
          *
          * Esta en una funcion de debugging que se incluye de ejemplo para mostrar cómo usar la técnica.
-         */
+
         void print(int tab = 0) const {
         	std::cout << std::string(tab, ' ') << value().first << "->" << value().second << "   (" << (color == Color::Red ? "Red)" : "Black)") << std::endl;
         	if(child[0]) child[0]->print(tab + 2);
         	if(child[1]) child[1]->print(tab + 2);
-        }
+        }*/
 
 #endif
     };
@@ -2280,7 +2281,7 @@ private:
             Rotate(x.n->parent, 1);                 //1
             w = x.n->parent->child[1];              //1
         }
-        if(w != nullptr){
+        if(w.n != nullptr){
             if(is_black(w.n->child[0]) and is_black(w.n->child[1])){    //2
                 w.n->color = Color::Red;                                //2
                 x.n = x.n->parent;                                      //2
