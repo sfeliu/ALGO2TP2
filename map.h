@@ -766,8 +766,6 @@ public:
     explicit map(Compare c = Compare()) {
         lt = c;
         count = 0;
-        Node n = Node();
-        header = n;
     }
 
     /**
@@ -1371,7 +1369,8 @@ public:
                 deleteFixUp(cambiado.n);
             }
         }
-        delete pos;
+        delete pos.n; // Me parece que es pos.n porque el new se hace sobre un node
+        count--;
         return proximo;
     }
 
@@ -1411,7 +1410,7 @@ public:
         iterator it = begin();
         int i = 0;
         size_t j = count;
-        while(i < j){
+        while(it.n->color != Color::Header){
             it = erase(it);
             i++;
         }
@@ -1474,13 +1473,15 @@ public:
      * \complexity{\O(1)}
      */
     iterator begin() {
-        iterator it = iterator(header.child[0]);
+        iterator it = iterator(&header);
+        it++;
         return it;
     }
 
     /** \overload */
     const_iterator begin() const {
-        const_iterator it = const_iterator(header.child[0]);
+        const_iterator it = const_iterator(&header);
+        it++;
         return it;
     }
 
@@ -2417,11 +2418,11 @@ private:
         }
         if(viejo == header.child[0]){
             iterator max = iterator(viejo);
-            header.child[0] = max++;
+            header.child[0] = ++max;
         }
         if(viejo == header.child[1]){
             iterator min = iterator(viejo);
-            header.child[1] = min--;
+            header.child[1] = --min;
         }
         nuevo->parent = viejo->parent;
     }
