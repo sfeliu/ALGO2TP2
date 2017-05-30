@@ -586,8 +586,8 @@
 
 #ifdef DEBUG
 //Aca se puede incluir cualquier cosa que consideren que necesitan para debug
-#include <iostream>
-#include <iomanip>
+//#include <iostream>
+//#include <iomanip>
 #endif
 
 /**
@@ -1002,6 +1002,9 @@ public:
      */
     iterator find(const Key& key) {
         iterator it = lower_bound(key);
+        if(it.n == &header){
+            return it;
+        }
         if(lt(it.n->value().first, key) or lt(key, it.n->value().first)){
             it = iterator(&header);
         }
@@ -1149,10 +1152,10 @@ public:
                 count++;
                 return nuevo;
             }
+            hint++;
         }
         if(hint.n->value().first == value.first) {
             iterator it = iterator(const_cast<Node*>(hint.n));
-            count++;
             return it;
         }
         if(hint.n->key() > value.first){
@@ -1161,26 +1164,22 @@ public:
                 if(hint == begin()){
                     header.child[0] = nuevo.n;
                 }
-                iterator h = iterator(const_cast<Node*>(hint.n->child[0]));
-                h = nuevo.n;
+                const_cast<Node*>(hint.n)->child[0] = nuevo.n;
                 insertFixUp(nuevo.n);
                 count++;
                 return nuevo;
             }else {
                 if(hint--.n->key() < value.first){
                     iterator nuevo = iterator(new InnerNode(hint.n->child[1], value));
-                    iterator h = iterator(const_cast<Node*>(hint.n->child[1]));
-                    h = nuevo.n;
+                    const_cast<Node*>(hint.n)->child[1] = nuevo.n;
                     insertFixUp(nuevo.n);
                     count++;
                     return nuevo;
                 }else{
-                    count++;
                     return insert(value);
                 }
             }
         }else{
-            count++;
             return insert(value);
         }
     }
@@ -1197,9 +1196,10 @@ public:
         }
         iterator padre = iterator(header.parent);
         iterator actual = iterator(header.parent);
-        while(actual.n != nullptr){
+        while(actual.n != nullptr){ 
             padre = actual;
             if(not lt(actual.n->value().first, value.first) and not lt(value.first, actual.n->value().first)){
+                count++;
                 return actual;
             }
             if(value.first < actual.n->value().first){
@@ -1222,10 +1222,8 @@ public:
         }
         insertFixUp(nuevo.n);
         count++;
-        return nuevo;
+        return  actual;
     }
-
-
 
     /**
      * @brief Inserta o redefine \P{value} en el diccionario
@@ -1341,7 +1339,7 @@ public:
                 deleteFixUp(cambiado.n);
             }
         }
-        delete pos.n; // Me parece que es pos.n porque el new se hace sobre un node
+        delete pos.n;
         count--;
         return proximo;
     }
@@ -1379,6 +1377,9 @@ public:
      * \complexity{\O(\DEL(\P{*this}))}
      */
     void clear() {
+        if(empty()){
+            return;
+        }
         iterator it = begin();
         int i = 0;
         size_t j = count;
@@ -2310,56 +2311,17 @@ private:
                     n->parent->parent->color = Color::Red;
                     n = n->parent->parent;
                 }else{
-                    if(n == n->parent->child[0]){ //habia un 1
+                    if(n == n->parent->child[0]){ //0 o 1??
                         n = n->parent;
-                        Rotate(n,0); //habia un 1
+                        Rotate(n,0);
                     }
                     n->parent->color = Color::Black;
                     n->parent->parent->color = Color::Red;
-                    Rotate(n->parent->parent,1); //habia un 0
-                }
-            }
-        }
-        laRaiz(n)->color = Color::Black;       //aca hay que implementar un poco de magia
-        header.parent = laRaiz(n);
-
-        /*//n deveria ser un innerNode?
-        while(n->parent->color == Color::Red){
-            if(n->parent == n->parent->parent->child[1]){
-                iterator y = iterator(n->parent->parent->child[2]);
-                if(y.n->color == Color::Red){
-                    n->parent->color = Color ::Black;
-                    y.n->color = Color ::Black;
-                    n->parent->parent->color = Color ::Red;
-                    n = n->parent->parent;
-                }else{
-                    if(n == n->parent->child[2]){
-                        n = n->parent;
-                        Rotate(n,2);
-                    }
-                    n->parent->color = Color ::Black;
-                    n->parent->parent->color = Color ::Red;
-                    Rotate(n->parent->parent,1);
-                }
-            }else{
-                iterator y = iterator(n->parent->parent->child[1]);
-                if(y.n->color == Color::Red){
-                    n->parent->color = Color ::Black;
-                    y.n->color = Color ::Black;
-                    n->parent->parent->color = Color ::Red;
-                    n = n->parent->parent;
-                }else{
-                    if(n == n->parent->child[2]){
-                        n = n->parent;
-                        Rotate(n,2);
-                    }
-                    n->parent->color = Color ::Black;
-                    n->parent->parent->color = Color ::Red;
                     Rotate(n->parent->parent,1);
                 }
             }
         }
-        root()->color = Color ::Black;*/
+        root()->color = Color::Black;
     }
 
     //Si i=1 entonce es un left-Rotate. De lo contrario (i=0) es un right-Rotate.
@@ -2370,10 +2332,14 @@ private:
             it.n->child[(i+1)%2]->parent = n;
         }
         it.n ->parent = n->parent;
-        if(n == n->parent->child[1]){
-            n->parent->child[(i+1)%2] = it.n;
+        if(n->parent == &header){
+            header.parent = it.n;
         }else{
-            n->parent->child[i] = it.n;
+            if(n == n->parent->child[1]){
+                n->parent->child[1] = it.n;
+            }else{
+                n->parent->child[0] = it.n;
+            }
         }
         it.n -> child[(i+1)%2] = n;
         n->parent = it.n;
@@ -2408,13 +2374,6 @@ private:
         }
     }
 
-    Node* laRaiz(Node* node){
-        Node* n = node;
-        while(n->parent->color != Color::Header){
-            n = n->parent;
-        }
-        return n;
-    }
 };
 
 //////////////////////////////////////
