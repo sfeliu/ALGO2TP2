@@ -971,7 +971,6 @@ public:
             insert(v);
             return it.n->value().second;
         }else{
-            insert_or_assign(v);
             return it.n->value().second;
         }
     }
@@ -1049,7 +1048,7 @@ public:
             }else{
                 if(it.n->key() < key){
                     if(it.n->child[1] == nullptr) {
-                        return it++;
+                        return ++it;
                     }else{
                         it.n = it.n->child[1];
                     }
@@ -1199,7 +1198,6 @@ public:
         while(actual.n != nullptr){ 
             padre = actual;
             if(not lt(actual.n->value().first, value.first) and not lt(value.first, actual.n->value().first)){
-                count++;
                 return actual;
             }
             if(value.first < actual.n->value().first){
