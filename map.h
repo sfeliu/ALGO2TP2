@@ -973,9 +973,8 @@ public:
             insert(v);
             return it.n->value().second;
         }else{
-            value_type v2 = value_type(key, it.n->value().second);
             insert_or_assign(v);
-            return v2.second;
+            return it.n->value().second;
         }
     }
 
@@ -1393,7 +1392,7 @@ public:
      * \complexity{\O(\DEL(\P{*pos}) + \LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}))}
      */
     void erase(const Key& key) {
-        const_iterator pos = const_iterator(find(key)); //Chequear si el find que devuelve const o el otro
+        const_iterator pos = const_iterator(find(key));
         erase(pos);
     }
 
@@ -1412,11 +1411,9 @@ public:
         iterator it = begin();
         int i = 0;
         size_t j = count;
-        while(it.n != &header){
-            //value_type k = it.n->value();
-            //it++;
+        while(i < j){
             it = erase(it);
-            //erase(it.n->value().first);
+            i++;
         }
     }
 
@@ -1712,11 +1709,7 @@ public:
                     n = y;
                     y = y->parent;
                 }
-                if(n == y->child[0]){
-                    n = y;
-                }else{
-                    n = y->parent;
-                }
+                n = y;
             }
             return *this;
         }
@@ -1887,9 +1880,9 @@ public:
 
        Node* min(Node* n){
            Node* ret = n;
-           /*while (ret->child[0] != nullptr){
+           while (ret->child[0] != nullptr){
                 ret = ret->child[0];
-           }*/
+           }
            return ret;
         }
     };
@@ -2309,7 +2302,7 @@ private:
                     Rotate(w.n, 0);                             //3
                     w.n = x.n->parent->child[1];                //3
                 }
-                w.n->color = x.n->parent->color;                       //4
+                w.n->color = x.n->parent->color;                    //4
                 x.n->parent->color = Color::Black;                  //4
                 w.n->child[1]->color = Color::Black;                //4
                 Rotate(x.n->parent, 1);                             //4
@@ -2319,7 +2312,6 @@ private:
     }
 
     void insertFixUp(Node* n){
-        //cambios menores..
         while(n->parent->color == Color::Red){
             if(n->parent == n->parent->parent->child[0]){
                 iterator y = iterator(n->parent->parent->child[1]);
@@ -2331,11 +2323,11 @@ private:
                 }else{
                     if(n == n->parent->child[1]){
                         n = n->parent;
-                        Rotate(n,1); //Verlo bien
+                        Rotate(n,1);
                     }
                     n->parent->color = Color::Black;
                     n->parent->parent->color = Color::Red;
-                    Rotate(n->parent->parent,0);//verlo bien
+                    Rotate(n->parent->parent,0);
                 }
             }else{
                 iterator y = iterator(n->parent->parent->child[0]);
@@ -2347,11 +2339,11 @@ private:
                 }else{
                     if(n == n->parent->child[1]){ //0 o 1??
                         n = n->parent;
-                        Rotate(n,1); //verlo bien
+                        Rotate(n,1);
                     }
                     n->parent->color = Color::Black;
                     n->parent->parent->color = Color::Red;
-                    Rotate(n->parent->parent,0);//verlo bien
+                    Rotate(n->parent->parent,0);
                 }
             }
         }
@@ -2425,11 +2417,11 @@ private:
         }
         if(viejo == header.child[0]){
             iterator max = iterator(viejo);
-            header.child[0] = max++; //Chequear
+            header.child[0] = max++;
         }
         if(viejo == header.child[1]){
             iterator min = iterator(viejo);
-            header.child[1] = min--; //Chequear
+            header.child[1] = min--;
         }
         nuevo->parent = viejo->parent;
     }
