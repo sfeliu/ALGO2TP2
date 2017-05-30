@@ -788,7 +788,7 @@ public:
         header = Node();
         count = 0;
         lt = other.lt;
-        const_iterator hint = end();
+        const_iterator hint = other.end();
         while(it != other.end()){
             hint = insert(hint, it.n->value());
             --it;
@@ -1222,7 +1222,7 @@ public:
         }
         insertFixUp(nuevo.n);
         count++;
-        return  actual;
+        return  nuevo;
     }
 
     /**
@@ -2289,7 +2289,7 @@ private:
         while(n->parent->color == Color::Red){
             if(n->parent == n->parent->parent->child[0]){
                 iterator y = iterator(n->parent->parent->child[1]);
-                if(y.n->color == Color::Red){
+                if(not is_black(y)){//if(y.n->color == Color::Red){
                     n->parent->color = Color::Black;
                     y.n->color = Color::Black;
                     n->parent->parent->color = Color::Red;
