@@ -785,7 +785,6 @@ public:
      */
     map(const map& other) {
         const_iterator it = --other.end();
-        header = Node();
         count = 0;
         lt = other.lt;
         const_iterator hint = other.end();
@@ -1444,15 +1443,13 @@ public:
      * \complexity{\O(1)}
      */
     iterator begin() {
-        iterator it = iterator(&header);
-        it++;
+        iterator it = iterator(header.child[0]);
         return it;
     }
 
     /** \overload */
     const_iterator begin() const {
-        const_iterator it = const_iterator(&header);
-        it++;
+        const_iterator it = const_iterator(header.child[0]);
         return it;
     }
 
