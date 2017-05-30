@@ -2310,17 +2310,18 @@ private:
                     n->parent->parent->color = Color::Red;
                     n = n->parent->parent;
                 }else{
-                    if(n == n->parent->child[1]){ //0 o 1??
+                    if(n == n->parent->child[0]){ //habia un 1
                         n = n->parent;
-                        Rotate(n,1);
+                        Rotate(n,0); //habia un 1
                     }
                     n->parent->color = Color::Black;
                     n->parent->parent->color = Color::Red;
-                    Rotate(n->parent->parent,0);
+                    Rotate(n->parent->parent,1); //habia un 0
                 }
             }
         }
-        root()->color = Color::Black;
+        laRaiz(n)->color = Color::Black;       //aca hay que implementar un poco de magia
+        header.parent = laRaiz(n);
 
         /*//n deveria ser un innerNode?
         while(n->parent->color == Color::Red){
@@ -2407,6 +2408,13 @@ private:
         }
     }
 
+    Node* laRaiz(Node* node){
+        Node* n = node;
+        while(n->parent->color != Color::Header){
+            n = n->parent;
+        }
+        return n;
+    }
 };
 
 //////////////////////////////////////
