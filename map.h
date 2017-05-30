@@ -1197,10 +1197,9 @@ public:
         }
         iterator padre = iterator(header.parent);
         iterator actual = iterator(header.parent);
-        while(actual.n != nullptr){ 
+        while(actual.n != nullptr){
             padre = actual;
             if(not lt(actual.n->value().first, value.first) and not lt(value.first, actual.n->value().first)){
-                count++;
                 return actual;
             }
             if(value.first < actual.n->value().first){
@@ -1223,34 +1222,7 @@ public:
         }
         insertFixUp(nuevo.n);
         count++;
-        return  actual;
-    	/*iterator it1 = iterator(&header);// porque no funciona header*?
-        iterator it2 = iterator(root());
-        while(it2.n != nullptr && it2.n ->value() != value){ //se puede asumir que root es nullptr si el arbol es vacio?
-            it1 = it2;
-            if(value < it2.n->value()){
-                it2 = it2.n->child[1];
-            }else{
-                it2 = it2.n->child[2];
-            }
-        }
-        if(it2.n->value() == value){
-            return it2;
-        }
-        if(it1.n == &header){
-            header.parent = new Node(&header, Color ::Red);//como se inicializa un innerNode?
-        }else {
-            if(value <it1.n->value()){
-                it1.n->child[1] = new Node(it1.n, Color::Red);
-                it1.n->child[1]->value() = value;
-                insertFixUp(it1.n->child[1]);
-            }else{
-                it1.n->child[2] = new Node(it1.n, Color::Red);
-                it1.n->child[2]->value() = value;
-                insertFixUp(it1.n->child[2]);
-            }
-        }
-        return  it2;*/
+        return nuevo;
     }
 
 
