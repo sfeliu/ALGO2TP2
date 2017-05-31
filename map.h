@@ -1901,8 +1901,7 @@ public:
         }
         /** \brief Ver aed2::map::iterator::operator->() */
         pointer operator->() const {
-        	value_type* p = n->value();
-            return p;
+            return &n->value();
         }
         /** \brief Ver aed2::map::iterator::operator++() */
         const_iterator& operator++()  {
@@ -2253,28 +2252,28 @@ private:
     void deleteFixUpAux(Node* nodo, int i){
         iterator x = iterator(nodo);
         iterator w = iterator(x.n->parent->child[i]);
-        if(not(is_black(w.n))){                     //1
-            w.n->color = Color::Black;              //1
-            x.n->parent->color = Color::Red;        //1
-            Rotate(x.n->parent, 1);                 //1
-            w = x.n->parent->child[1];              //1
+        if(not(is_black(w.n))){
+            w.n->color = Color::Black;
+            x.n->parent->color = Color::Red;
+            Rotate(x.n->parent, 1);
+            w = x.n->parent->child[1];
         }
         if(w.n != nullptr){
-            if(is_black(w.n->child[0]) and is_black(w.n->child[1])){    //2
-                w.n->color = Color::Red;                                //2
-                x.n = x.n->parent;                                      //2
+            if(is_black(w.n->child[0]) and is_black(w.n->child[1])){
+                w.n->color = Color::Red;
+                x.n = x.n->parent;
             } else{
                 if(is_black(w.n->child[1])){
-                    w.n->color = Color::Red;                    //3
-                    w.n->child[0]->color = Color::Black;        //3
-                    Rotate(w.n, 0);                             //3
-                    w.n = x.n->parent->child[1];                //3
+                    w.n->color = Color::Red;
+                    w.n->child[0]->color = Color::Black;
+                    Rotate(w.n, 0);
+                    w.n = x.n->parent->child[1];
                 }
-                w.n->color = x.n->parent->color;                    //4
-                x.n->parent->color = Color::Black;                  //4
-                w.n->child[1]->color = Color::Black;                //4
-                Rotate(x.n->parent, 1);                             //4
-                x = root();                                         //4
+                w.n->color = x.n->parent->color;
+                x.n->parent->color = Color::Black;
+                w.n->child[1]->color = Color::Black;
+                Rotate(x.n->parent, 1);
+                x = root();
             }
         }
     }
