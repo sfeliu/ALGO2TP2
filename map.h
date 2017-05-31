@@ -1724,7 +1724,7 @@ public:
                 n = max(n->child[0]);
             }else{
                 Node* y = n->parent;
-                while(y != nullptr and n == y->child[0]){
+                while(y->color != Color::Header and n == y->child[0]){
                     n = y;
                     y = y->parent;
                 }
@@ -1732,6 +1732,7 @@ public:
             }
             return *this;
         }
+
         /**
          * \brief Retrocede el iterador a la posición anterior
          *
@@ -1915,14 +1916,11 @@ public:
                     n = y;
                     y = y->parent;
                 }
-                if(n == y->child[0]){
-                    n = y;
-                }else{
-                    n = y->parent;
-                }
+                n = y;
             }
             return *this;
         }
+
         /** \brief Ver aed2::map::iterator::operator++(int) */
         const_iterator operator++(int)  {
             const_iterator ret = *this;
@@ -1937,7 +1935,7 @@ public:
                 n = max(n->child[0]);
             }else{
                 Node* y = n->parent;
-                while(y != nullptr and n == y->child[0]){
+                while(y->color != Color::Header and n == y->child[0]){
                     n = y;
                     y = y->parent;
                 }
@@ -1945,6 +1943,7 @@ public:
             }
             return *this;
         }
+
         /** \brief Ver aed2::map::iterator::operator--(int) */
         const_iterator operator--(int)  {
             const_iterator ret = *this;
@@ -2284,7 +2283,7 @@ private:
         while(n->parent->color == Color::Red){
             if(n->parent == n->parent->parent->child[0]){
                 iterator y = iterator(n->parent->parent->child[1]);
-                if(not is_black(y)){//if(y.n->color == Color::Red){
+                if(not is_black(y)){
                     n->parent->color = Color::Black;
                     y.n->color = Color::Black;
                     n->parent->parent->color = Color::Red;
@@ -2306,7 +2305,7 @@ private:
                     n->parent->parent->color = Color::Red;
                     n = n->parent->parent;
                 }else{
-                    if(n == n->parent->child[0]){ //0 o 1??
+                    if(n == n->parent->child[0]){
                         n = n->parent;
                         Rotate(n,0);
                     }
