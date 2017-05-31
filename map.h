@@ -775,7 +775,7 @@ public:
      * @retval res diccionario recien construido
      *
      * \pre \aedpre{TRUE}
-     * \post \aedpost{*this =obs *other}
+     * \post \aedpost{*this \IGOBS *other}
      *
      * \complexity{\O(\COPY(\P{other}))}
      *
@@ -855,7 +855,7 @@ public:
      * \aliasing{Si res se modifica se va a modificar *this}
      *
      * \pre \aedpre{TRUE}
-     * \post \aedpost{*this =obs *other \LAND alias(res =obs this)}
+     * \post \aedpost{*this \IGOBS *other \LAND alias(res \IGOBS this)}
      *
      * \complexity{\O(\DEL(\P{*this}) \PLUS \COPY(\P{other}))}
      *
@@ -907,7 +907,7 @@ public:
      *
      * \pre \aedpre{def?(key,*this)}
      *
-     * \post \aedpost{alias(obtener(key, *this) =obs res)}
+     * \post \aedpost{alias(obtener(key, *this) \IGOBS res)}
      *
      * \complexity{\O(\LOG(\SIZE(\P{*this}) \CDOT \CMP(\P{*this}))}
      *
@@ -953,9 +953,9 @@ public:
      * \aliasing{si modificas res entonces se modifica *this}
      *
      * \pre \aedpre{*this = self}
-     * \post \aedpost{ (def?(key, self) \IMPLIES_L  alias(res =obs obtener(key,self))) \LAND
+     * \post \aedpost{ (def?(key, self) \IMPLIES_L  alias(res \IGOBS obtener(key,self))) \LAND
      *                      (\LNOT(def?(key, self)) \IMPLIES_L
-     *                  #claves(self) + 1 =obs #claves(this) \LAND  alias(res =obs obtener(key,*this)))
+     *                  #claves(self) + 1 \IGOBS #claves(this) \LAND  alias(res \IGOBS obtener(key,*this)))
      *  \LAND def?(key,*this) }
 	 *
      * \complexity{\O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}) + \a x) donde
@@ -987,7 +987,7 @@ public:
      * \aliasing{si el iterador me permite modificar, si modificas a lo que apunta res se modifica *this}
      *
      * \pre \aedpre{TRUE}
-     * \post \aedpost{this =obs coleccion(res) \LAND (def?(key, *this) \IMPLIES_L alias(PI1(siguiente(res)) =obs key))
+     * \post \aedpost{this \IGOBS coleccion(res) \LAND (def?(key, *this) \IMPLIES_L alias(PI1(siguiente(res)) \IGOBS key))
      *                        \LAND (\LNOT def?(key, *this) \IMPLIES_L alias(vacio?(siguientes(res)))}
      *
      *
@@ -1027,7 +1027,7 @@ public:
      * \aliasing{si el iterador me permite modificar, si modificas a lo que apunta res se modifica *this}
      *
      * \pre \aedpre{TRUE}
-     * \post \aedpost{this =obs coleccion(res) \LAND (def?(key, *this) \IMPLIES_L alias(PI1(siguiente(res)) =obs key))
+     * \post \aedpost{this \IGOBS coleccion(res) \LAND (def?(key, *this) \IMPLIES_L alias(PI1(siguiente(res)) \IGOBS key))
 	 *						\LAND (((\LNOT def?(key, *this) \LAND \PI1 ult(secuSuby(res)) < key) \IMPLIES_L (vacia?(siguientes(res)))
 	 *						\LAND ((\LNOT def?(key, *this) \IMPLIES_L (\PI1 siguiente(res) > key \LAND \PI1 anterior(res) < key))}
      *
@@ -1075,7 +1075,7 @@ public:
      * @retval res denota true si y solo si el diccionario está vacío
      *
      * \pre \aedpre{TRUE}
-     * \post \aedpost{res =obs (\EMPTYSET ?(claves(*this)))}
+     * \post \aedpost{res \IGOBS (\EMPTYSET ?(claves(*this)))}
      *
      * \complexity{\O(1)}
      */
@@ -1089,7 +1089,7 @@ public:
      * @retval res cantidad de valores
 	 *
      * \pre \aedpre{TRUE}
-     * \post \aedpost{res =obs #(claves(*this))}
+     * \post \aedpost{res \IGOBS #(claves(*this))}
      *
      * \complexity{\O(1)}
      */
@@ -1118,11 +1118,11 @@ public:
      * \aliasing{Si modificas a lo que apunta res se modifica *this}
      *
      *
-     *\pre \aedpre{*this =obs self}
-     * \post  \aedpost{ (def?(value.first, self) \IMPLIES_L this =obs self) \LAND
-     *                      (not(def?(value.first, self)) \IMPLIES_L this =obs definir(value.first, value.second, self))
-     *                      \LAND coleccion(res) = this \LAND #claves(self) + 1 =obs #claves(this))
-     *                      \LAND alias(siguiente(res) =obs value)}
+     *\pre \aedpre{*this \IGOBS self}
+     * \post  \aedpost{ (def?(value.first, self) \IMPLIES_L this \IGOBS self) \LAND
+     *                      (not(def?(value.first, self)) \IMPLIES_L this \IGOBS definir(value.first, value.second, self))
+     *                      \LAND coleccion(res) = this \LAND #claves(self) + 1 \IGOBS #claves(this))
+     *                      \LAND alias(siguiente(res) \IGOBS value)}
      *
      * \complexity{
      *  - Peor caso: \O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}) \PLUS \COPY(\P{value}))
@@ -1237,8 +1237,8 @@ public:
      *
      * \aliasing{Si modificas a lo que apunta res se modifica *this}
      *
-     * \pre \aedpre{*this =obs self}
-     * \post  \aedpost{ (alias(siguiente(res) =obs value))  \LAND  (colleccion(res) =obs this)
+     * \pre \aedpre{*this \IGOBS self}
+     * \post  \aedpost{ (alias(siguiente(res) \IGOBS value))  \LAND  (colleccion(res) \IGOBS this)
      *                      \LAND (definir(\PI1 value, f$\pi_1\f$ value), self)}
      *
      * \complexity{
@@ -1277,8 +1277,8 @@ public:
      * \aliasing{Todos los iteradores, salvo aquellos que apuntan a la misma posicion que pos, se mantienen validos.
      *  Aquellos iteradores que apuntan a la misma posicion que pos, quedan invalidados.}.
      *
-     * \pre \aedpre{colleccion(pos)=this \LAND \LNOT vacio?(siguientes(pos)) \LAND self =obs *this}
-     * \post \aedpost{*this =obs borrar(\PI1(siguiente(pos)), self) \LAND alias(res =obs avanzar(pos))}
+     * \pre \aedpre{colleccion(pos)=this \LAND \LNOT vacio?(siguientes(pos)) \LAND self \IGOBS *this}
+     * \post \aedpost{*this \IGOBS borrar(\PI1(siguiente(pos)), self) \LAND alias(res \IGOBS avanzar(pos))}
      *
      * \complexity{
      * - Peor caso: \O(\DEL(\P{*pos}) + \LOG(\SIZE(\P{*this})))
@@ -1352,8 +1352,8 @@ public:
      * \aliasing{Todos los iteradores, salvo aquellos que apuntan al nodo donde se encuentra key, se mantienen validos.
      *  Aquellos iteradores que apuntan al nodo donde se encuentra key, quedan invalidados.}
      *
-     * \pre \aedpre{definido?(key, *this) \LAND self =obs *this}
-     * \post \aedpost{*this=obs borrar(key, self)}
+     * \pre \aedpre{definido?(key, *this) \LAND self \IGOBS *this}
+     * \post \aedpost{*this\IGOBS borrar(key, self)}
      *
      * \complexity{\O(\DEL(\P{*pos}) + \LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}))}
      */
@@ -1438,7 +1438,7 @@ public:
      * @retval res iterador al primer valor
      *
      * \pre \aedpre{TRUE}
-     * \post \aedpost{colleccion(pos)=this \LAND res =obs prim(secuSbuy(res))}
+     * \post \aedpost{colleccion(pos)=this \LAND res \IGOBS prim(secuSbuy(res))}
      *
      * \complexity{\O(1)}
      */
@@ -1467,7 +1467,7 @@ public:
      * @retval res iterador a la posicion pasando-al-ultimo
      *
      * \pre \aedpre{TRUE}
-     * \post \aedpost{colleccion(pos)=this \LAND res =obs avanzar(ult(secuSbuy(res)))}
+     * \post \aedpost{colleccion(pos)=this \LAND res \IGOBS avanzar(ult(secuSbuy(res)))}
      *
      * \complexity{\O(1)}
      */
@@ -1496,7 +1496,7 @@ public:
      * @retval res iterador a la primer posicion en un recorrido al revés
      *
      * \pre \aedpre{TRUE}
-     * \post \aedpost{colleccion(pos)=this \LAND res =obs avanzar(ult(secuSbuy(res)))}
+     * \post \aedpost{colleccion(pos)=this \LAND res \IGOBS avanzar(ult(secuSbuy(res)))}
      *
      * \complexity{\O(1)}
      */
@@ -1525,7 +1525,7 @@ public:
      * @retval res iterador a la posicion pasando-al-ultimo, en un recorrido al revés
      *
      * \pre \aedpre{TRUE}
-     * \post \aedpost{colleccion(pos)=this \LAND res =obs prim(secuSbuy(res))}
+     * \post \aedpost{colleccion(pos)=this \LAND res \IGOBS prim(secuSbuy(res))}
      *
      * \complexity{\O(1)}
      */
@@ -1627,7 +1627,7 @@ public:
          * \aliasing{Si modificas a res se va a modificar a lo que apunta this}
          *
          * \pre \aedpre{haySiguiente?(*this)}
-         * \post \aedpost{res =obs siguiente(this)}
+         * \post \aedpost{res \IGOBS siguiente(this)}
          *
          * \complexity{\O(1)}
          */
@@ -1660,7 +1660,7 @@ public:
          * \aliasing{si el iterador me permite modificar, si modificas a lo que apunta res se modifica a lo que apunta *this}
          *
          * \pre \aedpre{haySiguiente?(*this)}
-         * \post \aedpost{res =obs avanzar(*this)}
+         * \post \aedpost{res \IGOBS avanzar(*this)}
          *
          * \complexity{
          * - Peor caso: \O(\LOG(SIZE(\a d)) donde \a d es el diccionario asociado a \P{*this}.
@@ -1689,8 +1689,8 @@ public:
          *
          * \aliasing{si el iterador me permite modificar, si modificas a lo que apunta res se modifica a lo que apunta *this}
          *
-         * \pre \aedpre{haySiguiente?(*this) \LAND *this =obs self}
-         * \post \aedpost{res =obs self \LAND avanzar(*this)}
+         * \pre \aedpre{haySiguiente?(*this) \LAND *this \IGOBS self}
+         * \post \aedpost{res \IGOBS self \LAND avanzar(*this)}
          *
          * \complexity{
          * - Peor caso: \O(\LOG(SIZE(\a d)) donde \a d es el diccionario asociado a \P{*this}.
@@ -1710,7 +1710,7 @@ public:
          * \aliasing{si el iterador me permite modificar, si modificas a lo que apunta res se modifica a lo que apunta *this}
          *
          * \pre \aedpre{hayAnterior?(*this)}
-         * \post \aedpost{res =obs retroceder(*this)}
+         * \post \aedpost{res \IGOBS retroceder(*this)}
          *
          * \complexity{
          * - Peor caso: \O(\LOG(SIZE(\a d)) donde \a d es el diccionario asociado a \P{*this}.
@@ -1740,8 +1740,8 @@ public:
          *
          * \aliasing{si el iterador me permite modificar, si modificas a lo que apunta res se modifica a lo que apunta *this}
          *
-         * \pre \aedpre{hayAnterior?(*this) \LAND *this =obs self}
-         * \post \aedpost{res =obs self \LAND retroceder(*this)}
+         * \pre \aedpre{hayAnterior?(*this) \LAND *this \IGOBS self}
+         * \post \aedpost{res \IGOBS self \LAND retroceder(*this)}
          *
          * \complexity{
          * - Peor caso: \O(\LOG(SIZE(\a d)) donde \a d es el diccionario asociado a \P{*this}.
@@ -1766,7 +1766,7 @@ public:
          * - true, cuando ambos son nulos.}
          *
          * \pre \aedpre{haySiguiente?(*this) \LAND haySiguiente?(*this)}
-         * \post \aedpost{res =obs (anteriores(*this) =obs anteriores(other) \LAND siguientes(*this) =obs siguientes(other))}
+         * \post \aedpost{res \IGOBS (anteriores(*this) \IGOBS anteriores(other) \LAND siguientes(*this) \IGOBS siguientes(other))}
          *
          * \complexity{\O(1)}
          */
@@ -1789,7 +1789,7 @@ public:
          * El iterador \P{res} queda asociado a `d` y permite modificar el significado del valor que apunte.}
          *
          * \pre \aedpre{rep_iter(n)}
-         * \post \aedpost{res \IGOBS CrearItBi(&`d`, completar, completar)}
+         * \post \aedpost{res \IGOBS CrearItBi(&`d`, completar, completar)}//preguntar
          *
          * \complexity{\O(1)}
          *
@@ -1885,10 +1885,10 @@ public:
          * @param it iterator a "transformar"
          * @retval res iterator creado en la transformación
          *
-         * \aliasing{completar}
+         * \aliasing{it y *this apuntan al mismo nodo. Pero *this no puede modificar a lo que apunta.}
          *
-         * \pre \aedpre{completar}
-         * \post \aedpost{completar}
+         * \pre \aedpre{TRUE}
+         * \post \aedpost{*this \IGOBS it}
          *
          * \complexity{\O(1)}
          */
@@ -2388,8 +2388,9 @@ private:
  * @param m2 diccionario a comparar
  * @retval res true si los diccionarios son iguales
  *
- * \pre \aedpre{completar}
- * \post \aedpost{completar}
+ * \pre \aedpre{TRUE}
+ * \post \aedpost{res \IGOBS (m1 \IGOBS m2) ((\FORALL c:Key)(def?(c, m1) \IGOBS def?(c, m2)) \LAND_L (def?(c, m1) \IMPLIES_L (obtener?(c, m1) \IGOBS obtener(c, m2))))}
+ *                                                                      //preguntar
  *
  * \complexity{ \O((\SIZE(m1) + \SIZE(m2)) \CDOT (\CMP(m1) + \CMP(m2)))}
  *
@@ -2427,8 +2428,8 @@ bool operator!=(const map<K, V, C>& m1, const map<K, V, C>& m2) {
  * @param m2 diccionario a comparar
  * @retval res true si m1 es menor a m2 en el orden lexicografico
  *
- * \pre \aedpre{completar}
- * \post \aedpost{completar}
+ * \pre \aedpre{TRUE}
+ * \post \aedpost{res \IGOBS (m1 < m2) ()}
  *
  * \complexity{ \O((\SIZE(m1) + \SIZE(m2)) \CDOT (\CMP(m1) + \CMP(m2)))}
  *
