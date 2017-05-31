@@ -1045,7 +1045,7 @@ public:
             if(not lt(it.n->key(), key) and not lt(key, it.n->key())){
                 return it;
             }else{
-                if(it.n->key() < key){
+                if(lt(it.n->key(), key)){
                     if(it.n->child[1] == nullptr) {
                         return ++it;
                     }else{
@@ -1142,7 +1142,7 @@ public:
                 count++;
                 return nuevo;
             }
-            if(header.child[1]->key() < value.first){
+            if(lt(header.child[1]->key(), value.first)){
                 iterator nuevo = iterator(new InnerNode(header.child[1],value));
                 header.child[1]->child[1] = nuevo.n;
                 header.child[1] = nuevo.n;
@@ -1152,11 +1152,11 @@ public:
             }
             hint++;
         }
-        if(hint.n->value().first == value.first) {
+        if(eq(hint.n->value().first, value.first)){
             iterator it = iterator(const_cast<Node*>(hint.n));
             return it;
         }
-        if(hint.n->key() > value.first){
+        if(lt(value.first, hint.n->key())){
             if(hint.n->child[0] == nullptr){
                 iterator nuevo = iterator(new InnerNode(const_cast<Node*>(hint.n), value));
                 if(hint == begin()){
@@ -1167,7 +1167,7 @@ public:
                 count++;
                 return nuevo;
             }else {
-                if(hint--.n->key() < value.first){
+                if(lt(hint--.n->key(), value.first)){
                     iterator nuevo = iterator(new InnerNode(hint.n->child[1], value));
                     const_cast<Node*>(hint.n)->child[1] = nuevo.n;
                     insertFixUp(nuevo.n);
@@ -1199,14 +1199,14 @@ public:
             if(not lt(actual.n->value().first, value.first) and not lt(value.first, actual.n->value().first)){
                 return actual;
             }
-            if(value.first < actual.n->value().first){
+            if(lt(value.first, actual.n->value().first)){
                 actual = actual.n->child[0];
             }else{
                 actual = actual.n->child[1];
             }
         }
         iterator nuevo = iterator(new InnerNode(padre.n,value));
-        if(value < padre.n->value()) {
+        if(lt(value.first, padre.n->key())){
             padre.n->child[0] = nuevo.n;
             if(begin() == padre){
                 header.child[0] = nuevo.n;
