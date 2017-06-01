@@ -2276,7 +2276,7 @@ private:
      * \par Invariante de representacion
 	 * \parblock
 	 * rep: map \TO bool\n
-	 * * rep(m) \EQUIV (forall m : map) ( (E k in nat)() arbolK(map.header->parent,k) = arbolK(map.header->parent,k+1) ) \LAND_L sinRepetidos(map.header->parent) \LAND cant(map.header->parent) = count \LAND esADB(map.header->parent) \LAND
+	 * rep(m) \EQUIV (forall m : map) ( (E k in nat)() arbolK(map.header->parent,k) = arbolK(map.header->parent,k+1) ) \LAND_L sinRepetidos(map.header->parent) \LAND cant(map.header->parent) = count \LAND esADB(map.header->parent) \LAND
 	 * esta?(*p,map.header->parent) \IMPLIES_L colorAdecuado(p) \LAND (esHoja(p)\IMPLIES_L (forall p':puntero(Node)=>_{L} cantBlack(p)=cantBlack(p')))
 	 * \endparblock
 	 *
@@ -2314,6 +2314,7 @@ private:
     inline const InnerNode* root() const { return static_cast<const InnerNode*>(header.parent); }
 	//@}
 
+    //@{
 	/////////////////////////////////
 	/** \name Funciones auxiliares */
 	/////////////////////////////////
@@ -2458,6 +2459,7 @@ private:
     }
 
 };
+//@}
 
 //////////////////////////////////////
 /** \name Operadores de comparación */
