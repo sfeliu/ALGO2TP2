@@ -1,0 +1,37 @@
+para el invariante de rep de iterador:
+1)  esRedBlack(header) = = TRUE
+2) hayHader(it.Nodo) == TRUE  ????? (básicamente un auxiliar booleano que dice que con una cantidad finita de iteraciones NODO->parent se alcanza el reader)
+3) EsPermutacion(SecuSuby(it.nodo), abToSecu()) ??Abs???
+
+Auxiliares explicados en castellano:
+
+insertFixUp
+La función de inserción acude a este auxiliar para arreglar posibles violaciones del invariante de representación de la estructura del árbol Red-Black al insertar un nuevo nodo. El parámetro de entrada es un puntero al nodo insertado por la función insertar. La función tiene un ciclo que abarca tres casos. En el primer caso si el padre del nodo pasado como parámetro es rojo y su tío también entonces se invierten los colores del padre, el abuelo y el tío, y el nodo con el que se itera pasa a ser el abuelo.El segundo caso siempre lleva al caso tres. En el segundo caso si el nodo con el que se itera  es hijo derecho entonces el nodo pasa a ser su padre y se hace una rotación. Si el nodo es hijo izquierdo entonces es una rotación derecha sino es rotación izquierda(rotación es explica en Rotate). En el tercer caso se invierten los colores del padre y el abuelo y si en el caso dos el padre es hijo derecho entonces se hace una rotación derecha sino una rotación izquierda. Mientras que el padre de nodo sea rojo el ciclo sigue iterando. 
+
+
+
+Rotate
+La función insertFixUp llama a esta función para hacer rotaciones del nodo pasado como parámetro con fines de restaurar el invariante de representación del árbol Red-Black después de una inserción. Esta función también toma como parámetro un entero que tiene que ser 1 o 0. Si este numero es 0 entonces es una rotacion derecha, es decir el nodo pasada como parámetro pasa a ser el hijo derecho del nodo que solía ser su hijo izquierdo y el hijo derecho del hijo izquierdo del nodo pasado como parámetro pasa a ser hijo  izquierdo del nodo pasado como parámetro. Si el numero es 1, entonces la descripción es la misma pero invirtiendo la palabra izquierda por derecha y derecha por izquierda.
+
+transplant
+Los parametro de esta función son dos punteros a nodos, ?viejo? y ?nuevo?, que tienen que ser no nulos. Esta función hace que el padre del nodo ?viejo? pase a ser el padre del nodo ?nuevo? y que el padre del nodo ?viejo? pase a tener de hijo al nodo ?nuevo?. En el caso de que el ?viejo? sea la raíz del árbol el header pasa a tener al ?nuevo? como padre y el ?nuevo? pasa a tener como padre al header. 
+
+is_black
+Función booleana que devuelve true si y solo si el nodo pasado como pareamtro tiene color negro o si es nullpointer. El parámetro de entrada no tiene precondiciones.
+
+
+
+
+minimo: conj(key) c \TIMES Key k \TO key  {k \IN c}
+
+minimo(c,k) \EQUIV \IF \EMPTYSET(c) \THEN k \ELSE \IF  k \LT dameUno(c) \THEN minimo(sinUno(c),k)
+\ELSE minimo(sinUno(c) ,dameUno(c))
+
+menorLexico: conj(key) \TIMES conj(key) \TO bool
+
+menorLexico(c1 ,c2) \EQUIV \IF \EMPTYSET(c2) \THEN false \ELSE \IF \EMPTYSET(c1) \THEN true \ELSE \IF minimo(c1,dameUno(c1)) = minimo (c2, dameUno(c2)) \THEN menorLexicografico(c1 \MINUS {minimo(c1,dameUno(c1))}, c2 \MINUS {minimo (c2, dameUno(c2))} )  \ELSE minimo(c1,dameUno(c1)) \LT minimo(c2,dameUno(c2))
+
+
+
+
+
