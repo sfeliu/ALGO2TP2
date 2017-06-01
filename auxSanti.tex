@@ -1,0 +1,15 @@
+
+deleteFixUp:
+
+En esta funcion se recibe un parametro:'nodo' de tipo puntero a nodo, la cual viene derivada del erase. Se trata de implementar el FixUp del cormen, donde 'nodo' modifica su lugar y este puede llegar a romper el invariante RB-Tree, tanto como que la raiz no sea negra, que cada nodo rojo tenga hijo rojo, o que todos los caminos tengan distinta cantidad de nodos negros. El primer problema lo arregla si no entra en el ciclo ya que seria que la raiz es roja, entonces luego se le modifica el color. Si entra en el ciclo tiene dos casos particulares que dependen de si 'nodo' es hijo derecho o izquierdo de su padre, esto se ve en mas detalle en el deleteFixUpAux. 
+
+deleteFixUpAux:
+
+
+Esta funcion recive dos parametros:puntero(nodo)'nodo' e int:'i' este ultimo solo avisa si 'nodo' es hijo derecho o izquierdo de su padre. Aqui se compara al nodo con su 'hermano': 
+primer caso: Chequea si 'hermano' es rojo, si lo es le cambia el color a el y a su padre y luego los rota, cambiando asi al hermano de nodo por el que era hijo izquierdo de 'hermano', luego continua con los otros casos.
+segundo caso: Si 'hermano' es negro y sus hijos tambien lo cambia de color, luego 'nodo' pasa a ser su padre y vuelve a iniciar el ciclo.
+Si no se utiliza el segundo caso se sabe que 'hermano' es negro y que tiene al menos un hijo rojo
+tercer caso: Si nos encontramos aca se sabe que el hijo derecho de 'hermano' es negro, por lo tanto su hijo izquierdo sera negro. Para solucionarlo a 'hermano' se le cambia de color y se lo rota con su hijo izquierdo, el cual es negro y queda como nuevo 'hermano', luego pasa al cuarto caso.
+cuarto caso: Queda un ultimo caso posible, donde 'hermano' es negro y su hijo izquierdo es rojo, por lo tanto le modifica el color a 'hermano' y al padre, y luego los rota, quedando asi ya solucionado el invariante.
+Esta funcion modifica el arbol de tal forma que se siga cumpliendo el invariante.
