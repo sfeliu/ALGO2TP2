@@ -2314,7 +2314,6 @@ private:
     inline const InnerNode* root() const { return static_cast<const InnerNode*>(header.parent); }
 	//@}
 
-    //@{
 	/////////////////////////////////
 	/** \name Funciones auxiliares */
 	/////////////////////////////////
@@ -2459,7 +2458,6 @@ private:
     }
 
 };
-//@}
 
 //////////////////////////////////////
 /** \name Operadores de comparación */
