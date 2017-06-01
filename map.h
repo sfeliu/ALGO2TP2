@@ -2330,6 +2330,7 @@ private:
                 deleteFixUpAux(x.n, 1);
             }
         }
+        x.n->color = Color::Black;
     }
 
     void deleteFixUpAux(Node* nodo, int i){
