@@ -299,6 +299,14 @@ ALIASES += refax{1}="<a href=\"axiomas.html#\1\">\1</a>"
 #Por cada axioma, escribir como en el ejemplo
 ALIASES += primeros="\refax{primeros}"
 ALIASES += esDiccionario="\refax{esDiccionario?}"
+ALIASES += cantidadDeElementos=\"refax{cantidadDeElementos}"
+ALIASES += esADB="\refax{esADB}"
+ALIASES += esHoja="\refax{esHoja}"
+ALIASES += colorAdecuado="\refax{colorAdecuado}"
+ALIASES += cantBlack="\refax{cantBlack}"
+ALIASES += arbolK="\refax{arbolK}"
+ALIASES += esta?="\refax{esta?}"
+ALIASES += sinRepetidos="\refax{sinRepetidos}"
 
 
 # This tag can be used to specify a number of word-keyword mappings (TCL only).

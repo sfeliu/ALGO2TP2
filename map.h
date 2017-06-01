@@ -556,6 +556,42 @@
  *
  * Se muestran algunos ejemplos a continuación.
  *
+ * \par cantidadDeElementos
+ * \parblock
+ * devuelve la cantidad de elementos que tiene el diccionario
+ * 
+ * \axioma{cantidadDeElementos}: puntero(Node) \TO nat\n
+ * cantidadDeElementos(p) \EQUIV \IF p = null then 0 \ELSE 1 + cantidadDeElementos(p->child[0]) +cantidadDeElementos(p->child[1])
+ * \endblock	
+ * 
+ * \par esADB
+ * \parblock
+ * devuelve una bool indicando si el arbol tiene una relacion de orden total (cada nodo con sus hijos)
+ *
+ * \axioma{esADB}: puntero(Node) \TO bool\n
+ * esADB(p) \EQUIV \IF p = null then true 
+ * \ELSEIF (¬(p->child[0]=null) \LAND_L \PI1 (p->child[0]->value)) \LOR_L (¬(p->child[1]=null) \LAND_L \PI1 (p->child[1]->value)) then true
+ * \ELSE esADB(p->child[0]) \LAND_L esADB(p->child[1])
+ * \endparblock
+ *	
+ * \par cantBlack
+ * \parblock
+ * dado un puntero nod, devuelve la cantidad de nodos negros hay hasta llegar al root
+ *
+ * \axioma[cantBlack]: puntero(Node) \TO nat\n
+ * cantBlack(p) \EQUIV \IF p = null then 0 \ELSEIF p = p->parent->parent  then 1 
+ * \ELSEIF p->color = black then 1 + cantblack(p->parent) \ELSE cantBlack(p->parent)
+ * \endparblock
+ *
+ * \par colorAdecuado
+ * \parblock
+ * devuelve un bool que indica si el y los nodos padres, respetan el invariante de coloreo del rb-tree
+ *
+ * \axioma{colorAdecuado}: puntero(Node) \TO bool\n
+ * colorAdecuado(p) \EQUIV \IF p = null then true \ELSEIF p = p->parent->parent \LAND p->color = black then true 
+ * \ELSEIF (p->color = red and p->parent->color = black) \LOR (p->color = black and p->parent->color = black) then true else false
+ * \endparblock
+ *
  * \par esDiccionario?
  * \parblock
  * Retorna true si la secuencia representa un diccionario
