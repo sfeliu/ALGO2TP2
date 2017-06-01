@@ -562,7 +562,7 @@
  * 
  * \axioma{cantidadDeElementos}: puntero(Node) \TO nat\n
  * cantidadDeElementos(p) \EQUIV \IF p = null \THEN 0 \ELSEIF nothing?(p->value) \THEN cantidadDeElementos(p->parent) \n \ELSE 1 + \cantidadDeElementos(p->child[0]) + \cantidadDeElementos(p->child[1])
- * \endblock	
+ * \endparblock	
  * 
  * \par esADB
  * \parblock
@@ -611,6 +611,7 @@
  * \endparblock
  *
  * \par sinRepetidos
+ * \parblock
  * devuelve true si no hay elementos repetidos en el arbol/diccionario
  *
  * \axioma{sinRepetidos}: secu(Key) \TO bool\n
@@ -624,6 +625,7 @@
  * \axioma{headerToSecu}: puntero(Node) \TO secu(Key)\n
  * headerToSecu(p) \EQUIV \IF p = null \THEN < > \ELSEIF nothing?(p->value) \THEN headerToSecu(p->parent)
  * \n \ELSE \PI1(p->value) o headerToSecu(p->child[0]) & headerToSecu(p->child[1])
+ * \endparblock
  *
  * \par arbolK
  * \parblock 
