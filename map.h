@@ -8,7 +8,7 @@
  * - Santiago Feliu (santiagofeliu@hotmail.com)
  * - Gianfranco Bogetti (gianbogetti7@hotmail.com)
  * - Pablo Ingaramo (pablo2martin@Hotmail.com)
- * - Nombre y Apellido (mail)
+ * - Kennedy Williams Rios Cuba (Kennedy.wrc@hotmail.com)
  *
  * Algoritmos y Estructuras de Datos II -- FCEN -- UBA.
  */
