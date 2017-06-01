@@ -578,7 +578,7 @@
  * \parblock
  * dado un puntero nod, devuelve la cantidad de nodos negros hay hasta llegar al root
  *
- * \axioma[cantBlack]: puntero(Node) \TO nat\n
+ * \axioma{cantBlack}: puntero(Node) \TO nat\n
  * cantBlack(p) \EQUIV \IF p = null \THEN 0 \ELSEIF nothing?(p->value) \THEN 0
  * \ELSEIF p = p->parent->parent  \THEN 1 
  * \ELSEIF p->color = black \THEN 1 + \cantblack(p->parent) \ELSE \cantBlack(p->parent)
@@ -844,7 +844,7 @@ public:
      * @param c comparador (functor de orden) a utilizar
      * @retval res diccionario recién construido
      *
-     * \pre \aedpre{TRUE}
+     * \pre \aedpre{true}
      * \post \aedpost{*this \IGOBS vacio}
      *
      * \complexity{\O(1)}
@@ -863,7 +863,7 @@ public:
      * @param other diccionario a copiar
      * @retval res diccionario recien construido
      *
-     * \pre \aedpre{TRUE}
+     * \pre \aedpre{true}
      * \post \aedpost{*this \IGOBS *other}
      *
      * \complexity{\O(\COPY(\P{other}))}
@@ -943,7 +943,7 @@ public:
      *
      * \aliasing{Si res se modifica se va a modificar *this}
      *
-     * \pre \aedpre{TRUE}
+     * \pre \aedpre{true}
      * \post \aedpost{*this \IGOBS *other \LAND alias(res \IGOBS this)}
      *
      * \complexity{\O(\DEL(\P{*this}) \PLUS \COPY(\P{other}))}
@@ -959,11 +959,10 @@ public:
      * @brief Destructor
      *
      *
-     * \aliasing{Se invalidan todos los iteradores asociados a \P{*this}, con excepcion de aquellos que apuntan
-     * a la posicion pasando-el-ultimo}
+     * \aliasing{Se invalidan todos los iteradores asociados a \P{*this}, con excepcion de aquellos que apuntan a la posicion pasando-el-ultimo}
      *
-     * \pre \aedpre{TRUE}
-     * \post \aedpost{*this \IGOBS vacio}
+     * \pre \aedpre{true}
+     * \post \aedpost{true}
      *
      * \complexity{\O(\DEL(\P{*this}))}
      *
@@ -1045,7 +1044,7 @@ public:
      * \post \aedpost{ (def?(key, self) \IMPLIES_L  alias(res \IGOBS obtener(key,self))) \LAND
      *                      (\LNOT(def?(key, self)) \IMPLIES_L
      *                  #claves(self) + 1 \IGOBS #claves(this) \LAND  alias(res \IGOBS obtener(key,*this)))
-     *  \LAND def?(key,*this) }
+     *  \LAND def?(key,*this)}
 	 *
      * \complexity{\O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}) + \a x) donde
      * - \a x = 1 si def?(\a self, \P{key}), y
@@ -1075,10 +1074,9 @@ public:
      *
      * \aliasing{si el iterador me permite modificar, si modificas a lo que apunta res se modifica *this}
      *
-     * \pre \aedpre{TRUE}
+     * \pre \aedpre{true}
      * \post \aedpost{this \IGOBS coleccion(res) \LAND (def?(key, *this) \IMPLIES_L alias(PI1(siguiente(res)) \IGOBS key))
      *                        \LAND (\LNOT def?(key, *this) \IMPLIES_L alias(vacio?(siguientes(res)))}
-     *
      *
      * \complexity{\O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}))}
      *
@@ -1115,7 +1113,7 @@ public:
      *
      * \aliasing{si el iterador me permite modificar, si modificas a lo que apunta res se modifica *this}
      *
-     * \pre \aedpre{TRUE}
+     * \pre \aedpre{true}
      * \post \aedpost{this \IGOBS coleccion(res) \LAND (def?(key, *this) \IMPLIES_L alias(PI1(siguiente(res)) \IGOBS key))
 	 *						\LAND (((\LNOT def?(key, *this) \LAND \PI1 ult(secuSuby(res)) < key) \IMPLIES_L (vacia?(siguientes(res)))
 	 *						\LAND ((\LNOT def?(key, *this) \IMPLIES_L (\PI1 siguiente(res) > key \LAND \PI1 anterior(res) < key))}
@@ -1163,7 +1161,7 @@ public:
      *
      * @retval res denota true si y solo si el diccionario está vacío
      *
-     * \pre \aedpre{TRUE}
+     * \pre \aedpre{true}
      * \post \aedpost{res \IGOBS (\EMPTYSET ?(claves(*this)))}
      *
      * \complexity{\O(1)}
@@ -1177,7 +1175,7 @@ public:
      *
      * @retval res cantidad de valores
 	 *
-     * \pre \aedpre{TRUE}
+     * \pre \aedpre{true}
      * \post \aedpost{res \IGOBS #(claves(*this))}
      *
      * \complexity{\O(1)}
@@ -1327,8 +1325,7 @@ public:
      * \aliasing{Si modificas a lo que apunta res se modifica *this}
      *
      * \pre \aedpre{*this \IGOBS self}
-     * \post  \aedpost{ (alias(siguiente(res) \IGOBS value))  \LAND  (colleccion(res) \IGOBS this)
-     *                      \LAND (definir(\PI1 value, f$\pi_1\f$ value), self)}
+     * \post  \aedpost{(alias(siguiente(res) \IGOBS value)) \LAND (colleccion(res) \IGOBS this) \LAND (definir(\PI1 value, \PI1 value), self)}
      *
      * \complexity{
      *  - Peor caso: \O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}) \PLUS \COPY(\P{value}))
@@ -1364,7 +1361,7 @@ public:
      * @retval res iterador apuntando al primer valor con clave mayor a \P{pos} (o \P{this}->end(), si dicho valor no existe).
      *
      * \aliasing{Todos los iteradores, salvo aquellos que apuntan a la misma posicion que pos, se mantienen validos.
-     *  Aquellos iteradores que apuntan a la misma posicion que pos, quedan invalidados.}.
+     *  Aquellos iteradores que apuntan a la misma posicion que pos, quedan invalidados.}
      *
      * \pre \aedpre{colleccion(pos)=this \LAND \LNOT vacio?(siguientes(pos)) \LAND self \IGOBS *this}
      * \post \aedpost{*this \IGOBS borrar(\PI1(siguiente(pos)), self) \LAND alias(res \IGOBS avanzar(pos))}
@@ -1430,9 +1427,6 @@ public:
         return proximo;
     }
 
-
-
-
     /**
      * @brief Elimina el valor cuya clave es \P{key}
      *
@@ -1457,7 +1451,7 @@ public:
      * \aliasing{Se invalidan todos los iteradores asociados a \P{*this}, con excepcion de aquellos que apuntan
      * a la posicion pasando-el-ultimo.}
      *
-     * \pre \aedpre{TRUE}
+     * \pre \aedpre{true}
      * \post \aedpost{\P{*this} \IGOBS vacio}
      *
      * \complexity{\O(\DEL(\P{*this}))}
@@ -1526,7 +1520,7 @@ public:
      *
      * @retval res iterador al primer valor
      *
-     * \pre \aedpre{TRUE}
+     * \pre \aedpre{true}
      * \post \aedpost{colleccion(pos)=this \LAND res \IGOBS prim(secuSbuy(res))}
      *
      * \complexity{\O(1)}
@@ -1555,7 +1549,7 @@ public:
      *
      * @retval res iterador a la posicion pasando-al-ultimo
      *
-     * \pre \aedpre{TRUE}
+     * \pre \aedpre{true}
      * \post \aedpost{colleccion(pos)=this \LAND res \IGOBS avanzar(ult(secuSbuy(res)))}
      *
      * \complexity{\O(1)}
@@ -1584,7 +1578,7 @@ public:
      *
      * @retval res iterador a la primer posicion en un recorrido al revés
      *
-     * \pre \aedpre{TRUE}
+     * \pre \aedpre{true}
      * \post \aedpost{colleccion(pos)=this \LAND res \IGOBS avanzar(ult(secuSbuy(res)))}
      *
      * \complexity{\O(1)}
@@ -1613,7 +1607,7 @@ public:
      *
      * @retval res iterador a la posicion pasando-al-ultimo, en un recorrido al revés
      *
-     * \pre \aedpre{TRUE}
+     * \pre \aedpre{true}
      * \post \aedpost{colleccion(pos)=this \LAND res \IGOBS prim(secuSbuy(res))}
      *
      * \complexity{\O(1)}
@@ -1976,7 +1970,7 @@ public:
          *
          * \aliasing{it y *this apuntan al mismo nodo. Pero *this no puede modificar a lo que apunta.}
          *
-         * \pre \aedpre{TRUE}
+         * \pre \aedpre{true}
          * \post \aedpost{*this \IGOBS it}
          *
          * \complexity{\O(1)}
@@ -2222,7 +2216,6 @@ private:
         	assert(not is_header());
         	return value().first;
         }
-
         //@}
 
 #ifdef DEBUG
@@ -2456,7 +2449,6 @@ private:
             return n->color == Color::Black;
         }
     }
-
 };
 
 //////////////////////////////////////
@@ -2478,7 +2470,7 @@ private:
  * @param m2 diccionario a comparar
  * @retval res true si los diccionarios son iguales
  *
- * \pre \aedpre{TRUE}
+ * \pre \aedpre{true}
  * \post \aedpost{res \IGOBS (m1 \IGOBS m2)}
  *
  * \complexity{ \O((\SIZE(m1) + \SIZE(m2)) \CDOT (\CMP(m1) + \CMP(m2)))}
@@ -2517,7 +2509,7 @@ bool operator!=(const map<K, V, C>& m1, const map<K, V, C>& m2) {
  * @param m2 diccionario a comparar
  * @retval res true si m1 es menor a m2 en el orden lexicografico
  *
- * \pre \aedpre{TRUE}
+ * \pre \aedpre{true}
  * \post \aedpost{res \IGOBS completar}
  *
  * \complexity{ \O((\SIZE(m1) + \SIZE(m2)) \CDOT (\CMP(m1) + \CMP(m2)))}
