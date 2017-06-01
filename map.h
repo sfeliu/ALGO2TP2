@@ -8,7 +8,7 @@
  * - Santiago Feliu (santiagofeliu@hotmail.com)
  * - Gianfranco Bogetti (gianbogetti7@hotmail.com)
  * - Pablo Ingaramo (pablo2martin@Hotmail.com)
- * - Nombre y Apellido (mail)
+ * - Kennedy Williams Rios Cuba (Kennedy.wrc@hotmail.com)
  *
  * Algoritmos y Estructuras de Datos II -- FCEN -- UBA.
  */
@@ -2274,8 +2274,8 @@ private:
      * \par Invariante de representacion
 	 * \parblock
 	 * rep: map \TO bool\n
-	 * rep(m) \EQUIV (forall m : map) ( (E k in nat)() arbolK(map.header->parent,k) =  ) \LAND_L sinRepetidos(map.header->parent) \LAND cant(map.header->parent) = count \LAND esADB(map.header->parent) \LAND 
-	 *				esta?(*p,map.header->parent) \IMPLIES_L colorAdecuado(p) \LAND (esHoja(p)\IMPLIES_L (forall p':puntero(Node)=>_{L} cantBlack(p)=cantBlack(p')))
+	 * * rep(m) \EQUIV (forall m : map) ( (E k in nat)() arbolK(map.header->parent,k) = arbolK(map.header->parent,k+1) ) \LAND_L sinRepetidos(map.header->parent) \LAND cant(map.header->parent) = count \LAND esADB(map.header->parent) \LAND
+	 * esta?(*p,map.header->parent) \IMPLIES_L colorAdecuado(p) \LAND (esHoja(p)\IMPLIES_L (forall p':puntero(Node)=>_{L} cantBlack(p)=cantBlack(p')))
 	 * \endparblock
 	 *
 	 * \par Función de abstracción
