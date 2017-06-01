@@ -1,0 +1,128 @@
+En esta pagina, y por conveniencia, se listan todos los axiomas y proposiciones auxiliares requeridos para formalizar los invariantes de representación y las funciones de abstracción. Previamente se presentan los renombres de los tipos usados.
+
+\begin{DoxyParagraph}{Renombres de tipos}
+
+\end{DoxyParagraph}
+
+\begin{DoxyItemize}
+\item Node es tupla(child\+: arreglo\mbox{[}2\mbox{]} de puntero(\+Node), parent\+: puntero(\+Node), color\+: Color, value\+: Value)
+\item Value es Maybe(value\+\_\+type)
+\item value\+\_\+type es tupla(clave\+: Key, significado\+: Meaning)
+\end{DoxyItemize}
+
+El T\+AD Maybe( $\alpha$) representa un tipo $\alpha$ extendido con un valor nulo. En otras palabras, el T\+AD Maybe se puede usar para representar los valores de los nodos, donde el nodo cabecera no tiene valor y los nodos internos sí tienen valor. (Esto independientemente de si se implementa con herencia o con un puntero o de otra forma.) Tiene dos observadores\+:
+\begin{DoxyItemize}
+\item nothing?(x)\+: que indica si x tiene un valor nulo, y
+\item data(x)\+: que devuelve el valor de x, suponiendo que no es inválido.
+\end{DoxyItemize}
+
+La especificación de este T\+AD queda como ejercicio (no obligatorio).\hypertarget{axiomas_sec-Axiomas}{}\subsection{Axiomas y proposiciones auxiliares}\label{axiomas_sec-Axiomas}
+En esta sección se deben incluir todos los axiomas y proposiciones auxiliares que se usen para describir los invariantes de representación, las funciones de abstracción, las precondiciones y las postcondiciones.
+
+\begin{DoxyRemark}{Comentarios}
+Recordar incluir un alias en el archivo doxyfile a fin de poder referenciar automaticamente a cada axioma desde las otras páginas.
+\end{DoxyRemark}
+Se muestran algunos ejemplos a continuación.
+
+\begin{DoxyParagraph}{cantidad\+De\+Elementos}
+devuelve la cantidad de elementos que tiene el diccionario
+
+cantidad\+De\+Elementos\+: puntero(\+Node) $\to$ nat~\newline
+ cantidad\+De\+Elementos(p) $\equiv$ {\bfseries if} p = null {\bfseries then} 0  nothing?(p-\/$>$value) {\bfseries then} cantidad\+De\+Elementos(p-\/$>$parent) ~\newline
+ {\bfseries else} 1 + \href{axiomas.html#cantidadDeElementos}{\tt cantidad\+De\+Elementos}(p-\/$>$child\mbox{[}0\mbox{]}) + \href{axiomas.html#cantidadDeElementos}{\tt cantidad\+De\+Elementos}(p-\/$>$child\mbox{[}1\mbox{]}) 
+\end{DoxyParagraph}
+
+
+\begin{DoxyParagraph}{es\+A\+DB}
+devuelve una bool indicando si el arbol tiene una relacion de orden total (cada nodo con sus hijos)
+
+es\+A\+DB\+: puntero(\+Node) $\to$ bool~\newline
+ es\+A\+D\+B(p) $\equiv$ {\bfseries if} p = null {\bfseries then} true  nothing?(p-\/$>$value) {\bfseries then} es\+A\+DB(p-\/$>$parent)  (¬(p-\/$>$child\mbox{[}0\mbox{]}=null) $\land_{\rm L}$ $\pi_1$ (p-\/$>$child\mbox{[}0\mbox{]}-\/$>$value)) $\lor_{\rm L}$ (¬(p-\/$>$child\mbox{[}1\mbox{]}=null) $\land_{\rm L}$ $\pi_1$ (p-\/$>$child\mbox{[}1\mbox{]}-\/$>$value)) {\bfseries then} true ~\newline
+ {\bfseries else} \href{axiomas.html#esADB}{\tt es\+A\+DB}(p-\/$>$child\mbox{[}0\mbox{]}) $\land_{\rm L}$ \href{axiomas.html#esADB}{\tt es\+A\+DB}(p-\/$>$child\mbox{[}1\mbox{]}) 
+\end{DoxyParagraph}
+
+
+\begin{DoxyParagraph}{cant\+Black}
+dado un puntero nod, devuelve la cantidad de nodos negros hay hasta llegar al root
+
+cant\+Black\+: puntero(\+Node) $\to$ nat~\newline
+ cant\+Black(p) $\equiv$ {\bfseries if} p = null {\bfseries then} 0  nothing?(p-\/$>$value) {\bfseries then} 0  p = p-\/$>$parent-\/$>$parent {\bfseries then} 1  p-\/$>$color = black {\bfseries then} 1 + (p-\/$>$parent) {\bfseries else} \href{axiomas.html#cantBlack}{\tt cant\+Black}(p-\/$>$parent) 
+\end{DoxyParagraph}
+
+
+\begin{DoxyParagraph}{color\+Adecuado}
+devuelve un bool que indica si el y el padre, respetan el invariante de coloreo del rb-\/tree
+
+color\+Adecuado\+: puntero(\+Node) $\to$ bool~\newline
+ color\+Adecuado(p) $\equiv$ {\bfseries if} p = null {\bfseries then} true  nothing?(p-\/$>$value) $\land$ p-\/$>$color = H\+E\+A\+D\+ER ~\newline
+ {\bfseries then} true  p = p-\/$>$parent-\/$>$parent $\land$ p-\/$>$color = black {\bfseries then} true ~\newline
+  (p-\/$>$color = red and p-\/$>$parent-\/$>$color = black) $\lor$ (p-\/$>$color = black and p-\/$>$parent-\/$>$color = black) {\bfseries then} true {\bfseries else} false 
+\end{DoxyParagraph}
+
+
+\begin{DoxyParagraph}{es\+Hoja}
+devuelve true si el nodo es hoja
+
+es\+Hoja\+: puntero(\+Node) $\to$ bool~\newline
+ es\+Hoja(p) $\equiv$ {\bfseries if} p = null {\bfseries then} false  nothing?(p-\/$>$value) {\bfseries then} false  p-\/$>$child\mbox{[}0\mbox{]} = null $\lor$ p-\/$>$child\mbox{[}1\mbox{]} = null {\bfseries then} true else false 
+\end{DoxyParagraph}
+
+
+\begin{DoxyParagraph}{esta?}
+devuele true si el elemento pertenece al (arbol/diccionario)
+
+esta?\+: puntero(\+Node) x puntero(\+Node) $\to$ bool~\newline
+ esta?(p1,p2) $\equiv$ $\ast$p1 en elementos(p2) 
+\end{DoxyParagraph}
+
+
+\begin{DoxyParagraph}{sin\+Repetidos}
+devuelve true si no hay elementos repetidos en el arbol/diccionario
+
+sin\+Repetidos\+: secu(\+Key) $\to$ bool~\newline
+ sin\+Repetidos(sec) $\equiv$ if vacia?(sec) {\bfseries then} true  esta?(prim(sec),fin(sec)) {\bfseries then} false {\bfseries else} sin\+Repetidos(fin(sec)) 
+\end{DoxyParagraph}
+
+
+\begin{DoxyParagraph}{header\+To\+Secu}
+dado un puntero a nodo te devuelve una secuencia de Key
+
+header\+To\+Secu\+: puntero(\+Node) $\to$ secu(\+Key)~\newline
+ header\+To\+Secu(p) $\equiv$ {\bfseries if} p = null {\bfseries then} $<$ $>$  nothing?(p-\/$>$value) {\bfseries then} header\+To\+Secu(p-\/$>$parent) ~\newline
+ {\bfseries else} $\pi_1$(p-\/$>$value) o header\+To\+Secu(p-\/$>$child\mbox{[}0\mbox{]}) \& header\+To\+Secu(p-\/$>$child\mbox{[}1\mbox{]}) 
+\end{DoxyParagraph}
+
+
+\begin{DoxyParagraph}{arbolK}
+devuelve un arbol cantidad de niveles igual a K (arbol de cardinal finito)
+
+arbolK\+: puntero(\+Node) x nat $\to$ A\+B(puntero(\+Nodo))~\newline
+ arbol\+K(p) $\equiv$ {\bfseries if} n = 0 {\bfseries then} Bin(nil , p , nil) else bin(arbolK(p-\/$>$child\mbox{[}0\mbox{]} , n-\/1) , p , arbolK(p-\/$>$child\mbox{[}1\mbox{]} , n-\/1)) ~\newline
+ arbol\+K(p) $\equiv$ {\bfseries if} p = null {\bfseries then} bin(nil,nil,nil)  nothing?(p-\/$>$value) {\bfseries then} ~\newline
+ arbolK(p-\/$>$parent) {\bfseries else} bin(arbolK(p-\/$>$child\mbox{[}0\mbox{]}) , p , arbolK(p-\/$>$child\mbox{[}1\mbox{]})) 
+\end{DoxyParagraph}
+
+
+\begin{DoxyParagraph}{elementos}
+devuelve el conjunto de elementos
+
+elementos\+: puntero(\+Node) $\to$ conj(value)~\newline
+ elementos(p) $\equiv$ if p = null {\bfseries then} vacio  nothing?(p-\/$>$value) {\bfseries then} elementos(p-\/$>$parent) ~\newline
+ {\bfseries else} Ag(p-\/$>$value,vacio) U elementos(n-\/$>$child\mbox{[}0\mbox{]}) U elementos(n-\/$>$child\mbox{[}1\mbox{]}) 
+\end{DoxyParagraph}
+
+
+\begin{DoxyParagraph}{es\+Diccionario?}
+Retorna true si la secuencia representa un diccionario
+
+es\+Diccionario?\+: secu(tupla( $\alpha$, $\beta$)) $\to$ bool~\newline
+ es\+Diccionario?(s) $\equiv$ sin\+Repetidos?(\href{axiomas.html#primeros}{\tt primeros}(s)) 
+\end{DoxyParagraph}
+
+
+\begin{DoxyParagraph}{primeros}
+Proyecta las primeras componentes de una secuencia de pares
+
+primeros\+: secu(tupla( $\alpha$, $\beta$)) $\to$ secu( $\alpha$)~\newline
+ primeros(s) $\equiv$ {\bfseries if} vacia?(s) {\bfseries then} $<$$>$ {\bfseries else} $\pi_1$(prim(s)) $\bullet$ \href{axiomas.html#primeros}{\tt primeros}(fin(s)) {\bfseries fi} 
+\end{DoxyParagraph}

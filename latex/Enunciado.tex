@@ -1,0 +1,31 @@
+
+\begin{DoxyItemize}
+\item Fecha de entrega\+: 2 de Junio, hasta las 16\+:00 hs.
+\end{DoxyItemize}\hypertarget{Enunciado_intro-enunciado}{}\subsection{Introducción}\label{Enunciado_intro-enunciado}
+El objetivo del trabajo práctico es implementar y documentar nuestra versión de un diccionario que emule al diccionario {\ttfamily std\+::map} del estándar C++03. Para ello, se pide completar el archivo {\ttfamily \hyperlink{map_8h}{map.\+h}} que se adjunta como parte del enunciado. La implementación debe respetar las complejidades solicitadas y no debe perder memoria. A continuación se describen los lineamientos para resolver el TP.\hypertarget{Enunciado_intro-doc}{}\subsubsection{Documentación}\label{Enunciado_intro-doc}
+El archivo {\ttfamily \hyperlink{map_8h}{map.\+h}} sirve a la vez como implementación y documentación. Dentro de este archivo hay una serie de comentarios C++ que sirven para generar una pagina web con la documentación. Para ello, es necesario compilar el archivo fuente usando el sistema \href{http://www.doxygen.org}{\tt doxygen}. En dicha página web de documentación, además del presente enunciado, se encuentra\+:
+
+
+\begin{DoxyItemize}
+\item Una descripción general de cómo se usa el módulo {\ttfamily \hyperlink{classaed2_1_1map}{aed2\+::map}} (o {\ttfamily std\+::map}).
+\item Una explicación detallada de la estructura de datos a utilizar, con las justificaciones para la elección de dicha estructura.
+\item Una explicación de cómo especificar formalmente las distintas funciones que utilizan punteros.
+\item Algunas consideraciones a la hora de especificar las funciones que usan iteradores.
+\item Una descripción de cómo especificar los aspectos de aliasing de un módulo.
+\item La interfaz del módulo {\ttfamily \hyperlink{classaed2_1_1map}{aed2\+::map}}, incluyendo {\bfseries todas} las funciones públicas, escrita en lenguaje coloquial.
+\item Algunas funciones completamente especificadas e implementadas que sirven como ejemplo de lo que se espera del TP.
+\end{DoxyItemize}
+
+Para generar la documentación, alcanza con ejecutar {\ttfamily doxygen \hyperlink{map_8h}{map.\+h}}, teniendo en cuenta que el archivo {\ttfamily map.\+doxyfile} debe estar en la misma carpeta que {\ttfamily \hyperlink{map_8h}{map.\+h}}. Se recomienda el uso de Eclipse, junto con plugins para {\ttfamily google test}, {\ttfamily valgrind} y {\ttfamily doxygen}.\hypertarget{Enunciado_enun-lineamiento}{}\subsubsection{Lineamientos para la resolución}\label{Enunciado_enun-lineamiento}
+
+\begin{DoxyItemize}
+\item Estructura de representación\+: la estructura de representación se encuentra en la parte privada de la clase y {\bfseries no se puede modificar}. En pocas palabras, implementa un red-\/black tree con un nodo cabecera.
+\item Implementación\+: se deben implementar todas las funciones públicas. No se pueden agregar funciones en la parte pública, aunque sí se pueden agregar en la parte privada (recomendado).
+\item Eficiencia\+: las funciones implementadas deben satisfacer las cotas de complejidad requeridas. Asimismo, todas las funciones privadas que se agreguen deben indicar cuál es su complejidad.
+\item Aspectos no funcionales\+: además de la corrección y la eficiencia, se va a evaluar la claridad del código, la reutilización de funciones, y la no perdida de memoria.
+\item Especificación formal\+: se debe completar la especificación de todas las funciones publicas, escribiendo las pre y postcondiciones en lenguaje formal. Asimismo, se deben especificar los invariantes de representación y las funciones de abstracción de todas las estructuras (diccionario e iteradores), tanto en lenguaje coloquial como formal.
+\item Especificación coloquial\+: no es necesario especificar las funciones privadas en términos formales. Sí se deben documentar en lenguaje coloquial, describiendo los parámetros requeridos y el valor de retorno, siguiendo el mismo estilo que se usa para las funciones públicas.
+\item Axiomas y proposiciones auxiliares\+: las funciones auxiliares del lenguaje de especificación, deben axiomatizarse en la sección correspondiente dentro del archivo {\ttfamily \hyperlink{map_8h}{map.\+h}}. Se sugiere agregar la función dentro del archivo {\ttfamily map.\+doxyfile} a fin de poder generar links desde las otras secciones del documento. Ver los ejemplos incluidos en el archivo.
+\item Testing\+: una semana antes de la entrega se van a publicar la batería de test que se van a utilizar para testear el módulo. Pasar o no pasar los casos de test es irrelevante para la aprobación del TP, que será corregido por uno de los docentes.
+\item Forma de entrega\+: El trabajo práctico se entrega enviando un mail a {\ttfamily algo2.\+dc+tp2} en {\ttfamily gmail.\+com}. El mail debe incluir a los integrantes del grupo y debe tener adjunto el archivo {\ttfamily \hyperlink{map_8h}{map.\+h}}. El bot de la materia podría llegar a responder si se pasan los casos de test o no; tener en cuenta el punto anterior. 
+\end{DoxyItemize}

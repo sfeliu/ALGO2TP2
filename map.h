@@ -917,8 +917,8 @@ public:
      * \endparblock
      *
      * \complexity{
-     * - En el peor caso: \O(\SIZE(\P{res})\LOG(\SIZE(\P{res})) \CDOT \CMP(\P{res}))
-     * - Si el rango [\P{first}, \P{last}) está ordenado: \O(\SIZE(\P{res}) \CDOT \CMP(\P{res}))
+     * - En el peor caso: \O(\SIZE(\P{res}) \CDOT (\LOG(\SIZE(\P{res})) \CDOT \CMP(\P{res}) + \COPY(\P{res})))
+     * - Si el rango [\P{first}, \P{last}) está ordenado: \O(\SIZE(\P{res}) \CDOT (\CMP(\P{res})+ \COPY(\P{res})))
      * }
      *
      * \attention El parámetro formal \LT del TAD diccionario se establece en esta función.
@@ -1205,7 +1205,7 @@ public:
      * \aliasing{Si modificas a lo que apunta res se modifica *this}
      *
      *
-     *\pre \aedpre{*this \IGOBS self}
+     * \pre \aedpre{*this \IGOBS self}
      * \post  \aedpost{ (def?(value.first, self) \IMPLIES_L this \IGOBS self) \LAND
      *                      (not(def?(value.first, self)) \IMPLIES_L this \IGOBS definir(value.first, value.second, self))
      *                      \LAND coleccion(res) = this \LAND #claves(self) + 1 \IGOBS #claves(this))
@@ -1516,7 +1516,7 @@ public:
     /**
      * @brief Devuelve un iterador al primer valor del diccionario
      *
-     * \aliasingsi el iterador me permite modificar, si modificas a lo que apunta res se modifica *this}
+     * \aliasing{Si el iterador me permite modificar, si modificas a lo que apunta res se modifica *this}
      *
      * @retval res iterador al primer valor
      *

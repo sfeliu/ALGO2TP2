@@ -1,0 +1,913 @@
+\hypertarget{map0_8h_source}{}\subsection{map0.\+h}
+
+\begin{DoxyCode}
+00001 
+00577 \textcolor{preprocessor}{#ifndef MAP\_H\_}
+00578 \textcolor{preprocessor}{#define MAP\_H\_}
+00579 
+00580 \textcolor{preprocessor}{#include <functional>}
+00581 \textcolor{preprocessor}{#include <iterator>}
+00582 \textcolor{preprocessor}{#include <utility>}
+00583 \textcolor{preprocessor}{#include <cassert>}
+00584 \textcolor{preprocessor}{#include <algorithm>}
+00585 \textcolor{comment}{//#include <bits/valarray\_before.h>}
+00586 
+00587 \textcolor{preprocessor}{#ifdef DEBUG}
+00588 \textcolor{comment}{//Aca se puede incluir cualquier cosa que consideren que necesitan para debug}
+00589 \textcolor{preprocessor}{#include <iostream>}
+00590 \textcolor{preprocessor}{#include <iomanip>}
+00591 \textcolor{preprocessor}{#endif}
+00592 
+00600 \textcolor{keyword}{namespace }\hyperlink{namespaceaed2}{aed2}\{
+00601 
+00670 \textcolor{keyword}{template}<
+00671   \textcolor{keyword}{class }Key,
+00672   \textcolor{keyword}{class }Meaning,
+00673   \textcolor{keyword}{class }Compare = std::less<Key>
+00674 >
+00675 \textcolor{keyword}{class }map \{
+00676     \textcolor{comment}{//forward declarations (innecesario, pero ayuda al analizador semantico de Eclipse)}
+00677     \textcolor{keyword}{class }Node;
+00678     \textcolor{keyword}{class }InnerNode;
+00679 \textcolor{keyword}{public}:
+00680     \textcolor{comment}{//forward declarations}
+00681     \textcolor{keyword}{class }iterator;
+00682     \textcolor{keyword}{class }const\_iterator;
+00683 
+\hypertarget{map0_8h_source.tex_l00687}{}\hyperlink{classaed2_1_1map_a4273e8812e7105a618df58a2c8b72b7d_a4273e8812e7105a618df58a2c8b72b7d}{00687}     \textcolor{keyword}{using} \hyperlink{classaed2_1_1map_a4273e8812e7105a618df58a2c8b72b7d_a4273e8812e7105a618df58a2c8b72b7d}{key\_type} = Key;
+\hypertarget{map0_8h_source.tex_l00691}{}\hyperlink{classaed2_1_1map_aa3e34bf624f3009884a71b18f4ddae40_aa3e34bf624f3009884a71b18f4ddae40}{00691}     \textcolor{keyword}{using} \hyperlink{classaed2_1_1map_aa3e34bf624f3009884a71b18f4ddae40_aa3e34bf624f3009884a71b18f4ddae40}{mapped\_type} = Meaning;
+\hypertarget{map0_8h_source.tex_l00695}{}\hyperlink{classaed2_1_1map_a719db98e0ff9a837610f76be33264680_a719db98e0ff9a837610f76be33264680}{00695}     \textcolor{keyword}{using} \hyperlink{classaed2_1_1map_a719db98e0ff9a837610f76be33264680_a719db98e0ff9a837610f76be33264680}{value\_type} = std::pair<const Key, Meaning>;
+\hypertarget{map0_8h_source.tex_l00699}{}\hyperlink{classaed2_1_1map_a3efa081d3379ab76f33a5ef9fe697523_a3efa081d3379ab76f33a5ef9fe697523}{00699}     \textcolor{keyword}{using} \hyperlink{classaed2_1_1map_a3efa081d3379ab76f33a5ef9fe697523_a3efa081d3379ab76f33a5ef9fe697523}{key\_compare} = Compare;
+\hypertarget{map0_8h_source.tex_l00703}{}\hyperlink{classaed2_1_1map_af4f147533b3c0207ab036c86ce13ec0d_af4f147533b3c0207ab036c86ce13ec0d}{00703}     \textcolor{keyword}{using} \hyperlink{classaed2_1_1map_af4f147533b3c0207ab036c86ce13ec0d_af4f147533b3c0207ab036c86ce13ec0d}{reference} = \hyperlink{classaed2_1_1map_a719db98e0ff9a837610f76be33264680_a719db98e0ff9a837610f76be33264680}{value\_type}&;
+\hypertarget{map0_8h_source.tex_l00707}{}\hyperlink{classaed2_1_1map_a277080d3db76f19df9319ecba16475a9_a277080d3db76f19df9319ecba16475a9}{00707}     \textcolor{keyword}{using} \hyperlink{classaed2_1_1map_a277080d3db76f19df9319ecba16475a9_a277080d3db76f19df9319ecba16475a9}{const\_reference} = \textcolor{keyword}{const} \hyperlink{classaed2_1_1map_a719db98e0ff9a837610f76be33264680_a719db98e0ff9a837610f76be33264680}{value\_type}&;
+\hypertarget{map0_8h_source.tex_l00711}{}\hyperlink{classaed2_1_1map_a7394e98a23b86bc008ad73326b273fd5_a7394e98a23b86bc008ad73326b273fd5}{00711}     \textcolor{keyword}{using} \hyperlink{classaed2_1_1map_a7394e98a23b86bc008ad73326b273fd5_a7394e98a23b86bc008ad73326b273fd5}{pointer} = \hyperlink{classaed2_1_1map_a719db98e0ff9a837610f76be33264680_a719db98e0ff9a837610f76be33264680}{value\_type}*;
+\hypertarget{map0_8h_source.tex_l00715}{}\hyperlink{classaed2_1_1map_a1366fc3e227a49777cb748fc6d4e022b_a1366fc3e227a49777cb748fc6d4e022b}{00715}     \textcolor{keyword}{using} \hyperlink{classaed2_1_1map_a1366fc3e227a49777cb748fc6d4e022b_a1366fc3e227a49777cb748fc6d4e022b}{const\_pointer} = \textcolor{keyword}{const} \hyperlink{classaed2_1_1map_a719db98e0ff9a837610f76be33264680_a719db98e0ff9a837610f76be33264680}{value\_type}*;
+\hypertarget{map0_8h_source.tex_l00719}{}\hyperlink{classaed2_1_1map_a8cf1c570f605e9c0ad6feb8ce12c9400_a8cf1c570f605e9c0ad6feb8ce12c9400}{00719}     \textcolor{keyword}{using} \hyperlink{classaed2_1_1map_a8cf1c570f605e9c0ad6feb8ce12c9400_a8cf1c570f605e9c0ad6feb8ce12c9400}{size\_type} = std::size\_t;
+\hypertarget{map0_8h_source.tex_l00723}{}\hyperlink{classaed2_1_1map_a2f55b88809000fcbfce1c6cfef1ba74d_a2f55b88809000fcbfce1c6cfef1ba74d}{00723}     \textcolor{keyword}{using} \hyperlink{classaed2_1_1map_a2f55b88809000fcbfce1c6cfef1ba74d_a2f55b88809000fcbfce1c6cfef1ba74d}{difference\_type} = std::ptrdiff\_t;
+00724 
+\hypertarget{map0_8h_source.tex_l00735}{}\hyperlink{classaed2_1_1map_a8e6a592062260177fd73b2f9897b1dd5_a8e6a592062260177fd73b2f9897b1dd5}{00735}     \textcolor{keyword}{using} \hyperlink{classaed2_1_1map_a8e6a592062260177fd73b2f9897b1dd5_a8e6a592062260177fd73b2f9897b1dd5}{reverse\_iterator} = std::reverse\_iterator<iterator>;
+\hypertarget{map0_8h_source.tex_l00746}{}\hyperlink{classaed2_1_1map_aed66a216549d13078a3ea6978ea0b768_aed66a216549d13078a3ea6978ea0b768}{00746}     \textcolor{keyword}{using} \hyperlink{classaed2_1_1map_aed66a216549d13078a3ea6978ea0b768_aed66a216549d13078a3ea6978ea0b768}{const\_reverse\_iterator} = std::reverse\_iterator<const\_iterator>;
+00747 
+00749 
+00750 
+\hypertarget{map0_8h_source.tex_l00766}{}\hyperlink{classaed2_1_1map_a64da1d965b13eb28cdb3837bc17a18cf_a64da1d965b13eb28cdb3837bc17a18cf}{00766}     \textcolor{keyword}{explicit} \hyperlink{classaed2_1_1map_a64da1d965b13eb28cdb3837bc17a18cf_a64da1d965b13eb28cdb3837bc17a18cf}{map}(Compare c = Compare()) \{
+00767         lt = c;
+00768         count = 0;
+00769     \}
+00770 
+\hypertarget{map0_8h_source.tex_l00786}{}\hyperlink{classaed2_1_1map_a7a77950a3d8e637bfa7cf5dcd904f257_a7a77950a3d8e637bfa7cf5dcd904f257}{00786}     \hyperlink{classaed2_1_1map_a7a77950a3d8e637bfa7cf5dcd904f257_a7a77950a3d8e637bfa7cf5dcd904f257}{map}(\textcolor{keyword}{const} \hyperlink{classaed2_1_1map}{map}& other) \{
+00787         const\_iterator it = --other.end();
+00788         header = Node();
+00789         count = 0;
+00790         lt = other.lt;
+00791         const\_iterator hint = end();
+00792         \textcolor{keywordflow}{while}(it != other.end())\{
+00793             hint = \hyperlink{classaed2_1_1map_a6941cde9a79c27f054b5c97a587a1854_a6941cde9a79c27f054b5c97a587a1854}{insert}(hint, it.n->value());
+00794             --it;
+00795         \}
+00796     \}
+00797 
+00841     \textcolor{keyword}{template}<\textcolor{keyword}{class} iterator>
+\hypertarget{map0_8h_source.tex_l00842}{}\hyperlink{classaed2_1_1map_a5d336f3248572beb56be383dcc95cfeb_a5d336f3248572beb56be383dcc95cfeb}{00842}     \hyperlink{classaed2_1_1map_a5d336f3248572beb56be383dcc95cfeb_a5d336f3248572beb56be383dcc95cfeb}{map}(iterator first, iterator last, Compare c = Compare()) : lt(c) \{
+00843         \textcolor{keyword}{auto} it = end();
+00844         \textcolor{keywordflow}{while}(first != last) \{
+00845             \hyperlink{classaed2_1_1map_a6941cde9a79c27f054b5c97a587a1854_a6941cde9a79c27f054b5c97a587a1854}{insert}(it, *first);
+00846             ++first;
+00847         \}
+00848     \}
+00849 
+\hypertarget{map0_8h_source.tex_l00865}{}\hyperlink{classaed2_1_1map_ac606d334809066929522964d45e76317_ac606d334809066929522964d45e76317}{00865}     \hyperlink{classaed2_1_1map}{map}& \hyperlink{classaed2_1_1map_ac606d334809066929522964d45e76317_ac606d334809066929522964d45e76317}{operator=}(\hyperlink{classaed2_1_1map}{map} other) \{
+00866         *\textcolor{keyword}{this} = \hyperlink{classaed2_1_1map_a64da1d965b13eb28cdb3837bc17a18cf_a64da1d965b13eb28cdb3837bc17a18cf}{map}(other);
+00867         \textcolor{keywordflow}{return} *\textcolor{keyword}{this};
+00868     \}
+00869 
+\hypertarget{map0_8h_source.tex_l00892}{}\hyperlink{classaed2_1_1map_ab22c9a85c2dadbc286cd30e97069a8e6_ab22c9a85c2dadbc286cd30e97069a8e6}{00892}     \hyperlink{classaed2_1_1map_ab22c9a85c2dadbc286cd30e97069a8e6_ab22c9a85c2dadbc286cd30e97069a8e6}{~map}() \{
+00893         clear();
+00894     \}
+00896 
+00898 
+00899 
+\hypertarget{map0_8h_source.tex_l00919}{}\hyperlink{classaed2_1_1map_a0b0a11f906da2926f9eb342fcee79fd7_a0b0a11f906da2926f9eb342fcee79fd7}{00919}     \textcolor{keyword}{const} Meaning& \hyperlink{classaed2_1_1map_a0b0a11f906da2926f9eb342fcee79fd7_a0b0a11f906da2926f9eb342fcee79fd7}{at}(\textcolor{keyword}{const} Key& key)\textcolor{keyword}{ const }\{
+00920         iterator it = \hyperlink{classaed2_1_1map_afd0fc1a8234888e61e0e615de7e245b8_afd0fc1a8234888e61e0e615de7e245b8}{find}(key);
+00921         \textcolor{keywordflow}{return} it.n->value().second;
+00922     \}
+00923 
+\hypertarget{map0_8h_source.tex_l00925}{}\hyperlink{classaed2_1_1map_a6b21c09f59a83b6ee45432dcfa61f4a1_a6b21c09f59a83b6ee45432dcfa61f4a1}{00925}     Meaning& \hyperlink{classaed2_1_1map_a6b21c09f59a83b6ee45432dcfa61f4a1_a6b21c09f59a83b6ee45432dcfa61f4a1}{at}(\textcolor{keyword}{const} Key& key) \{
+00926         iterator it = \hyperlink{classaed2_1_1map_afd0fc1a8234888e61e0e615de7e245b8_afd0fc1a8234888e61e0e615de7e245b8}{find}(key);
+00927         \textcolor{keywordflow}{return} it.n->value().second;
+00928     \}
+00929 
+\hypertarget{map0_8h_source.tex_l00967}{}\hyperlink{classaed2_1_1map_a96f23896164ab47bee48c26b803f9801_a96f23896164ab47bee48c26b803f9801}{00967}     Meaning& \hyperlink{classaed2_1_1map_a96f23896164ab47bee48c26b803f9801_a96f23896164ab47bee48c26b803f9801}{operator[]}(\textcolor{keyword}{const} Key& key) \{
+00968         iterator it = \hyperlink{classaed2_1_1map_afd0fc1a8234888e61e0e615de7e245b8_afd0fc1a8234888e61e0e615de7e245b8}{find}(key);
+00969         \hyperlink{classaed2_1_1map_a719db98e0ff9a837610f76be33264680_a719db98e0ff9a837610f76be33264680}{value\_type} v = \hyperlink{classaed2_1_1map_a719db98e0ff9a837610f76be33264680_a719db98e0ff9a837610f76be33264680}{value\_type}(key, Meaning());
+00970         \textcolor{keywordflow}{if}(it.n->color == Color::Header)\{
+00971             \hyperlink{classaed2_1_1map_a6941cde9a79c27f054b5c97a587a1854_a6941cde9a79c27f054b5c97a587a1854}{insert}(v);
+00972             \textcolor{keywordflow}{return} it.n->value().second;
+00973         \}\textcolor{keywordflow}{else}\{
+00974             insert\_or\_assign(v);
+00975             \textcolor{keywordflow}{return} it.n->value().second;
+00976         \}
+00977     \}
+00978 
+\hypertarget{map0_8h_source.tex_l01003}{}\hyperlink{classaed2_1_1map_afd0fc1a8234888e61e0e615de7e245b8_afd0fc1a8234888e61e0e615de7e245b8}{01003}     iterator \hyperlink{classaed2_1_1map_afd0fc1a8234888e61e0e615de7e245b8_afd0fc1a8234888e61e0e615de7e245b8}{find}(\textcolor{keyword}{const} Key& key) \{
+01004         iterator it = \hyperlink{classaed2_1_1map_a3399d36fdd5a880b494f3a5795d3f18f_a3399d36fdd5a880b494f3a5795d3f18f}{lower\_bound}(key);
+01005         \textcolor{keywordflow}{if}(lt(it.n->value().first, key) or lt(key, it.n->value().first))\{
+01006             it = iterator(&header);
+01007         \}
+01008         \textcolor{keywordflow}{return} it;
+01009     \}
+01010 
+\hypertarget{map0_8h_source.tex_l01012}{}\hyperlink{classaed2_1_1map_ab8f3e41b1a0d7b74645836f8d2e1acfc_ab8f3e41b1a0d7b74645836f8d2e1acfc}{01012}     const\_iterator \hyperlink{classaed2_1_1map_ab8f3e41b1a0d7b74645836f8d2e1acfc_ab8f3e41b1a0d7b74645836f8d2e1acfc}{find}(\textcolor{keyword}{const} Key& key)\textcolor{keyword}{ const }\{
+01013         \textcolor{keywordflow}{return} const\_iterator(\hyperlink{classaed2_1_1map_afd0fc1a8234888e61e0e615de7e245b8_afd0fc1a8234888e61e0e615de7e245b8}{find}(key));
+01014     \}
+01015 
+\hypertarget{map0_8h_source.tex_l01036}{}\hyperlink{classaed2_1_1map_a3399d36fdd5a880b494f3a5795d3f18f_a3399d36fdd5a880b494f3a5795d3f18f}{01036}     const\_iterator \hyperlink{classaed2_1_1map_a3399d36fdd5a880b494f3a5795d3f18f_a3399d36fdd5a880b494f3a5795d3f18f}{lower\_bound}(\textcolor{keyword}{const} Key& key)\textcolor{keyword}{ const }\{
+01037         \textcolor{keywordflow}{return} const\_iterator(\hyperlink{classaed2_1_1map_a3399d36fdd5a880b494f3a5795d3f18f_a3399d36fdd5a880b494f3a5795d3f18f}{lower\_bound}(key));
+01038     \}
+01039 
+\hypertarget{map0_8h_source.tex_l01041}{}\hyperlink{classaed2_1_1map_a07b3dd65557c59ee085e5f211269c6b3_a07b3dd65557c59ee085e5f211269c6b3}{01041}     iterator \hyperlink{classaed2_1_1map_a07b3dd65557c59ee085e5f211269c6b3_a07b3dd65557c59ee085e5f211269c6b3}{lower\_bound}(\textcolor{keyword}{const} Key& key)  \{
+01042         iterator it = iterator(header.parent);
+01043         \textcolor{keywordflow}{while}(it.n != \textcolor{keyword}{nullptr})\{
+01044             \textcolor{keywordflow}{if}(not lt(it.n->key(), key) and not lt(key, it.n->key()))\{
+01045                 \textcolor{keywordflow}{return} it;
+01046             \}\textcolor{keywordflow}{else}\{
+01047                 \textcolor{keywordflow}{if}(it.n->key() < key)\{
+01048                     \textcolor{keywordflow}{if}(it.n->child[1] == \textcolor{keyword}{nullptr}) \{
+01049                         \textcolor{keywordflow}{return} it++;
+01050                     \}\textcolor{keywordflow}{else}\{
+01051                         it.n = it.n->child[1];
+01052                     \}
+01053                 \}\textcolor{keywordflow}{else}\{
+01054                     \textcolor{keywordflow}{if}(it.n->child[0] == \textcolor{keyword}{nullptr})\{
+01055                         \textcolor{keywordflow}{return} it;
+01056                     \}\textcolor{keywordflow}{else} \{
+01057                         it.n = it.n->child[0];
+01058                     \}
+01059                 \}
+01060             \}
+01061         \}
+01062         it = iterator(&header);
+01063         \textcolor{keywordflow}{return} it;
+01064     \}
+01066 
+01068 
+01069 
+\hypertarget{map0_8h_source.tex_l01081}{}\hyperlink{classaed2_1_1map_af5320ca0a7df4d16015441d5d055a7ee_af5320ca0a7df4d16015441d5d055a7ee}{01081}     \textcolor{keywordtype}{bool} \hyperlink{classaed2_1_1map_af5320ca0a7df4d16015441d5d055a7ee_af5320ca0a7df4d16015441d5d055a7ee}{empty}()\textcolor{keyword}{ const }\{
+01082         \textcolor{keywordflow}{return} header.parent == \textcolor{keyword}{nullptr};
+01083     \}
+01084 
+\hypertarget{map0_8h_source.tex_l01095}{}\hyperlink{classaed2_1_1map_a89f2613f926ac13293eafe65889d6021_a89f2613f926ac13293eafe65889d6021}{01095}     \textcolor{keywordtype}{size\_t} \hyperlink{classaed2_1_1map_a89f2613f926ac13293eafe65889d6021_a89f2613f926ac13293eafe65889d6021}{size}()\textcolor{keyword}{ const }\{
+01096         \textcolor{keywordflow}{return} count;
+01097     \}
+01099 
+01101 
+01102 
+01104 
+\hypertarget{map0_8h_source.tex_l01134}{}\hyperlink{classaed2_1_1map_a6941cde9a79c27f054b5c97a587a1854_a6941cde9a79c27f054b5c97a587a1854}{01134}     iterator \hyperlink{classaed2_1_1map_a6941cde9a79c27f054b5c97a587a1854_a6941cde9a79c27f054b5c97a587a1854}{insert}(const\_iterator hint, \textcolor{keyword}{const} \hyperlink{classaed2_1_1map_a719db98e0ff9a837610f76be33264680_a719db98e0ff9a837610f76be33264680}{value\_type}& value) \{
+01135         \textcolor{keywordflow}{if}(hint.n->color == Color::Header) \{
+01136             \textcolor{keywordflow}{if} (\hyperlink{classaed2_1_1map_af5320ca0a7df4d16015441d5d055a7ee_af5320ca0a7df4d16015441d5d055a7ee}{empty}()) \{
+01137                 iterator nuevo = iterator(\textcolor{keyword}{new} InnerNode(&header, value, Color::Black));
+01138                 header.child[0] = nuevo.n;
+01139                 header.child[1] = nuevo.n;
+01140                 header.parent = nuevo.n;
+01141                 count++;
+01142                 \textcolor{keywordflow}{return} nuevo;
+01143             \}
+01144             \textcolor{keywordflow}{if}(header.child[1]->key() < value.first)\{
+01145                 iterator nuevo = iterator(\textcolor{keyword}{new} InnerNode(header.child[1],value));
+01146                 header.child[1]->child[1] = nuevo.n;
+01147                 header.child[1] = nuevo.n;
+01148                 insertFixUp(nuevo.n);
+01149                 count++;
+01150                 \textcolor{keywordflow}{return} nuevo;
+01151             \}
+01152         \}
+01153         \textcolor{keywordflow}{if}(hint.n->value().first == value.first) \{
+01154             iterator it = iterator(const\_cast<Node*>(hint.n));
+01155             count++;
+01156             \textcolor{keywordflow}{return} it;
+01157         \}
+01158         \textcolor{keywordflow}{if}(hint.n->key() > value.first)\{
+01159             \textcolor{keywordflow}{if}(hint.n->child[0] == \textcolor{keyword}{nullptr})\{
+01160                 iterator nuevo = iterator(\textcolor{keyword}{new} InnerNode(const\_cast<Node*>(hint.n), value));
+01161                 \textcolor{keywordflow}{if}(hint == begin())\{
+01162                     header.child[0] = nuevo.n;
+01163                 \}
+01164                 iterator h = iterator(const\_cast<Node*>(hint.n->child[0]));
+01165                 h = nuevo.n;
+01166                 insertFixUp(nuevo.n);
+01167                 count++;
+01168                 \textcolor{keywordflow}{return} nuevo;
+01169             \}\textcolor{keywordflow}{else} \{
+01170                 \textcolor{keywordflow}{if}(hint--.n->key() < value.first)\{
+01171                     iterator nuevo = iterator(\textcolor{keyword}{new} InnerNode(hint.n->child[1], value));
+01172                     iterator h = iterator(const\_cast<Node*>(hint.n->child[1]));
+01173                     h = nuevo.n;
+01174                     insertFixUp(nuevo.n);
+01175                     count++;
+01176                     \textcolor{keywordflow}{return} nuevo;
+01177                 \}\textcolor{keywordflow}{else}\{
+01178                     count++;
+01179                     \textcolor{keywordflow}{return} \hyperlink{classaed2_1_1map_a6941cde9a79c27f054b5c97a587a1854_a6941cde9a79c27f054b5c97a587a1854}{insert}(value);
+01180                 \}
+01181             \}
+01182         \}\textcolor{keywordflow}{else}\{
+01183             count++;
+01184             \textcolor{keywordflow}{return} \hyperlink{classaed2_1_1map_a6941cde9a79c27f054b5c97a587a1854_a6941cde9a79c27f054b5c97a587a1854}{insert}(value);
+01185         \}
+01186     \}
+01187 
+\hypertarget{map0_8h_source.tex_l01189}{}\hyperlink{classaed2_1_1map_a60aacba06b1579630b3c8e996cf248c8_a60aacba06b1579630b3c8e996cf248c8}{01189}     iterator \hyperlink{classaed2_1_1map_a60aacba06b1579630b3c8e996cf248c8_a60aacba06b1579630b3c8e996cf248c8}{insert}(\textcolor{keyword}{const} \hyperlink{classaed2_1_1map_a719db98e0ff9a837610f76be33264680_a719db98e0ff9a837610f76be33264680}{value\_type}& value) \{
+01190         \textcolor{keywordflow}{if}(\hyperlink{classaed2_1_1map_af5320ca0a7df4d16015441d5d055a7ee_af5320ca0a7df4d16015441d5d055a7ee}{empty}())\{
+01191             iterator nuevo = iterator(\textcolor{keyword}{new} InnerNode(&header, value, Color::Black));
+01192             header.child[0] = nuevo.n;
+01193             header.child[1] = nuevo.n;
+01194             header.parent = nuevo.n;
+01195             count++;
+01196             \textcolor{keywordflow}{return} nuevo;
+01197         \}
+01198         iterator padre = iterator(header.parent);
+01199         iterator actual = iterator(header.parent);
+01200         \textcolor{keywordflow}{while}(actual.n != \textcolor{keyword}{nullptr})\{
+01201             padre = actual;
+01202             \textcolor{keywordflow}{if}(not lt(actual.n->value().first, value.first) and not lt(value.first, actual.n->value().first
+      ))\{
+01203                 \textcolor{keywordflow}{return} actual;
+01204             \}
+01205             \textcolor{keywordflow}{if}(value.first < actual.n->value().first)\{
+01206                 actual = actual.n->child[0];
+01207             \}\textcolor{keywordflow}{else}\{
+01208                 actual = actual.n->child[1];
+01209             \}
+01210         \}
+01211         iterator nuevo = iterator(\textcolor{keyword}{new} InnerNode(padre.n,value));
+01212         \textcolor{keywordflow}{if}(value < padre.n->value()) \{
+01213             padre.n->child[0] = nuevo.n;
+01214             \textcolor{keywordflow}{if}(begin() == padre)\{
+01215                 header.child[0] = nuevo.n;
+01216             \}
+01217         \}\textcolor{keywordflow}{else} \{
+01218             padre.n->child[1] = nuevo.n;
+01219             \textcolor{keywordflow}{if}(header.child[1] == padre.n)\{
+01220                 header.child[1] = nuevo.n;
+01221             \}
+01222         \}
+01223         insertFixUp(nuevo.n);
+01224         count++;
+01225         \textcolor{keywordflow}{return} nuevo;
+01226     \}
+01227 
+01228 
+01229 
+01260     iterator insert\_or\_assign(const\_iterator hint, \textcolor{keyword}{const} \hyperlink{classaed2_1_1map_a719db98e0ff9a837610f76be33264680_a719db98e0ff9a837610f76be33264680}{value\_type}& value) \{
+01261         iterator encontrado = \hyperlink{classaed2_1_1map_afd0fc1a8234888e61e0e615de7e245b8_afd0fc1a8234888e61e0e615de7e245b8}{find}(value.first);
+01262         \textcolor{keywordflow}{if}(encontrado.n->color != Color::Header)\{
+01263             encontrado.n->value().second = value.second;
+01264             \textcolor{keywordflow}{return} encontrado;
+01265         \}\textcolor{keywordflow}{else}\{
+01266             \textcolor{keywordflow}{return} \hyperlink{classaed2_1_1map_a6941cde9a79c27f054b5c97a587a1854_a6941cde9a79c27f054b5c97a587a1854}{insert}(hint, value);
+01267         \}
+01268     \}
+01269 
+01271     iterator insert\_or\_assign(\textcolor{keyword}{const} \hyperlink{classaed2_1_1map_a719db98e0ff9a837610f76be33264680_a719db98e0ff9a837610f76be33264680}{value\_type}& value) \{
+01272         const\_iterator hint = const\_iterator(root());
+01273         \textcolor{keywordflow}{return} insert\_or\_assign(hint, value);
+01274     \}
+01275 
+01294     iterator erase(const\_iterator pos) \{
+01295         iterator y = iterator(const\_cast<Node*>(pos.n));
+01296         Color original = y.n->color;
+01297         iterator proximo = iterator(const\_cast<Node*>(pos.n));
+01298         proximo++;
+01299         \textcolor{keywordflow}{if}(pos.n->child[0] == \textcolor{keyword}{nullptr} and pos.n->child[1] == \textcolor{keyword}{nullptr})\{
+01300             \textcolor{keywordflow}{if}(pos.n == header.parent)\{
+01301                 header.parent = \textcolor{keyword}{nullptr};
+01302                 header.child[0] = header.child[1] = &header;
+01303             \}\textcolor{keywordflow}{else} \{
+01304                 \textcolor{keywordflow}{if} (pos.n->parent->child[0] == pos.n) \{
+01305                     \textcolor{keywordflow}{if}(begin() == pos)\{
+01306                         header.child[0] = pos.n->parent;
+01307                     \}
+01308                     pos.n->parent->child[0] = \textcolor{keyword}{nullptr};
+01309                 \} \textcolor{keywordflow}{else} \{
+01310                     \textcolor{keywordflow}{if}(header.child[1] == pos.n)\{
+01311                         header.child[1] = pos.n->parent;
+01312                     \}
+01313                     pos.n->parent->child[1] = \textcolor{keyword}{nullptr};
+01314                 \}
+01315             \}
+01316         \}\textcolor{keywordflow}{else}\{
+01317             iterator cambiado;
+01318             \textcolor{keywordflow}{if}(pos.n->child[0] == \textcolor{keyword}{nullptr})\{
+01319                 cambiado = iterator(pos.n->child[1]);
+01320                 transplant(const\_cast<Node*>(pos.n), pos.n->child[1]);
+01321             \} \textcolor{keywordflow}{else}\{
+01322                 \textcolor{keywordflow}{if}(pos.n->child[1] == \textcolor{keyword}{nullptr})\{
+01323                     cambiado = iterator(pos.n->child[0]);
+01324                     transplant(const\_cast<Node*>(pos.n), pos.n->child[0]);
+01325                 \} \textcolor{keywordflow}{else}\{
+01326                     y++;
+01327                     original = y.n->color;
+01328                     cambiado = iterator(y.n->child[1]);
+01329                     \textcolor{keywordflow}{if}(y.n->parent != pos) \{
+01330                         transplant(y.n, y.n->child[1]);
+01331                         y.n->child[1] = pos.n->child[1];
+01332                         y.n->child[1]->parent = y;
+01333                     \}
+01334                     transplant(const\_cast<Node*>(pos.n), y.n);
+01335                     y.n->child[0] = pos.n->child[0];
+01336                     y.n->child[0]->parent = y;
+01337                     y.n->color = pos.n->color;
+01338                 \}
+01339             \}
+01340             \textcolor{keywordflow}{if}(original == Color::Black)\{
+01341                 deleteFixUp(cambiado.n);
+01342             \}
+01343         \}
+01344         \textcolor{keyword}{delete} pos.n; \textcolor{comment}{// Me parece que es pos.n porque el new se hace sobre un node}
+01345         count--;
+01346         \textcolor{keywordflow}{return} proximo;
+01347     \}
+01348 
+01349 
+01350 
+01351 
+01365     \textcolor{keywordtype}{void} erase(\textcolor{keyword}{const} Key& key) \{
+01366         const\_iterator pos = const\_iterator(\hyperlink{classaed2_1_1map_afd0fc1a8234888e61e0e615de7e245b8_afd0fc1a8234888e61e0e615de7e245b8}{find}(key));
+01367         erase(pos);
+01368     \}
+01369 
+01381     \textcolor{keywordtype}{void} clear() \{
+01382         iterator it = begin();
+01383         \textcolor{keywordtype}{int} i = 0;
+01384         \textcolor{keywordtype}{size\_t} j = count;
+01385         \textcolor{keywordflow}{while}(it.n->color != Color::Header)\{
+01386             it = erase(it);
+01387             i++;
+01388         \}
+01389     \}
+01390 
+01414     \textcolor{keywordtype}{void} \hyperlink{classaed2_1_1map_a119cb2938bbc11c25ebd4fb824782a72_a119cb2938bbc11c25ebd4fb824782a72}{swap}(\hyperlink{classaed2_1_1map}{map}& other) \{
+01415         \textcolor{keyword}{using} std::swap;
+01416         \hyperlink{classaed2_1_1map_a119cb2938bbc11c25ebd4fb824782a72_a119cb2938bbc11c25ebd4fb824782a72}{swap}(lt, other.lt);
+01417         \hyperlink{classaed2_1_1map_a119cb2938bbc11c25ebd4fb824782a72_a119cb2938bbc11c25ebd4fb824782a72}{swap}(count, other.count);
+01418 
+01419         \hyperlink{classaed2_1_1map_a119cb2938bbc11c25ebd4fb824782a72_a119cb2938bbc11c25ebd4fb824782a72}{swap}(header.parent, other.header.parent);
+01420         \hyperlink{classaed2_1_1map_a119cb2938bbc11c25ebd4fb824782a72_a119cb2938bbc11c25ebd4fb824782a72}{swap}(header.child[0], other.header.child[0]);
+01421         \hyperlink{classaed2_1_1map_a119cb2938bbc11c25ebd4fb824782a72_a119cb2938bbc11c25ebd4fb824782a72}{swap}(header.child[1], other.header.child[1]);
+01422         \textcolor{keywordflow}{if}(root() != \textcolor{keyword}{nullptr}) root()->parent = &header;
+01423         \textcolor{keywordflow}{if}(other.root() != \textcolor{keyword}{nullptr}) other.root()->parent = &other.header;
+01424 
+01425         \textcolor{comment}{//nota: cuando el arbol es vacio, los child de header apuntan a header.  Notar que quedan apuntando
+       mal despues del swap}
+01426         \textcolor{keywordflow}{if}(root() == \textcolor{keyword}{nullptr}) header.child[0] = header.child[1] = &header;
+01427         \textcolor{keywordflow}{if}(other.root() == \textcolor{keyword}{nullptr}) other.header.child[0] = other.header.child[1] = &other.header;
+01428     \}
+01430 
+01432 
+01433 
+01435 
+01447     iterator begin() \{
+01448         iterator it = iterator(&header);
+01449         it++;
+01450         \textcolor{keywordflow}{return} it;
+01451     \}
+01452 
+01454     const\_iterator begin()\textcolor{keyword}{ const }\{
+01455         const\_iterator it = const\_iterator(&header);
+01456         it++;
+01457         \textcolor{keywordflow}{return} it;
+01458     \}
+01459 
+01461     const\_iterator cbegin() \{
+01462         const\_iterator it = const\_iterator(header.child[0]);
+01463         \textcolor{keywordflow}{return} it;
+01464     \}
+01465 
+01478     iterator end() \{
+01479         iterator it = iterator(&header);
+01480         \textcolor{keywordflow}{return} it;
+01481     \}
+01482 
+01484     const\_iterator end()\textcolor{keyword}{ const }\{
+01485         const\_iterator it = const\_iterator(&header);
+01486         \textcolor{keywordflow}{return} it;
+01487     \}
+01488 
+01490     const\_iterator cend() \{
+01491         const\_iterator it = const\_iterator(&header);
+01492         \textcolor{keywordflow}{return} it;
+01493     \}
+01494 
+01507     \hyperlink{classaed2_1_1map_a8e6a592062260177fd73b2f9897b1dd5_a8e6a592062260177fd73b2f9897b1dd5}{reverse\_iterator} rbegin() \{
+01508         \hyperlink{classaed2_1_1map_a8e6a592062260177fd73b2f9897b1dd5_a8e6a592062260177fd73b2f9897b1dd5}{reverse\_iterator} it = \hyperlink{classaed2_1_1map_a8e6a592062260177fd73b2f9897b1dd5_a8e6a592062260177fd73b2f9897b1dd5}{reverse\_iterator}(&header);
+01509         \textcolor{keywordflow}{return} it;
+01510     \}
+01511 
+01513     \hyperlink{classaed2_1_1map_aed66a216549d13078a3ea6978ea0b768_aed66a216549d13078a3ea6978ea0b768}{const\_reverse\_iterator} rbegin()\textcolor{keyword}{ const }\{
+01514         \hyperlink{classaed2_1_1map_aed66a216549d13078a3ea6978ea0b768_aed66a216549d13078a3ea6978ea0b768}{const\_reverse\_iterator} it = \hyperlink{classaed2_1_1map_aed66a216549d13078a3ea6978ea0b768_aed66a216549d13078a3ea6978ea0b768}{const\_reverse\_iterator}(&
+      header);
+01515         \textcolor{keywordflow}{return} it;
+01516     \}
+01517 
+01519     \hyperlink{classaed2_1_1map_aed66a216549d13078a3ea6978ea0b768_aed66a216549d13078a3ea6978ea0b768}{const\_reverse\_iterator} crbegin() \{
+01520         \hyperlink{classaed2_1_1map_aed66a216549d13078a3ea6978ea0b768_aed66a216549d13078a3ea6978ea0b768}{const\_reverse\_iterator} it = \hyperlink{classaed2_1_1map_aed66a216549d13078a3ea6978ea0b768_aed66a216549d13078a3ea6978ea0b768}{const\_reverse\_iterator}(&
+      header);
+01521         \textcolor{keywordflow}{return} it;
+01522     \}
+01523 
+01536     \hyperlink{classaed2_1_1map_a8e6a592062260177fd73b2f9897b1dd5_a8e6a592062260177fd73b2f9897b1dd5}{reverse\_iterator} rend() \{
+01537         \hyperlink{classaed2_1_1map_a8e6a592062260177fd73b2f9897b1dd5_a8e6a592062260177fd73b2f9897b1dd5}{reverse\_iterator} it = \hyperlink{classaed2_1_1map_a8e6a592062260177fd73b2f9897b1dd5_a8e6a592062260177fd73b2f9897b1dd5}{reverse\_iterator}(header.child[0]);
+01538         \textcolor{keywordflow}{return} it;
+01539     \}
+01540 
+01542     \hyperlink{classaed2_1_1map_aed66a216549d13078a3ea6978ea0b768_aed66a216549d13078a3ea6978ea0b768}{const\_reverse\_iterator} rend()\textcolor{keyword}{ const }\{
+01543         \hyperlink{classaed2_1_1map_aed66a216549d13078a3ea6978ea0b768_aed66a216549d13078a3ea6978ea0b768}{const\_reverse\_iterator} it = \hyperlink{classaed2_1_1map_aed66a216549d13078a3ea6978ea0b768_aed66a216549d13078a3ea6978ea0b768}{const\_reverse\_iterator}(
+      header.child[0]);
+01544         \textcolor{keywordflow}{return} it;
+01545     \}
+01546 
+01548     \hyperlink{classaed2_1_1map_aed66a216549d13078a3ea6978ea0b768_aed66a216549d13078a3ea6978ea0b768}{const\_reverse\_iterator} crend() \{
+01549         \hyperlink{classaed2_1_1map_aed66a216549d13078a3ea6978ea0b768_aed66a216549d13078a3ea6978ea0b768}{const\_reverse\_iterator} it = \hyperlink{classaed2_1_1map_aed66a216549d13078a3ea6978ea0b768_aed66a216549d13078a3ea6978ea0b768}{const\_reverse\_iterator}(
+      header.child[0]);
+01550         \textcolor{keywordflow}{return} it;
+01551     \}
+01553 
+01583     \textcolor{keyword}{class }iterator \{
+01584         \textcolor{keyword}{using} Node = \textcolor{keyword}{typename} map::Node;
+01585         \textcolor{keyword}{using} InnerNode = \textcolor{keyword}{typename} map::InnerNode;
+01586     \textcolor{keyword}{public}:
+01587 
+01589         \textcolor{keyword}{using} iterator\_category = std::bidirectional\_iterator\_tag;
+01591         \textcolor{keyword}{using} \hyperlink{classaed2_1_1map_a719db98e0ff9a837610f76be33264680_a719db98e0ff9a837610f76be33264680}{value\_type} = \hyperlink{classaed2_1_1map_a719db98e0ff9a837610f76be33264680_a719db98e0ff9a837610f76be33264680}{map::value\_type};
+01593         \textcolor{keyword}{using} \hyperlink{classaed2_1_1map_af4f147533b3c0207ab036c86ce13ec0d_af4f147533b3c0207ab036c86ce13ec0d}{reference} = \hyperlink{classaed2_1_1map_af4f147533b3c0207ab036c86ce13ec0d_af4f147533b3c0207ab036c86ce13ec0d}{map::reference};
+01595         \textcolor{keyword}{using} \hyperlink{classaed2_1_1map_a7394e98a23b86bc008ad73326b273fd5_a7394e98a23b86bc008ad73326b273fd5}{pointer} = \hyperlink{classaed2_1_1map_a7394e98a23b86bc008ad73326b273fd5_a7394e98a23b86bc008ad73326b273fd5}{map::pointer};
+01597         \textcolor{keyword}{using} \hyperlink{classaed2_1_1map_a2f55b88809000fcbfce1c6cfef1ba74d_a2f55b88809000fcbfce1c6cfef1ba74d}{difference\_type} = std::ptrdiff\_t;
+01598 
+01625         iterator() \{\}
+01638         \hyperlink{classaed2_1_1map_af4f147533b3c0207ab036c86ce13ec0d_af4f147533b3c0207ab036c86ce13ec0d}{reference} operator*()\textcolor{keyword}{ const }\{
+01639             \textcolor{keywordflow}{return} n->value();
+01640         \}
+01656         \hyperlink{classaed2_1_1map_a7394e98a23b86bc008ad73326b273fd5_a7394e98a23b86bc008ad73326b273fd5}{pointer} operator->()\textcolor{keyword}{ const }\{
+01657             \textcolor{keywordflow}{return} &n->value();
+01658         \}
+01674         iterator& operator++() \{
+01675             \textcolor{keywordflow}{if}(n->color == Color::Header) \{
+01676                 n = n->child[0];
+01677             \}\textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(n->child[1] != \textcolor{keyword}{nullptr})\{
+01678                 n = min(n->child[1]);
+01679             \}\textcolor{keywordflow}{else}\{
+01680                 Node* y = n->parent;
+01681                 \textcolor{keywordflow}{while}(y->color != Color::Header and n == y->child[1])\{
+01682                     n = y;
+01683                     y = y->parent;
+01684                 \}
+01685                 n = y;
+01686             \}
+01687             \textcolor{keywordflow}{return} *\textcolor{keyword}{this};
+01688         \}
+01704         iterator operator++(\textcolor{keywordtype}{int}) \{
+01705             iterator ret = *\textcolor{keyword}{this};
+01706             ++*\textcolor{keyword}{this};
+01707             \textcolor{keywordflow}{return} ret;
+01708         \}
+01724         iterator& operator--() \{
+01725             \textcolor{keywordflow}{if}(n->color == Color::Header)\{
+01726                 n = n->child[1];
+01727             \}\textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(n->child[0] != \textcolor{keyword}{nullptr})\{
+01728                 n = max(n->child[0]);
+01729             \}\textcolor{keywordflow}{else}\{
+01730                 Node* y = n->parent;
+01731                 \textcolor{keywordflow}{while}(y != \textcolor{keyword}{nullptr} and n == y->child[0])\{
+01732                     n = y;
+01733                     y = y->parent;
+01734                 \}
+01735                 n = y;
+01736             \}
+01737             \textcolor{keywordflow}{return} *\textcolor{keyword}{this};
+01738         \}
+01754         iterator operator--(\textcolor{keywordtype}{int}) \{
+01755             iterator ret = *\textcolor{keyword}{this};
+01756             --*\textcolor{keyword}{this};
+01757             \textcolor{keywordflow}{return} ret;
+01758         \}
+01776         \textcolor{keywordtype}{bool} \hyperlink{classaed2_1_1map_abfc51b39670220e79037ac067006e933_abfc51b39670220e79037ac067006e933}{operator==}(iterator other)\textcolor{keyword}{ const }\{
+01777             \textcolor{keywordflow}{return} n == other.n;
+01778         \}
+01780         \textcolor{keywordtype}{bool} \hyperlink{classaed2_1_1map_abce0fa35c5b25fd67111c2e704616f09_abce0fa35c5b25fd67111c2e704616f09}{operator!=}(iterator other)\textcolor{keyword}{ const }\{
+01781             \textcolor{keywordflow}{return} n != other.n;
+01782         \}
+01783 
+01784     \textcolor{keyword}{private}:
+01805         iterator(Node* pos) : n(pos) \{\}
+01816         \textcolor{keyword}{operator} Node*() \textcolor{keyword}{const} \{\textcolor{keywordflow}{return} n;\}
+01818 
+01837 
+01839 
+01842         Node* n\{\textcolor{keyword}{nullptr}\};
+01844         \textcolor{keyword}{friend} \textcolor{keyword}{class }\hyperlink{classaed2_1_1map}{map};
+01845 
+01846         Node* max(Node* n)\{
+01847             Node* ret = n;
+01848             \textcolor{keywordflow}{while} (ret->child[1] != \textcolor{keyword}{nullptr})\{
+01849                 ret = ret->child[1];
+01850             \}
+01851             \textcolor{keywordflow}{return} ret;
+01852         \}
+01853 
+01854        Node* min(Node* n)\{
+01855            Node* ret = n;
+01856            \textcolor{keywordflow}{while} (ret->child[0] != \textcolor{keyword}{nullptr})\{
+01857                 ret = ret->child[0];
+01858            \}
+01859            \textcolor{keywordflow}{return} ret;
+01860         \}
+01861     \};
+01862 
+01869     \textcolor{keyword}{class }const\_iterator \{
+01870         \textcolor{keyword}{using} Node = \textcolor{keyword}{const} \textcolor{keyword}{typename} map::Node;
+01871         \textcolor{keyword}{using} InnerNode = \textcolor{keyword}{const} \textcolor{keyword}{typename} map::InnerNode;
+01872     \textcolor{keyword}{public}:
+01873         \textcolor{keyword}{using} iterator\_category = std::bidirectional\_iterator\_tag;
+01874         \textcolor{keyword}{using} \hyperlink{classaed2_1_1map_a719db98e0ff9a837610f76be33264680_a719db98e0ff9a837610f76be33264680}{value\_type} = \hyperlink{classaed2_1_1map_a719db98e0ff9a837610f76be33264680_a719db98e0ff9a837610f76be33264680}{map::value\_type};
+01875         \textcolor{keyword}{using} \hyperlink{classaed2_1_1map_af4f147533b3c0207ab036c86ce13ec0d_af4f147533b3c0207ab036c86ce13ec0d}{reference} = \hyperlink{classaed2_1_1map_a277080d3db76f19df9319ecba16475a9_a277080d3db76f19df9319ecba16475a9}{map::const\_reference};
+01876         \textcolor{keyword}{using} \hyperlink{classaed2_1_1map_a7394e98a23b86bc008ad73326b273fd5_a7394e98a23b86bc008ad73326b273fd5}{pointer} = \hyperlink{classaed2_1_1map_a1366fc3e227a49777cb748fc6d4e022b_a1366fc3e227a49777cb748fc6d4e022b}{map::const\_pointer};
+01877         \textcolor{keyword}{using} \hyperlink{classaed2_1_1map_a2f55b88809000fcbfce1c6cfef1ba74d_a2f55b88809000fcbfce1c6cfef1ba74d}{difference\_type} = std::ptrdiff\_t;
+01878 
+01880         const\_iterator() \{\}
+01898         const\_iterator(iterator it) \{
+01899             n = it.n;
+01900         \}
+01902         \hyperlink{classaed2_1_1map_af4f147533b3c0207ab036c86ce13ec0d_af4f147533b3c0207ab036c86ce13ec0d}{reference} operator*()\textcolor{keyword}{ const  }\{
+01903             \textcolor{keywordflow}{return} n->value();
+01904         \}
+01906         \hyperlink{classaed2_1_1map_a7394e98a23b86bc008ad73326b273fd5_a7394e98a23b86bc008ad73326b273fd5}{pointer} operator->()\textcolor{keyword}{ const }\{
+01907             \hyperlink{classaed2_1_1map_a719db98e0ff9a837610f76be33264680_a719db98e0ff9a837610f76be33264680}{value\_type}* p = n->value();
+01908             \textcolor{keywordflow}{return} p;
+01909         \}
+01911         const\_iterator& operator++()  \{
+01912             \textcolor{keywordflow}{if}(n->color == Color::Header) \{
+01913                 n = n->child[0];
+01914             \}\textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(n->child[1] != \textcolor{keyword}{nullptr})\{
+01915                 n = min(n->child[1]);
+01916             \}\textcolor{keywordflow}{else}\{
+01917                 Node* y = n->parent;
+01918                 \textcolor{keywordflow}{while}(y->color != Color::Header and n == y->child[1])\{
+01919                     n = y;
+01920                     y = y->parent;
+01921                 \}
+01922                 \textcolor{keywordflow}{if}(n == y->child[0])\{
+01923                     n = y;
+01924                 \}\textcolor{keywordflow}{else}\{
+01925                     n = y->parent;
+01926                 \}
+01927             \}
+01928             \textcolor{keywordflow}{return} *\textcolor{keyword}{this};
+01929         \}
+01931         const\_iterator operator++(\textcolor{keywordtype}{int})  \{
+01932             const\_iterator ret = *\textcolor{keyword}{this};
+01933             ++*\textcolor{keyword}{this};
+01934             \textcolor{keywordflow}{return} ret;
+01935         \}
+01937         const\_iterator& operator--()  \{
+01938             \textcolor{keywordflow}{if}(n->color == Color::Header)\{
+01939                 n = n->child[1];
+01940             \}\textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(n->child[0] != \textcolor{keyword}{nullptr})\{
+01941                 n = max(n->child[0]);
+01942             \}\textcolor{keywordflow}{else}\{
+01943                 Node* y = n->parent;
+01944                 \textcolor{keywordflow}{while}(y != \textcolor{keyword}{nullptr} and n == y->child[0])\{
+01945                     n = y;
+01946                     y = y->parent;
+01947                 \}
+01948                 n = y;
+01949             \}
+01950             \textcolor{keywordflow}{return} *\textcolor{keyword}{this};
+01951         \}
+01953         const\_iterator operator--(\textcolor{keywordtype}{int})  \{
+01954             const\_iterator ret = *\textcolor{keyword}{this};
+01955             --*\textcolor{keyword}{this};
+01956             \textcolor{keywordflow}{return} ret;
+01957         \}
+01959         \textcolor{keywordtype}{bool} \hyperlink{classaed2_1_1map_abfc51b39670220e79037ac067006e933_abfc51b39670220e79037ac067006e933}{operator==}(const\_iterator other)\textcolor{keyword}{ const  }\{
+01960             \textcolor{keywordflow}{return} n == other.n;
+01961         \}
+01963         \textcolor{keywordtype}{bool} \hyperlink{classaed2_1_1map_abce0fa35c5b25fd67111c2e704616f09_abce0fa35c5b25fd67111c2e704616f09}{operator!=}(const\_iterator other)\textcolor{keyword}{ const  }\{
+01964             \textcolor{keywordflow}{return} n != other.n;
+01965         \}
+01966 
+01967     \textcolor{keyword}{private}:
+01969         const\_iterator(Node* pos) : n(pos) \{\}
+01971         \textcolor{keyword}{operator} Node*() \textcolor{keyword}{const} \{\textcolor{keywordflow}{return} n;\}
+01973         Node* n\{\textcolor{keyword}{nullptr}\};
+01974         \textcolor{keyword}{friend} \textcolor{keyword}{class }\hyperlink{classaed2_1_1map}{map};
+01975 
+01976         Node* max(Node* n)\{
+01977             Node* ret = n;
+01978             \textcolor{keywordflow}{while} (ret->child[1] != \textcolor{keyword}{nullptr})\{
+01979                 ret = ret->child[1];
+01980             \}
+01981             \textcolor{keywordflow}{return} ret;
+01982         \}
+01983 
+01984         Node* min(Node* n)\{
+01985             Node* ret = n;
+01986             \textcolor{keywordflow}{while} (ret->child[0] != \textcolor{keyword}{nullptr})\{
+01987                 ret = ret->child[0];
+01988             \}
+01989             \textcolor{keywordflow}{return} ret;
+01990         \}
+01991     \};
+01992 
+01993 \textcolor{keyword}{private}:
+01994     \textcolor{keyword}{friend} \textcolor{keyword}{class }iterator;
+01995     \textcolor{keyword}{friend} \textcolor{keyword}{class }const\_iterator;
+01996 
+02006     \textcolor{keyword}{enum class} Color \{Red, Black, Header\};
+02007 
+02024     \textcolor{keyword}{struct }Node \{
+02026         Node* child[2]\{\textcolor{keyword}{nullptr},\textcolor{keyword}{nullptr}\};
+02028         Node* parent\{\textcolor{keyword}{nullptr}\};
+02030         Color color\{Color::Red\};
+02031 
+02033 
+02034 
+02036 
+02044         Node() : color(Color::Header) \{
+02045             child[0] = child[1] = \textcolor{keyword}{this};
+02046         \}
+02047 
+02058         Node(Node* p, Color c = Color::Red) : parent(p), color(c) \{\}
+02060         
+02075         \textcolor{keyword}{virtual} ~Node() \{\}
+02076 
+02077 
+02079 
+02080 
+02082 
+02100         \textcolor{keywordtype}{bool} is\_header()\textcolor{keyword}{ const }\{
+02101             \textcolor{keywordflow}{return} color == Color::Header;
+02102         \}
+02103 
+02116         \hyperlink{classaed2_1_1map_a719db98e0ff9a837610f76be33264680_a719db98e0ff9a837610f76be33264680}{value\_type}& value() \{
+02117             assert(not is\_header());
+02118             \textcolor{keywordflow}{return} \textcolor{keyword}{static\_cast<}InnerNode*\textcolor{keyword}{>}(\textcolor{keyword}{this})->\_value;
+02119         \}
+02121         \textcolor{keyword}{const} \hyperlink{classaed2_1_1map_a719db98e0ff9a837610f76be33264680_a719db98e0ff9a837610f76be33264680}{value\_type}& value()\textcolor{keyword}{ const }\{
+02122             assert(not is\_header());
+02123             \textcolor{keywordflow}{return} \textcolor{keyword}{static\_cast<}\textcolor{keyword}{const }InnerNode*\textcolor{keyword}{>}(\textcolor{keyword}{this})->\_value;
+02124         \}
+02125 
+02138         \textcolor{keyword}{const} Key& key()\textcolor{keyword}{ const }\{
+02139             assert(not is\_header());
+02140             \textcolor{keywordflow}{return} value().first;
+02141         \}
+02142 
+02144 
+02145 \textcolor{preprocessor}{#ifdef DEBUG}
+02146 
+02158 \textcolor{preprocessor}{#endif}
+02159     \};
+02160 
+02177     \textcolor{keyword}{struct }InnerNode : \textcolor{keyword}{public} Node \{
+02178        InnerNode( Node* p, \hyperlink{classaed2_1_1map_a719db98e0ff9a837610f76be33264680_a719db98e0ff9a837610f76be33264680}{value\_type} v ,Color c = Color::Red ):\_value(v), Node(p,c)\{\}
+02179         
+02180         \hyperlink{classaed2_1_1map_a719db98e0ff9a837610f76be33264680_a719db98e0ff9a837610f76be33264680}{value\_type} \_value;
+02181     \};
+02182 
+02184 
+02205 
+02207 
+02211     Compare lt;
+02213     \textcolor{keywordtype}{size\_t} count\{0\};
+02215     Node header;
+02217 
+02219 
+02220 
+02222 
+02227     \textcolor{keyword}{inline} InnerNode* root() \{ \textcolor{keywordflow}{return} \textcolor{keyword}{static\_cast<}InnerNode*\textcolor{keyword}{>}(header.parent); \}
+02228 
+02230     \textcolor{keyword}{inline} \textcolor{keyword}{const} InnerNode* root()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} \textcolor{keyword}{static\_cast<}\textcolor{keyword}{const }InnerNode*\textcolor{keyword}{>}(header.parent); \}
+02232 
+02234 
+02235 
+02243     \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} eq(\textcolor{keyword}{const} Key& k1, \textcolor{keyword}{const} Key& k2)\textcolor{keyword}{ const }\{
+02244         \textcolor{keywordflow}{return} lt(k1, k2) == lt(k2, k1);
+02245     \}
+02246 
+02247     \textcolor{keywordtype}{void} deleteFixUp(Node* nodo)\{
+02248         iterator x = iterator(nodo);
+02249         \textcolor{keywordflow}{while}((root() != x)and(is\_black(x.n)))\{
+02250             \textcolor{keywordflow}{if}(x.n == x.n->parent->child[0])\{
+02251                 deleteFixUpAux(x.n, 0);
+02252             \} \textcolor{keywordflow}{else}\{
+02253                 deleteFixUpAux(x.n, 1);
+02254             \}
+02255         \}
+02256     \}
+02257 
+02258     \textcolor{keywordtype}{void} deleteFixUpAux(Node* nodo, \textcolor{keywordtype}{int} i)\{
+02259         iterator x = iterator(nodo);
+02260         iterator w = iterator(x.n->parent->child[i]);
+02261         \textcolor{keywordflow}{if}(not(is\_black(w.n)))\{                     \textcolor{comment}{//1}
+02262             w.n->color = Color::Black;              \textcolor{comment}{//1}
+02263             x.n->parent->color = Color::Red;        \textcolor{comment}{//1}
+02264             Rotate(x.n->parent, 1);                 \textcolor{comment}{//1}
+02265             w = x.n->parent->child[1];              \textcolor{comment}{//1}
+02266         \}
+02267         \textcolor{keywordflow}{if}(w.n != \textcolor{keyword}{nullptr})\{
+02268             \textcolor{keywordflow}{if}(is\_black(w.n->child[0]) and is\_black(w.n->child[1]))\{    \textcolor{comment}{//2}
+02269                 w.n->color = Color::Red;                                \textcolor{comment}{//2}
+02270                 x.n = x.n->parent;                                      \textcolor{comment}{//2}
+02271             \} \textcolor{keywordflow}{else}\{
+02272                 \textcolor{keywordflow}{if}(is\_black(w.n->child[1]))\{
+02273                     w.n->color = Color::Red;                    \textcolor{comment}{//3}
+02274                     w.n->child[0]->color = Color::Black;        \textcolor{comment}{//3}
+02275                     Rotate(w.n, 0);                             \textcolor{comment}{//3}
+02276                     w.n = x.n->parent->child[1];                \textcolor{comment}{//3}
+02277                 \}
+02278                 w.n->color = x.n->parent->color;                    \textcolor{comment}{//4}
+02279                 x.n->parent->color = Color::Black;                  \textcolor{comment}{//4}
+02280                 w.n->child[1]->color = Color::Black;                \textcolor{comment}{//4}
+02281                 Rotate(x.n->parent, 1);                             \textcolor{comment}{//4}
+02282                 x = root();                                         \textcolor{comment}{//4}
+02283             \}
+02284         \}
+02285     \}
+02286 
+02287     \textcolor{keywordtype}{void} insertFixUp(Node* n)\{
+02288         \textcolor{keywordflow}{while}(n->parent->color == Color::Red)\{
+02289             \textcolor{keywordflow}{if}(n->parent == n->parent->parent->child[0])\{
+02290                 iterator y = iterator(n->parent->parent->child[1]);
+02291                 \textcolor{keywordflow}{if}(y.n->color == Color::Red)\{
+02292                     n->parent->color = Color::Black;
+02293                     y.n->color = Color::Black;
+02294                     n->parent->parent->color = Color::Red;
+02295                     n = n->parent->parent;
+02296                 \}\textcolor{keywordflow}{else}\{
+02297                     \textcolor{keywordflow}{if}(n == n->parent->child[1])\{
+02298                         n = n->parent;
+02299                         Rotate(n,1);
+02300                     \}
+02301                     n->parent->color = Color::Black;
+02302                     n->parent->parent->color = Color::Red;
+02303                     Rotate(n->parent->parent,0);
+02304                 \}
+02305             \}\textcolor{keywordflow}{else}\{
+02306                 iterator y = iterator(n->parent->parent->child[0]);
+02307                 \textcolor{keywordflow}{if}(not is\_black(y.n))\{
+02308                     n->parent->color = Color::Black;
+02309                     y.n->color = Color::Black;
+02310                     n->parent->parent->color = Color::Red;
+02311                     n = n->parent->parent;
+02312                 \}\textcolor{keywordflow}{else}\{
+02313                     \textcolor{keywordflow}{if}(n == n->parent->child[0])\{ \textcolor{comment}{//habia un 1}
+02314                         n = n->parent;
+02315                         Rotate(n,0); \textcolor{comment}{//habia un 1}
+02316                     \}
+02317                     n->parent->color = Color::Black;
+02318                     n->parent->parent->color = Color::Red;
+02319                     Rotate(n->parent->parent,1); \textcolor{comment}{//habia un 0}
+02320                 \}
+02321             \}
+02322         \}
+02323         laRaiz(n)->color = Color::Black;       \textcolor{comment}{//aca hay que implementar un poco de magia}
+02324         header.parent = laRaiz(n);
+02325 
+02326         \textcolor{comment}{/*//n deveria ser un innerNode?}
+02327 \textcolor{comment}{        while(n->parent->color == Color::Red)\{}
+02328 \textcolor{comment}{            if(n->parent == n->parent->parent->child[1])\{}
+02329 \textcolor{comment}{                iterator y = iterator(n->parent->parent->child[2]);}
+02330 \textcolor{comment}{                if(y.n->color == Color::Red)\{}
+02331 \textcolor{comment}{                    n->parent->color = Color ::Black;}
+02332 \textcolor{comment}{                    y.n->color = Color ::Black;}
+02333 \textcolor{comment}{                    n->parent->parent->color = Color ::Red;}
+02334 \textcolor{comment}{                    n = n->parent->parent;}
+02335 \textcolor{comment}{                \}else\{}
+02336 \textcolor{comment}{                    if(n == n->parent->child[2])\{}
+02337 \textcolor{comment}{                        n = n->parent;}
+02338 \textcolor{comment}{                        Rotate(n,2);}
+02339 \textcolor{comment}{                    \}}
+02340 \textcolor{comment}{                    n->parent->color = Color ::Black;}
+02341 \textcolor{comment}{                    n->parent->parent->color = Color ::Red;}
+02342 \textcolor{comment}{                    Rotate(n->parent->parent,1);}
+02343 \textcolor{comment}{                \}}
+02344 \textcolor{comment}{            \}else\{}
+02345 \textcolor{comment}{                iterator y = iterator(n->parent->parent->child[1]);}
+02346 \textcolor{comment}{                if(y.n->color == Color::Red)\{}
+02347 \textcolor{comment}{                    n->parent->color = Color ::Black;}
+02348 \textcolor{comment}{                    y.n->color = Color ::Black;}
+02349 \textcolor{comment}{                    n->parent->parent->color = Color ::Red;}
+02350 \textcolor{comment}{                    n = n->parent->parent;}
+02351 \textcolor{comment}{                \}else\{}
+02352 \textcolor{comment}{                    if(n == n->parent->child[2])\{}
+02353 \textcolor{comment}{                        n = n->parent;}
+02354 \textcolor{comment}{                        Rotate(n,2);}
+02355 \textcolor{comment}{                    \}}
+02356 \textcolor{comment}{                    n->parent->color = Color ::Black;}
+02357 \textcolor{comment}{                    n->parent->parent->color = Color ::Red;}
+02358 \textcolor{comment}{                    Rotate(n->parent->parent,1);}
+02359 \textcolor{comment}{                \}}
+02360 \textcolor{comment}{            \}}
+02361 \textcolor{comment}{        \}}
+02362 \textcolor{comment}{        root()->color = Color ::Black;*/}
+02363     \}
+02364 
+02365     \textcolor{comment}{//Si i=1 entonce es un left-Rotate. De lo contrario (i=0) es un right-Rotate.}
+02366     \textcolor{keywordtype}{void} Rotate(Node* n, \textcolor{keywordtype}{int} i)\{
+02367         iterator it = iterator(n->child[i]);
+02368         n->child[i] = it.n->child[(i+1)%2];
+02369         \textcolor{keywordflow}{if}(it.n->child[(i+1)%2] != \textcolor{keyword}{nullptr})\{
+02370             it.n->child[(i+1)%2]->parent = n;
+02371         \}
+02372         it.n ->parent = n->parent;
+02373         \textcolor{keywordflow}{if}(n == n->parent->child[1])\{
+02374             n->parent->child[(i+1)%2] = it.n;
+02375         \}\textcolor{keywordflow}{else}\{
+02376             n->parent->child[i] = it.n;
+02377         \}
+02378         it.n -> child[(i+1)%2] = n;
+02379         n->parent = it.n;
+02380     \}
+02381 
+02382     \textcolor{keywordtype}{void} transplant(Node* viejo, Node* nuevo)\{
+02383         \textcolor{keywordflow}{if}(viejo == root())\{
+02384             header.parent = nuevo;
+02385         \} \textcolor{keywordflow}{else}\{
+02386             \textcolor{keywordflow}{if}(viejo == viejo->parent->child[0])\{
+02387                 viejo->parent->child[0] = nuevo;
+02388             \} \textcolor{keywordflow}{else}\{
+02389                 viejo->parent->child[1]= nuevo;
+02390             \}
+02391         \}
+02392         \textcolor{keywordflow}{if}(viejo == header.child[0])\{
+02393             iterator max = iterator(viejo);
+02394             header.child[0] = ++max;
+02395         \}
+02396         \textcolor{keywordflow}{if}(viejo == header.child[1])\{
+02397             iterator min = iterator(viejo);
+02398             header.child[1] = --min;
+02399         \}
+02400         nuevo->parent = viejo->parent;
+02401     \}
+02402 
+02403     \textcolor{keywordtype}{bool} is\_black(Node* n)\{
+02404         \textcolor{keywordflow}{if}(n == \textcolor{keyword}{nullptr}) \{
+02405             \textcolor{keywordflow}{return} \textcolor{keyword}{true};
+02406         \}\textcolor{keywordflow}{else}\{
+02407             \textcolor{keywordflow}{return} n->color == Color::Black;
+02408         \}
+02409     \}
+02410 
+02411     Node* laRaiz(Node* node)\{
+02412         Node* n = node;
+02413         \textcolor{keywordflow}{while}(n->parent->color != Color::Header)\{
+02414             n = n->parent;
+02415         \}
+02416         \textcolor{keywordflow}{return} n;
+02417     \}
+02418 \};
+02419 
+02421 
+02422 
+02424 
+02447 \textcolor{keyword}{template}<\textcolor{keyword}{class} K, \textcolor{keyword}{class} V, \textcolor{keyword}{class} C>
+\hypertarget{map0_8h_source.tex_l02448}{}\hyperlink{classaed2_1_1map_abfc51b39670220e79037ac067006e933_abfc51b39670220e79037ac067006e933}{02448} \textcolor{keywordtype}{bool} \hyperlink{classaed2_1_1map_abfc51b39670220e79037ac067006e933_abfc51b39670220e79037ac067006e933}{operator==}(\textcolor{keyword}{const} \hyperlink{classaed2_1_1map}{map<K, V, C>}& m1, \textcolor{keyword}{const} \hyperlink{classaed2_1_1map}{map<K, V, C>}& m2) \{
+02449     \textcolor{keywordflow}{return} m1.size() == m2.size() and std::equal(m1.begin(), m1.end(), m2.begin());
+02450 \}
+02451 
+02458 \textcolor{keyword}{template}<\textcolor{keyword}{class} K, \textcolor{keyword}{class} V, \textcolor{keyword}{class} C>
+\hypertarget{map0_8h_source.tex_l02459}{}\hyperlink{classaed2_1_1map_abce0fa35c5b25fd67111c2e704616f09_abce0fa35c5b25fd67111c2e704616f09}{02459} \textcolor{keywordtype}{bool} \hyperlink{classaed2_1_1map_abce0fa35c5b25fd67111c2e704616f09_abce0fa35c5b25fd67111c2e704616f09}{operator!=}(\textcolor{keyword}{const} \hyperlink{classaed2_1_1map}{map<K, V, C>}& m1, \textcolor{keyword}{const} \hyperlink{classaed2_1_1map}{map<K, V, C>}& m2) \{
+02460     \textcolor{keywordflow}{return} not(m1 == m2);
+02461 \}
+02462 
+02486 \textcolor{keyword}{template}<\textcolor{keyword}{class} K, \textcolor{keyword}{class} V, \textcolor{keyword}{class} C>
+\hypertarget{map0_8h_source.tex_l02487}{}\hyperlink{classaed2_1_1map_a8ff07f6a24c290ea7e8f63ec7ab24f8d_a8ff07f6a24c290ea7e8f63ec7ab24f8d}{02487} \textcolor{keywordtype}{bool} operator<(const map<K, V, C>& m1, \textcolor{keyword}{const} \hyperlink{classaed2_1_1map}{map<K, V, C>}& m2) \{
+02488         \textcolor{keywordflow}{return} std::lexicographical\_compare(m1.begin(), m1.end(), m2.begin(), m2.end());
+02489 \}
+02490 
+02497 \textcolor{keyword}{template}<\textcolor{keyword}{class} K, \textcolor{keyword}{class} V, \textcolor{keyword}{class} C>
+\hypertarget{map0_8h_source.tex_l02498}{}\hyperlink{classaed2_1_1map_a2000cd874b72034ce7fe730c811b6c63_a2000cd874b72034ce7fe730c811b6c63}{02498} \textcolor{keywordtype}{bool} \hyperlink{classaed2_1_1map_a2000cd874b72034ce7fe730c811b6c63_a2000cd874b72034ce7fe730c811b6c63}{operator>}(\textcolor{keyword}{const} \hyperlink{classaed2_1_1map}{map<K, V, C>}& m1, \textcolor{keyword}{const} \hyperlink{classaed2_1_1map}{map<K, V, C>}& m2) \{
+02499     \textcolor{keywordflow}{return} m2 < m1;
+02500 \}
+02501 
+02508 \textcolor{keyword}{template}<\textcolor{keyword}{class} K, \textcolor{keyword}{class} V, \textcolor{keyword}{class} C>
+\hypertarget{map0_8h_source.tex_l02509}{}\hyperlink{classaed2_1_1map_afe374b37f17263d0cad3ee19a590d208_afe374b37f17263d0cad3ee19a590d208}{02509} \textcolor{keywordtype}{bool} operator<=(const map<K, V, C>& m1, \textcolor{keyword}{const} \hyperlink{classaed2_1_1map}{map<K, V, C>}& m2) \{
+02510     \textcolor{keywordflow}{return} not(m2 < m1);
+02511 \}
+02512 
+02519 \textcolor{keyword}{template}<\textcolor{keyword}{class} K, \textcolor{keyword}{class} V, \textcolor{keyword}{class} C>
+\hypertarget{map0_8h_source.tex_l02520}{}\hyperlink{classaed2_1_1map_a093a6d1a055339c5fc6297a1d47a9159_a093a6d1a055339c5fc6297a1d47a9159}{02520} \textcolor{keywordtype}{bool} \hyperlink{classaed2_1_1map_a093a6d1a055339c5fc6297a1d47a9159_a093a6d1a055339c5fc6297a1d47a9159}{operator>=}(\textcolor{keyword}{const} \hyperlink{classaed2_1_1map}{map<K, V, C>}& m1, \textcolor{keyword}{const} \hyperlink{classaed2_1_1map}{map<K, V, C>}& m2) \{
+02521     \textcolor{keywordflow}{return} !(m1 < m2);
+02522 \}
+02524 
+02526 
+02527 
+02543 \textcolor{keyword}{template}<\textcolor{keyword}{class} K, \textcolor{keyword}{class} V, \textcolor{keyword}{class} C>
+\hypertarget{map0_8h_source.tex_l02544}{}\hyperlink{classaed2_1_1map_a119cb2938bbc11c25ebd4fb824782a72_a119cb2938bbc11c25ebd4fb824782a72}{02544} \textcolor{keywordtype}{void} \hyperlink{classaed2_1_1map_a119cb2938bbc11c25ebd4fb824782a72_a119cb2938bbc11c25ebd4fb824782a72}{swap}(\hyperlink{classaed2_1_1map}{map<K, V, C>}& m1, \hyperlink{classaed2_1_1map}{map<K, V, C>}& m2) \{
+02545     m1.swap(m2);
+02546 \}
+02547 \}
+02548 
+02549 \textcolor{preprocessor}{#endif }\textcolor{comment}{/* MAP\_H\_ */}\textcolor{preprocessor}{}
+\end{DoxyCode}

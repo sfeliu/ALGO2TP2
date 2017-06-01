@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.11"/>
+<title>Trabajo práctico 2: diccionario sobre RB-tree: Aspectos de aliasing y uso de punteros</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { init_search(); });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="style.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Trabajo práctico 2: diccionario sobre RB-tree
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Nombre Apellido, Nombre Apellido, Nombre Apellido y Nombre Apellido</div>
+  </td>
+   <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Buscar" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.8.11 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Buscar');
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('Aliasing.html','');});
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">Aspectos de aliasing y uso de punteros </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="toc"><h3>Tabla de contenidos</h3>
+<ul><li class="level1"><a href="#sec-Resumen">Resumen</a></li>
+<li class="level1"><a href="#sec-puntero">Álgebra vs. computadora</a><ul><li class="level2"><a href="#sec-invalido">Variables y punteros inválidos y el problema de la memoria finita</a></li>
+</ul>
+</li>
+<li class="level1"><a href="#sec-aliasing">Los aspectos de aliasing</a></li>
+<li class="level1"><a href="#sec-iteradores">Especificación de los iteradores y el alias</a></li>
+</ul>
+</div>
+<div class="textblock"><h1><a class="anchor" id="sec-Resumen"></a>
+Resumen</h1>
+<p>Como referencia (y para los perezosos), escribimos un resumen antes de justificar las decisiones tomadas:</p><ul>
+<li>Los valores computacionales se pueden transformar en términos algebraicos usando sombrerito (ver apunte de diseño). Vamos a omitir el uso del sombrerito.</li>
+<li>Las variables computacionales tienen una dirección de memoria que se puede obtener con el operador &amp;. Este operador devuelve una instancia algebraica de tipo puntero (que es un renombre de tupla) con dos operaciones:<ol type="1">
+<li>'*': que retorna el valor apuntado, y</li>
+<li>'get': que retorna el entero con la dirección de memoria.</li>
+</ol>
+</li>
+<li>Para saber si dos variables computacionales <code>x</code> e <code>y</code> son alias a la misma posición de memoria alcanza con verificar que &amp;<code>x</code> <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> &amp;<code>y</code>.</li>
+<li>Los aspectos de aliasing, que describen los efectos de una operación en aliases a los que no tenemos acceso, se describen en castellano.</li>
+<li>Los iteradores cuentan con un observador <code>coleccion</code> que retorna un puntero a la colección recorrida. En consecuencia, podemos saber si dos iteradores recorrer la misma colección verificando la igualdad observacional de este observador.</li>
+</ul>
+<p>En el enunciado del TP hay algunas funciones que muestran cómo describir los aspectos de aliasing.</p>
+<h1><a class="anchor" id="sec-puntero"></a>
+Álgebra vs. computadora</h1>
+<p>Hay una diferencia esencial entre las instancias de TADs construidas en las especificaciones algebraicas y los valores que se usan en un programa de computadora. Mientras que las primeras son sólo construcciones de términos cuya igualdad se define a través de un predicado de observación, los segundos son secuencias de bits, guardadas en memoria, cuya interpretación se comprende a través de su tipo (estructura). Asimismo, hay una diferencia fundamental entre los identificadores usados en el lenguaje algebraico y aquellos usados en una máquina RAM. Los primeros se usan únicamente para denotar las instancias que son parámetro de las funciones, mientras que los segundos se refieren a las direcciones de memoria en los que se guarda un valor computacional. En consecuencia, mientras que las operaciones algebraicas transforman términos <em>sin modificar el significado del término dado como parámetro</em>, las operaciones computacionales leen y escriben espacios de memoria y, por lo tanto, <em>modifican el espacio de memoria de sus parámetros (posiblemente de salida), afectando su significado</em>.</p>
+<p>Dado que son conceptos distintos, no es obvio cómo los valores computacional se usan para referirse a términos algebraicos. Es por esto que el apunte de diseño propone el uso de un operador (no definido formalmente ahí), llamado "sombrerito", que transforma cada valor computacional en un término algebraico, bajo la hipótesis de que dicho espacio de memoria representa un valor válido de acuerdo a la interpretación de su tipo.</p>
+<dl class="section remark"><dt>Comentarios</dt><dd><p class="startdd">La definición de sombrerito sigue un esquema recursivo. Para cada tipo <em>T</em> provisto por el lenguaje existe una versión de sombrerito que define la interpretación de los valores de <em>T</em> como tipos algebraicos. Por ejemplo, en C++ tenemos una versión de sombrerito que dado un unsigned int nos devuelve un Nat. Asimismo, tenemos una versión de sombrerito que dado un bool nos devuelve una instancia del TAD Booleano. Para ser explícitos con los tipos, vamos a escribir term&lt;<em>T&gt;</em> para designar a la función sombrerito de <em>T</em>. Acá, <em>T</em> es un tipo computacional (i.e., C++) que se interpreta usando un TAD que lo explica. El género de dicho TAD es <img class="formulaInl" alt="$\widehat{T}$" src="form_3.png"/>. Luego, el tipo de term es:</p><ol type="1">
+<li>term : <em>T</em> t <img class="formulaInl" alt="$\to$" src="form_4.png"/> <img class="formulaInl" alt="$\widehat{T}$" src="form_3.png"/> {rep(t)} para cada tipo básico <em>T</em>, donde rep es una restricción definida sobre bits, y</li>
+<li>term : <em>T</em> t <img class="formulaInl" alt="$\to$" src="form_4.png"/> <img class="formulaInl" alt="$\widehat{T}$" src="form_3.png"/> {rep(term&lt;E&gt;(t))} para cada tipo no básico <em>T</em> que se representa con una estructura E.</li>
+</ol>
+<p>En este esquema, la función term&lt;struct&gt; juega un rol importante, ya que dice cómo se interpreta una estructura de C++. En pocas palabras:</p><ul>
+<li>term&lt;struct&gt;(struct {T1 c1, ..., Tk ck} x) = tupla(term&lt;T1&gt;(x.c1), ..., term&lt;Tk&gt;(x.ck))</li>
+</ul>
+<p>Es decir, term sobre una variable x de tipo struct se corresponde con la tupla que se obtiene de interpretar cada uno de sus campos con los tipos correctos.</p>
+<p>Una vez que term ya está definido para los tipos provistos por el lenguaje, su definición para los tipos creados por un usuario es simple. Si T es una estructura representada por un tipo E, entonces:</p><ul>
+<li>term&lt;T&gt;(x) = abs&lt;T&gt;(term&lt;E&gt;(x))</li>
+</ul>
+<p class="enddd">En otras palabras, interpretamos el valor computacional x como si fuera de tipo E y luego aplicamos la función de abstracción. </p>
+</dd></dl>
+<p>En este TP vamos a obviar el uso del operador sombrerito y de la función term. Sin embargo, necesitamos entender el concepto de valor computacional, ya que el mismo permite definir un concepto que no tiene sentido en el mundo algebraico: los <em>punteros</em>. Para poder interpretar el tipo puntero, que es una construcción del lenguaje de implementación, necesitamos definir su operador sombrerito (term). En términos de la implementación, podemos decir que un puntero es simplemente un número natural. Sin embargo, dicho numero se usa para referirse a una posición de memoria que se interpreta con algún tipo. Así pues, desde el punto de vista semántico, un puntero de tipo <em>T</em> <em>apunta</em> a un espacio de memoria que se interpreta bajo el tipo <em>T</em>.</p>
+<p>Existen muchas sutilezas en el uso de los punteros, como el hecho de que podamos interpretar a la misma posición de memoria con distintos tipos. No vamos a describir esto en este documento, ya que este concepto está más que estudiado en las clases de laboratorio de la materia. Empero, destacamos este hecho para mencionar que el concepto de puntero es un concepto computacional, que surge de la misma definición de variable computacional. Sin embargo, en esta materia escribimos nuestras precondiciones y postcondiciones en términos algebraicos, razón por la cual, como dijimos antes, necesitamos un enlace entre los conceptos. Lo primero es definir el TAD puntero. Si bien este tipo es simplemente un renombre del TAD tupla( <img class="formulaInl" alt="$\alpha$" src="form_5.png"/>, nat), vamos a escribirlo para tener una interfaz más amigable.</p>
+<p>TAD puntero( <img class="formulaInl" alt="$\alpha$" src="form_5.png"/>)<br />
+<b>observadores</b> <br />
+</p><ul>
+<li>* <img class="formulaInl" alt="$\bullet$" src="form_6.png"/>: puntero( <img class="formulaInl" alt="$\alpha$" src="form_5.png"/>) <img class="formulaInl" alt="$\to$" src="form_4.png"/> <img class="formulaInl" alt="$\alpha$" src="form_5.png"/><br />
+</li>
+<li>get: puntero( <img class="formulaInl" alt="$\alpha$" src="form_5.png"/>) <img class="formulaInl" alt="$\to$" src="form_4.png"/> Nat</li>
+</ul>
+<p><b>generadores</b> <br />
+</p><ul>
+<li>set: Nat <img class="formulaInl" alt="$\times$" src="form_7.png"/> <img class="formulaInl" alt="$\alpha$" src="form_5.png"/> <img class="formulaInl" alt="$\to$" src="form_4.png"/> puntero( <img class="formulaInl" alt="$\alpha$" src="form_5.png"/>)</li>
+</ul>
+<p>Vale remarcar que dicho TAD no es más que un TAD sintáctico, cuyo único propósito es almacenar la información de un puntero. Más aun, cuando <img class="formulaInl" alt="$\alpha$" src="form_5.png"/> sea de tipo tupla, vamos a suponer la existencia de la función -&gt; que permite acceder a los campos de la tupla apuntada. Luego, la función term queda definida como:</p><ul>
+<li>term&lt;T&gt; : T* p <img class="formulaInl" alt="$\to$" src="form_4.png"/> puntero(T) {rep(term&lt;T&gt;(*p))}</li>
+<li>term&lt;T&gt;(x) = set(x, *x)</li>
+</ul>
+<p>es decir, term&lt;T&gt;(x) guarda la dirección apuntada por x junto con su valor.</p>
+<p>Si bien el modelado de los punteros no lleva una gran dificultad intrínseca, lo importante son sus implicancias para las <em>variables</em> computacionales. Recordemos que una variable computacional es un nombre que se refiere a un valor almacenado en una posición de memoria. En este sentido, las variables computaciones no son solo identificadores, ya que tienen asociada una dirección de memoria, aunque no sepamos qué dirección se le asigna a cada variable. Podemos suponer, pues, que existe una función que, dada una variable computacional <em>v</em>, nos retorna el término algebraico (de tipo puntero) que apunta a la posición de memoria de <em>v</em>. A diferencia de term, no tenemos herramientas adecuadas para definir esta función, que depende de la compilación. (Notar que &amp; es una función del mundo de diseño). Sin embargo, podemos describir su nombre y (una aproximación de su) tipo:</p><ul>
+<li>&amp; <img class="formulaInl" alt="$\bullet$" src="form_6.png"/>: <img class="formulaInl" alt="$\alpha$" src="form_5.png"/> <img class="formulaInl" alt="$\to$" src="form_4.png"/> puntero( <img class="formulaInl" alt="$\widehat{\alpha}$" src="form_8.png"/>)</li>
+</ul>
+<p>indicando que se satisfacen las siguientes propiedades:</p><ol type="1">
+<li>*(&amp;<em>x</em>) <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> term&lt;<em>T&gt;</em>(<em>y</em>) para cualquier variable computacional <em>x</em> de tipo <em>T</em> cuyo valor es <em>y</em>, y</li>
+<li>&amp;<em>x</em> es invariante para cualquier variable computacional <em>x</em>.</li>
+</ol>
+<p>En resumen, podemos observar que las variables computacionales forman, en cierto sentido informal, un tipo nuevo distinto al del valor que denotan. En efecto, una variable computacional <em>v</em> tiene dos operaciones:</p><ol type="1">
+<li>&amp;<em>v:</em> para acceder al valor, y</li>
+<li>eval(<em>v</em>): que denota el valor "almacenado" en la posición de memoria de <em>v</em>. Esta función suele ser implícita, ya que uno suele escribir <em>v</em> para referirse a su valor.</li>
+</ol>
+<p>La existencia del operador &amp; sobre variables computacionales nos permite definir lo que seria el símil de la igualdad observacional de estos objetos, i.e., el alias. Es decir, cuándo dos variables refieren a la misma posición de memoria. En este caso, <em>v</em> y <em>w</em> tiene alias si y sólo si &amp;<em>v</em> <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> &amp;<em>w</em>.</p>
+<h2><a class="anchor" id="sec-invalido"></a>
+Variables y punteros inválidos y el problema de la memoria finita</h2>
+<p>Claramente, no todas las combinaciones de bits representan información válida, cuando queremos interpretar una posición de memoria con un tipo <em>T</em>. El comportamiento de la función sombrerito sobre dichas variables está indefinido (ver restricción). Sin embargo, no podemos especificar nada de las variables <em>antes</em> de aplicar sombrerito. Por ello, simplemente asumimos que las variables de nuestro mundo computacional son <em>válidas</em>. En términos formales, suponemos que sombrerito de <em>x</em> siempre denota un valor correcto, más allá de la restricción.</p>
+<p>Análogamente, un puntero a <em>T</em>, al ser una valor computacional, puede tener un valor inválido. Esto ocurre, por ejemplo, cuando la posición de memoria a la que apunta no se puede interpretar correctamente bajo el tipo <em>T</em>. Es decir, si <em>x</em> es una variable inválida, entonces &amp;<em>x</em> es un puntero inválido.</p>
+<p>Obviamente, si suponemos que <em>x</em> siempre es válido, entonces huelga decir que &amp;<em>x</em> es siempre válido. Sin embargo, en sistemas finitos, queremos no perder memoria, razón por la cual tenemos que retornarla al sistema. Una vez más, la devolución de memoria es algo que escapa el mundo algebraico (que supone la existencia de los infinitos términos en simultáneo, i.e., memoria infinita). Si bien no vamos a especificarlo, existe una función computacional de <em>liberación de memoria</em>. Esta función (implícitamente) transforma el espacio de memoria en un valor <img class="formulaInl" alt="$\bot$" src="form_9.png"/> que es inválido para cualquier tipo <em>T</em>. De esta forma, los punteros que apuntan a dicha posición se <em>invalidan</em> aunque lo hayamos inicializado con valores válidos.</p>
+<h1><a class="anchor" id="sec-aliasing"></a>
+Los aspectos de aliasing</h1>
+<p>En la computadora, el aliasing ocurre cuando tenemos dos variables que referencian a la misma posición de memoria. Considerando que *<em>p</em> es una variable para cualquier puntero <em>p</em>, es claro que el aliasing es parte de un sistema (por ejemplo, cualquier lista doblemente enlazada de al menos tres elementos tiene aliasing).</p>
+<p>El inconveniente con el aliasing es que al liberar la memoria de una variable se invalidan todos los alias que referencian a la misma. Asimismo, cuando modificamos el valor de una variable, se modifican los valores de todos los alias a la misma. No hay forma de especificar estas condiciones en el mundo algebraico, porque no tenemos un mapa de "instancias válidas" que especifique el espacio de memoria disponible. Por supuesto que existen formalizaciones de la memoria y su semántica, pero escapan los contenidos de esta materia. Es por este motivo que vamos a incluir un apartado llamado <em>aspectos de aliasing</em> para discutir, en castellano:</p><ul>
+<li>la existencia de cualquier posible alias entre las variables,</li>
+<li>la invalidez o no de todas las variables que podrían tener alias, y</li>
+<li>la posibilidad de modificar una variable que tiene alias.</li>
+</ul>
+<h1><a class="anchor" id="sec-iteradores"></a>
+Especificación de los iteradores y el alias</h1>
+<p>De forma similar al TAD puntero de más arriba, los TADs para especificar iteradores son más bien construcciones sintácticas que sirven para expresar la secuencia recorrida. Nuevamente, la idea es poder expresar las pre y postcondiciones en términos algebraicos. Sin embargo, los TADs del apunte de Módulos básicos son insuficientes para este TP, porque no conocen cuál es la colección que están iterando. El problema surge cuando queremos especificar una función como, digamos, swap. Supongamos que queremos una función de swap que intercambie las posiciones apuntadas por dos iteradores <code>it1</code> e <code>it2</code>. ¿Cómo hacemos para expresar que <code>it1</code> e <code>it2</code> recorren la misma colección? Claramente, no alcanza con decir que la secuencia subyacente es la misma, porque podrían ser iteradores a listas observacionalmente iguales, pero en posiciones distintas de la memoria.</p>
+<p>El problema con la especificación de los iteradores es que no explotan el concepto de puntero acá descripto. Aunque dejamos como ejercicio (no obligatorio) su especificación, vamos a suponer que los generadores de iteradores reciben un parámetro adicional de tipo puntero(T) que determina la variable de tipo T que se está recorriendo. Asimismo, tiene un observador, llamado colección que retorna el puntero al objeto recorrido. Así pues, podemos expresar que <code>it1</code> e <code>it2</code> recorren la misma coleccion verificando que coleccion(<code>it1</code>) <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> coleccion(<code>it2</code>). </p>
+</div></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generado el Jueves, 1 de Junio de 2017 19:49:15 para Trabajo práctico 2: diccionario sobre RB-tree por
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
+  </ul>
+</div>
+</body>
+</html>
