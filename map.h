@@ -561,7 +561,7 @@
  * devuelve la cantidad de elementos que tiene el diccionario
  * 
  * \axioma{cantidadDeElementos}: puntero(Node) \TO nat\n
- * cantidadDeElementos(p) \EQUIV \IF p = null then 0 \ELSE 1 + cantidadDeElementos(p->child[0]) +cantidadDeElementos(p->child[1])
+ * cantidadDeElementos(p) \EQUIV \IF p = null \THEN 0 \ELSEIF nothing?(p->value) \THEN cantidadDeElementos(p->parent) \n \ELSE 1 + \cantidadDeElementos(p->child[0]) + \cantidadDeElementos(p->child[1])
  * \endblock	
  * 
  * \par esADB
@@ -569,9 +569,9 @@
  * devuelve una bool indicando si el arbol tiene una relacion de orden total (cada nodo con sus hijos)
  *
  * \axioma{esADB}: puntero(Node) \TO bool\n
- * esADB(p) \EQUIV \IF p = null then true 
- * \ELSEIF (¬(p->child[0]=null) \LAND_L \PI1 (p->child[0]->value)) \LOR_L (¬(p->child[1]=null) \LAND_L \PI1 (p->child[1]->value)) then true
- * \ELSE esADB(p->child[0]) \LAND_L esADB(p->child[1])
+ * esADB(p) \EQUIV \IF p = null \THEN true \ELSEIF nothing?(p->value) \THEN esADB(p->parent)
+ * \ELSEIF (¬(p->child[0]=null) \LAND_L \PI1 (p->child[0]->value)) \LOR_L (¬(p->child[1]=null) \LAND_L \PI1 (p->child[1]->value)) \THEN true
+ * \n \ELSE \esADB(p->child[0]) \LAND_L \esADB(p->child[1])
  * \endparblock
  *	
  * \par cantBlack
@@ -579,17 +579,69 @@
  * dado un puntero nod, devuelve la cantidad de nodos negros hay hasta llegar al root
  *
  * \axioma[cantBlack]: puntero(Node) \TO nat\n
- * cantBlack(p) \EQUIV \IF p = null then 0 \ELSEIF p = p->parent->parent  then 1 
- * \ELSEIF p->color = black then 1 + cantblack(p->parent) \ELSE cantBlack(p->parent)
+ * cantBlack(p) \EQUIV \IF p = null \THEN 0 \ELSEIF nothing?(p->value) \THEN 0
+ * \ELSEIF p = p->parent->parent  \THEN 1 
+ * \ELSEIF p->color = black \THEN 1 + \cantblack(p->parent) \ELSE \cantBlack(p->parent)
  * \endparblock
  *
  * \par colorAdecuado
  * \parblock
- * devuelve un bool que indica si el y los nodos padres, respetan el invariante de coloreo del rb-tree
+ * devuelve un bool que indica si el y el padre, respetan el invariante de coloreo del rb-tree
  *
  * \axioma{colorAdecuado}: puntero(Node) \TO bool\n
- * colorAdecuado(p) \EQUIV \IF p = null then true \ELSEIF p = p->parent->parent \LAND p->color = black then true 
- * \ELSEIF (p->color = red and p->parent->color = black) \LOR (p->color = black and p->parent->color = black) then true else false
+ * colorAdecuado(p) \EQUIV \IF p = null \THEN true \ELSEIF nothing?(p->value) \LAND p->color = HEADER \n \THEN true 
+ * \ELSEIF p = p->parent->parent \LAND p->color = black \THEN true 
+ * \n \ELSEIF (p->color = red and p->parent->color = black) \LOR (p->color = black and p->parent->color = black) \THEN true \ELSE false
+ * \endparblock
+ *
+ * \par esHoja
+ * \parblock
+ * devuelve true si el nodo es hoja
+ *
+ * \axioma{esHoja}: puntero(Node) \TO bool\n
+ * esHoja(p) \EQUIV \IF p = null \THEN false \ELSEIF nothing?(p->value) \THEN false \ELSEIF p->child[0] = null \LOR p->child[1] = null \THEN true else false
+ * \endparblock
+ *
+ * \par esta?
+ * \parblock
+ * devuele true si el elemento pertenece al (arbol/diccionario)
+ *
+ * \axioma{esta?}: puntero(Node) x puntero(Node) \TO bool\n
+ * esta?(p1,p2) \EQUIV *p1 en elementos(p2)
+ * \endparblock
+ *
+ * \par sinRepetidos
+ * devuelve true si no hay elementos repetidos en el arbol/diccionario
+ *
+ * \axioma{sinRepetidos}: secu(Key) \TO bool\n
+ * sinRepetidos(sec) \EQUIV if vacia?(sec) \THEN true \ELSEIF esta?(prim(sec),fin(sec)) \THEN false \ELSE sinRepetidos(fin(sec))	
+ * \endparblock
+ *
+ * \par headerToSecu
+ * \parblock
+ * dado un puntero a nodo te devuelve una secuencia de Key
+ * 
+ * \axioma{headerToSecu}: puntero(Node) \TO secu(Key)\n
+ * headerToSecu(p) \EQUIV \IF p = null \THEN < > \ELSEIF nothing?(p->value) \THEN headerToSecu(p->parent)
+ * \n \ELSE \PI1(p->value) o headerToSecu(p->child[0]) & headerToSecu(p->child[1])
+ *
+ * \par arbolK
+ * \parblock 
+ * devuelve un arbol cantidad de niveles igual a K (arbol de cardinal finito)
+ *
+ * \axioma{arbolK}: puntero(Node) x nat \TO AB(puntero(Nodo))\n	
+ * arbolK(p) \EQUIV \IF n = 0 \THEN Bin(nil , p , nil) else bin(arbolK(p->child[0] , n-1) , p , arbolK(p->child[1] , n-1)) \n
+ * arbolK(p) \EQUIV \IF p = null \THEN bin(nil,nil,nil) \ELSEIF nothing?(p->value) \THEN \n arbolK(p->parent)  \ELSE 
+ * bin(arbolK(p->child[0]) , p , arbolK(p->child[1]))
+ * \endparblock
+ *
+ * \par elementos
+ * \parblock
+ * devuelve el conjunto de elementos
+ *
+ *\axioma{elementos}: puntero(Node)  \TO conj(value)\n
+ * elementos(p) \EQUIV if p = null \THEN vacio \ELSEIF  nothing?(p->value) \THEN elementos(p->parent) \n \ELSE
+ * Ag(p->value,vacio) U elementos(n->child[0]) U elementos(n->child[1])
  * \endparblock
  *
  * \par esDiccionario?
@@ -2223,13 +2275,14 @@ private:
      * \par Invariante de representacion
 	 * \parblock
 	 * rep: map \TO bool\n
-	 * rep(m) \EQUIV completar
+	 * rep(m) \EQUIV (forall m : map) ( (E k in nat)() arbolK(map.header->parent,k) = arbolK(map.header->parent,k+1) ) \LAND_L sinRepetidos(map.header->parent) \LAND cant(map.header->parent) = count \LAND esADB(map.header->parent) \LAND 
+	 *				esta?(*p,map.header->parent) \IMPLIES_L colorAdecuado(p) \LAND (esHoja(p)\IMPLIES_L (forall p':puntero(Node)=>_{L} cantBlack(p)=cantBlack(p')))
 	 * \endparblock
 	 *
 	 * \par Función de abstracción
 	 * \parblock
 	 * abs: map m \TO Diccionario(\T{Key}, \T{Meaning})  {rep(n)}\n
-	 * abs(m) \EQUIV completar
+	 * abs(m) \EQUIV dic (forall dic:diccionario) claves(dic) = elementosClaves(m.Header) \LAND (forall k: Key) k in claves(dic) <-> <obtener(k,dic) ,k> in elementos(m.Header) 
 	 * \endparblock
      */
     //////////////////////////////////////////////////////////////////////////////////////////////////////
