@@ -670,7 +670,6 @@
 #include <utility>
 #include <cassert>
 #include <algorithm>
-//#include <bits/valarray_before.h>
 
 #ifdef DEBUG
 //Aca se puede incluir cualquier cosa que consideren que necesitan para debug
@@ -1877,7 +1876,7 @@ public:
          * El iterador \P{res} queda asociado a `d` y permite modificar el significado del valor que apunte.}
          *
          * \pre \aedpre{rep_iter(n)}
-         * \post \aedpost{res \IGOBS CrearItBi(&`d`, completar, completar)}//preguntar
+         * \post \aedpost{res \IGOBS CrearItBi(&`d`, completar, completar)}
          *
          * \complexity{\O(1)}
          *
@@ -2478,8 +2477,7 @@ private:
  * @retval res true si los diccionarios son iguales
  *
  * \pre \aedpre{TRUE}
- * \post \aedpost{res \IGOBS (m1 \IGOBS m2) ((\FORALL c:Key)(def?(c, m1) \IGOBS def?(c, m2)) \LAND_L (def?(c, m1) \IMPLIES_L (obtener?(c, m1) \IGOBS obtener(c, m2))))}
- *                                                                      //preguntar
+ * \post \aedpost{res \IGOBS (m1 \IGOBS m2)}
  *
  * \complexity{ \O((\SIZE(m1) + \SIZE(m2)) \CDOT (\CMP(m1) + \CMP(m2)))}
  *
@@ -2518,7 +2516,7 @@ bool operator!=(const map<K, V, C>& m1, const map<K, V, C>& m2) {
  * @retval res true si m1 es menor a m2 en el orden lexicografico
  *
  * \pre \aedpre{TRUE}
- * \post \aedpost{res \IGOBS (m1 < m2) ()}
+ * \post \aedpost{res \IGOBS completar}
  *
  * \complexity{ \O((\SIZE(m1) + \SIZE(m2)) \CDOT (\CMP(m1) + \CMP(m2)))}
  *
