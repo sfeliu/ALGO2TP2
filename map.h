@@ -556,6 +556,22 @@
  *
  * Se muestran algunos ejemplos a continuación.
  *
+ * \par menorLexico
+ * \parblock
+ * compara lexicograficamente 2 conjuntos.
+ * 
+ * \axioma{menorLexico}: conj(key) \TIMES conj(key) \TO bool
+ * menorLexico(c1 ,c2) \EQUIV \IF \EMPTYSET(c2) \THEN false \ELSE \IF \EMPTYSET(c1) \THEN true \ELSE \IF minimo(c1,dameUno(c1)) = minimo (c2, dameUno(c2)) \THEN menorLexicografico(c1 \MINUS {minimo(c1,dameUno(c1))}, c2 \MINUS {minimo (c2, dameUno(c2))} )  \ELSE minimo(c1,dameUno(c1)) \LT minimo(c2,dameUno(c2))
+ * \endparblock	
+ *
+ * \par minimo
+ * \parblock
+ * devuelve el elemento menor de un conjunto.
+ * 
+ * \axioma{minimo}: conj(key) c \TIMES Key k \TO key {k \IN c}
+ * minimo(c,k) \EQUIV \IF \EMPTYSET(c) \THEN k \ELSE \IF  k \LT dameUno(c) \THEN minimo(sinUno(c),k) \ELSE minimo(sinUno(c) ,dameUno(c))
+ * \endparblock	
+ *
  * \par cantidadDeElementos
  * \parblock
  * devuelve la cantidad de elementos que tiene el diccionario
@@ -1923,6 +1939,13 @@ public:
         //@}
         friend class map;
 
+        /**
+         * \brief max
+         *
+         * \Descripcion Devuelve el maximo a partir del nodo pasado como parametro.
+         *
+         * \complexity{\O(\LOG(\SIZE(\P{*this})))}
+         */
 		Node* max(Node* n){
             Node* ret = n;
             while (ret->child[1] != nullptr){
@@ -1930,7 +1953,14 @@ public:
             }
             return ret;
         }
-
+        
+         /**
+         * \brief min
+         *
+         * \Descripcion Devuelve el minimo a partir del nodo pasado como parametro.
+         *
+         * \complexity{\O(\LOG(\SIZE(\P{*this})))}
+         */
        Node* min(Node* n){
            Node* ret = n;
            while (ret->child[0] != nullptr){
@@ -2050,6 +2080,14 @@ public:
         Node* n{nullptr};
         friend class map;
 
+         /**
+         * \brief max
+         *
+         * \Descripcion Devuelve el maximo a partir del nodo pasado como parametro.
+         *
+         * \complexity{\O(\LOG(\SIZE(\P{*this})))}
+         */
+
         Node* max(Node* n){
             Node* ret = n;
             while (ret->child[1] != nullptr){
@@ -2057,6 +2095,14 @@ public:
             }
             return ret;
         }
+
+         /**
+         * \brief min
+         *
+         * \Descripcion Devuelve el minimo a partir del nodo pasado como parametro.
+         *
+         * \complexity{\O(\LOG(\SIZE(\P{*this})))}
+         */
 
         Node* min(Node* n){
             Node* ret = n;
@@ -2321,6 +2367,13 @@ private:
         return lt(k1, k2) == lt(k2, k1);
     }
 
+        /**
+         * \brief deleteFixUp
+         *
+         * \Descripcion En esta funcion se recibe un parametro:'nodo' de tipo puntero a nodo, la cual viene derivada del erase. Se trata de implementar el FixUp del cormen, donde 'nodo' modifica su lugar y este puede llegar a romper el invariante RB-Tree, tanto como que la raiz no sea negra, que cada nodo rojo tenga hijo rojo, o que todos los caminos tengan distinta cantidad de nodos negros. El primer problema lo arregla si no entra en el ciclo ya que seria que la raiz es roja, entonces luego se le modifica el color. Si entra en el ciclo tiene dos casos particulares que dependen de si 'nodo' es hijo derecho o izquierdo de su padre, esto se ve en mas detalle en el deleteFixUpAux.
+         *
+         * \complexity{\O(\LOG(\SIZE(\P{*this})))}
+         */
     void deleteFixUp(Node* nodo){
         iterator x = iterator(nodo);
         while((root() != x)and(is_black(x.n))){
@@ -2333,6 +2386,13 @@ private:
         x.n->color = Color::Black;
     }
 
+        /**
+         * \brief deleteFixUpAux
+         *
+         * \Descripcion Esta funcion recive dos parametros:puntero(nodo)'nodo' e int:'i' este ultimo solo avisa si 'nodo' es hijo derecho o izquierdo de su padre. Aqui se compara al nodo con su 'hermano': primer caso: Chequea si 'hermano' es rojo, si lo es le cambia el color a el y a su padre y luego los rota, cambiando asi al hermano de nodo por el que era hijo izquierdo de 'hermano', luego continua con los otros casos. segundo caso: Si 'hermano' es negro y sus hijos tambien lo cambia de color, luego 'nodo' pasa a ser su padre y vuelve a iniciar el ciclo. Si no se utiliza el segundo caso se sabe que 'hermano' es negro y que tiene al menos un hijo rojo tercer caso: Si nos encontramos aca se sabe que el hijo derecho de 'hermano' es negro, por lo tanto su hijo izquierdo sera negro. Para solucionarlo a 'hermano' se le cambia de color y se lo rota con su hijo izquierdo, el cual es negro y queda como nuevo 'hermano', luego pasa al cuarto caso. cuarto caso: Queda un ultimo caso posible, donde 'hermano' es negro y su hijo izquierdo es rojo, por lo tanto le modifica el color a 'hermano' y al padre, y luego los rota, quedando asi ya solucionado el invariante. Esta funcion modifica el arbol de tal forma que se siga cumpliendo el invariante.
+         *
+         * \complexity{\O(\LOG(\SIZE(\P{*this})))}
+         */
     void deleteFixUpAux(Node* nodo, int i){
         iterator x = iterator(nodo);
         iterator w = iterator(x.n->parent->child[i]);
@@ -2362,6 +2422,13 @@ private:
         }
     }
 
+        /**
+         * \brief insertFixUp
+         *
+         * \Descripcion La función de inserción acude a este auxiliar para arreglar posibles violaciones del invariante de representación de la estructura del árbol Red-Black al insertar un nuevo nodo. El parámetro de entrada es un puntero al nodo insertado por la función insertar. La función tiene un ciclo que abarca tres casos. En el primer caso si el padre del nodo pasado como parámetro es rojo y su tío también entonces se invierten los colores del padre, el abuelo y el tío, y el nodo con el que se itera pasa a ser el abuelo.El segundo caso siempre lleva al caso tres. En el segundo caso si el nodo con el que se itera  es hijo derecho entonces el nodo pasa a ser su padre y se hace una rotación. Si el nodo es hijo izquierdo entonces es una rotación derecha sino es rotación izquierda(rotación es explica en Rotate). En el tercer caso se invierten los colores del padre y el abuelo y si en el caso dos el padre es hijo derecho entonces se hace una rotación derecha sino una rotación izquierda. Mientras que el padre de nodo sea rojo el ciclo sigue iterando.
+         *
+         * \complexity{\O(1)}
+         */
     void insertFixUp(Node* n){
         while(n->parent->color == Color::Red){
             if(n->parent == n->parent->parent->child[0]){
@@ -2401,8 +2468,15 @@ private:
         root()->color = Color::Black;
     }
 
-    //Si i=1 entonce es un left-Rotate. De lo contrario (i=0) es un right-Rotate.
+        /**
+         * \brief Rotate
+         *
+         * \Descripcion La función insertFixUp llama a esta función para hacer rotaciones del nodo pasado como parámetro con fines de restaurar el invariante de representación del árbol Red-Black después de una inserción. Esta función también toma como parámetro un entero que tiene que ser 1 o 0. Si este numero es 0 entonces es una rotacion derecha, es decir el nodo pasada como parámetro pasa a ser el hijo derecho del nodo que solía ser su hijo izquierdo y el hijo derecho del hijo izquierdo del nodo pasado como parámetro pasa a ser hijo  izquierdo del nodo pasado como parámetro. Si el numero es 1, entonces la descripción es la misma pero invirtiendo la palabra izquierda por derecha y derecha por izquierda.
+         *
+         * \complexity{\O(1)}
+         */
     void Rotate(Node* n, int i){
+    	//Si i=1 entonce es un left-Rotate. De lo contrario (i=0) es un right-Rotate.
         iterator it = iterator(n->child[i]);
         n->child[i] = it.n->child[(i+1)%2];
         if(it.n->child[(i+1)%2] != nullptr){
@@ -2422,6 +2496,13 @@ private:
         n->parent = it.n;
     }
 
+        /**
+         * \brief transplant
+         *
+         * \Descripcion Los parametro de esta función son dos punteros a nodos, "viejo" y "nuevo", que tienen que ser no nulos. Esta función hace que el padre del nodo "viejo" pase a ser el padre del nodo "nuevo" y que el padre del nodo "viejo" pase a tener de hijo al nodo "nuevo". En el caso de que el "viejo" sea la raíz del árbol el header pasa a tener al "nuevo" como padre y el "nuevo" pasa a tener como padre al header.
+         *
+         * \complexity{\O(1)}
+         */
     void transplant(Node* viejo, Node* nuevo){
         if(viejo == root()){
             header.parent = nuevo;
@@ -2443,6 +2524,13 @@ private:
         nuevo->parent = viejo->parent;
     }
 
+        /**
+         * \brief is_black
+         *
+         * \Descripcion Función booleana que devuelve true si y solo si el nodo pasado como pareamtro tiene color negro o si es nullpointer. El parámetro de entrada no tiene precondiciones.
+         *
+         * \complexity{\O(1)}
+         */
     bool is_black(Node* n){
         if(n == nullptr) {
             return true;
