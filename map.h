@@ -556,6 +556,14 @@
  *
  * Se muestran algunos ejemplos a continuación.
  *
+ * \par ArbolValue
+ * \parblock
+ * A partir de un puntero a nodo construye el arbol binario al que pertenece ese node.
+ *
+ * \axioma{ArbolValue}: puntero(Node) \TO Node
+ * ArbolValue(p) \IGOBS \IF p = null \THEN nil \ELSEIF nothing?(*p.value) \THEN bin(ArbolValue(*(*p.parent).child[0] , dato(*(*p.parent).value) , ArbolValue(*(*p.parent).child[1]) )) \ELSE bin(ArbolValue(*p.child[0] ) , dato(*p.value) , ArbolValue(*p.child[1])) \FI \FI
+ *\endparblock
+ *
  * \par header
  * \parblock
  * A partir de un nodo devuelve el header
