@@ -308,7 +308,7 @@ ALIASES += cantBlack="\refax{cantBlack}"
 ALIASES += arbolK="\refax{arbolK}"
 ALIASES += esta?="\refax{esta?}"
 ALIASES += sinRepetidos="\refax{sinRepetidos}"
-ALIASES += esRB-Tree="\refax{esRB-Tree}"
+ALIASES += esRBTree="\refax{esRBTree}"
 ALIASES += padreK="\refax{padreK}"
 
 

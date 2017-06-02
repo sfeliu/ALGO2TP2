@@ -710,12 +710,12 @@
  * primeros(s) \EQUIV \IF vacia?(s) \THEN <> \ELSE \PI1(prim(s)) \BULLET \primeros(fin(s)) \FI
  * \endparblock
  *
- * \par esRB-Tree
+ * \par esRBTree
  * \parblock
  * Retorna True si a partir del nodo dado se puede reconstruir un Red-Black Tree.
  *
- * \axioma{esRB-Tree}: Node \TO Bool\n
- * esRB-Tree(n) \EQUIV (\EXISTS k: nat)() arbolK(n.parent,k) = arbolK(n.parent,k+1) ) \LAND_L sinRepetidos(n.parent)
+ * \axioma{esRBTree}: Node \TO Bool\n
+ * \esRBTree(n) \EQUIV (\EXISTS k: nat)() arbolK(n.parent,k) = arbolK(n.parent,k+1) ) \LAND_L sinRepetidos(n.parent)
  * \LAND esADB(n.parent) \LAND (\FORALL p,p':puntero(Node))(esta?(*p,n.parent) \LAND esta?(*p',n.parent)) \IMPLIES_L
  * colorAdecuado(p) \LAND colorAdecuado(p') \LAND ((esHoja(p) \LAND esHoja(p'))\IMPLIES_L cantBlack(p)=cantBlack(p')))
  *
@@ -1965,13 +1965,15 @@ public:
          * \par Invariante de representación
          *
          * rep_iter: puntero(Node) \TO bool\n
-         * rep_iter(n) \EQUIV true \IFF ((\EXISTS k : nat) nothing?(padreK(p , k).value) \LAND_L esRB-Tree(padreK(p , k)) 
+         * rep_iter(n) \EQUIV true \IFF n = NULL \LOR_L ((\EXISTS k : nat) nothing?(padreK(n , k).value) \LAND_L \esRBTree(padreK(n , k))
          *
          * \par Función de abstracción
          *
          * abs_iter: puntero(Node) n \TO IteradorBidireccional(Diccionario(\T{Key}, \T{Meaning}), tupla(\T{Key}, \T{Meaning}))  {rep_iter(n)}\n
-         * abs_iter(n) \EQUIV \IGOBS (\FORALL b:iTbi(d,value_type)) | anteriores(b) = AnterioresDe(inorder(ArbolValue(&header(p))),data(*p).value) 
-         *  										\LAND	  siguientes(b) = siguientesDe(inorder(ArbolValue(&header(p))),data(*p).value)
+         * abs_iter(n) \EQUIV \IGOBS (\FORALL b:iTbi(d,value_type)) | \IF n = NULL \THEN anteriores(b) = <> \LAND siguientes(b) = <> \ELSE
+         *              \IF nothing?((*n).Value) \THEN anteriores(b) = inorder(ArbolValue(&header(n))) \LAND siguientes(b) = <>
+         *              \ELSE anteriores(b) = AnterioresDe(inorder(ArbolValue(&header(n))),data(*n).value) \LAND
+         *              siguientes(b) = siguientesDe(inorder(ArbolValue(&header(n))),data(*n).value) \FI \FI \FI
          *
          * Nota: se puede usar `d` para referirse al valor computacional del diccionario definido desde la cabecera (como en el constructor).
          *
