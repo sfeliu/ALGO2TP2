@@ -556,12 +556,36 @@
  *
  * Se muestran algunos ejemplos a continuación.
  *
+ * \par header
+ * \parblock
+ * A partir de un nodo devuelve el header
+ *
+ * \axioma{header}: puntero(Node) \TO Node\n
+ * header(p) \EQUIV \IF nothing ((*p).value) \THEN *p \ELSE header((*p).padre) \FI
+ * \endparblock
+
+ * \par anterioresDe
+ * \parblock
+ * Devuelve una lista ordenada de todos los valores ateriores a el parametro que recive.
+ *
+ * \axioma{anterioresDe}: secu(value_type) s x value_type v \TO secu(value_type) 		{esta?(v,s)}\n
+ * anterioresDe(s, v) \EQUIV \IF prim(s) == v \THEN <> \ELSE prim(s) \BULLET anterioresDe(s,fin(v)) \FI
+ * \endparblock
+
+ * \par siguientesDe
+ * \parblock
+ * Devuelve una lista ordenada de todos los valores ateriores a el parametro que recive.
+ *
+ * \axioma{siguientesDe}: secu(value_type) s x value_type v \TO secu(value_type) 		{esta?(v,s)}\n
+ * anterioresDe(s, v) \EQUIV \IF prim(s) == v \THEN <> \ELSE prim(s) \BULLET anterioresDe(s,fin(v)) \FI
+ * \endparblock
+ *
  * \par menorLexico
  * \parblock
  * compara lexicograficamente 2 conjuntos.
  * 
  * \axioma{menorLexico}: conj(key) \TIMES conj(key) \TO bool
- * menorLexico(c1 ,c2) \EQUIV \IF \EMPTYSET(c2) \THEN false \ELSE \IF \EMPTYSET(c1) \THEN true \ELSE \IF minimo(c1,dameUno(c1)) = minimo (c2, dameUno(c2)) \THEN menorLexicografico(c1 \MINUS {minimo(c1,dameUno(c1))}, c2 \MINUS {minimo (c2, dameUno(c2))} )  \ELSE minimo(c1,dameUno(c1)) \LT minimo(c2,dameUno(c2))
+ * menorLexico(c1 ,c2) \EQUIV \IF \EMPTYSET(c2) \THEN false \ELSE \IF \EMPTYSET(c1) \THEN true \ELSE \IF minimo(c1,dameUno(c1)) = minimo (c2, dameUno(c2)) \THEN menorLexicografico(c1 \MINUS {minimo(c1,dameUno(c1))}, c2 \MINUS {minimo (c2, dameUno(c2))} )  \ELSE minimo(c1,dameUno(c1)) \LT minimo(c2,dameUno(c2)) \FI \FI \FI
  * \endparblock	
  *
  * \par minimo
@@ -569,7 +593,7 @@
  * devuelve el elemento menor de un conjunto.
  * 
  * \axioma{minimo}: conj(key) c \TIMES Key k \TO key {k \IN c}
- * minimo(c,k) \EQUIV \IF \EMPTYSET(c) \THEN k \ELSE \IF  k \LT dameUno(c) \THEN minimo(sinUno(c),k) \ELSE minimo(sinUno(c) ,dameUno(c))
+ * minimo(c,k) \EQUIV \IF \EMPTYSET(c) \THEN k \ELSE \IF  k \LT dameUno(c) \THEN minimo(sinUno(c),k) \ELSE minimo(sinUno(c) ,dameUno(c)) \FI \FI
  * \endparblock	
  *
  * \par cantidadDeElementos
@@ -577,7 +601,7 @@
  * devuelve la cantidad de elementos que tiene el diccionario
  * 
  * \axioma{cantidadDeElementos}: puntero(Node) \TO nat\n
- * cantidadDeElementos(p) \EQUIV \IF p = null \THEN 0 \ELSE \IF nothing?(p->value) \THEN cantidadDeElementos(p->parent) \n \ELSE 1 + \cantidadDeElementos(p->child[0]) + \cantidadDeElementos(p->child[1])
+ * cantidadDeElementos(p) \EQUIV \IF p = null \THEN 0 \ELSE \IF nothing?(p->value) \THEN cantidadDeElementos(p->parent) \n \ELSE 1 + \cantidadDeElementos(p->child[0]) + \cantidadDeElementos(p->child[1]) \FI \FI
  * \endparblock	
  * 
  * \par esADB
@@ -587,7 +611,7 @@
  * \axioma{esADB}: puntero(Node) \TO bool\n
  * esADB(p) \EQUIV \IF p = null \THEN true \ELSE \IF nothing?(p->value) \THEN esADB(p->parent)
  * \ELSE \IF (¬(p->child[0]=null) \LAND_L \PI1 (p->child[0]->value)) \LOR_L (¬(p->child[1]=null) \LAND_L \PI1 (p->child[1]->value)) \THEN true
- * \n \ELSE \esADB(p->child[0]) \LAND_L \esADB(p->child[1])
+ * \n \ELSE \esADB(p->child[0]) \LAND_L \esADB(p->child[1]) \FI \FI \FI
  * \endparblock
  *	
  * \par cantBlack
@@ -597,7 +621,7 @@
  * \axioma{cantBlack}: puntero(Node) \TO nat\n
  * cantBlack(p) \EQUIV \IF p = null \THEN 0 \ELSE \IF nothing?(p->value) \THEN 0
  * \ELSE \IF p = p->parent->parent  \THEN 1 
- * \ELSE \IF p->color = black \THEN 1 + \cantblack(p->parent) \ELSE \cantBlack(p->parent)
+ * \ELSE \IF p->color = black \THEN 1 + \cantblack(p->parent) \ELSE \cantBlack(p->parent) \FI \FI \FI
  * \endparblock
  *
  * \par colorAdecuado
@@ -607,7 +631,7 @@
  * \axioma{colorAdecuado}: puntero(Node) \TO bool\n
  * colorAdecuado(p) \EQUIV \IF p = null \THEN true \ELSE \IF nothing?(p->value) \LAND p->color = HEADER \n \THEN true 
  * \ELSE \IF p = p->parent->parent \LAND p->color = black \THEN true 
- * \n \ELSE \IF (p->color = red and p->parent->color = black) \LOR (p->color = black and p->parent->color = black) \THEN true \ELSE false
+ * \n \ELSE \IF (p->color = red and p->parent->color = black) \LOR (p->color = black and p->parent->color = black) \THEN true \ELSE false \FI \FI \FI \FI
  * \endparblock
  *
  * \par esHoja
@@ -615,7 +639,7 @@
  * devuelve true si el nodo es hoja
  *
  * \axioma{esHoja}: puntero(Node) \TO bool\n
- * esHoja(p) \EQUIV \IF p = null \THEN false \ELSE \IF nothing?(p->value) \THEN false \ELSE \IF p->child[0] = null \LOR p->child[1] = null \THEN true else false
+ * esHoja(p) \EQUIV \IF p = null \THEN false \ELSE \IF nothing?(p->value) \THEN false \ELSE \IF p->child[0] = null \LOR p->child[1] = null \THEN true else false \FI \FI \FI
  * \endparblock
  *
  * \par esta?
@@ -631,7 +655,7 @@
  * devuelve true si no hay elementos repetidos en el arbol/diccionario
  *
  * \axioma{sinRepetidos}: secu(Key) \TO bool\n
- * sinRepetidos(sec) \EQUIV if vacia?(sec) \THEN true \ELSE \IF esta?(prim(sec),fin(sec)) \THEN false \ELSE sinRepetidos(fin(sec))	
+ * sinRepetidos(sec) \EQUIV if vacia?(sec) \THEN true \ELSE \IF esta?(prim(sec),fin(sec)) \THEN false \ELSE sinRepetidos(fin(sec)) \FI
  * \endparblock
  *
  * \par headerToSecu
@@ -640,7 +664,7 @@
  * 
  * \axioma{headerToSecu}: puntero(Node) \TO secu(Key)\n
  * headerToSecu(p) \EQUIV \IF p = null \THEN < > \ELSE \IF nothing?(p->value) \THEN headerToSecu(p->parent)
- * \n \ELSE \PI1(p->value) o headerToSecu(p->child[0]) & headerToSecu(p->child[1])
+ * \n \ELSE \PI1(p->value) o headerToSecu(p->child[0]) & headerToSecu(p->child[1]) \FI \FI
  * \endparblock
  *
  * \par arbolK
@@ -650,7 +674,7 @@
  * \axioma{arbolK}: puntero(Node) x nat \TO AB(puntero(Nodo))\n	
  * arbolK(p) \EQUIV \IF n = 0 \THEN Bin(nil , p , nil) else bin(arbolK(p->child[0] , n-1) , p , arbolK(p->child[1] , n-1)) \n
  * arbolK(p) \EQUIV \IF p = null \THEN bin(nil,nil,nil) \ELSE \IF nothing?(p->value) \THEN \n arbolK(p->parent)  \ELSE 
- * bin(arbolK(p->child[0]) , p , arbolK(p->child[1]))
+ * bin(arbolK(p->child[0]) , p , arbolK(p->child[1])) \FI \FI \FI
  * \endparblock
  *
  * \par elementos
@@ -659,7 +683,7 @@
  *
  *\axioma{elementos}: puntero(Node)  \TO conj(value)\n
  * elementos(p) \EQUIV if p = null \THEN vacio \ELSE \IF  nothing?(p->value) \THEN elementos(p->parent) \n \ELSE
- * Ag(p->value,vacio) U elementos(n->child[0]) U elementos(n->child[1])
+ * Ag(p->value,vacio) U elementos(n->child[0]) U elementos(n->child[1]) \FI
  * \endparblock
  *
  * \par esDiccionario?
@@ -927,7 +951,7 @@ public:
      * Los valores definidos en \P{res} son aquellos que aparecen en [\P{first}, \P{last})
      *
      * \aedpost{(\FORALL k: \T{Key})(\FORALL s: \T{Meaning})
-     *   (def?(\P{res}, k) \LAND_L significado(\P{res}, k) \IGOBS s \IFF esta((k,s), Siguientes(\P{first})
+     *   (def?(\P{res}, k) \LAND_L significado(\P{res}, k) \IGOBS s \IF esta((k,s), Siguientes(\P{first})
      *   \MINUS Siguientes(\P{last})))
      * }
      * \endparblock
@@ -1888,7 +1912,7 @@ public:
          * El iterador \P{res} queda asociado a `d` y permite modificar el significado del valor que apunte.}
          *
          * \pre \aedpre{rep_iter(n)}
-         * \post \aedpost{res \IGOBS CrearItBi(&`d`, completar, completar)}
+         * \post \aedpost{res \IGOBS CrearItBi(&`d`, anterioresDe(pos), siguientesDe(pos))}
          *
          * \complexity{\O(1)}
          *
@@ -2600,7 +2624,7 @@ bool operator!=(const map<K, V, C>& m1, const map<K, V, C>& m2) {
  * @retval res true si m1 es menor a m2 en el orden lexicografico
  *
  * \pre \aedpre{true}
- * \post \aedpost{res \IGOBS completar}
+ * \post \aedpost{res \IGOBS menorLexico(claves(m1), claves(m2))}
  *
  * \complexity{ \O((\SIZE(m1) + \SIZE(m2)) \CDOT (\CMP(m1) + \CMP(m2)))}
  *
