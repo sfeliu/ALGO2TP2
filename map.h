@@ -632,10 +632,10 @@
  * devuelve una bool indicando si el arbol tiene una relacion de orden total (cada nodo con sus hijos)
  *
  * \axioma{esADB}: puntero(Node) \TO bool\n
- * esADB(p) \EQUIV \IF p = null \THEN true \ELSE \IF (*p).child[0] != null \THEN \IF (*p).child[1] != null \THEN
- *              \esMenor((*p).child[0], p) \LAND \esMenor(p, (*p).child[1]) \LAND \esADB((*p).child[0]) \LAND \esADB((*p).child[1])
- *              \ELSE \esMenor(p, (*p).child[1]) \LAND \esADB((*p).child[1]) \FI \ELSE \IF (*p).child[1] != null \THEN
- *              \esMenor((*p).child[1], p) \LAND \esADB((*p).child[1]) \ELSE true \FI \FI \FI
+ * esADB(p) \EQUIV \IF p = null \THEN true \ELSE \IF (*p).child[0] != null \THEN 
+ *				\IF (*p).child[1] != null \THEN\esMenor((*p).child[0], p) \LAND \esMenor(p, (*p).child[1]) \LAND \esADB((*p).child[0]) \LAND \esADB((*p).child[1])
+ *              \ELSE \esMenor((*p).child[0], p) \LAND \esADB((*p).child[0]) \FI \ELSE 
+ *              \IF (*p).child[1] != null \THEN \esMenor(p, (*p).child[1]) \LAND \esADB((*p).child[1]) \ELSE true \FI \FI \FI
  * \endparblock
  *
  * \par esMenor
@@ -661,13 +661,10 @@
  * devuelve un bool que indica si el y el padre, respetan el invariante de coloreo del rb-tree
  *
  * \axioma{colorAdecuado}: puntero(Node) \TO bool\n
- * colorAdecuado(p) \EQUIV \IF p = null \THEN true \ELSE \IF nothing?(*p.value) \LAND *p.color = HEADER \n \THEN true
- * \ELSE \IF p = *(*p.parent).parent \LAND *p.color = black \THEN true
- * \n \ELSE \IF (*p.color = red and *(*p.parent).color = black) \LOR *p.color = black \THEN true \ELSE false \FI \FI \FI \FI
  *
- * \axioma{colorAdecuado}: puntero(Node) \TO bool\n
- * colorAdecuado(p) \EQUIV p = null \LOR ( (*(*p.parent).parent = parent ) \IMPLIES *p.color = black  )
- * \LOR (*p.color = red \IMPLIES *(*p.parent).color = black) \LOR *p.color = black
+ * colorAdecuado(p) \EQUIV \IF p = null \LOR_L (nothing?(*p.value) \LAND *p.color = Header) \LOR_L 
+ *\n [*p.color = red \LAND *(*p.parent).color = black] \LOR [*p.color = black \LAND (*(*p.parent).color = black \LAND
+ * *(*p.parent).color = red)] \LOR_L (*p.parent != null \LAND_L (*p.parent).color = header \LAND_L *p.color = black ) \THEN true \ELSE false
  * \endparblock
  *
  * \par esHoja
@@ -678,12 +675,12 @@
  * esHoja(p) \EQUIV \IF p = null \LOR_L nothing?(*p.value) \THEN false \ELSE \IF *p.child[0] = null \LOR *p.child[1] = null \THEN true else false \FI \FI \FI
  * \endparblock
  *
- * \par esta?
+ * \par estaPtr?
  * \parblock
  * devuele true si el elemento pertenece al (arbol/diccionario)
  *
- * \axioma{esta?}: puntero(Node) x puntero(Node) \TO bool\n
- * esta?(p1,p2) \EQUIV *p1.value \IN elementos(p2)
+ * \axioma{estaPtr?}: puntero(Node) x puntero(Node) \TO bool\n
+ * estaPtr?(p1,p2) \EQUIV *p1.value \IN elementos(p2)
  * \endparblock
  *
  * \par sinRepetidos
@@ -708,8 +705,8 @@
  * devuelve un arbol cantidad de niveles igual a K (arbol de cardinal finito)
  *
  * \axioma{arbolK}: puntero(Node) x nat \TO AB(puntero(Nodo))\n	
- * arbolK(p) \EQUIV \IF p = null \THEN nil \ELSE \IF nothing?(*p.value) \THEN \n arbolK(*p.parent)  \ELSE
- * bin(arbolK(*p.child[0]) , p , arbolK(*p.child[1])) \FI \FI \FI
+ * arbolK(p) \EQUIV \IF p = null \LOR p = null \THEN nil \ELSEIF nothing?(*p.value) \THEN arbolK(p->parent , n) \ELSE
+ * \n AB(arbolK(*p.child , n-1), p ,arbolK(*p.child[1] , n-1)) \FI \FI 
  * \endparblock
  *
  * \par elementos
@@ -743,7 +740,7 @@
  *
  * \axioma{esRBTree}: Node \TO Bool\n
  * \esRBTree(n) \EQUIV (\EXISTS k: nat)(arbolK(n.parent,k) = arbolK(n.parent,k+1)) \LAND_L sinRepetidos(headerToSecu(n.parent))
- * \LAND esADB(n.parent) \LAND (\FORALL p,p':puntero(Node))(esta?(*p.value.clave,headerToSecu(n.parent)) \LAND esta?(*p'.value.clave,headerToSecu(n.parent)) \IMPLIES_L
+ * \LAND esADB(n.parent) \LAND (\FORALL p,p':puntero(Node))(estaPtr?(*p.value,header.parent) \LAND estaPtr?(*p'.value,header.parent) \IMPLIES_L
  * colorAdecuado(p) \LAND colorAdecuado(p') \LAND \LNOT(nothing?(*p.value)) \LAND \LNOT(nothing?(*p'.value)) \LAND ((esHoja(p) \LAND esHoja(p'))\IMPLIES_L cantBlack(p)=cantBlack(p')))
  *
  * \par padreK
@@ -2394,14 +2391,14 @@ private:
 	 * rep: map \TO bool\n
 	 * rep(m) \EQUIV (nothing?(Header.value)\LAND (\EXISTS k: nat)() arbolK(m.header.parent,k) = arbolK(m.header.parent,k+1) )
      * \LAND_L sinRepetidos(headerToSecu(m.header.parent)) \LAND cant(m.header.parent) = m.count \LAND esADB(m.header.parent) \LAND
-     * (\FORALL p,p':puntero(Node))(esta?(*p.value.clave,headerToSecu(m.header.parent)) \LAND esta?(*p'.value.clave,headerToSecu(m.header.parent)) \IMPLIES_L colorAdecuado(p) \LAND colorAdecuado(p')
+     * (\FORALL p,p':puntero(Node))(estaPtr?(*p.value,header.parent) \LAND estaPtr?(*p'.value,header.parent) \IMPLIES_L colorAdecuado(p) \LAND colorAdecuado(p')
      * \LAND \LNOT(nothing?(*p.value)) \LAND \LNOT(nothing?(*p'.value)) \LAND_L enRango(p,header.child[0],header.child[1])
      * \LAND_L enRango(p',header.child[0],header.child[1]) \LAND ((esHoja(p) \LAND esHoja(p'))\IMPLIES_L cantBlack(p)=cantBlack(p'))
 	 * \endparblock
 	 *
 	 * \par Función de abstracción
 	 * \parblock
-	 * abs: map m \TO Diccionario(\T{Key}, \T{Meaning})  {rep(n)}\n
+	 * abs: map m \TO Diccionario(\T{Key}, \T{Meaning})  {rep(m)}\n
 	 * abs(m) \IGOBS dic : diccionario | #claves(dic) = #elementos(&m.Header) \LAND (\FORALL k: Key)( k \IN claves(dic) \IFF <k,obtener(k,dic)> \IN elementos(&m.Header))
 	 * \endparblock
      */
