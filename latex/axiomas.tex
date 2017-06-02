@@ -24,17 +24,48 @@ Recordar incluir un alias en el archivo doxyfile a fin de poder referenciar auto
 \end{DoxyRemark}
 Se muestran algunos ejemplos a continuación.
 
+\begin{DoxyParagraph}{Arbol\+Value}
+A partir de un puntero a nodo construye el arbol binario al que pertenece ese node.
+
+Arbol\+Value\+: puntero(\+Node) $\to$ Node Arbol\+Value(p) $=_{\rm obs}$ {\bfseries if} p = null {\bfseries then} nil  nothing?($\ast$p.value) {\bfseries then} bin(Arbol\+Value($\ast$($\ast$p.parent).child\mbox{[}0\mbox{]} , dato($\ast$($\ast$p.parent).value) , Arbol\+Value($\ast$($\ast$p.parent).child\mbox{[}1\mbox{]}) )) {\bfseries else} bin(Arbol\+Value($\ast$p.child\mbox{[}0\mbox{]} ) , dato($\ast$p.value) , Arbol\+Value($\ast$p.child\mbox{[}1\mbox{]})) {\bfseries fi} {\bfseries fi} 
+\end{DoxyParagraph}
+
+
+\begin{DoxyParagraph}{header}
+A partir de un nodo devuelve el header
+
+header\+: puntero(\+Node) $\to$ Node~\newline
+ header(p) $\equiv$ {\bfseries if} nothing (($\ast$p).value) {\bfseries then} $\ast$p {\bfseries else} header(($\ast$p).padre) {\bfseries fi} 
+\end{DoxyParagraph}
+
+
+\begin{DoxyParagraph}{anteriores\+De}
+Devuelve una lista ordenada de todos los valores ateriores a el parametro que recive.
+
+anteriores\+De\+: secu(value\+\_\+type) s x value\+\_\+type v $\to$ secu(value\+\_\+type) \{esta?(v,s)\}~\newline
+ anteriores\+De(s, v) $\equiv$ {\bfseries if} prim(s) == v {\bfseries then} $<$$>$ {\bfseries else} prim(s) $\bullet$ anteriores\+De(s,fin(v)) {\bfseries fi} 
+\end{DoxyParagraph}
+
+
+\begin{DoxyParagraph}{siguientes\+De}
+Devuelve una lista ordenada de todos los valores ateriores a el parametro que recive.
+
+siguientes\+De\+: secu(value\+\_\+type) s x value\+\_\+type v $\to$ secu(value\+\_\+type) \{esta?(v,s)\}~\newline
+ anteriores\+De(s, v) $\equiv$ {\bfseries if} prim(s) == v {\bfseries then} $<$$>$ {\bfseries else} prim(s) $\bullet$ anteriores\+De(s,fin(v)) {\bfseries fi} 
+\end{DoxyParagraph}
+
+
 \begin{DoxyParagraph}{menor\+Lexico}
 compara lexicograficamente 2 conjuntos.
 
-menor\+Lexico\+: conj(key) $\times$ conj(key) $\to$ bool menor\+Lexico(c1 ,c2) $\equiv$ {\bfseries if} $\emptyset$(c2) {\bfseries then} false {\bfseries else} {\bfseries if} $\emptyset$(c1) {\bfseries then} true {\bfseries else} {\bfseries if} minimo(c1,dame\+Uno(c1)) = minimo (c2, dame\+Uno(c2)) {\bfseries then} menor\+Lexicografico(c1 $-$ \{minimo(c1,dame\+Uno(c1))\}, c2 $-$ \{minimo (c2, dame\+Uno(c2))\} ) {\bfseries else} minimo(c1,dame\+Uno(c1)) $<$ minimo(c2,dame\+Uno(c2)) 
+menor\+Lexico\+: conj(key) $\times$ conj(key) $\to$ bool menor\+Lexico(c1 ,c2) $\equiv$ {\bfseries if} $\emptyset$(c2) {\bfseries then} false {\bfseries else} {\bfseries if} $\emptyset$(c1) {\bfseries then} true {\bfseries else} {\bfseries if} minimo(c1,dame\+Uno(c1)) = minimo (c2, dame\+Uno(c2)) {\bfseries then} menor\+Lexicografico(c1 $-$ \{minimo(c1,dame\+Uno(c1))\}, c2 $-$ \{minimo (c2, dame\+Uno(c2))\} ) {\bfseries else} minimo(c1,dame\+Uno(c1)) $<$ minimo(c2,dame\+Uno(c2)) {\bfseries fi} {\bfseries fi} {\bfseries fi} 
 \end{DoxyParagraph}
 
 
 \begin{DoxyParagraph}{minimo}
 devuelve el elemento menor de un conjunto.
 
-minimo\+: conj(key) c $\times$ Key k $\to$ key \{k $\in$ c\} minimo(c,k) $\equiv$ {\bfseries if} $\emptyset$(c) {\bfseries then} k {\bfseries else} {\bfseries if} k $<$ dame\+Uno(c) {\bfseries then} minimo(sin\+Uno(c),k) {\bfseries else} minimo(sin\+Uno(c) ,dame\+Uno(c)) 
+minimo\+: conj(key) c $\times$ Key k $\to$ key \{k $\in$ c\} minimo(c,k) $\equiv$ {\bfseries if} $\emptyset$(c) {\bfseries then} k {\bfseries else} {\bfseries if} k $<$ dame\+Uno(c) {\bfseries then} minimo(sin\+Uno(c),k) {\bfseries else} minimo(sin\+Uno(c) ,dame\+Uno(c)) {\bfseries fi} {\bfseries fi} 
 \end{DoxyParagraph}
 
 
@@ -43,7 +74,7 @@ devuelve la cantidad de elementos que tiene el diccionario
 
 cantidad\+De\+Elementos\+: puntero(\+Node) $\to$ nat~\newline
  cantidad\+De\+Elementos(p) $\equiv$ {\bfseries if} p = null {\bfseries then} 0 {\bfseries else} {\bfseries if} nothing?(p-\/$>$value) {\bfseries then} cantidad\+De\+Elementos(p-\/$>$parent) ~\newline
- {\bfseries else} 1 + \href{axiomas.html#cantidadDeElementos}{\tt cantidad\+De\+Elementos}(p-\/$>$child\mbox{[}0\mbox{]}) + \href{axiomas.html#cantidadDeElementos}{\tt cantidad\+De\+Elementos}(p-\/$>$child\mbox{[}1\mbox{]}) 
+ {\bfseries else} 1 + \href{axiomas.html#cantidadDeElementos}{\tt cantidad\+De\+Elementos}(p-\/$>$child\mbox{[}0\mbox{]}) + \href{axiomas.html#cantidadDeElementos}{\tt cantidad\+De\+Elementos}(p-\/$>$child\mbox{[}1\mbox{]}) {\bfseries fi} {\bfseries fi} 
 \end{DoxyParagraph}
 
 
@@ -52,7 +83,7 @@ devuelve una bool indicando si el arbol tiene una relacion de orden total (cada 
 
 es\+A\+DB\+: puntero(\+Node) $\to$ bool~\newline
  es\+A\+D\+B(p) $\equiv$ {\bfseries if} p = null {\bfseries then} true {\bfseries else} {\bfseries if} nothing?(p-\/$>$value) {\bfseries then} es\+A\+DB(p-\/$>$parent) {\bfseries else} {\bfseries if} (¬(p-\/$>$child\mbox{[}0\mbox{]}=null) $\land_{\rm L}$ $\pi_1$ (p-\/$>$child\mbox{[}0\mbox{]}-\/$>$value)) $\lor_{\rm L}$ (¬(p-\/$>$child\mbox{[}1\mbox{]}=null) $\land_{\rm L}$ $\pi_1$ (p-\/$>$child\mbox{[}1\mbox{]}-\/$>$value)) {\bfseries then} true ~\newline
- {\bfseries else} \href{axiomas.html#esADB}{\tt es\+A\+DB}(p-\/$>$child\mbox{[}0\mbox{]}) $\land_{\rm L}$ \href{axiomas.html#esADB}{\tt es\+A\+DB}(p-\/$>$child\mbox{[}1\mbox{]}) 
+ {\bfseries else} \href{axiomas.html#esADB}{\tt es\+A\+DB}(p-\/$>$child\mbox{[}0\mbox{]}) $\land_{\rm L}$ \href{axiomas.html#esADB}{\tt es\+A\+DB}(p-\/$>$child\mbox{[}1\mbox{]}) {\bfseries fi} {\bfseries fi} {\bfseries fi} 
 \end{DoxyParagraph}
 
 
@@ -60,7 +91,7 @@ es\+A\+DB\+: puntero(\+Node) $\to$ bool~\newline
 dado un puntero nod, devuelve la cantidad de nodos negros hay hasta llegar al root
 
 cant\+Black\+: puntero(\+Node) $\to$ nat~\newline
- cant\+Black(p) $\equiv$ {\bfseries if} p = null {\bfseries then} 0 {\bfseries else} {\bfseries if} nothing?(p-\/$>$value) {\bfseries then} 0 {\bfseries else} {\bfseries if} p = p-\/$>$parent-\/$>$parent {\bfseries then} 1 {\bfseries else} {\bfseries if} p-\/$>$color = black {\bfseries then} 1 + (p-\/$>$parent) {\bfseries else} \href{axiomas.html#cantBlack}{\tt cant\+Black}(p-\/$>$parent) 
+ cant\+Black(p) $\equiv$ {\bfseries if} p = null {\bfseries then} 0 {\bfseries else} {\bfseries if} nothing?(p-\/$>$value) {\bfseries then} 0 {\bfseries else} {\bfseries if} p = p-\/$>$parent-\/$>$parent {\bfseries then} 1 {\bfseries else} {\bfseries if} p-\/$>$color = black {\bfseries then} 1 + (p-\/$>$parent) {\bfseries else} \href{axiomas.html#cantBlack}{\tt cant\+Black}(p-\/$>$parent) {\bfseries fi} {\bfseries fi} {\bfseries fi} 
 \end{DoxyParagraph}
 
 
@@ -70,7 +101,7 @@ devuelve un bool que indica si el y el padre, respetan el invariante de coloreo 
 color\+Adecuado\+: puntero(\+Node) $\to$ bool~\newline
  color\+Adecuado(p) $\equiv$ {\bfseries if} p = null {\bfseries then} true {\bfseries else} {\bfseries if} nothing?(p-\/$>$value) $\land$ p-\/$>$color = H\+E\+A\+D\+ER ~\newline
  {\bfseries then} true {\bfseries else} {\bfseries if} p = p-\/$>$parent-\/$>$parent $\land$ p-\/$>$color = black {\bfseries then} true ~\newline
- {\bfseries else} {\bfseries if} (p-\/$>$color = red and p-\/$>$parent-\/$>$color = black) $\lor$ (p-\/$>$color = black and p-\/$>$parent-\/$>$color = black) {\bfseries then} true {\bfseries else} false 
+ {\bfseries else} {\bfseries if} (p-\/$>$color = red and p-\/$>$parent-\/$>$color = black) $\lor$ (p-\/$>$color = black and p-\/$>$parent-\/$>$color = black) {\bfseries then} true {\bfseries else} false {\bfseries fi} {\bfseries fi} {\bfseries fi} {\bfseries fi} 
 \end{DoxyParagraph}
 
 
@@ -78,7 +109,7 @@ color\+Adecuado\+: puntero(\+Node) $\to$ bool~\newline
 devuelve true si el nodo es hoja
 
 es\+Hoja\+: puntero(\+Node) $\to$ bool~\newline
- es\+Hoja(p) $\equiv$ {\bfseries if} p = null {\bfseries then} false {\bfseries else} {\bfseries if} nothing?(p-\/$>$value) {\bfseries then} false {\bfseries else} {\bfseries if} p-\/$>$child\mbox{[}0\mbox{]} = null $\lor$ p-\/$>$child\mbox{[}1\mbox{]} = null {\bfseries then} true else false 
+ es\+Hoja(p) $\equiv$ {\bfseries if} p = null {\bfseries then} false {\bfseries else} {\bfseries if} nothing?(p-\/$>$value) {\bfseries then} false {\bfseries else} {\bfseries if} p-\/$>$child\mbox{[}0\mbox{]} = null $\lor$ p-\/$>$child\mbox{[}1\mbox{]} = null {\bfseries then} true else false {\bfseries fi} {\bfseries fi} {\bfseries fi} 
 \end{DoxyParagraph}
 
 
@@ -94,7 +125,7 @@ esta?\+: puntero(\+Node) x puntero(\+Node) $\to$ bool~\newline
 devuelve true si no hay elementos repetidos en el arbol/diccionario
 
 sin\+Repetidos\+: secu(\+Key) $\to$ bool~\newline
- sin\+Repetidos(sec) $\equiv$ if vacia?(sec) {\bfseries then} true {\bfseries else} {\bfseries if} esta?(prim(sec),fin(sec)) {\bfseries then} false {\bfseries else} sin\+Repetidos(fin(sec)) 
+ sin\+Repetidos(sec) $\equiv$ if vacia?(sec) {\bfseries then} true {\bfseries else} {\bfseries if} esta?(prim(sec),fin(sec)) {\bfseries then} false {\bfseries else} sin\+Repetidos(fin(sec)) {\bfseries fi} 
 \end{DoxyParagraph}
 
 
@@ -103,7 +134,7 @@ dado un puntero a nodo te devuelve una secuencia de Key
 
 header\+To\+Secu\+: puntero(\+Node) $\to$ secu(\+Key)~\newline
  header\+To\+Secu(p) $\equiv$ {\bfseries if} p = null {\bfseries then} $<$ $>$ {\bfseries else} {\bfseries if} nothing?(p-\/$>$value) {\bfseries then} header\+To\+Secu(p-\/$>$parent) ~\newline
- {\bfseries else} $\pi_1$(p-\/$>$value) o header\+To\+Secu(p-\/$>$child\mbox{[}0\mbox{]}) \& header\+To\+Secu(p-\/$>$child\mbox{[}1\mbox{]}) 
+ {\bfseries else} $\pi_1$(p-\/$>$value) o header\+To\+Secu(p-\/$>$child\mbox{[}0\mbox{]}) \& header\+To\+Secu(p-\/$>$child\mbox{[}1\mbox{]}) {\bfseries fi} {\bfseries fi} 
 \end{DoxyParagraph}
 
 
@@ -113,7 +144,7 @@ devuelve un arbol cantidad de niveles igual a K (arbol de cardinal finito)
 arbolK\+: puntero(\+Node) x nat $\to$ A\+B(puntero(\+Nodo))~\newline
  arbol\+K(p) $\equiv$ {\bfseries if} n = 0 {\bfseries then} Bin(nil , p , nil) else bin(arbolK(p-\/$>$child\mbox{[}0\mbox{]} , n-\/1) , p , arbolK(p-\/$>$child\mbox{[}1\mbox{]} , n-\/1)) ~\newline
  arbol\+K(p) $\equiv$ {\bfseries if} p = null {\bfseries then} bin(nil,nil,nil) {\bfseries else} {\bfseries if} nothing?(p-\/$>$value) {\bfseries then} ~\newline
- arbolK(p-\/$>$parent) {\bfseries else} bin(arbolK(p-\/$>$child\mbox{[}0\mbox{]}) , p , arbolK(p-\/$>$child\mbox{[}1\mbox{]})) 
+ arbolK(p-\/$>$parent) {\bfseries else} bin(arbolK(p-\/$>$child\mbox{[}0\mbox{]}) , p , arbolK(p-\/$>$child\mbox{[}1\mbox{]})) {\bfseries fi} {\bfseries fi} {\bfseries fi} 
 \end{DoxyParagraph}
 
 
@@ -122,7 +153,7 @@ devuelve el conjunto de elementos
 
 elementos\+: puntero(\+Node) $\to$ conj(value)~\newline
  elementos(p) $\equiv$ if p = null {\bfseries then} vacio {\bfseries else} {\bfseries if} nothing?(p-\/$>$value) {\bfseries then} elementos(p-\/$>$parent) ~\newline
- {\bfseries else} Ag(p-\/$>$value,vacio) U elementos(n-\/$>$child\mbox{[}0\mbox{]}) U elementos(n-\/$>$child\mbox{[}1\mbox{]}) 
+ {\bfseries else} Ag(p-\/$>$value,vacio) U elementos(n-\/$>$child\mbox{[}0\mbox{]}) U elementos(n-\/$>$child\mbox{[}1\mbox{]}) {\bfseries fi} 
 \end{DoxyParagraph}
 
 
@@ -139,4 +170,20 @@ Proyecta las primeras componentes de una secuencia de pares
 
 primeros\+: secu(tupla( $\alpha$, $\beta$)) $\to$ secu( $\alpha$)~\newline
  primeros(s) $\equiv$ {\bfseries if} vacia?(s) {\bfseries then} $<$$>$ {\bfseries else} $\pi_1$(prim(s)) $\bullet$ \href{axiomas.html#primeros}{\tt primeros}(fin(s)) {\bfseries fi} 
+\end{DoxyParagraph}
+
+
+\begin{DoxyParagraph}{es\+R\+B-\/\+Tree}
+Retorna True si a partir del nodo dado se puede reconstruir un Red-\/\+Black Tree.
+
+es\+R\+B-\/\+Tree\+: Node $\to$ Bool~\newline
+ es\+R\+B-\/\+Tree(n) $\equiv$ ( $\exists$ k\+: nat)() arbolK(n.\+parent,k) = arbolK(n.\+parent,k+1) ) $\land_{\rm L}$ sin\+Repetidos(n.\+parent) $\land$ es\+A\+DB(n.\+parent) $\land$ ( $\forall$ p,p\textquotesingle{}\+:puntero(\+Node))(esta?($\ast$p,n.\+parent) $\land$ esta?($\ast$p\textquotesingle{},n.\+parent)) $\Rightarrow_{\rm L}$ color\+Adecuado(p) $\land$ color\+Adecuado(p\textquotesingle{}) $\land$ ((es\+Hoja(p) $\land$ es\+Hoja(p\textquotesingle{})) $\Rightarrow_{\rm L}$ cant\+Black(p)=cant\+Black(p\textquotesingle{})))
+
+
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{padreK}
+Retorna el k-\/esimo padre de un puntero a nodo.
+
+padreK\+: puntero(\+Node) $\to$ Node~\newline
+ padre\+K(p, k) $\equiv$ {\bfseries if} k = 0 $\lor$ ($\ast$p).parent = null {\bfseries then} $\ast$p {\bfseries else} \href{axiomas.html#padreK}{\tt padreK}(($\ast$p).parent, k-\/1) {\bfseries fi} {\bfseries fi} 
 \end{DoxyParagraph}

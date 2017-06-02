@@ -62,13 +62,13 @@ Node $\ast$ \hyperlink{classaed2_1_1map_1_1iterator_a2af3a44486e6d6f9503ed5a5433
 
 \end{DoxyParagraph}
 rep\+\_\+iter\+: puntero(\+Node) $\to$ bool~\newline
-rep\+\_\+iter(n) $\equiv$ completar
+rep\+\_\+iter(n) $\equiv$ true $\Leftrightarrow$ (( $\exists$ k \+: nat) nothing?(padre\+K(p , k).value) $\land_{\rm L}$ es\+R\+B-\/\+Tree(padre\+K(p , k))
 
 \begin{DoxyParagraph}{Función de abstracción}
 
 \end{DoxyParagraph}
 abs\+\_\+iter\+: puntero(\+Node) n $\to$ Iterador\+Bidireccional(Diccionario(Key, Meaning), tupla(Key, Meaning)) \{rep\+\_\+iter(n)\}~\newline
-abs\+\_\+iter(n) $\equiv$ completar
+abs\+\_\+iter(n) $\equiv$ $=_{\rm obs}$ ( $\forall$ b\+:i\+Tbi(d,value\+\_\+type)) $\vert$ anteriores(b) = Anteriores\+De(inorder(Arbol\+Value(\&header(p))),data($\ast$p).value) $\land$ siguientes(b) = siguientes\+De(inorder(Arbol\+Value(\&header(p))),data($\ast$p).value)
 
 Nota\+: se puede usar {\ttfamily d} para referirse al valor computacional del diccionario definido desde la cabecera (como en el constructor).
 
@@ -113,7 +113,7 @@ En caso de usar los iteradores como punteros, se desaconseja el uso de la posici
 \end{DoxySeeAlso}
 
 
-Definición en la línea \hyperlink{map_8h_source_l01678}{1678} del archivo \hyperlink{map_8h_source}{map.\+h}.
+Definición en la línea \hyperlink{map_8h_source_l01725}{1725} del archivo \hyperlink{map_8h_source}{map.\+h}.
 
 
 
@@ -127,7 +127,7 @@ Categoria del iterador\+: bidireccional. Requerido por estándar C++.
 
 
 
-Definición en la línea \hyperlink{map_8h_source_l01684}{1684} del archivo \hyperlink{map_8h_source}{map.\+h}.
+Definición en la línea \hyperlink{map_8h_source_l01731}{1731} del archivo \hyperlink{map_8h_source}{map.\+h}.
 
 \index{aed2\+::map\+::iterator@{aed2\+::map\+::iterator}!value\+\_\+type@{value\+\_\+type}}
 \index{value\+\_\+type@{value\+\_\+type}!aed2\+::map\+::iterator@{aed2\+::map\+::iterator}}
@@ -138,7 +138,7 @@ Tipo de los valores recorridos. Requerido por estándar C++.
 
 
 
-Definición en la línea \hyperlink{map_8h_source_l01686}{1686} del archivo \hyperlink{map_8h_source}{map.\+h}.
+Definición en la línea \hyperlink{map_8h_source_l01733}{1733} del archivo \hyperlink{map_8h_source}{map.\+h}.
 
 \index{aed2\+::map\+::iterator@{aed2\+::map\+::iterator}!reference@{reference}}
 \index{reference@{reference}!aed2\+::map\+::iterator@{aed2\+::map\+::iterator}}
@@ -149,7 +149,7 @@ Tipo de la referencia (resultado de operator$\ast$). Requerido por estándar C++
 
 
 
-Definición en la línea \hyperlink{map_8h_source_l01688}{1688} del archivo \hyperlink{map_8h_source}{map.\+h}.
+Definición en la línea \hyperlink{map_8h_source_l01735}{1735} del archivo \hyperlink{map_8h_source}{map.\+h}.
 
 \index{aed2\+::map\+::iterator@{aed2\+::map\+::iterator}!pointer@{pointer}}
 \index{pointer@{pointer}!aed2\+::map\+::iterator@{aed2\+::map\+::iterator}}
@@ -160,7 +160,7 @@ Tipo del puntero (resultado de operator-\/$>$). Requerido por estándar C++.
 
 
 
-Definición en la línea \hyperlink{map_8h_source_l01690}{1690} del archivo \hyperlink{map_8h_source}{map.\+h}.
+Definición en la línea \hyperlink{map_8h_source_l01737}{1737} del archivo \hyperlink{map_8h_source}{map.\+h}.
 
 \index{aed2\+::map\+::iterator@{aed2\+::map\+::iterator}!difference\+\_\+type@{difference\+\_\+type}}
 \index{difference\+\_\+type@{difference\+\_\+type}!aed2\+::map\+::iterator@{aed2\+::map\+::iterator}}
@@ -171,7 +171,7 @@ Resultado de la diferencia entre dos punteros. Requerido por estándar C++.
 
 
 
-Definición en la línea \hyperlink{map_8h_source_l01692}{1692} del archivo \hyperlink{map_8h_source}{map.\+h}.
+Definición en la línea \hyperlink{map_8h_source_l01739}{1739} del archivo \hyperlink{map_8h_source}{map.\+h}.
 
 
 
@@ -217,7 +217,7 @@ El iterador {\bfseries res} no está asociado a ningún diccionario.
 \item[Complejidad Temporal]$O$(1)
 \end{DoxyDescription}
 
-Definición en la línea \hyperlink{map_8h_source_l01720}{1720} del archivo \hyperlink{map_8h_source}{map.\+h}.
+Definición en la línea \hyperlink{map_8h_source_l01767}{1767} del archivo \hyperlink{map_8h_source}{map.\+h}.
 
 \index{aed2\+::map\+::iterator@{aed2\+::map\+::iterator}!iterator@{iterator}}
 \index{iterator@{iterator}!aed2\+::map\+::iterator@{aed2\+::map\+::iterator}}
@@ -247,7 +247,7 @@ La dirección {\bfseries pos} debe apuntar a un nodo del árbol red-\/black que 
 {\bfseries P} $\equiv$ \{rep\+\_\+iter(n)\} 
 \end{DoxyPrecond}
 \begin{DoxyPostcond}{Postcondición}
-{\bfseries Q} $\equiv$ \{res $=_{\rm obs}$ Crear\+It\+Bi(\&{\ttfamily d}, completar, completar)\}
+{\bfseries Q} $\equiv$ \{res $=_{\rm obs}$ Crear\+It\+Bi(\&{\ttfamily d}, anteriores\+De(pos), siguientes\+De(pos))\}
 \end{DoxyPostcond}
 
 \begin{DoxyDescription}
@@ -262,7 +262,7 @@ Este constructor permite castear punteros a nodos en iteradores.
 \end{DoxyNote}
 
 
-Definición en la línea \hyperlink{map_8h_source_l01901}{1901} del archivo \hyperlink{map_8h_source}{map.\+h}.
+Definición en la línea \hyperlink{map_8h_source_l01948}{1948} del archivo \hyperlink{map_8h_source}{map.\+h}.
 
 
 
@@ -297,7 +297,7 @@ Si modificas a res se va a modificar a lo que apunta this
 \item[Complejidad Temporal]$O$(1)
 \end{DoxyDescription}
 
-Definición en la línea \hyperlink{map_8h_source_l01733}{1733} del archivo \hyperlink{map_8h_source}{map.\+h}.
+Definición en la línea \hyperlink{map_8h_source_l01780}{1780} del archivo \hyperlink{map_8h_source}{map.\+h}.
 
 \index{aed2\+::map\+::iterator@{aed2\+::map\+::iterator}!operator-\/$>$@{operator-\/$>$}}
 \index{operator-\/$>$@{operator-\/$>$}!aed2\+::map\+::iterator@{aed2\+::map\+::iterator}}
@@ -334,7 +334,7 @@ No hay forma de expresar, en el lenguaje de T\+A\+Ds, que un puntero apunta a la
 \end{DoxyAttention}
 
 
-Definición en la línea \hyperlink{map_8h_source_l01751}{1751} del archivo \hyperlink{map_8h_source}{map.\+h}.
+Definición en la línea \hyperlink{map_8h_source_l01798}{1798} del archivo \hyperlink{map_8h_source}{map.\+h}.
 
 \index{aed2\+::map\+::iterator@{aed2\+::map\+::iterator}!operator++@{operator++}}
 \index{operator++@{operator++}!aed2\+::map\+::iterator@{aed2\+::map\+::iterator}}
@@ -370,7 +370,7 @@ si el iterador me permite modificar, si modificas a lo que apunta res se modific
 \end{DoxyItemize}
 \end{DoxyDescription}
 
-Definición en la línea \hyperlink{map_8h_source_l01769}{1769} del archivo \hyperlink{map_8h_source}{map.\+h}.
+Definición en la línea \hyperlink{map_8h_source_l01816}{1816} del archivo \hyperlink{map_8h_source}{map.\+h}.
 
 \index{aed2\+::map\+::iterator@{aed2\+::map\+::iterator}!operator++@{operator++}}
 \index{operator++@{operator++}!aed2\+::map\+::iterator@{aed2\+::map\+::iterator}}
@@ -406,7 +406,7 @@ si el iterador me permite modificar, si modificas a lo que apunta res se modific
 \end{DoxyItemize}
 \end{DoxyDescription}
 
-Definición en la línea \hyperlink{map_8h_source_l01799}{1799} del archivo \hyperlink{map_8h_source}{map.\+h}.
+Definición en la línea \hyperlink{map_8h_source_l01846}{1846} del archivo \hyperlink{map_8h_source}{map.\+h}.
 
 \index{aed2\+::map\+::iterator@{aed2\+::map\+::iterator}!operator-\/-\/@{operator-\/-\/}}
 \index{operator-\/-\/@{operator-\/-\/}!aed2\+::map\+::iterator@{aed2\+::map\+::iterator}}
@@ -442,7 +442,7 @@ si el iterador me permite modificar, si modificas a lo que apunta res se modific
 \end{DoxyItemize}
 \end{DoxyDescription}
 
-Definición en la línea \hyperlink{map_8h_source_l01819}{1819} del archivo \hyperlink{map_8h_source}{map.\+h}.
+Definición en la línea \hyperlink{map_8h_source_l01866}{1866} del archivo \hyperlink{map_8h_source}{map.\+h}.
 
 \index{aed2\+::map\+::iterator@{aed2\+::map\+::iterator}!operator-\/-\/@{operator-\/-\/}}
 \index{operator-\/-\/@{operator-\/-\/}!aed2\+::map\+::iterator@{aed2\+::map\+::iterator}}
@@ -478,7 +478,7 @@ si el iterador me permite modificar, si modificas a lo que apunta res se modific
 \end{DoxyItemize}
 \end{DoxyDescription}
 
-Definición en la línea \hyperlink{map_8h_source_l01850}{1850} del archivo \hyperlink{map_8h_source}{map.\+h}.
+Definición en la línea \hyperlink{map_8h_source_l01897}{1897} del archivo \hyperlink{map_8h_source}{map.\+h}.
 
 \index{aed2\+::map\+::iterator@{aed2\+::map\+::iterator}!operator==@{operator==}}
 \index{operator==@{operator==}!aed2\+::map\+::iterator@{aed2\+::map\+::iterator}}
@@ -520,7 +520,7 @@ No es necesario que {\bfseries $\ast$this} y {\bfseries other} estén asociados 
 \item[Complejidad Temporal]$O$(1)
 \end{DoxyDescription}
 
-Definición en la línea \hyperlink{map_8h_source_l01872}{1872} del archivo \hyperlink{map_8h_source}{map.\+h}.
+Definición en la línea \hyperlink{map_8h_source_l01919}{1919} del archivo \hyperlink{map_8h_source}{map.\+h}.
 
 \index{aed2\+::map\+::iterator@{aed2\+::map\+::iterator}!operator"!=@{operator"!=}}
 \index{operator"!=@{operator"!=}!aed2\+::map\+::iterator@{aed2\+::map\+::iterator}}
@@ -535,7 +535,7 @@ idem !$\vert$operator==
 
 
 
-Definición en la línea \hyperlink{map_8h_source_l01876}{1876} del archivo \hyperlink{map_8h_source}{map.\+h}.
+Definición en la línea \hyperlink{map_8h_source_l01923}{1923} del archivo \hyperlink{map_8h_source}{map.\+h}.
 
 \index{aed2\+::map\+::iterator@{aed2\+::map\+::iterator}!operator Node $\ast$@{operator Node $\ast$}}
 \index{operator Node $\ast$@{operator Node $\ast$}!aed2\+::map\+::iterator@{aed2\+::map\+::iterator}}
@@ -560,7 +560,7 @@ Esta función se brinda como ayuda para el TP
 \end{DoxyRemark}
 
 
-Definición en la línea \hyperlink{map_8h_source_l01912}{1912} del archivo \hyperlink{map_8h_source}{map.\+h}.
+Definición en la línea \hyperlink{map_8h_source_l01959}{1959} del archivo \hyperlink{map_8h_source}{map.\+h}.
 
 \index{aed2\+::map\+::iterator@{aed2\+::map\+::iterator}!max@{max}}
 \index{max@{max}!aed2\+::map\+::iterator@{aed2\+::map\+::iterator}}
@@ -580,7 +580,7 @@ Devuelve el maximo a partir del nodo pasado como parametro.
 \item[Complejidad Temporal]$O$( $\log$({\bfseries size}({\bfseries $\ast$this})))
 \end{DoxyDescription}
 
-Definición en la línea \hyperlink{map_8h_source_l01949}{1949} del archivo \hyperlink{map_8h_source}{map.\+h}.
+Definición en la línea \hyperlink{map_8h_source_l01997}{1997} del archivo \hyperlink{map_8h_source}{map.\+h}.
 
 \index{aed2\+::map\+::iterator@{aed2\+::map\+::iterator}!min@{min}}
 \index{min@{min}!aed2\+::map\+::iterator@{aed2\+::map\+::iterator}}
@@ -600,7 +600,7 @@ Devuelve el minimo a partir del nodo pasado como parametro.
 \item[Complejidad Temporal]$O$( $\log$({\bfseries size}({\bfseries $\ast$this})))
 \end{DoxyDescription}
 
-Definición en la línea \hyperlink{map_8h_source_l01964}{1964} del archivo \hyperlink{map_8h_source}{map.\+h}.
+Definición en la línea \hyperlink{map_8h_source_l02012}{2012} del archivo \hyperlink{map_8h_source}{map.\+h}.
 
 
 
@@ -614,7 +614,7 @@ Puntero al nodo actual. Ver Estructura de Representación.
 
 
 
-Definición en la línea \hyperlink{map_8h_source_l01938}{1938} del archivo \hyperlink{map_8h_source}{map.\+h}.
+Definición en la línea \hyperlink{map_8h_source_l01986}{1986} del archivo \hyperlink{map_8h_source}{map.\+h}.
 
 
 
