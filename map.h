@@ -561,17 +561,29 @@
  * A partir de un puntero a nodo construye el arbol binario al que pertenece ese node.
  *
  * \axioma{ArbolValue}: puntero(Node) \TO Node
- * ArbolValue(p) \IGOBS \IF p = null \THEN nil \ELSEIF nothing?(*p.value) \THEN bin(ArbolValue(*(*p.parent).child[0] , dato(*(*p.parent).value) , ArbolValue(*(*p.parent).child[1]) )) \ELSE bin(ArbolValue(*p.child[0] ) , dato(*p.value) , ArbolValue(*p.child[1])) \FI \FI
+ * ArbolValue(p) \EQUIV \IF p = null \THEN nil \ELSE \IF nothing?(*p.value) \THEN
+ * bin(ArbolValue(*(*p.parent).child[0] , dato(*(*p.parent).value) , ArbolValue(*(*p.parent).child[1]) )) \ELSE
+ * bin(ArbolValue(*p.child[0] ) , dato(*p.value) , ArbolValue(*p.child[1])) \FI \FI
  *\endparblock
  *
  * \par header
  * \parblock
- * A partir de un nodo devuelve el header
+ * A partir de un nodo devuelve el header.
  *
  * \axioma{header}: puntero(Node) \TO Node\n
  * header(p) \EQUIV \IF nothing ((*p).value) \THEN *p \ELSE header((*p).padre) \FI
  * \endparblock
-
+ *
+ * \par enRango
+ * \parblock
+ * A partir de tres punteros a nodo devuelve true si y solo si el primer parametro es menor o igual, o mayor o igual a
+ * los valores del segundo y tercer parametro respectivamente.
+ *
+ * \axioma{enRango}: puntero(Node) x puntero(Node) x puntero(Node)  \TO bool\n
+ * enRango(p1,p2,p3) \EQUIV  (*(*p2.value).clave \LEQ *(*p1.value).clave \LAND *(*p3.value).clave \GEQ *(*p1.value).clave)
+ * \endparblock
+ *
+ *
  * \par anterioresDe
  * \parblock
  * Devuelve una lista ordenada de todos los valores ateriores a el parametro que recive.
@@ -593,7 +605,10 @@
  * compara lexicograficamente 2 conjuntos.
  * 
  * \axioma{menorLexico}: conj(key) \TIMES conj(key) \TO bool
- * menorLexico(c1 ,c2) \EQUIV \IF \EMPTYSET?(c2) \THEN false \ELSE \IF \EMPTYSET?(c1) \THEN true \ELSE \IF minimo(c1,dameUno(c1)) = minimo (c2, dameUno(c2)) \THEN menorLexicografico(c1 \MINUS {minimo(c1,dameUno(c1))}, c2 \MINUS {minimo (c2, dameUno(c2))} )  \ELSE minimo(c1,dameUno(c1)) \LT minimo(c2,dameUno(c2)) \FI \FI \FI
+ * menorLexico(c1 ,c2) \EQUIV \IF \EMPTYSET?(c2) \THEN false \ELSE \IF \EMPTYSET?(c1) \THEN true
+ * \ELSE \IF minimo(c1,dameUno(c1)) = minimo (c2, dameUno(c2)) \THEN
+ * menorLexicografico(c1 \MINUS {minimo(c1,dameUno(c1))}, c2 \MINUS {minimo (c2, dameUno(c2))} )  \ELSE
+ * minimo(c1,dameUno(c1)) \LT minimo(c2,dameUno(c2)) \FI \FI \FI
  * \endparblock	
  *
  * \par minimo
@@ -2378,10 +2393,12 @@ private:
      * \par Invariante de representacion
 	 * \parblock
 	 * rep: map \TO bool\n
-	 * rep(m) \EQUIV (\FORALL m : map) ( nothing?(Header.value) \LAND (\EXISTS k: nat)() arbolK(m.header.parent,k) = arbolK(m.header.parent,k+1) )
+	 * rep(m) \EQUIV (\FORALL m : map)(nothing?(Header.value)\LAND (\EXISTS k: nat)() arbolK(m.header.parent,k) = arbolK(m.header.parent,k+1) )
      * \LAND_L sinRepetidos(headerToSecu(m.header.parent)) \LAND cant(m.header.parent) = m.count \LAND esADB(m.header.parent) \LAND
      * (\FORALL p,p':puntero(Node))(esta?(*p.value.clave,headerToSecu(m.header.parent)) \LAND esta?(*p'.value.clave,headerToSecu(m.header.parent)) \IMPLIES_L colorAdecuado(p) \LAND colorAdecuado(p')
-     * \LAND \LNOT(nothing?(*p.value)) \LAND \LNOT(nothing?(*p'.value)) \LAND ((esHoja(p) \LAND esHoja(p'))\IMPLIES_L cantBlack(p)=cantBlack(p')))
+     * \LAND \LNOT(nothing?(*p.value)) \LAND \LNOT(nothing?(*p'.value)) \LAND_L enRango(p,Header.child[0],Header.child[1])
+     * \LAND_L enRango(p',Header.child[0],Header.child[1]) \LAND ((esHoja(p) \LAND esHoja(p'))\IMPLIES_L cantBlack(p)=cantBlack(p')) \LAND_L
+     * Header.child[0] = min(&Header) \LAND_L Header.child[1]=max(&Header))
 	 * \endparblock
 	 *
 	 * \par Función de abstracción
