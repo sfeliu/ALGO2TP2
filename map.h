@@ -593,7 +593,7 @@
  * compara lexicograficamente 2 conjuntos.
  * 
  * \axioma{menorLexico}: conj(key) \TIMES conj(key) \TO bool
- * menorLexico(c1 ,c2) \EQUIV \IF \EMPTYSET(c2) \THEN false \ELSE \IF \EMPTYSET(c1) \THEN true \ELSE \IF minimo(c1,dameUno(c1)) = minimo (c2, dameUno(c2)) \THEN menorLexicografico(c1 \MINUS {minimo(c1,dameUno(c1))}, c2 \MINUS {minimo (c2, dameUno(c2))} )  \ELSE minimo(c1,dameUno(c1)) \LT minimo(c2,dameUno(c2)) \FI \FI \FI
+ * menorLexico(c1 ,c2) \EQUIV \IF \EMPTYSET?(c2) \THEN false \ELSE \IF \EMPTYSET?(c1) \THEN true \ELSE \IF minimo(c1,dameUno(c1)) = minimo (c2, dameUno(c2)) \THEN menorLexicografico(c1 \MINUS {minimo(c1,dameUno(c1))}, c2 \MINUS {minimo (c2, dameUno(c2))} )  \ELSE minimo(c1,dameUno(c1)) \LT minimo(c2,dameUno(c2)) \FI \FI \FI
  * \endparblock	
  *
  * \par minimo
@@ -601,7 +601,7 @@
  * devuelve el elemento menor de un conjunto.
  * 
  * \axioma{minimo}: conj(key) c \TIMES Key k \TO key {k \IN c}
- * minimo(c,k) \EQUIV \IF \EMPTYSET(c) \THEN k \ELSE \IF  k \LT dameUno(c) \THEN minimo(sinUno(c),k) \ELSE minimo(sinUno(c) ,dameUno(c)) \FI \FI
+ * minimo(c,k) \EQUIV \IF \EMPTYSET?(c) \THEN k \ELSE \IF  k \LT dameUno(c) \THEN minimo(sinUno(c),k) \ELSE minimo(sinUno(c) ,dameUno(c)) \FI \FI
  * \endparblock	
  *
  * \par cantidadDeElementos
@@ -609,7 +609,7 @@
  * devuelve la cantidad de elementos que tiene el diccionario
  * 
  * \axioma{cantidadDeElementos}: puntero(Node) \TO nat\n
- * cantidadDeElementos(p) \EQUIV \IF p = null \THEN 0 \ELSE \IF nothing?(p->value) \THEN cantidadDeElementos(p->parent) \n \ELSE 1 + \cantidadDeElementos(p->child[0]) + \cantidadDeElementos(p->child[1]) \FI \FI
+ * cantidadDeElementos(p) \EQUIV \IF p = null \THEN 0 \ELSE \IF nothing?(*p.value) \THEN cantidadDeElementos(*p.parent) \n \ELSE 1 + \cantidadDeElementos(*p.child[0]) + \cantidadDeElementos(p->child[1]) \FI \FI
  * \endparblock	
  * 
  * \par esADB
@@ -639,7 +639,7 @@
  * \axioma{cantBlack}: puntero(Node) \TO nat\n
  * cantBlack(p) \EQUIV \IF p = null \THEN 0 \ELSE \IF nothing?(p->value) \THEN 0
  * \ELSE \IF p = p->parent->parent  \THEN 1 
- * \ELSE \IF p->color = black \THEN 1 + \cantblack(p->parent) \ELSE \cantBlack(p->parent) \FI \FI \FI
+ * \ELSE \IF p->color = black \THEN 1 + \cantBlack(p->parent) \ELSE \cantBlack(p->parent) \FI \FI \FI
  * \endparblock
  *
  * \par colorAdecuado
@@ -649,7 +649,11 @@
  * \axioma{colorAdecuado}: puntero(Node) \TO bool\n
  * colorAdecuado(p) \EQUIV \IF p = null \THEN true \ELSE \IF nothing?(p->value) \LAND p->color = HEADER \n \THEN true 
  * \ELSE \IF p = p->parent->parent \LAND p->color = black \THEN true 
- * \n \ELSE \IF (p->color = red and p->parent->color = black) \LOR (p->color = black and p->parent->color = black) \THEN true \ELSE false \FI \FI \FI \FI
+ * \n \ELSE \IF (p->color = red and p->parent->color = black) \LOR p->color = black \THEN true \ELSE false \FI \FI \FI \FI
+ *
+ * \axioma{colorAdecuado}: puntero(Node) \TO bool\n
+ * colorAdecuado(p) \EQUIV p = null \LOR ( (*(*p.parent).parent = parent ) \IMPLIES *p.color = black  )
+ * \LOR (*p.color = red \IMPLIES *(*p.parent).color = black) \LOR *p.color = black
  * \endparblock
  *
  * \par esHoja
@@ -657,7 +661,7 @@
  * devuelve true si el nodo es hoja
  *
  * \axioma{esHoja}: puntero(Node) \TO bool\n
- * esHoja(p) \EQUIV \IF p = null \THEN false \ELSE \IF nothing?(p->value) \THEN false \ELSE \IF p->child[0] = null \LOR p->child[1] = null \THEN true else false \FI \FI \FI
+ * esHoja(p) \EQUIV \IF p = null \LOR_L nothing?(*p.value) \THEN false \ELSE \IF *p.child[0] = null \LOR *p.child[1] = null \THEN true else false \FI \FI \FI
  * \endparblock
  *
  * \par esta?
@@ -665,7 +669,7 @@
  * devuele true si el elemento pertenece al (arbol/diccionario)
  *
  * \axioma{esta?}: puntero(Node) x puntero(Node) \TO bool\n
- * esta?(p1,p2) \EQUIV *p1 en elementos(p2)
+ * esta?(p1,p2) \EQUIV *p1 \IN elementos(p2)
  * \endparblock
  *
  * \par sinRepetidos
@@ -681,8 +685,8 @@
  * dado un puntero a nodo te devuelve una secuencia de Key
  * 
  * \axioma{headerToSecu}: puntero(Node) \TO secu(Key)\n
- * headerToSecu(p) \EQUIV \IF p = null \THEN < > \ELSE \IF nothing?(p->value) \THEN headerToSecu(p->parent)
- * \n \ELSE \PI1(p->value) o headerToSecu(p->child[0]) & headerToSecu(p->child[1]) \FI \FI
+ * headerToSecu(p) \EQUIV \IF p = null \THEN < > \ELSE \IF nothing?(*p.value) \THEN headerToSecu(*p.parent)
+ * \n \ELSE (*p.value).clave o headerToSecu(*p.child[0]) & headerToSecu(*p.child[1]) \FI \FI
  * \endparblock
  *
  * \par arbolK
@@ -690,9 +694,8 @@
  * devuelve un arbol cantidad de niveles igual a K (arbol de cardinal finito)
  *
  * \axioma{arbolK}: puntero(Node) x nat \TO AB(puntero(Nodo))\n	
- * arbolK(p) \EQUIV \IF n = 0 \THEN Bin(nil , p , nil) else bin(arbolK(p->child[0] , n-1) , p , arbolK(p->child[1] , n-1)) \n
- * arbolK(p) \EQUIV \IF p = null \THEN bin(nil,nil,nil) \ELSE \IF nothing?(p->value) \THEN \n arbolK(p->parent)  \ELSE 
- * bin(arbolK(p->child[0]) , p , arbolK(p->child[1])) \FI \FI \FI
+ * arbolK(p) \EQUIV \IF p = null \THEN nil \ELSE \IF nothing?(*p.value) \THEN \n arbolK(*p.parent)  \ELSE
+ * bin(arbolK(*p.child[0]) , p , arbolK(*p.child[1])) \FI \FI \FI
  * \endparblock
  *
  * \par elementos
@@ -700,8 +703,8 @@
  * devuelve el conjunto de elementos
  *
  *\axioma{elementos}: puntero(Node)  \TO conj(value)\n
- * elementos(p) \EQUIV if p = null \THEN vacio \ELSE \IF  nothing?(p->value) \THEN elementos(p->parent) \n \ELSE
- * Ag(p->value,vacio) U elementos(n->child[0]) U elementos(n->child[1]) \FI
+ * elementos(p) \EQUIV if p = null \THEN vacio \ELSE \IF  nothing?(*p.value) \THEN elementos(*p.parent) \n \ELSE
+ * Ag(*p.value,vacio) U elementos(*p.child[0]) U elementos(*p.child[1]) \FI
  * \endparblock
  *
  * \par esDiccionario?
@@ -725,9 +728,9 @@
  * Retorna True si a partir del nodo dado se puede reconstruir un Red-Black Tree.
  *
  * \axioma{esRBTree}: Node \TO Bool\n
- * \esRBTree(n) \EQUIV (\EXISTS k: nat)() arbolK(n.parent,k) = arbolK(n.parent,k+1) ) \LAND_L sinRepetidos(n.parent)
- * \LAND esADB(n.parent) \LAND (\FORALL p,p':puntero(Node))(esta?(*p,n.parent) \LAND esta?(*p',n.parent)) \IMPLIES_L
- * colorAdecuado(p) \LAND colorAdecuado(p') \LAND ((esHoja(p) \LAND esHoja(p'))\IMPLIES_L cantBlack(p)=cantBlack(p')))
+ * \esRBTree(n) \EQUIV (\EXISTS k: nat)(arbolK(n.parent,k) = arbolK(n.parent,k+1)) \LAND_L sinRepetidos(headerToSecu(n.parent))
+ * \LAND esADB(n.parent) \LAND (\FORALL p,p':puntero(Node))(esta?(*p.value.clave,headerToSecu(n.parent)) \LAND esta?(*p'.value.clave,headerToSecu(n.parent)) \IMPLIES_L
+ * colorAdecuado(p) \LAND colorAdecuado(p') \LAND \LNOT(nothing?(*p.value)) \LAND \LNOT(nothing?(*p'.value)) \LAND ((esHoja(p) \LAND esHoja(p'))\IMPLIES_L cantBlack(p)=cantBlack(p')))
  *
  * \par padreK
  * \parblock
@@ -1235,7 +1238,7 @@ public:
      * @retval res denota true si y solo si el diccionario está vacío
      *
      * \pre \aedpre{true}
-     * \post \aedpost{res \IGOBS (\EMPTYSET ?(claves(*this)))}
+     * \post \aedpost{res \IGOBS (\EMPTYSET?(claves(*this)))}
      *
      * \complexity{\O(1)}
      */
@@ -2375,16 +2378,16 @@ private:
      * \par Invariante de representacion
 	 * \parblock
 	 * rep: map \TO bool\n
-	 * rep(m) \EQUIV (\FORALL m : map) ( (\EXISTS k: nat)() arbolK(m.header.parent,k) = arbolK(m.header.parent,k+1) )
-     * \LAND_L sinRepetidos(m.header.parent) \LAND cant(m.header.parent) = m.count \LAND esADB(m.header.parent) \LAND
-     * (\FORALL p,p':puntero(Node))(esta?(*p,m.header.parent) \LAND esta?(*p',m.header.parent)) \IMPLIES_L colorAdecuado(p) \LAND colorAdecuado(p')
-     * \LAND ((esHoja(p) \LAND esHoja(p'))\IMPLIES_L cantBlack(p)=cantBlack(p')))
+	 * rep(m) \EQUIV (\FORALL m : map) ( nothing?(Header.value) \LAND (\EXISTS k: nat)() arbolK(m.header.parent,k) = arbolK(m.header.parent,k+1) )
+     * \LAND_L sinRepetidos(headerToSecu(m.header.parent)) \LAND cant(m.header.parent) = m.count \LAND esADB(m.header.parent) \LAND
+     * (\FORALL p,p':puntero(Node))(esta?(*p.value.clave,headerToSecu(m.header.parent)) \LAND esta?(*p'.value.clave,headerToSecu(m.header.parent)) \IMPLIES_L colorAdecuado(p) \LAND colorAdecuado(p')
+     * \LAND \LNOT(nothing?(*p.value)) \LAND \LNOT(nothing?(*p'.value)) \LAND ((esHoja(p) \LAND esHoja(p'))\IMPLIES_L cantBlack(p)=cantBlack(p')))
 	 * \endparblock
 	 *
 	 * \par Función de abstracción
 	 * \parblock
 	 * abs: map m \TO Diccionario(\T{Key}, \T{Meaning})  {rep(n)}\n
-	 * abs(m) \EQUIV dic (forall dic:diccionario) claves(dic) = elementosClaves(m.Header) \LAND (forall k: Key) k in claves(dic) <-> <obtener(k,dic) ,k> in elementos(m.Header) 
+	 * abs(m) \IGOBS dic : diccionario | claves(dic) = elementosClaves(m.Header) \LAND (\FORALL k: Key)( k \IN claves(dic) /IFF <k,obtener(k,dic)> \IN elementos(m.Header))
 	 * \endparblock
      */
     //////////////////////////////////////////////////////////////////////////////////////////////////////
