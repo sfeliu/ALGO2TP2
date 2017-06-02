@@ -669,7 +669,7 @@
  * devuele true si el elemento pertenece al (arbol/diccionario)
  *
  * \axioma{esta?}: puntero(Node) x puntero(Node) \TO bool\n
- * esta?(p1,p2) \EQUIV *p1 \IN elementos(p2)
+ * esta?(p1,p2) \EQUIV *p1.value \IN elementos(p2)
  * \endparblock
  *
  * \par sinRepetidos
@@ -2387,7 +2387,7 @@ private:
 	 * \par Función de abstracción
 	 * \parblock
 	 * abs: map m \TO Diccionario(\T{Key}, \T{Meaning})  {rep(n)}\n
-	 * abs(m) \IGOBS dic : diccionario | claves(dic) = elementosClaves(m.Header) \LAND (\FORALL k: Key)( k \IN claves(dic) /IFF <k,obtener(k,dic)> \IN elementos(m.Header))
+	 * abs(m) \IGOBS dic : diccionario | #claves(dic) = #elementos(&m.Header) \LAND (\FORALL k: Key)( k \IN claves(dic) /IFF <k,obtener(k,dic)> \IN elementos(&m.Header))
 	 * \endparblock
      */
     //////////////////////////////////////////////////////////////////////////////////////////////////////
