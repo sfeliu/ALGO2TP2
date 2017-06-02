@@ -310,8 +310,16 @@ ALIASES += esta?="\refax{esta?}"
 ALIASES += sinRepetidos="\refax{sinRepetidos}"
 ALIASES += esRBTree="\refax{esRBTree}"
 ALIASES += padreK="\refax{padreK}"
+ALIASES += ArbolValue="\refax{ArbolValue}"
+ALIASES += enRango="\refax{enRango}"
+ALIASES += anterioresDe="\refax{anterioresDe}"
+ALIASES += siguientesDe="\refax{siguientesDe}"
+ALIASES += menorLexico="\refax{menorLexico}"
+ALIASES += minimo="\refax{minimo}"
 ALIASES += esMenor="\refax{esMenor}"
-
+ALIASES += dameHeader="\refax{dameHeader}"
+ALIASES += headerToSecu="\refax{headerToSecu}"
+ALIASES += elementos="\refax{elementos}"
 
 # This tag can be used to specify a number of word-keyword mappings (TCL only).
 # A mapping has the form "name=value". For example adding "class=itcl::class"
