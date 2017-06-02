@@ -310,6 +310,7 @@ ALIASES += esta?="\refax{esta?}"
 ALIASES += sinRepetidos="\refax{sinRepetidos}"
 ALIASES += esRBTree="\refax{esRBTree}"
 ALIASES += padreK="\refax{padreK}"
+ALIASES += esMenor="\refax{esMenor}"
 
 
 # This tag can be used to specify a number of word-keyword mappings (TCL only).

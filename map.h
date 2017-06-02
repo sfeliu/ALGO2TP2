@@ -617,12 +617,22 @@
  * devuelve una bool indicando si el arbol tiene una relacion de orden total (cada nodo con sus hijos)
  *
  * \axioma{esADB}: puntero(Node) \TO bool\n
- * esADB(p) \EQUIV \IF p = null \THEN true \ELSE \IF nothing?(p->value) \THEN esADB(p->parent)
- * \ELSE \IF (¬(p->child[0]=null) \LAND_L \PI1 (p->child[0]->value)) \LOR_L (¬(p->child[1]=null) \LAND_L \PI1 (p->child[1]->value)) \THEN true
- * \n \ELSE \esADB(p->child[0]) \LAND_L \esADB(p->child[1]) \FI \FI \FI
+ * esADB(p) \EQUIV \IF p = null \THEN true \ELSE \IF (*p).child[0] != null \THEN \IF (*p).child[1] != null \THEN
+ *              \esMenor((*p).child[0], p) \LAND \esMenor(p, (*p).child[1]) \LAND \esADB((*p).child[0]) \LAND \esADB((*p).child[1])
+ *              \ELSE \esMenor(p, (*p).child[1]) \LAND \esADB((*p).child[1]) \FI \ELSE \IF (*p).child[1] != null \THEN
+ *              \esMenor((*p).child[1], p) \LAND \esADB((*p).child[1]) \ELSE true \FI \FI \FI
  * \endparblock
- *	
+ *
+ * \par esMenor
+ * \parblock
+ * devuelve una bool indicando si el valor del primer puntero es menor al del segundo.
+ *
+ * \axioma{esMenor}: puntero(Node) \TIMES puntero(Node) \TO bool\n
+ * esMenor(p, p') \EQUIV data((*p).value).clave < data((*p).value).clave
+ * \endparblock
+ *
  * \par cantBlack
+ *
  * \parblock
  * dado un puntero nod, devuelve la cantidad de nodos negros hay hasta llegar al root
  *
@@ -1970,7 +1980,7 @@ public:
          * \par Función de abstracción
          *
          * abs_iter: puntero(Node) n \TO IteradorBidireccional(Diccionario(\T{Key}, \T{Meaning}), tupla(\T{Key}, \T{Meaning}))  {rep_iter(n)}\n
-         * abs_iter(n) \EQUIV \IGOBS (\FORALL b:iTbi(d,value_type)) | \IF n = NULL \THEN anteriores(b) = <> \LAND siguientes(b) = <> \ELSE
+         * abs_iter(n) \EQUIV \IGOBS (\FORALL b:IteradorBidireccional(d,value_type)) | \IF n = NULL \THEN anteriores(b) = <> \LAND siguientes(b) = <> \ELSE
          *              \IF nothing?((*n).Value) \THEN anteriores(b) = inorder(ArbolValue(&header(n))) \LAND siguientes(b) = <>
          *              \ELSE anteriores(b) = AnterioresDe(inorder(ArbolValue(&header(n))),data(*n).value) \LAND
          *              siguientes(b) = siguientesDe(inorder(ArbolValue(&header(n))),data(*n).value) \FI \FI \FI
