@@ -1918,12 +1918,13 @@ public:
          * \par Invariante de representación
          *
          * rep_iter: puntero(Node) \TO bool\n
-         * rep_iter(n) \EQUIV completar
+         * rep_iter(n) \EQUIV true \IFF ((\EXISTS k : nat) nothing?(padreK(p , k).value) \LAND_L esRB-Tree(padreK(p , k)) 
          *
          * \par Función de abstracción
          *
          * abs_iter: puntero(Node) n \TO IteradorBidireccional(Diccionario(\T{Key}, \T{Meaning}), tupla(\T{Key}, \T{Meaning}))  {rep_iter(n)}\n
-         * abs_iter(n) \EQUIV completar
+         * abs_iter(n) \EQUIV \IGOBS (\FORALL b:iTbi(d,value_type)) | anteriores(b) = AnterioresDe(inorder(ArbolValue(&header(p))),data(*p).value) 
+         *  										\LAND	  siguientes(b) = siguientesDe(inorder(ArbolValue(&header(p))),data(*p).value)
          *
          * Nota: se puede usar `d` para referirse al valor computacional del diccionario definido desde la cabecera (como en el constructor).
          *
