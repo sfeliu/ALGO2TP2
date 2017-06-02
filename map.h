@@ -571,16 +571,15 @@
  * A partir de un nodo devuelve el dameHeader.
  *
  * \axioma{dameHeader}: puntero(Node) \TO Node\n
- * dameHeader(p) \EQUIV \IF nothing ((*p).value) \THEN *p \ELSE dameHeader((*p).padre) \FI
+ * dameHeader(p) \EQUIV \IF nothing ((*p).value) \THEN *p \ELSE \dameHeader((*p).padre) \FI
  * \endparblock
  *
  * \par enRango
  * \parblock
- * A partir de tres punteros a nodo devuelve true si y solo si el primer parametro es menor o igual, o mayor o igual a
- * los valores del segundo y tercer parametro respectivamente.
+ * A partir de tres punteros a nodo devuelve true si y solo si el primer parametro esta acotado inferiormente por el segundo y superiormente por el tercero.
  *
  * \axioma{enRango}: puntero(Node) x puntero(Node) x puntero(Node)  \TO bool\n
- * enRango(p1,p2,p3) \EQUIV  (*(*p2.value).clave \LEQ *(*p1.value).clave \LAND *(*p3.value).clave \GEQ *(*p1.value).clave)
+ * enRango(p1,p2,p3) \EQUIV  data(*(*p2.value).clave \LEQ data(*p1.value).clave \LAND data(*p3.value).clave \GEQ data(*p1.value).clave)
  * \endparblock
  *
  *
@@ -589,7 +588,7 @@
  * Devuelve una lista ordenada de todos los valores ateriores a el parametro que recive.
  *
  * \axioma{anterioresDe}: secu(value_type) s x value_type v \TO secu(value_type) 		{esta?(v,s)}\n
- * anterioresDe(s, v) \EQUIV \IF prim(s) == v \THEN <> \ELSE prim(s) \BULLET anterioresDe(s,fin(v)) \FI
+ * anterioresDe(s, v) \EQUIV \IF prim(s) == v \THEN <> \ELSE prim(s) \BULLET \anterioresDe(s,fin(v)) \FI
  * \endparblock
 
  * \par siguientesDe
@@ -597,7 +596,7 @@
  * Devuelve una lista ordenada de todos los valores ateriores a el parametro que recive.
  *
  * \axioma{siguientesDe}: secu(value_type) s x value_type v \TO secu(value_type) 		{esta?(v,s)}\n
- * anterioresDe(s, v) \EQUIV \IF prim(s) == v \THEN <> \ELSE prim(s) \BULLET anterioresDe(s,fin(v)) \FI
+ * anterioresDe(s, v) \EQUIV \IF prim(s) == v \THEN <> \ELSE prim(s) \BULLET \siguientesDe(s,fin(v)) \FI
  * \endparblock
  *
  * \par menorLexico
@@ -606,9 +605,9 @@
  * 
  * \axioma{menorLexico}: conj(key) \TIMES conj(key) \TO bool
  * menorLexico(c1 ,c2) \EQUIV \IF \EMPTYSET?(c2) \THEN false \ELSE \IF \EMPTYSET?(c1) \THEN true
- * \ELSE \IF minimo(c1,dameUno(c1)) = minimo (c2, dameUno(c2)) \THEN
- * menorLexicografico(c1 \MINUS {minimo(c1,dameUno(c1))}, c2 \MINUS {minimo (c2, dameUno(c2))} )  \ELSE
- * minimo(c1,dameUno(c1)) \LT minimo(c2,dameUno(c2)) \FI \FI \FI
+ * \ELSE \IF \minimo(c1,dameUno(c1)) = \minimo(c2, dameUno(c2)) \THEN
+ * \menorLexicografico(c1 \MINUS {\minimo(c1,dameUno(c1))}, c2 \MINUS {\minimo (c2, dameUno(c2))} )  \ELSE
+ * \minimo(c1,dameUno(c1)) \LT \minimo(c2,dameUno(c2)) \FI \FI \FI
  * \endparblock	
  *
  * \par minimo
@@ -616,7 +615,7 @@
  * devuelve el elemento menor de un conjunto.
  * 
  * \axioma{minimo}: conj(key) c \TIMES Key k \TO key {k \IN c}
- * minimo(c,k) \EQUIV \IF \EMPTYSET?(c) \THEN k \ELSE \IF  k \LT dameUno(c) \THEN minimo(sinUno(c),k) \ELSE minimo(sinUno(c) ,dameUno(c)) \FI \FI
+ * minimo(c,k) \EQUIV \IF \EMPTYSET?(c) \THEN k \ELSE \IF  k \LT dameUno(c) \THEN \minimo(sinUno(c),k) \ELSE \minimo(sinUno(c) ,dameUno(c)) \FI \FI
  * \endparblock	
  *
  * \par cantidadDeElementos
@@ -624,7 +623,7 @@
  * devuelve la cantidad de elementos que tiene el diccionario
  * 
  * \axioma{cantidadDeElementos}: puntero(Node) \TO nat\n
- * cantidadDeElementos(p) \EQUIV \IF p = null \THEN 0 \ELSE \IF nothing?(*p.value) \THEN cantidadDeElementos(*p.parent) \n \ELSE 1 + \cantidadDeElementos(*p.child[0]) + \cantidadDeElementos(*p.child[1]) \FI \FI
+ * cantidadDeElementos(p) \EQUIV \IF p = null \THEN 0 \ELSE \IF nothing?(*p.value) \THEN \cantidadDeElementos(*p.parent) \n \ELSE 1 + \cantidadDeElementos(*p.child[0]) + \cantidadDeElementos(*p.child[1]) \FI \FI
  * \endparblock
  * 
  * \par esADB
@@ -672,7 +671,7 @@
  * devuelve true si el nodo es hoja
  *
  * \axioma{esHoja}: puntero(Node) \TO bool\n
- * esHoja(p) \EQUIV \IF p = null \LOR_L nothing?(*p.value) \THEN false \ELSE \IF *p.child[0] = null \LOR *p.child[1] = null \THEN true else false \FI \FI \FI
+ * esHoja(p) \EQUIV \IF p = null \LOR_L nothing?(*p.value) \THEN false \ELSE *p.child[0] = null \LOR *p.child[1] = null \FI
  * \endparblock
  *
  * \par estaPtr?
@@ -680,7 +679,7 @@
  * devuele true si el elemento pertenece al (arbol/diccionario)
  *
  * \axioma{estaPtr?}: puntero(Node) x puntero(Node) \TO bool\n
- * estaPtr?(p1,p2) \EQUIV *p1.value \IN elementos(p2)
+ * estaPtr?(p1,p2) \EQUIV *p1.value \IN \elementos(p2)
  * \endparblock
  *
  * \par sinRepetidos
@@ -688,7 +687,7 @@
  * devuelve true si no hay elementos repetidos en el arbol/diccionario
  *
  * \axioma{sinRepetidos}: secu(Key) \TO bool\n
- * sinRepetidos(sec) \EQUIV if vacia?(sec) \THEN true \ELSE \IF esta?(prim(sec),fin(sec)) \THEN false \ELSE sinRepetidos(fin(sec)) \FI
+ * sinRepetidos(sec) \EQUIV if vacia?(sec) \THEN true \ELSE \IF esta?(prim(sec),fin(sec)) \THEN false \ELSE \sinRepetidos(fin(sec)) \FI
  * \endparblock
  *
  * \par headerToSecu
@@ -696,8 +695,8 @@
  * dado un puntero a nodo te devuelve una secuencia de Key
  * 
  * \axioma{headerToSecu}: puntero(Node) \TO secu(Key)\n
- * headerToSecu(p) \EQUIV \IF p = null \THEN < > \ELSE \IF nothing?(*p.value) \THEN headerToSecu(*p.parent)
- * \n \ELSE (*p.value).clave o headerToSecu(*p.child[0]) & headerToSecu(*p.child[1]) \FI \FI
+ * headerToSecu(p) \EQUIV \IF p = null \THEN < > \ELSE \IF nothing?(*p.value) \THEN \headerToSecu(*p.parent)
+ * \n \ELSE data(*p.value).clave o \headerToSecu(*p.child[0]) & \headerToSecu(*p.child[1]) \FI \FI
  * \endparblock
  *
  * \par arbolK
@@ -714,8 +713,16 @@
  * devuelve el conjunto de elementos
  *
  *\axioma{elementos}: puntero(Node)  \TO conj(value)\n
- * elementos(p) \EQUIV if p = null \THEN vacio \ELSE \IF  nothing?(*p.value) \THEN elementos(*p.parent) \n \ELSE
- * Ag(*p.value,vacio) U elementos(*p.child[0]) U elementos(*p.child[1]) \FI
+ * elementos(p) \EQUIV if p = null \THEN vacio \ELSE \IF  nothing?(*p.value) \THEN \elementos(*p.parent) \n \ELSE
+ * Ag(*p.value,vacio) U \elementos(*p.child[0]) U \elementos(*p.child[1]) \FI
+ * \endparblock
+ *
+ * \par hijosHeader
+ * \parblock
+ * Retorna true si esta vacio y los hijos del header es el mismo o si los hijos pertenecen.
+ *
+ * \axioma{hijosHeader}: Node \TO bool\n
+ * hijosHeader(n) \EQUIV \IF n.parent = NULL \THEN n.child[0] = &n \LAND n.child[1] = &n \ELSE \estaPtr?(n.child[0], &n) \LAND \estaPtr?(n.child[1], &n)
  * \endparblock
  *
  * \par esDiccionario?
@@ -723,7 +730,7 @@
  * Retorna true si la secuencia representa un diccionario
  *
  * \axioma{esDiccionario?}: secu(tupla(\ALPHA, \BETA)) \TO bool\n
- * esDiccionario?(s) \EQUIV sinRepetidos?(\primeros(s))
+ * esDiccionario?(s) \EQUIV \sinRepetidos?(\primeros(s))
  * \endparblock
  *
  * \par primeros
@@ -739,9 +746,9 @@
  * Retorna True si a partir del nodo dado se puede reconstruir un Red-Black Tree.
  *
  * \axioma{esRBTree}: Node \TO Bool\n
- * \esRBTree(n) \EQUIV (\EXISTS k: nat)(arbolK(n.parent,k) = arbolK(n.parent,k+1)) \LAND_L sinRepetidos(headerToSecu(n.parent))
- * \LAND esADB(n.parent) \LAND (\FORALL p,p':puntero(Node))(estaPtr?(*p.value,header.parent) \LAND estaPtr?(*p'.value,header.parent) \IMPLIES_L
- * colorAdecuado(p) \LAND colorAdecuado(p') \LAND \LNOT(nothing?(*p.value)) \LAND \LNOT(nothing?(*p'.value)) \LAND ((esHoja(p) \LAND esHoja(p'))\IMPLIES_L cantBlack(p)=cantBlack(p')))
+ * \esRBTree(n) \EQUIV (\EXISTS k: nat)(\arbolK(n.parent,k) = \arbolK(n.parent,k+1)) \LAND_L \sinRepetidos(headerToSecu(n.parent))
+ * \LAND \esADB(n.parent) \LAND (\FORALL p,p':puntero(Node))(\estaPtr?(*p.value,header.parent) \LAND \estaPtr?(*p'.value,header.parent) \IMPLIES_L
+ * \colorAdecuado(p) \LAND \colorAdecuado(p') \LAND \LNOT(nothing?(*p.value)) \LAND \LNOT(nothing?(*p'.value)) \LAND ((\esHoja(p) \LAND \esHoja(p'))\IMPLIES_L \cantBlack(p)=\cantBlack(p')))
  *
  * \par padreK
  * \parblock
@@ -1959,7 +1966,7 @@ public:
          * El iterador \P{res} queda asociado a `d` y permite modificar el significado del valor que apunte.}
          *
          * \pre \aedpre{rep_iter(n)}
-         * \post \aedpost{res \IGOBS CrearItBi(&`d`, anterioresDe(pos), siguientesDe(pos))}
+         * \post \aedpost{res \IGOBS CrearItBi(&`d`, \anterioresDe(pos), \siguientesDe(pos))}
          *
          * \complexity{\O(1)}
          *
@@ -1989,15 +1996,15 @@ public:
          * \par Invariante de representación
          *
          * rep_iter: puntero(Node) \TO bool\n
-         * rep_iter(n) \EQUIV true \IFF n = NULL \LOR_L ((\EXISTS k : nat) nothing?(padreK(n , k).value) \LAND_L \esRBTree(padreK(n , k))
+         * rep_iter(n) \EQUIV true \IFF n = NULL \LOR_L ((\EXISTS k : nat) nothing?(\padreK(n , k).value) \LAND_L \esRBTree(\padreK(n , k))
          *
          * \par Función de abstracción
          *
          * abs_iter: puntero(Node) n \TO IteradorBidireccional(Diccionario(\T{Key}, \T{Meaning}), tupla(\T{Key}, \T{Meaning}))  {rep_iter(n)}\n
-         * abs_iter(n) \IGOBS (\FORALL b:IteradorBidireccional(d,value_type)) | \IF n = NULL \THEN anteriores(b) = <> \LAND siguientes(b) = <> \ELSE
-         *              \IF nothing?((*n).Value) \THEN anteriores(b) = inorder(ArbolValue(&dameHeader(n))) \LAND siguientes(b) = <>
-         *              \ELSE anteriores(b) = AnterioresDe(inorder(ArbolValue(&dameHeader(n))),data(*n).value) \LAND
-         *              siguientes(b) = siguientesDe(inorder(ArbolValue(&dameHeader(n))),data(*n).value) \FI \FI \FI
+         * abs_iter(n) \IGOBS b:IteradorBidireccional(d,value_type) | \IF n = NULL \THEN anteriores(b) = <> \LAND siguientes(b) = <> \ELSE
+         *              \IF nothing?((*n).Value) \THEN anteriores(b) = inorder(\ArbolValue(&\dameHeader(n))) \LAND siguientes(b) = <>
+         *              \ELSE anteriores(b) = \AnterioresDe(inorder(\ArbolValue(&\dameHeader(n))),data(*n).value) \LAND
+         *              siguientes(b) = siguientesDe(inorder(\ArbolValue(&\dameHeader(n))),data(*n).value) \FI \FI \FI
          *
          * Nota: se puede usar `d` para referirse al valor computacional del diccionario definido desde la cabecera (como en el constructor).
          *
@@ -2389,17 +2396,17 @@ private:
      * \par Invariante de representacion
 	 * \parblock
 	 * rep: map \TO bool\n
-	 * rep(m) \EQUIV (nothing?(Header.value)\LAND (\EXISTS k: nat)() arbolK(m.header.parent,k) = arbolK(m.header.parent,k+1) )
-     * \LAND_L sinRepetidos(headerToSecu(m.header.parent)) \LAND cant(m.header.parent) = m.count \LAND esADB(m.header.parent) \LAND
-     * (\FORALL p,p':puntero(Node))(estaPtr?(*p.value,header.parent) \LAND estaPtr?(*p'.value,header.parent) \IMPLIES_L colorAdecuado(p) \LAND colorAdecuado(p')
-     * \LAND \LNOT(nothing?(*p.value)) \LAND \LNOT(nothing?(*p'.value)) \LAND_L enRango(p,header.child[0],header.child[1])
-     * \LAND_L enRango(p',header.child[0],header.child[1]) \LAND ((esHoja(p) \LAND esHoja(p'))\IMPLIES_L cantBlack(p)=cantBlack(p'))
+	 * rep(m) \EQUIV (nothing?(Header.value)\LAND (\EXISTS k: nat)() \arbolK(m.header.parent,k) = \arbolK(m.header.parent,k+1) )
+     * \LAND_L \sinRepetidos(\headerToSecu(m.header.parent)) \LAND cant(m.header.parent) = m.count \LAND \hijosHeader(header) \LAND \esADB(m.header.parent) \LAND
+     * (\FORALL p,p':puntero(Node))(\estaPtr?(p,header.parent) \LAND \estaPtr?(p',header.parent) \IMPLIES_L \colorAdecuado(p) \LAND \colorAdecuado(p')
+     * \LAND \LNOT(nothing?(*p.value)) \LAND \LNOT(nothing?(*p'.value)) \LAND_L \enRango(p,header.child[0],header.child[1])
+     * \LAND_L \enRango(p',header.child[0],header.child[1]) \LAND ((\esHoja(p) \LAND \esHoja(p'))\IMPLIES_L \cantBlack(p)=\cantBlack(p'))
 	 * \endparblock
 	 *
 	 * \par Función de abstracción
 	 * \parblock
 	 * abs: map m \TO Diccionario(\T{Key}, \T{Meaning})  {rep(m)}\n
-	 * abs(m) \IGOBS dic : diccionario | #claves(dic) = #elementos(&m.Header) \LAND (\FORALL k: Key)( k \IN claves(dic) \IFF <k,obtener(k,dic)> \IN elementos(&m.Header))
+	 * abs(m) \IGOBS dic : diccionario | #claves(dic) = #\elementos(&m.Header) \LAND (\FORALL k: Key)( k \IN claves(dic) \IFF <k,obtener(k,dic)> \IN \elementos(&m.Header))
 	 * \endparblock
      */
     //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2663,6 +2670,8 @@ bool operator!=(const map<K, V, C>& m1, const map<K, V, C>& m2) {
 /**
  * \relates aed2::map
  * @brief Operador de orden lexicografico entre diccionarios.
+ *
+ * Hicimos la comparación solamente en terminos de claves.
  *
  * @tparam K clave del diccionario
  * @tparam V signficado del diccionario

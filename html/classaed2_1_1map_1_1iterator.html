@@ -35,7 +35,7 @@
    <div id="projectname">Trabajo práctico 2: diccionario sobre RB-tree
    &#160;<span id="projectnumber">0.1</span>
    </div>
-   <div id="projectbrief">Nombre Apellido, Nombre Apellido, Nombre Apellido y Nombre Apellido</div>
+   <div id="projectbrief">Bogetti Gianfranco, Ingaramo Pablo, Feliu Santiago y Rios Kennedy</div>
   </td>
    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -175,10 +175,10 @@ Atributos privados</h2></td></tr>
 <tr><td colspan="2"><div class="groupText"><p><span class="paramname">iterator</span> se representa con <b class="paramname">n</b>: puntero(Node)</p>
 <dl class="section user"><dt>Invariante de representación</dt><dd></dd></dl>
 <p>rep_iter: puntero(Node) <img class="formulaInl" alt="$\to$" src="form_4.png"/> bool<br />
-rep_iter(n) <img class="formulaInl" alt="$\equiv$" src="form_11.png"/> true <img class="formulaInl" alt="$\Leftrightarrow$" src="form_18.png"/> n = NULL <img class="formulaInl" alt="$\lor_{\rm L}$" src="form_21.png"/> (( <img class="formulaInl" alt="$\exists$" src="form_28.png"/> k : nat) nothing?(padreK(n , k).value) <img class="formulaInl" alt="$\land_{\rm L}$" src="form_17.png"/> <a href="axiomas.html#esRBTree">esRBTree</a>(padreK(n , k))</p>
+rep_iter(n) <img class="formulaInl" alt="$\equiv$" src="form_11.png"/> true <img class="formulaInl" alt="$\Leftrightarrow$" src="form_18.png"/> n = NULL <img class="formulaInl" alt="$\lor_{\rm L}$" src="form_21.png"/> (( <img class="formulaInl" alt="$\exists$" src="form_28.png"/> k : nat) nothing?(<a href="axiomas.html#padreK">padreK</a>(n , k).value) <img class="formulaInl" alt="$\land_{\rm L}$" src="form_17.png"/> <a href="axiomas.html#esRBTree">esRBTree</a>(<a href="axiomas.html#padreK">padreK</a>(n , k))</p>
 <dl class="section user"><dt>Función de abstracción</dt><dd></dd></dl>
 <p>abs_iter: puntero(Node) n <img class="formulaInl" alt="$\to$" src="form_4.png"/> IteradorBidireccional(Diccionario(<span class="paramname">Key</span>, <span class="paramname">Meaning</span>), tupla(<span class="paramname">Key</span>, <span class="paramname">Meaning</span>)) {rep_iter(n)}<br />
-abs_iter(n) <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> ( <img class="formulaInl" alt="$\forall$" src="form_16.png"/> b:IteradorBidireccional(d,value_type)) | <b>if</b> n = NULL <b>then</b> anteriores(b) = &lt;&gt; <img class="formulaInl" alt="$\land$" src="form_14.png"/> siguientes(b) = &lt;&gt; <b>else</b> <b>if</b> nothing?((*n).Value) <b>then</b> anteriores(b) = inorder(ArbolValue(&amp;dameHeader(n))) <img class="formulaInl" alt="$\land$" src="form_14.png"/> siguientes(b) = &lt;&gt; <b>else</b> anteriores(b) = AnterioresDe(inorder(ArbolValue(&amp;dameHeader(n))),data(*n).value) <img class="formulaInl" alt="$\land$" src="form_14.png"/> siguientes(b) = siguientesDe(inorder(ArbolValue(&amp;dameHeader(n))),data(*n).value) <b>fi</b> <b>fi</b> <b>fi</b> </p>
+abs_iter(n) <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> b:IteradorBidireccional(d,value_type) | <b>if</b> n = NULL <b>then</b> anteriores(b) = &lt;&gt; <img class="formulaInl" alt="$\land$" src="form_14.png"/> siguientes(b) = &lt;&gt; <b>else</b> <b>if</b> nothing?((*n).Value) <b>then</b> anteriores(b) = inorder(<a href="axiomas.html#ArbolValue">ArbolValue</a>(&amp;<a href="axiomas.html#dameHeader">dameHeader</a>(n))) <img class="formulaInl" alt="$\land$" src="form_14.png"/> siguientes(b) = &lt;&gt; <b>else</b> anteriores(b) = (inorder(<a href="axiomas.html#ArbolValue">ArbolValue</a>(&amp;<a href="axiomas.html#dameHeader">dameHeader</a>(n))),data(*n).value) <img class="formulaInl" alt="$\land$" src="form_14.png"/> siguientes(b) = siguientesDe(inorder(<a href="axiomas.html#ArbolValue">ArbolValue</a>(&amp;<a href="axiomas.html#dameHeader">dameHeader</a>(n))),data(*n).value) <b>fi</b> <b>fi</b> <b>fi</b> </p>
 <p>Nota: se puede usar <code>d</code> para referirse al valor computacional del diccionario definido desde la cabecera (como en el constructor).</p>
 <dl class="section attention"><dt>Atención</dt><dd>No hay forma de expresar el diccionario <code>d</code> porque depende de un aspecto de aliasing. Es por esto que permitimos usar castellano. </dd></dl>
 </div></td></tr>
@@ -203,7 +203,7 @@ class aed2::map&lt; Key, Meaning, Compare &gt;::iterator</h3>
 <dl class="section attention"><dt>Atención</dt><dd>En caso de usar los iteradores como punteros, se desaconseja el uso de la posicion pasando-el-ultimo como valor nulo, ya que queda invalidada luego de aplicar la operación <a class="el" href="classaed2_1_1map_a43ddb71cc91e5c6021a7a1f243d6cc4a.html#a43ddb71cc91e5c6021a7a1f243d6cc4a" title="Intercambia el contenido de *this y other ">aed2::map::swap</a>. Conviene usar el iterador nulo (que, lamentablemente, es independiente del diccionario).</dd></dl>
 <dl class="section see"><dt>Ver también</dt><dd><a href="http://en.cppreference.com/w/cpp/concept/BidirectionalIterator">Documentacion estándar de iteradores bidireccionales</a> </dd></dl>
 
-<p>Definición en la línea <a class="el" href="map_8h_source.html#l01749">1749</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
+<p>Definición en la línea <a class="el" href="map_8h_source.html#l01756">1756</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
 </div><hr/>La documentación para esta clase fue generada a partir del siguiente fichero:<ul>
 <li><a class="el" href="map_8h_source.html">map.h</a></li>
 </ul>
@@ -213,7 +213,7 @@ class aed2::map&lt; Key, Meaning, Compare &gt;::iterator</h3>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceaed2.html">aed2</a></li><li class="navelem"><a class="el" href="classaed2_1_1map.html">map</a></li><li class="navelem"><a class="el" href="classaed2_1_1map_1_1iterator.html">iterator</a></li>
-    <li class="footer">Generado el Viernes, 2 de Junio de 2017 15:15:01 para Trabajo práctico 2: diccionario sobre RB-tree por
+    <li class="footer">Generado el Viernes, 2 de Junio de 2017 17:45:21 para Trabajo práctico 2: diccionario sobre RB-tree por
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

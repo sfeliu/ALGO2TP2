@@ -55,7 +55,7 @@ PROJECT_NUMBER = 0.1
 # for a project that appears at the top of each page and should give viewer a
 # quick idea about the purpose of the project. Keep the description short.
 
-PROJECT_BRIEF = "Nombre Apellido, Nombre Apellido, Nombre Apellido y Nombre Apellido"
+PROJECT_BRIEF = "Bogetti Gianfranco, Ingaramo Pablo, Feliu Santiago y Rios Kennedy"
 
 # With the PROJECT_LOGO tag one can specify a logo or an icon that is included
 # in the documentation. The maximum height of the logo should not exceed 55
@@ -306,7 +306,7 @@ ALIASES += esHoja="\refax{esHoja}"
 ALIASES += colorAdecuado="\refax{colorAdecuado}"
 ALIASES += cantBlack="\refax{cantBlack}"
 ALIASES += arbolK="\refax{arbolK}"
-ALIASES += esta?="\refax{esta?}"
+ALIASES += estaPtr="\refax{estaPtr}"
 ALIASES += sinRepetidos="\refax{sinRepetidos}"
 ALIASES += esRBTree="\refax{esRBTree}"
 ALIASES += padreK="\refax{padreK}"
@@ -320,6 +320,7 @@ ALIASES += esMenor="\refax{esMenor}"
 ALIASES += dameHeader="\refax{dameHeader}"
 ALIASES += headerToSecu="\refax{headerToSecu}"
 ALIASES += elementos="\refax{elementos}"
+ALIASES += hijosHeader="\refax{hijosHeader}"
 
 # This tag can be used to specify a number of word-keyword mappings (TCL only).
 # A mapping has the form "name=value". For example adding "class=itcl::class"
