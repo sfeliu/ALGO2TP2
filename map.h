@@ -710,6 +710,21 @@
  * primeros(s) \EQUIV \IF vacia?(s) \THEN <> \ELSE \PI1(prim(s)) \BULLET \primeros(fin(s)) \FI
  * \endparblock
  *
+ * \par esRB-Tree
+ * \parblock
+ * Retorna True si a partir del nodo dado se puede reconstruir un Red-Black Tree.
+ *
+ * \axioma{esRB-Tree}: Node \TO Bool\n
+ * esRB-Tree(n) \EQUIV (\EXISTS k: nat)() arbolK(n.parent,k) = arbolK(n.parent,k+1) ) \LAND_L sinRepetidos(n.parent)
+ * \LAND esADB(n.parent) \LAND (\FORALL p,p':puntero(Node))(esta?(*p,n.parent) \LAND esta?(*p',n.parent)) \IMPLIES_L
+ * colorAdecuado(p) \LAND colorAdecuado(p') \LAND ((esHoja(p) \LAND esHoja(p'))\IMPLIES_L cantBlack(p)=cantBlack(p')))
+ *
+ * \par padreK
+ * \parblock
+ * Retorna el k-esimo padre de un puntero a nodo.
+ *
+ * \axioma{padreK}: puntero(Node) \TO Node\n
+ * padreK(p, k) \EQUIV \IF k = 0 \LOR (*p).parent = null \THEN  *p \ELSE \padreK((*p).parent, k-1) \FI \FI
  */
 
 #ifndef MAP_H_
@@ -2348,8 +2363,10 @@ private:
      * \par Invariante de representacion
 	 * \parblock
 	 * rep: map \TO bool\n
-	 * rep(m) \EQUIV (forall m : map) ( (E k in nat)() arbolK(map.header->parent,k) = arbolK(map.header->parent,k+1) ) \LAND_L sinRepetidos(map.header->parent) \LAND cant(map.header->parent) = count \LAND esADB(map.header->parent) \LAND
-	 * esta?(*p,map.header->parent) \IMPLIES_L colorAdecuado(p) \LAND (esHoja(p)\IMPLIES_L (forall p':puntero(Node)=>_{L} cantBlack(p)=cantBlack(p')))
+	 * rep(m) \EQUIV (\FORALL m : map) ( (\EXISTS k: nat)() arbolK(m.header.parent,k) = arbolK(m.header.parent,k+1) )
+     * \LAND_L sinRepetidos(m.header.parent) \LAND cant(m.header.parent) = m.count \LAND esADB(m.header.parent) \LAND
+     * (\FORALL p,p':puntero(Node))(esta?(*p,m.header.parent) \LAND esta?(*p',m.header.parent)) \IMPLIES_L colorAdecuado(p) \LAND colorAdecuado(p')
+     * \LAND ((esHoja(p) \LAND esHoja(p'))\IMPLIES_L cantBlack(p)=cantBlack(p')))
 	 * \endparblock
 	 *
 	 * \par Función de abstracción
