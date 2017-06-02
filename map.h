@@ -1341,7 +1341,7 @@ public:
      * \aliasing{Si modificas a lo que apunta res se modifica *this}
      *
      * \pre \aedpre{*this \IGOBS self}
-     * \post  \aedpost{(alias(siguiente(res) \IGOBS value)) \LAND (colleccion(res) \IGOBS this) \LAND (definir(\PI1 value, \PI1 value), self)}
+     * \post  \aedpost{(alias(siguiente(res) \IGOBS value)) \LAND (colleccion(res) \IGOBS this) \LAND (definir(\PI1 value, \PI2 value), self)}
      *
      * \complexity{
      *  - Peor caso: \O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}) \PLUS \COPY(\P{value}))

@@ -165,15 +165,15 @@ template&lt;class iterator &gt; </div>
 <dl class="section complexity">
 <dt>Complejidad Temporal</dt>
 <dd><ul>
-<li>En el peor caso: <img class="formulaInl" alt="$O$" src="form_1.png"/>(<b>size</b>(<b class="paramname">res</b>) <img class="formulaInl" alt="$\log$" src="form_19.png"/>(<b>size</b>(<b class="paramname">res</b>)) <img class="formulaInl" alt="$\cdot$" src="form_13.png"/> <b>cmp</b>(<b class="paramname">res</b>))</li>
-<li>Si el rango [<b class="paramname">first</b>, <b class="paramname">last</b>) está ordenado: <img class="formulaInl" alt="$O$" src="form_1.png"/>(<b>size</b>(<b class="paramname">res</b>) <img class="formulaInl" alt="$\cdot$" src="form_13.png"/> <b>cmp</b>(<b class="paramname">res</b>)) </li>
+<li>En el peor caso: <img class="formulaInl" alt="$O$" src="form_1.png"/>(<b>size</b>(<b class="paramname">res</b>) <img class="formulaInl" alt="$\cdot$" src="form_13.png"/> ( <img class="formulaInl" alt="$\log$" src="form_19.png"/>(<b>size</b>(<b class="paramname">res</b>)) <img class="formulaInl" alt="$\cdot$" src="form_13.png"/> <b>cmp</b>(<b class="paramname">res</b>) + <b>copy</b>(<b class="paramname">res</b>)))</li>
+<li>Si el rango [<b class="paramname">first</b>, <b class="paramname">last</b>) está ordenado: <img class="formulaInl" alt="$O$" src="form_1.png"/>(<b>size</b>(<b class="paramname">res</b>) <img class="formulaInl" alt="$\cdot$" src="form_13.png"/> (<b>cmp</b>(<b class="paramname">res</b>)+ <b>copy</b>(<b class="paramname">res</b>))) </li>
 </ul>
 </dd>
 </dl>
 <dl class="section attention"><dt>Atención</dt><dd>El parámetro formal <img class="formulaInl" alt="$&lt;$" src="form_0.png"/> del TAD diccionario se establece en esta función. <img class="formulaInl" alt="$&lt;$" src="form_0.png"/> = <b class="paramname">c</b>.operator()</dd></dl>
 <dl class="section see"><dt>Ver también</dt><dd><a href="http://en.cppreference.com/w/cpp/concept/InputIterator">Documentación de InputIterator</a> </dd></dl>
 
-<p>Definición en la línea <a class="el" href="map_8h_source.html#l00930">930</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
+<p>Definición en la línea <a class="el" href="map_8h_source.html#l00946">946</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
 
 </div>
 </div>
@@ -183,7 +183,7 @@ template&lt;class iterator &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceaed2.html">aed2</a></li><li class="navelem"><a class="el" href="classaed2_1_1map.html">map</a></li>
-    <li class="footer">Generado el Jueves, 1 de Junio de 2017 19:49:15 para Trabajo práctico 2: diccionario sobre RB-tree por
+    <li class="footer">Generado el Jueves, 1 de Junio de 2017 21:02:27 para Trabajo práctico 2: diccionario sobre RB-tree por
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

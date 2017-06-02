@@ -280,6 +280,7 @@ ALIASES += ALPHA="\f$\alpha\f$"
 ALIASES += BETA="\f$\beta\f$"
 ALIASES += BULLET="\f$\bullet\f$"
 ALIASES += PI1="\f$\pi_1\f$"
+ALIASES += PI2="\f$\pi_2\f$"
 ALIASES += BOTTOM="\f$\bot\f$"
 ALIASES += HAT{1}="\f$\widehat{\1}\f$"
 

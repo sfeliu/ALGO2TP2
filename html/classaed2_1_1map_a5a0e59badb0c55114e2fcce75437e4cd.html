@@ -115,17 +115,14 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 </table>
 </div><div class="memdoc">
 
-<p>Retorna true si las claves son iguales con respecto a <b class="paramname">this</b>-&gt;lt. </p>
-<dl class="params"><dt>Parámetros</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">k1</td><td>clave a comparar </td></tr>
-    <tr><td class="paramname">k2</td><td>clave a comparar </td></tr>
-  </table>
-  </dd>
+<p>insertFixUp </p>
+<p>La función de inserción acude a este auxiliar para arreglar posibles violaciones del invariante de representación de la estructura del árbol Red-Black al insertar un nuevo nodo. El parámetro de entrada es un puntero al nodo insertado por la función insertar. La función tiene un ciclo que abarca tres casos. En el primer caso si el padre del nodo pasado como parámetro es rojo y su tío también entonces se invierten los colores del padre, el abuelo y el tío, y el nodo con el que se itera pasa a ser el abuelo.El segundo caso siempre lleva al caso tres. En el segundo caso si el nodo con el que se itera es hijo derecho entonces el nodo pasa a ser su padre y se hace una rotación. Si el nodo es hijo izquierdo entonces es una rotación derecha sino es rotación izquierda(rotación es explica en Rotate). En el tercer caso se invierten los colores del padre y el abuelo y si en el caso dos el padre es hijo derecho entonces se hace una rotación derecha sino una rotación izquierda. Mientras que el padre de nodo sea rojo el ciclo sigue iterando.</p>
+<dl class="section complexity">
+<dt>Complejidad Temporal</dt>
+<dd><img class="formulaInl" alt="$O$" src="form_1.png"/>(1)</dd>
 </dl>
-<dl class="section return"><dt>Devuelve</dt><dd>true cuando <b class="paramname">k1</b> y <b class="paramname">k2</b> son iguales con respecto a <b class="paramname">this</b>-&gt;lt. </dd></dl>
 
-<p>Definición en la línea <a class="el" href="map_8h_source.html#l02364">2364</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
+<p>Definición en la línea <a class="el" href="map_8h_source.html#l02432">2432</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
 
 </div>
 </div>
@@ -135,7 +132,7 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceaed2.html">aed2</a></li><li class="navelem"><a class="el" href="classaed2_1_1map.html">map</a></li>
-    <li class="footer">Generado el Jueves, 1 de Junio de 2017 19:49:15 para Trabajo práctico 2: diccionario sobre RB-tree por
+    <li class="footer">Generado el Jueves, 1 de Junio de 2017 21:02:27 para Trabajo práctico 2: diccionario sobre RB-tree por
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

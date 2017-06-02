@@ -125,17 +125,14 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 </table>
 </div><div class="memdoc">
 
-<p>Retorna true si las claves son iguales con respecto a <b class="paramname">this</b>-&gt;lt. </p>
-<dl class="params"><dt>Parámetros</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">k1</td><td>clave a comparar </td></tr>
-    <tr><td class="paramname">k2</td><td>clave a comparar </td></tr>
-  </table>
-  </dd>
+<p>Rotate. </p>
+<p>La función insertFixUp llama a esta función para hacer rotaciones del nodo pasado como parámetro con fines de restaurar el invariante de representación del árbol Red-Black después de una inserción. Esta función también toma como parámetro un entero que tiene que ser 1 o 0. Si este numero es 0 entonces es una rotacion derecha, es decir el nodo pasada como parámetro pasa a ser el hijo derecho del nodo que solía ser su hijo izquierdo y el hijo derecho del hijo izquierdo del nodo pasado como parámetro pasa a ser hijo izquierdo del nodo pasado como parámetro. Si el numero es 1, entonces la descripción es la misma pero invirtiendo la palabra izquierda por derecha y derecha por izquierda.</p>
+<dl class="section complexity">
+<dt>Complejidad Temporal</dt>
+<dd><img class="formulaInl" alt="$O$" src="form_1.png"/>(1)</dd>
 </dl>
-<dl class="section return"><dt>Devuelve</dt><dd>true cuando <b class="paramname">k1</b> y <b class="paramname">k2</b> son iguales con respecto a <b class="paramname">this</b>-&gt;lt. </dd></dl>
 
-<p>Definición en la línea <a class="el" href="map_8h_source.html#l02404">2404</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
+<p>Definición en la línea <a class="el" href="map_8h_source.html#l02478">2478</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
 
 </div>
 </div>
@@ -145,7 +142,7 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceaed2.html">aed2</a></li><li class="navelem"><a class="el" href="classaed2_1_1map.html">map</a></li>
-    <li class="footer">Generado el Jueves, 1 de Junio de 2017 19:49:15 para Trabajo práctico 2: diccionario sobre RB-tree por
+    <li class="footer">Generado el Jueves, 1 de Junio de 2017 21:02:27 para Trabajo práctico 2: diccionario sobre RB-tree por
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

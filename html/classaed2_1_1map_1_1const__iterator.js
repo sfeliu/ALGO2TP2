@@ -12,5 +12,7 @@ var classaed2_1_1map_1_1const__iterator =
     [ "operator==", "classaed2_1_1map_1_1const__iterator_af837632a6c4a88ec13c4c96153538494.html#af837632a6c4a88ec13c4c96153538494", null ],
     [ "operator!=", "classaed2_1_1map_1_1const__iterator_a40b9e921ad9c25aded17f394b9534510.html#a40b9e921ad9c25aded17f394b9534510", null ],
     [ "operator Node *", "classaed2_1_1map_1_1const__iterator_a637c0f083a23ec4a262d47baeecafcf3.html#a637c0f083a23ec4a262d47baeecafcf3", null ],
+    [ "max", "classaed2_1_1map_1_1const__iterator_a586e4f750b558d2b56e0f0c47c344480.html#a586e4f750b558d2b56e0f0c47c344480", null ],
+    [ "min", "classaed2_1_1map_1_1const__iterator_ab859853ddcf99eb46918892f756cb6ba.html#ab859853ddcf99eb46918892f756cb6ba", null ],
     [ "n", "classaed2_1_1map_1_1const__iterator_a921e123f9c7f94610cf9fee3ab55d277.html#a921e123f9c7f94610cf9fee3ab55d277", null ]
 ];
