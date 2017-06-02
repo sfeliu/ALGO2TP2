@@ -90,7 +90,7 @@ cantidad\+De\+Elementos\+: puntero(\+Node) $\to$ nat~\newline
 devuelve una bool indicando si el arbol tiene una relacion de orden total (cada nodo con sus hijos)
 
 es\+A\+DB\+: puntero(\+Node) $\to$ bool~\newline
- es\+A\+D\+B(p) $\equiv$ {\bfseries if} p = null {\bfseries then} true {\bfseries else} {\bfseries if} ($\ast$p).child\mbox{[}0\mbox{]} != null {\bfseries then} {\bfseries if} ($\ast$p).child\mbox{[}1\mbox{]} != null {\bfseries then} \href{axiomas.html#esMenor}{\tt es\+Menor}(($\ast$p).child\mbox{[}0\mbox{]}, p) $\land$ \href{axiomas.html#esMenor}{\tt es\+Menor}(p, ($\ast$p).child\mbox{[}1\mbox{]}) $\land$ \href{axiomas.html#esADB}{\tt es\+A\+DB}(($\ast$p).child\mbox{[}0\mbox{]}) $\land$ \href{axiomas.html#esADB}{\tt es\+A\+DB}(($\ast$p).child\mbox{[}1\mbox{]}) {\bfseries else} \href{axiomas.html#esMenor}{\tt es\+Menor}(p, ($\ast$p).child\mbox{[}1\mbox{]}) $\land$ \href{axiomas.html#esADB}{\tt es\+A\+DB}(($\ast$p).child\mbox{[}1\mbox{]}) {\bfseries fi} {\bfseries else} {\bfseries if} ($\ast$p).child\mbox{[}1\mbox{]} != null {\bfseries then} \href{axiomas.html#esMenor}{\tt es\+Menor}(($\ast$p).child\mbox{[}1\mbox{]}, p) $\land$ \href{axiomas.html#esADB}{\tt es\+A\+DB}(($\ast$p).child\mbox{[}1\mbox{]}) {\bfseries else} true {\bfseries fi} {\bfseries fi} {\bfseries fi} 
+ es\+A\+D\+B(p) $\equiv$ {\bfseries if} p = null {\bfseries then} true {\bfseries else} {\bfseries if} ($\ast$p).child\mbox{[}0\mbox{]} != null {\bfseries then} {\bfseries if} ($\ast$p).child\mbox{[}1\mbox{]} != null {\bfseries then} \href{axiomas.html#esMenor}{\tt es\+Menor}(($\ast$p).child\mbox{[}0\mbox{]}, p) $\land$ \href{axiomas.html#esMenor}{\tt es\+Menor}(p, ($\ast$p).child\mbox{[}1\mbox{]}) $\land$ \href{axiomas.html#esADB}{\tt es\+A\+DB}(($\ast$p).child\mbox{[}0\mbox{]}) $\land$ \href{axiomas.html#esADB}{\tt es\+A\+DB}(($\ast$p).child\mbox{[}1\mbox{]}) {\bfseries else} \href{axiomas.html#esMenor}{\tt es\+Menor}(($\ast$p).child\mbox{[}0\mbox{]}, p) $\land$ \href{axiomas.html#esADB}{\tt es\+A\+DB}(($\ast$p).child\mbox{[}0\mbox{]}) {\bfseries fi} {\bfseries else} {\bfseries if} ($\ast$p).child\mbox{[}1\mbox{]} != null {\bfseries then} \href{axiomas.html#esMenor}{\tt es\+Menor}(p, ($\ast$p).child\mbox{[}1\mbox{]}) $\land$ \href{axiomas.html#esADB}{\tt es\+A\+DB}(($\ast$p).child\mbox{[}1\mbox{]}) {\bfseries else} true {\bfseries fi} {\bfseries fi} {\bfseries fi} 
 \end{DoxyParagraph}
 
 
@@ -114,12 +114,8 @@ cant\+Black\+: puntero(\+Node) $\to$ nat~\newline
 devuelve un bool que indica si el y el padre, respetan el invariante de coloreo del rb-\/tree
 
 color\+Adecuado\+: puntero(\+Node) $\to$ bool~\newline
- color\+Adecuado(p) $\equiv$ {\bfseries if} p = null {\bfseries then} true {\bfseries else} {\bfseries if} nothing?($\ast$p.value) $\land$ $\ast$p.color = H\+E\+A\+D\+ER ~\newline
- {\bfseries then} true {\bfseries else} {\bfseries if} p = $\ast$($\ast$p.parent).parent $\land$ $\ast$p.color = black {\bfseries then} true ~\newline
- {\bfseries else} {\bfseries if} ($\ast$p.color = red and $\ast$($\ast$p.parent).color = black) $\lor$ $\ast$p.color = black {\bfseries then} true {\bfseries else} false {\bfseries fi} {\bfseries fi} {\bfseries fi} {\bfseries fi} 
-
-color\+Adecuado\+: puntero(\+Node) $\to$ bool~\newline
- color\+Adecuado(p) $\equiv$ p = null $\lor$ ( ($\ast$($\ast$p.parent).parent = parent ) $\Rightarrow$ $\ast$p.color = black ) $\lor$ ($\ast$p.color = red $\Rightarrow$ $\ast$($\ast$p.parent).color = black) $\lor$ $\ast$p.color = black 
+ color\+Adecuado(p) $\equiv$ {\bfseries if} p = null $\lor_{\rm L}$ (nothing?($\ast$p.value) $\land$ $\ast$p.color = Header) $\lor_{\rm L}$ ~\newline
+ \mbox{[}$\ast$p.color = red $\land$ $\ast$($\ast$p.parent).color = black\mbox{]} $\lor$ \mbox{[}$\ast$p.color = black $\land$ ($\ast$($\ast$p.parent).color = black $\land$ $\ast$($\ast$p.parent).color = red)\mbox{]} $\lor_{\rm L}$ ($\ast$p.parent != null $\land_{\rm L}$ ($\ast$p.parent).color = header $\land_{\rm L}$ $\ast$p.color = black ) {\bfseries then} true {\bfseries else} false 
 \end{DoxyParagraph}
 
 
@@ -131,11 +127,11 @@ es\+Hoja\+: puntero(\+Node) $\to$ bool~\newline
 \end{DoxyParagraph}
 
 
-\begin{DoxyParagraph}{esta?}
+\begin{DoxyParagraph}{esta\+Ptr?}
 devuele true si el elemento pertenece al (arbol/diccionario)
 
-esta?\+: puntero(\+Node) x puntero(\+Node) $\to$ bool~\newline
- esta?(p1,p2) $\equiv$ $\ast$p1.value $\in$ elementos(p2) 
+esta\+Ptr?\+: puntero(\+Node) x puntero(\+Node) $\to$ bool~\newline
+ esta\+Ptr?(p1,p2) $\equiv$ $\ast$p1.value $\in$ elementos(p2) 
 \end{DoxyParagraph}
 
 
@@ -160,8 +156,8 @@ header\+To\+Secu\+: puntero(\+Node) $\to$ secu(\+Key)~\newline
 devuelve un arbol cantidad de niveles igual a K (arbol de cardinal finito)
 
 arbolK\+: puntero(\+Node) x nat $\to$ A\+B(puntero(\+Nodo))~\newline
- arbol\+K(p) $\equiv$ {\bfseries if} p = null {\bfseries then} nil {\bfseries else} {\bfseries if} nothing?($\ast$p.value) {\bfseries then} ~\newline
- arbolK($\ast$p.parent) {\bfseries else} bin(arbolK($\ast$p.child\mbox{[}0\mbox{]}) , p , arbolK($\ast$p.child\mbox{[}1\mbox{]})) {\bfseries fi} {\bfseries fi} {\bfseries fi} 
+ arbol\+K(p) $\equiv$ {\bfseries if} p = null $\lor$ p = null {\bfseries then} nil  nothing?($\ast$p.value) {\bfseries then} arbolK(p-\/$>$parent , n) {\bfseries else} ~\newline
+ AB(arbolK($\ast$p.child , n-\/1), p ,arbolK($\ast$p.child\mbox{[}1\mbox{]} , n-\/1)) {\bfseries fi} {\bfseries fi} 
 \end{DoxyParagraph}
 
 
@@ -194,7 +190,7 @@ primeros\+: secu(tupla( $\alpha$, $\beta$)) $\to$ secu( $\alpha$)~\newline
 Retorna True si a partir del nodo dado se puede reconstruir un Red-\/\+Black Tree.
 
 es\+R\+B\+Tree\+: Node $\to$ Bool~\newline
- \href{axiomas.html#esRBTree}{\tt es\+R\+B\+Tree}(n) $\equiv$ ( $\exists$ k\+: nat)(arbolK(n.\+parent,k) = arbolK(n.\+parent,k+1)) $\land_{\rm L}$ sin\+Repetidos(header\+To\+Secu(n.\+parent)) $\land$ es\+A\+DB(n.\+parent) $\land$ ( $\forall$ p,p\textquotesingle{}\+:puntero(\+Node))(esta?($\ast$p.value.\+clave,header\+To\+Secu(n.\+parent)) $\land$ esta?($\ast$p\textquotesingle{}.value.\+clave,header\+To\+Secu(n.\+parent)) $\Rightarrow_{\rm L}$ color\+Adecuado(p) $\land$ color\+Adecuado(p\textquotesingle{}) $\land$ $\lnot$(nothing?($\ast$p.value)) $\land$ $\lnot$(nothing?($\ast$p\textquotesingle{}.value)) $\land$ ((es\+Hoja(p) $\land$ es\+Hoja(p\textquotesingle{})) $\Rightarrow_{\rm L}$ cant\+Black(p)=cant\+Black(p\textquotesingle{})))
+ \href{axiomas.html#esRBTree}{\tt es\+R\+B\+Tree}(n) $\equiv$ ( $\exists$ k\+: nat)(arbolK(n.\+parent,k) = arbolK(n.\+parent,k+1)) $\land_{\rm L}$ sin\+Repetidos(header\+To\+Secu(n.\+parent)) $\land$ es\+A\+DB(n.\+parent) $\land$ ( $\forall$ p,p\textquotesingle{}\+:puntero(\+Node))(esta\+Ptr?($\ast$p.value,header.\+parent) $\land$ esta\+Ptr?($\ast$p\textquotesingle{}.value,header.\+parent) $\Rightarrow_{\rm L}$ color\+Adecuado(p) $\land$ color\+Adecuado(p\textquotesingle{}) $\land$ $\lnot$(nothing?($\ast$p.value)) $\land$ $\lnot$(nothing?($\ast$p\textquotesingle{}.value)) $\land$ ((es\+Hoja(p) $\land$ es\+Hoja(p\textquotesingle{})) $\Rightarrow_{\rm L}$ cant\+Black(p)=cant\+Black(p\textquotesingle{})))
 
 
 \end{DoxyParagraph}

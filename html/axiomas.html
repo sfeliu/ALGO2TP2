@@ -144,7 +144,7 @@ Axiomas y proposiciones auxiliares</h1>
 </dd></dl>
 <dl class="section user"><dt>esADB</dt><dd><p class="startdd">devuelve una bool indicando si el arbol tiene una relacion de orden total (cada nodo con sus hijos)</p>
 <p class="enddd"><span id="esADB">esADB</span>: puntero(Node) <img class="formulaInl" alt="$\to$" src="form_4.png"/> bool<br />
- esADB(p) <img class="formulaInl" alt="$\equiv$" src="form_11.png"/> <b>if</b> p = null <b>then</b> true <b>else</b> <b>if</b> (*p).child[0] != null <b>then</b> <b>if</b> (*p).child[1] != null <b>then</b> <a href="axiomas.html#esMenor">esMenor</a>((*p).child[0], p) <img class="formulaInl" alt="$\land$" src="form_14.png"/> <a href="axiomas.html#esMenor">esMenor</a>(p, (*p).child[1]) <img class="formulaInl" alt="$\land$" src="form_14.png"/> <a href="axiomas.html#esADB">esADB</a>((*p).child[0]) <img class="formulaInl" alt="$\land$" src="form_14.png"/> <a href="axiomas.html#esADB">esADB</a>((*p).child[1]) <b>else</b> <a href="axiomas.html#esMenor">esMenor</a>(p, (*p).child[1]) <img class="formulaInl" alt="$\land$" src="form_14.png"/> <a href="axiomas.html#esADB">esADB</a>((*p).child[1]) <b>fi</b> <b>else</b> <b>if</b> (*p).child[1] != null <b>then</b> <a href="axiomas.html#esMenor">esMenor</a>((*p).child[1], p) <img class="formulaInl" alt="$\land$" src="form_14.png"/> <a href="axiomas.html#esADB">esADB</a>((*p).child[1]) <b>else</b> true <b>fi</b> <b>fi</b> <b>fi</b> </p>
+ esADB(p) <img class="formulaInl" alt="$\equiv$" src="form_11.png"/> <b>if</b> p = null <b>then</b> true <b>else</b> <b>if</b> (*p).child[0] != null <b>then</b> <b>if</b> (*p).child[1] != null <b>then</b> <a href="axiomas.html#esMenor">esMenor</a>((*p).child[0], p) <img class="formulaInl" alt="$\land$" src="form_14.png"/> <a href="axiomas.html#esMenor">esMenor</a>(p, (*p).child[1]) <img class="formulaInl" alt="$\land$" src="form_14.png"/> <a href="axiomas.html#esADB">esADB</a>((*p).child[0]) <img class="formulaInl" alt="$\land$" src="form_14.png"/> <a href="axiomas.html#esADB">esADB</a>((*p).child[1]) <b>else</b> <a href="axiomas.html#esMenor">esMenor</a>((*p).child[0], p) <img class="formulaInl" alt="$\land$" src="form_14.png"/> <a href="axiomas.html#esADB">esADB</a>((*p).child[0]) <b>fi</b> <b>else</b> <b>if</b> (*p).child[1] != null <b>then</b> <a href="axiomas.html#esMenor">esMenor</a>(p, (*p).child[1]) <img class="formulaInl" alt="$\land$" src="form_14.png"/> <a href="axiomas.html#esADB">esADB</a>((*p).child[1]) <b>else</b> true <b>fi</b> <b>fi</b> <b>fi</b> </p>
 </dd></dl>
 <dl class="section user"><dt>esMenor</dt><dd><p class="startdd">devuelve una bool indicando si el valor del primer puntero es menor al del segundo.</p>
 <p class="enddd"><span id="esMenor">esMenor</span>: puntero(Node) <img class="formulaInl" alt="$\times$" src="form_7.png"/> puntero(Node) <img class="formulaInl" alt="$\to$" src="form_4.png"/> bool<br />
@@ -155,20 +155,17 @@ Axiomas y proposiciones auxiliares</h1>
  cantBlack(p) <img class="formulaInl" alt="$\equiv$" src="form_11.png"/> <b>if</b> p = null <b>then</b> 0 <b>else</b> <b>if</b> nothing?(*p.value) <b>then</b> 0 <b>else</b> <b>if</b> p = (*(*p).parent).parent) <b>then</b> 1 <b>else</b> <b>if</b> *p.color = black <b>then</b> 1 + <a href="axiomas.html#cantBlack">cantBlack</a>(*p.parent) <b>else</b> <a href="axiomas.html#cantBlack">cantBlack</a>(*p.parent) <b>fi</b> <b>fi</b> <b>fi</b> </p>
 </dd></dl>
 <dl class="section user"><dt>colorAdecuado</dt><dd><p class="startdd">devuelve un bool que indica si el y el padre, respetan el invariante de coloreo del rb-tree</p>
-<p><span id="colorAdecuado">colorAdecuado</span>: puntero(Node) <img class="formulaInl" alt="$\to$" src="form_4.png"/> bool<br />
- colorAdecuado(p) <img class="formulaInl" alt="$\equiv$" src="form_11.png"/> <b>if</b> p = null <b>then</b> true <b>else</b> <b>if</b> nothing?(*p.value) <img class="formulaInl" alt="$\land$" src="form_14.png"/> *p.color = HEADER <br />
- <b>then</b> true <b>else</b> <b>if</b> p = *(*p.parent).parent <img class="formulaInl" alt="$\land$" src="form_14.png"/> *p.color = black <b>then</b> true <br />
- <b>else</b> <b>if</b> (*p.color = red and *(*p.parent).color = black) <img class="formulaInl" alt="$\lor$" src="form_22.png"/> *p.color = black <b>then</b> true <b>else</b> false <b>fi</b> <b>fi</b> <b>fi</b> <b>fi</b> </p>
 <p class="enddd"><span id="colorAdecuado">colorAdecuado</span>: puntero(Node) <img class="formulaInl" alt="$\to$" src="form_4.png"/> bool<br />
- colorAdecuado(p) <img class="formulaInl" alt="$\equiv$" src="form_11.png"/> p = null <img class="formulaInl" alt="$\lor$" src="form_22.png"/> ( (*(*p.parent).parent = parent ) <img class="formulaInl" alt="$\Rightarrow$" src="form_31.png"/> *p.color = black ) <img class="formulaInl" alt="$\lor$" src="form_22.png"/> (*p.color = red <img class="formulaInl" alt="$\Rightarrow$" src="form_31.png"/> *(*p.parent).color = black) <img class="formulaInl" alt="$\lor$" src="form_22.png"/> *p.color = black </p>
+ colorAdecuado(p) <img class="formulaInl" alt="$\equiv$" src="form_11.png"/> <b>if</b> p = null <img class="formulaInl" alt="$\lor_{\rm L}$" src="form_21.png"/> (nothing?(*p.value) <img class="formulaInl" alt="$\land$" src="form_14.png"/> *p.color = Header) <img class="formulaInl" alt="$\lor_{\rm L}$" src="form_21.png"/> <br />
+ [*p.color = red <img class="formulaInl" alt="$\land$" src="form_14.png"/> *(*p.parent).color = black] <img class="formulaInl" alt="$\lor$" src="form_22.png"/> [*p.color = black <img class="formulaInl" alt="$\land$" src="form_14.png"/> (*(*p.parent).color = black <img class="formulaInl" alt="$\land$" src="form_14.png"/> *(*p.parent).color = red)] <img class="formulaInl" alt="$\lor_{\rm L}$" src="form_21.png"/> (*p.parent != null <img class="formulaInl" alt="$\land_{\rm L}$" src="form_17.png"/> (*p.parent).color = header <img class="formulaInl" alt="$\land_{\rm L}$" src="form_17.png"/> *p.color = black ) <b>then</b> true <b>else</b> false </p>
 </dd></dl>
 <dl class="section user"><dt>esHoja</dt><dd><p class="startdd">devuelve true si el nodo es hoja</p>
 <p class="enddd"><span id="esHoja">esHoja</span>: puntero(Node) <img class="formulaInl" alt="$\to$" src="form_4.png"/> bool<br />
  esHoja(p) <img class="formulaInl" alt="$\equiv$" src="form_11.png"/> <b>if</b> p = null <img class="formulaInl" alt="$\lor_{\rm L}$" src="form_21.png"/> nothing?(*p.value) <b>then</b> false <b>else</b> <b>if</b> *p.child[0] = null <img class="formulaInl" alt="$\lor$" src="form_22.png"/> *p.child[1] = null <b>then</b> true else false <b>fi</b> <b>fi</b> <b>fi</b> </p>
 </dd></dl>
-<dl class="section user"><dt>esta?</dt><dd><p class="startdd">devuele true si el elemento pertenece al (arbol/diccionario)</p>
-<p class="enddd"><span id="esta?">esta?</span>: puntero(Node) x puntero(Node) <img class="formulaInl" alt="$\to$" src="form_4.png"/> bool<br />
- esta?(p1,p2) <img class="formulaInl" alt="$\equiv$" src="form_11.png"/> *p1.value <img class="formulaInl" alt="$\in$" src="form_26.png"/> elementos(p2) </p>
+<dl class="section user"><dt>estaPtr?</dt><dd><p class="startdd">devuele true si el elemento pertenece al (arbol/diccionario)</p>
+<p class="enddd"><span id="estaPtr?">estaPtr?</span>: puntero(Node) x puntero(Node) <img class="formulaInl" alt="$\to$" src="form_4.png"/> bool<br />
+ estaPtr?(p1,p2) <img class="formulaInl" alt="$\equiv$" src="form_11.png"/> *p1.value <img class="formulaInl" alt="$\in$" src="form_26.png"/> elementos(p2) </p>
 </dd></dl>
 <dl class="section user"><dt>sinRepetidos</dt><dd><p class="startdd">devuelve true si no hay elementos repetidos en el arbol/diccionario</p>
 <p class="enddd"><span id="sinRepetidos">sinRepetidos</span>: secu(Key) <img class="formulaInl" alt="$\to$" src="form_4.png"/> bool<br />
@@ -181,8 +178,8 @@ Axiomas y proposiciones auxiliares</h1>
 </dd></dl>
 <dl class="section user"><dt>arbolK</dt><dd><p class="startdd">devuelve un arbol cantidad de niveles igual a K (arbol de cardinal finito)</p>
 <p class="enddd"><span id="arbolK">arbolK</span>: puntero(Node) x nat <img class="formulaInl" alt="$\to$" src="form_4.png"/> AB(puntero(Nodo))<br />
- arbolK(p) <img class="formulaInl" alt="$\equiv$" src="form_11.png"/> <b>if</b> p = null <b>then</b> nil <b>else</b> <b>if</b> nothing?(*p.value) <b>then</b> <br />
- arbolK(*p.parent) <b>else</b> bin(arbolK(*p.child[0]) , p , arbolK(*p.child[1])) <b>fi</b> <b>fi</b> <b>fi</b> </p>
+ arbolK(p) <img class="formulaInl" alt="$\equiv$" src="form_11.png"/> <b>if</b> p = null <img class="formulaInl" alt="$\lor$" src="form_22.png"/> p = null <b>then</b> nil  nothing?(*p.value) <b>then</b> arbolK(p-&gt;parent , n) <b>else</b> <br />
+ AB(arbolK(*p.child , n-1), p ,arbolK(*p.child[1] , n-1)) <b>fi</b> <b>fi</b> </p>
 </dd></dl>
 <dl class="section user"><dt>elementos</dt><dd><p class="startdd">devuelve el conjunto de elementos</p>
 <p class="enddd"><span id="elementos">elementos</span>: puntero(Node) <img class="formulaInl" alt="$\to$" src="form_4.png"/> conj(value)<br />
@@ -199,7 +196,7 @@ Axiomas y proposiciones auxiliares</h1>
 </dd></dl>
 <dl class="section user"><dt>esRBTree</dt><dd><p class="startdd">Retorna True si a partir del nodo dado se puede reconstruir un Red-Black Tree.</p>
 <p><span id="esRBTree">esRBTree</span>: Node <img class="formulaInl" alt="$\to$" src="form_4.png"/> Bool<br />
- <a href="axiomas.html#esRBTree">esRBTree</a>(n) <img class="formulaInl" alt="$\equiv$" src="form_11.png"/> ( <img class="formulaInl" alt="$\exists$" src="form_28.png"/> k: nat)(arbolK(n.parent,k) = arbolK(n.parent,k+1)) <img class="formulaInl" alt="$\land_{\rm L}$" src="form_17.png"/> sinRepetidos(headerToSecu(n.parent)) <img class="formulaInl" alt="$\land$" src="form_14.png"/> esADB(n.parent) <img class="formulaInl" alt="$\land$" src="form_14.png"/> ( <img class="formulaInl" alt="$\forall$" src="form_16.png"/> p,p':puntero(Node))(esta?(*p.value.clave,headerToSecu(n.parent)) <img class="formulaInl" alt="$\land$" src="form_14.png"/> esta?(*p'.value.clave,headerToSecu(n.parent)) <img class="formulaInl" alt="$\Rightarrow_{\rm L}$" src="form_23.png"/> colorAdecuado(p) <img class="formulaInl" alt="$\land$" src="form_14.png"/> colorAdecuado(p') <img class="formulaInl" alt="$\land$" src="form_14.png"/> <img class="formulaInl" alt="$\lnot$" src="form_24.png"/>(nothing?(*p.value)) <img class="formulaInl" alt="$\land$" src="form_14.png"/> <img class="formulaInl" alt="$\lnot$" src="form_24.png"/>(nothing?(*p'.value)) <img class="formulaInl" alt="$\land$" src="form_14.png"/> ((esHoja(p) <img class="formulaInl" alt="$\land$" src="form_14.png"/> esHoja(p')) <img class="formulaInl" alt="$\Rightarrow_{\rm L}$" src="form_23.png"/> cantBlack(p)=cantBlack(p')))</p>
+ <a href="axiomas.html#esRBTree">esRBTree</a>(n) <img class="formulaInl" alt="$\equiv$" src="form_11.png"/> ( <img class="formulaInl" alt="$\exists$" src="form_28.png"/> k: nat)(arbolK(n.parent,k) = arbolK(n.parent,k+1)) <img class="formulaInl" alt="$\land_{\rm L}$" src="form_17.png"/> sinRepetidos(headerToSecu(n.parent)) <img class="formulaInl" alt="$\land$" src="form_14.png"/> esADB(n.parent) <img class="formulaInl" alt="$\land$" src="form_14.png"/> ( <img class="formulaInl" alt="$\forall$" src="form_16.png"/> p,p':puntero(Node))(estaPtr?(*p.value,header.parent) <img class="formulaInl" alt="$\land$" src="form_14.png"/> estaPtr?(*p'.value,header.parent) <img class="formulaInl" alt="$\Rightarrow_{\rm L}$" src="form_23.png"/> colorAdecuado(p) <img class="formulaInl" alt="$\land$" src="form_14.png"/> colorAdecuado(p') <img class="formulaInl" alt="$\land$" src="form_14.png"/> <img class="formulaInl" alt="$\lnot$" src="form_24.png"/>(nothing?(*p.value)) <img class="formulaInl" alt="$\land$" src="form_14.png"/> <img class="formulaInl" alt="$\lnot$" src="form_24.png"/>(nothing?(*p'.value)) <img class="formulaInl" alt="$\land$" src="form_14.png"/> ((esHoja(p) <img class="formulaInl" alt="$\land$" src="form_14.png"/> esHoja(p')) <img class="formulaInl" alt="$\Rightarrow_{\rm L}$" src="form_23.png"/> cantBlack(p)=cantBlack(p')))</p>
 <p class="enddd"></p>
 </dd></dl>
 <dl class="section user"><dt>padreK</dt><dd><p class="startdd">Retorna el k-esimo padre de un puntero a nodo.</p>
@@ -211,7 +208,7 @@ Axiomas y proposiciones auxiliares</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generado el Viernes, 2 de Junio de 2017 14:58:32 para Trabajo práctico 2: diccionario sobre RB-tree por
+    <li class="footer">Generado el Viernes, 2 de Junio de 2017 15:15:01 para Trabajo práctico 2: diccionario sobre RB-tree por
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>
