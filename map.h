@@ -560,18 +560,18 @@
  * \parblock
  * A partir de un puntero a nodo construye el arbol binario al que pertenece ese node.
  *
- * \axioma{ArbolValue}: puntero(Node) \TO Node
+ * \axioma{ArbolValue}: puntero(Node) \TO ab(Value)
  * ArbolValue(p) \EQUIV \IF p = null \THEN nil \ELSE \IF nothing?(*p.value) \THEN
- * bin(ArbolValue(*(*p.parent).child[0] , dato(*(*p.parent).value) , ArbolValue(*(*p.parent).child[1]) )) \ELSE
- * bin(ArbolValue(*p.child[0] ) , dato(*p.value) , ArbolValue(*p.child[1])) \FI \FI
+ * bin(\ArbolValue(*(*p.parent).child[0] , dato(*(*p.parent).value) , \ArbolValue(*(*p.parent).child[1]) )) \ELSE
+ * bin(\ArbolValue(*p.child[0] ) , dato(*p.value) , \ArbolValue(*p.child[1])) \FI \FI
  *\endparblock
  *
- * \par header
+ * \par dameHeader
  * \parblock
- * A partir de un nodo devuelve el header.
+ * A partir de un nodo devuelve el dameHeader.
  *
- * \axioma{header}: puntero(Node) \TO Node\n
- * header(p) \EQUIV \IF nothing ((*p).value) \THEN *p \ELSE header((*p).padre) \FI
+ * \axioma{dameHeader}: puntero(Node) \TO Node\n
+ * dameHeader(p) \EQUIV \IF nothing ((*p).value) \THEN *p \ELSE dameHeader((*p).padre) \FI
  * \endparblock
  *
  * \par enRango
@@ -624,8 +624,8 @@
  * devuelve la cantidad de elementos que tiene el diccionario
  * 
  * \axioma{cantidadDeElementos}: puntero(Node) \TO nat\n
- * cantidadDeElementos(p) \EQUIV \IF p = null \THEN 0 \ELSE \IF nothing?(*p.value) \THEN cantidadDeElementos(*p.parent) \n \ELSE 1 + \cantidadDeElementos(*p.child[0]) + \cantidadDeElementos(p->child[1]) \FI \FI
- * \endparblock	
+ * cantidadDeElementos(p) \EQUIV \IF p = null \THEN 0 \ELSE \IF nothing?(*p.value) \THEN cantidadDeElementos(*p.parent) \n \ELSE 1 + \cantidadDeElementos(*p.child[0]) + \cantidadDeElementos(*p.child[1]) \FI \FI
+ * \endparblock
  * 
  * \par esADB
  * \parblock
@@ -647,14 +647,13 @@
  * \endparblock
  *
  * \par cantBlack
- *
  * \parblock
  * dado un puntero nod, devuelve la cantidad de nodos negros hay hasta llegar al root
  *
  * \axioma{cantBlack}: puntero(Node) \TO nat\n
- * cantBlack(p) \EQUIV \IF p = null \THEN 0 \ELSE \IF nothing?(p->value) \THEN 0
- * \ELSE \IF p = p->parent->parent  \THEN 1 
- * \ELSE \IF p->color = black \THEN 1 + \cantBlack(p->parent) \ELSE \cantBlack(p->parent) \FI \FI \FI
+ * cantBlack(p) \EQUIV \IF p = null \THEN 0 \ELSE \IF nothing?(*p.value) \THEN 0
+ * \ELSE \IF p = (*(*p).parent).parent)  \THEN 1
+ * \ELSE \IF *p.color = black \THEN 1 + \cantBlack(*p.parent) \ELSE \cantBlack(*p.parent) \FI \FI \FI
  * \endparblock
  *
  * \par colorAdecuado
@@ -662,9 +661,9 @@
  * devuelve un bool que indica si el y el padre, respetan el invariante de coloreo del rb-tree
  *
  * \axioma{colorAdecuado}: puntero(Node) \TO bool\n
- * colorAdecuado(p) \EQUIV \IF p = null \THEN true \ELSE \IF nothing?(p->value) \LAND p->color = HEADER \n \THEN true 
- * \ELSE \IF p = p->parent->parent \LAND p->color = black \THEN true 
- * \n \ELSE \IF (p->color = red and p->parent->color = black) \LOR p->color = black \THEN true \ELSE false \FI \FI \FI \FI
+ * colorAdecuado(p) \EQUIV \IF p = null \THEN true \ELSE \IF nothing?(*p.value) \LAND *p.color = HEADER \n \THEN true
+ * \ELSE \IF p = *(*p.parent).parent \LAND *p.color = black \THEN true
+ * \n \ELSE \IF (*p.color = red and *(*p.parent).color = black) \LOR *p.color = black \THEN true \ELSE false \FI \FI \FI \FI
  *
  * \axioma{colorAdecuado}: puntero(Node) \TO bool\n
  * colorAdecuado(p) \EQUIV p = null \LOR ( (*(*p.parent).parent = parent ) \IMPLIES *p.color = black  )
@@ -995,7 +994,7 @@ public:
      * \P{last} debe ser alcanzable desde \P{first} y en el rango [\P{first}, \P{last}) no pueden haber valores repetidos.
      *
      * \aedpre{coleccion(\P{first}) \IGOBS coleccion(\P{last}) \LAND esSufijo(Siguientes(\P{last}), Siguientes(\P{first})) \LAND
-     *   \esDiccionario(Siguientes(\P{first}) \MINUS Siguientes(\P{last}))}
+     *   \esDiccionario?(Siguientes(\P{first}) \MINUS Siguientes(\P{last}))}
      * \endparblock
      *
      * \post \parblock
@@ -1998,10 +1997,10 @@ public:
          * \par Función de abstracción
          *
          * abs_iter: puntero(Node) n \TO IteradorBidireccional(Diccionario(\T{Key}, \T{Meaning}), tupla(\T{Key}, \T{Meaning}))  {rep_iter(n)}\n
-         * abs_iter(n) \EQUIV \IGOBS (\FORALL b:IteradorBidireccional(d,value_type)) | \IF n = NULL \THEN anteriores(b) = <> \LAND siguientes(b) = <> \ELSE
-         *              \IF nothing?((*n).Value) \THEN anteriores(b) = inorder(ArbolValue(&header(n))) \LAND siguientes(b) = <>
-         *              \ELSE anteriores(b) = AnterioresDe(inorder(ArbolValue(&header(n))),data(*n).value) \LAND
-         *              siguientes(b) = siguientesDe(inorder(ArbolValue(&header(n))),data(*n).value) \FI \FI \FI
+         * abs_iter(n) \IGOBS (\FORALL b:IteradorBidireccional(d,value_type)) | \IF n = NULL \THEN anteriores(b) = <> \LAND siguientes(b) = <> \ELSE
+         *              \IF nothing?((*n).Value) \THEN anteriores(b) = inorder(ArbolValue(&dameHeader(n))) \LAND siguientes(b) = <>
+         *              \ELSE anteriores(b) = AnterioresDe(inorder(ArbolValue(&dameHeader(n))),data(*n).value) \LAND
+         *              siguientes(b) = siguientesDe(inorder(ArbolValue(&dameHeader(n))),data(*n).value) \FI \FI \FI
          *
          * Nota: se puede usar `d` para referirse al valor computacional del diccionario definido desde la cabecera (como en el constructor).
          *
@@ -2393,18 +2392,17 @@ private:
      * \par Invariante de representacion
 	 * \parblock
 	 * rep: map \TO bool\n
-	 * rep(m) \EQUIV (\FORALL m : map)(nothing?(Header.value)\LAND (\EXISTS k: nat)() arbolK(m.header.parent,k) = arbolK(m.header.parent,k+1) )
+	 * rep(m) \EQUIV (nothing?(Header.value)\LAND (\EXISTS k: nat)() arbolK(m.header.parent,k) = arbolK(m.header.parent,k+1) )
      * \LAND_L sinRepetidos(headerToSecu(m.header.parent)) \LAND cant(m.header.parent) = m.count \LAND esADB(m.header.parent) \LAND
      * (\FORALL p,p':puntero(Node))(esta?(*p.value.clave,headerToSecu(m.header.parent)) \LAND esta?(*p'.value.clave,headerToSecu(m.header.parent)) \IMPLIES_L colorAdecuado(p) \LAND colorAdecuado(p')
-     * \LAND \LNOT(nothing?(*p.value)) \LAND \LNOT(nothing?(*p'.value)) \LAND_L enRango(p,Header.child[0],Header.child[1])
-     * \LAND_L enRango(p',Header.child[0],Header.child[1]) \LAND ((esHoja(p) \LAND esHoja(p'))\IMPLIES_L cantBlack(p)=cantBlack(p')) \LAND_L
-     * Header.child[0] = min(&Header) \LAND_L Header.child[1]=max(&Header))
+     * \LAND \LNOT(nothing?(*p.value)) \LAND \LNOT(nothing?(*p'.value)) \LAND_L enRango(p,header.child[0],header.child[1])
+     * \LAND_L enRango(p',header.child[0],header.child[1]) \LAND ((esHoja(p) \LAND esHoja(p'))\IMPLIES_L cantBlack(p)=cantBlack(p'))
 	 * \endparblock
 	 *
 	 * \par Función de abstracción
 	 * \parblock
 	 * abs: map m \TO Diccionario(\T{Key}, \T{Meaning})  {rep(n)}\n
-	 * abs(m) \IGOBS dic : diccionario | #claves(dic) = #elementos(&m.Header) \LAND (\FORALL k: Key)( k \IN claves(dic) /IFF <k,obtener(k,dic)> \IN elementos(&m.Header))
+	 * abs(m) \IGOBS dic : diccionario | #claves(dic) = #elementos(&m.Header) \LAND (\FORALL k: Key)( k \IN claves(dic) \IFF <k,obtener(k,dic)> \IN elementos(&m.Header))
 	 * \endparblock
      */
     //////////////////////////////////////////////////////////////////////////////////////////////////////
