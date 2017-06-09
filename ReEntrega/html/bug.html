@@ -96,17 +96,17 @@ $(document).ready(function(){initNavTree('bug.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><dl class="reflist">
-<dt><a class="anchor" id="_bug000006"></a>Miembro <a class="el" href="classaed2_1_1map_a0b0a11f906da2926f9eb342fcee79fd7.html#a0b0a11f906da2926f9eb342fcee79fd7">aed2::map&lt; Key, Meaning, Compare &gt;::at</a>  (const Key &amp;key) const </dt>
+<dt><a class="anchor" id="_bug000005"></a>Miembro <a class="el" href="classaed2_1_1map_a0b0a11f906da2926f9eb342fcee79fd7.html#a0b0a11f906da2926f9eb342fcee79fd7">aed2::map&lt; Key, Meaning, Compare &gt;::at</a>  (const Key &amp;key) const </dt>
 <dd><p class="startdd">find retorna un <a class="el" href="classaed2_1_1map_1_1const__iterator.html" title="Parte del módulo que implementa los iteradores que no permiten la modificación de los significados...">const_iterator</a> </p>
 <p class="enddd">Siempre que puedan usen operaciones del iterador en vez de acceder a su estructura interna </p>
 </dd>
-<dt><a class="anchor" id="_bug000019"></a>Miembro <a class="el" href="classaed2_1_1map_a2bfa5165825979bf2431db55bc6bc9ca.html#a2bfa5165825979bf2431db55bc6bc9ca">aed2::map&lt; Key, Meaning, Compare &gt;::clear</a>  ()</dt>
+<dt><a class="anchor" id="_bug000018"></a>Miembro <a class="el" href="classaed2_1_1map_a2bfa5165825979bf2431db55bc6bc9ca.html#a2bfa5165825979bf2431db55bc6bc9ca">aed2::map&lt; Key, Meaning, Compare &gt;::clear</a>  ()</dt>
 <dd>Es verdaderamente necesario el primer if?? </dd>
-<dt><a class="anchor" id="_bug000022"></a>Miembro <a class="el" href="classaed2_1_1map_af2eed16fe5e8bdbe5a9d979a5d136732.html#af2eed16fe5e8bdbe5a9d979a5d136732">aed2::map&lt; Key, Meaning, Compare &gt;::deleteFixUp</a>  (<a class="el" href="structaed2_1_1map_1_1Node.html" title="Estructura (privada) de un nodo del árbol red-black. ">Node</a> *nodo)</dt>
+<dt><a class="anchor" id="_bug000021"></a>Miembro <a class="el" href="classaed2_1_1map_af2eed16fe5e8bdbe5a9d979a5d136732.html#af2eed16fe5e8bdbe5a9d979a5d136732">aed2::map&lt; Key, Meaning, Compare &gt;::deleteFixUp</a>  (<a class="el" href="structaed2_1_1map_1_1Node.html" title="Estructura (privada) de un nodo del árbol red-black. ">Node</a> *nodo)</dt>
 <dd>Suena a que les vendría bien una operación que te diga si un nodo es hijo derecho o izquierdo de su padre Donde la pondrían?? </dd>
-<dt><a class="anchor" id="_bug000018"></a>Miembro <a class="el" href="classaed2_1_1map_a2ffadb42cd5f0bc7b3752ff159b75334.html#a2ffadb42cd5f0bc7b3752ff159b75334">aed2::map&lt; Key, Meaning, Compare &gt;::erase</a>  (const Key &amp;key)</dt>
+<dt><a class="anchor" id="_bug000017"></a>Miembro <a class="el" href="classaed2_1_1map_a2ffadb42cd5f0bc7b3752ff159b75334.html#a2ffadb42cd5f0bc7b3752ff159b75334">aed2::map&lt; Key, Meaning, Compare &gt;::erase</a>  (const Key &amp;key)</dt>
 <dd>Mejor: <a class="el" href="classaed2_1_1map_1_1const__iterator.html" title="Parte del módulo que implementa los iteradores que no permiten la modificación de los significados...">const_iterator</a> pos (find(key)); o: <a class="el" href="classaed2_1_1map_1_1const__iterator.html" title="Parte del módulo que implementa los iteradores que no permiten la modificación de los significados...">const_iterator</a> pos = find(key); Ambas funcionan y son más claras. </dd>
-<dt><a class="anchor" id="_bug000016"></a>Miembro <a class="el" href="classaed2_1_1map_ad8e796bf9c9c558e5ce6b61e116253fe.html#ad8e796bf9c9c558e5ce6b61e116253fe">aed2::map&lt; Key, Meaning, Compare &gt;::erase</a>  (<a class="el" href="classaed2_1_1map_1_1const__iterator.html" title="Parte del módulo que implementa los iteradores que no permiten la modificación de los significados...">const_iterator</a> pos)</dt>
+<dt><a class="anchor" id="_bug000015"></a>Miembro <a class="el" href="classaed2_1_1map_ad8e796bf9c9c558e5ce6b61e116253fe.html#ad8e796bf9c9c558e5ce6b61e116253fe">aed2::map&lt; Key, Meaning, Compare &gt;::erase</a>  (<a class="el" href="classaed2_1_1map_1_1const__iterator.html" title="Parte del módulo que implementa los iteradores que no permiten la modificación de los significados...">const_iterator</a> pos)</dt>
 <dd><p class="startdd">No dicen nada sobre res </p>
 <p>No es verdad que si no se cumple pos.n-&gt;child[0] == nullptr and pos.n-&gt;child[1] == nullptr no necesite hacer fixup, piensen en una hoja negra </p>
 <p>Para la reentrega deberían repensar las operaciones de insercion y de eliminación </p>
@@ -114,14 +114,14 @@ $(document).ready(function(){initNavTree('bug.html','');});
 <p>Intenten no repetir código (iterator(const_cast&lt;Node*&gt;(pos.n));), idem <a class="el" href="classaed2_1_1map_a6941cde9a79c27f054b5c97a587a1854.html#a6941cde9a79c27f054b5c97a587a1854" title="Inserta value en el diccionario. ">aed2::map::insert</a> </p>
 <p class="enddd">Intenten no repetir código (iterator(const_cast&lt;Node*&gt;(pos.n));), idem <a class="el" href="classaed2_1_1map_a6941cde9a79c27f054b5c97a587a1854.html#a6941cde9a79c27f054b5c97a587a1854" title="Inserta value en el diccionario. ">aed2::map::insert</a>  </p>
 </dd>
-<dt><a class="anchor" id="_bug000008"></a>Miembro <a class="el" href="classaed2_1_1map_afd0fc1a8234888e61e0e615de7e245b8.html#afd0fc1a8234888e61e0e615de7e245b8">aed2::map&lt; Key, Meaning, Compare &gt;::find</a>  (const Key &amp;key)</dt>
+<dt><a class="anchor" id="_bug000007"></a>Miembro <a class="el" href="classaed2_1_1map_afd0fc1a8234888e61e0e615de7e245b8.html#afd0fc1a8234888e61e0e615de7e245b8">aed2::map&lt; Key, Meaning, Compare &gt;::find</a>  (const Key &amp;key)</dt>
 <dd><p class="startdd">En la post deben decir algo más sobre el iterator res, en particular algun otro de los observadores del iterador</p>
 <p>Este código se puede mejorar, pero está bien</p>
 <p class="enddd">Este código se puede mejorar, pero está bien </p>
 </dd>
-<dt><a class="anchor" id="_bug000010"></a>Miembro <a class="el" href="classaed2_1_1map_ab8f3e41b1a0d7b74645836f8d2e1acfc.html#ab8f3e41b1a0d7b74645836f8d2e1acfc">aed2::map&lt; Key, Meaning, Compare &gt;::find</a>  (const Key &amp;key) const </dt>
+<dt><a class="anchor" id="_bug000009"></a>Miembro <a class="el" href="classaed2_1_1map_ab8f3e41b1a0d7b74645836f8d2e1acfc.html#ab8f3e41b1a0d7b74645836f8d2e1acfc">aed2::map&lt; Key, Meaning, Compare &gt;::find</a>  (const Key &amp;key) const </dt>
 <dd>No pueden llamar a funciones const desde funciones no const, no lo vuelvo a mencionar pero se repite mucho este error  </dd>
-<dt><a class="anchor" id="_bug000012"></a>Miembro <a class="el" href="classaed2_1_1map_a6941cde9a79c27f054b5c97a587a1854.html#a6941cde9a79c27f054b5c97a587a1854">aed2::map&lt; Key, Meaning, Compare &gt;::insert</a>  (<a class="el" href="classaed2_1_1map_1_1const__iterator.html" title="Parte del módulo que implementa los iteradores que no permiten la modificación de los significados...">const_iterator</a> hint, const value_type &amp;value)</dt>
+<dt><a class="anchor" id="_bug000011"></a>Miembro <a class="el" href="classaed2_1_1map_a6941cde9a79c27f054b5c97a587a1854.html#a6941cde9a79c27f054b5c97a587a1854">aed2::map&lt; Key, Meaning, Compare &gt;::insert</a>  (<a class="el" href="classaed2_1_1map_1_1const__iterator.html" title="Parte del módulo que implementa los iteradores que no permiten la modificación de los significados...">const_iterator</a> hint, const value_type &amp;value)</dt>
 <dd><p class="startdd">Digan algo en la PRE (y aliasing) sobre el iterador hint, que debe cumplir </p>
 <p><img class="formulaInl" alt="$ #claves(self) + 1 \IGOBS #claves(this))$" src="form_29.png"/> tiene sentido eso?? </p>
 <p>Qué pasa si te pasan el <a class="el" href="classaed2_1_1map_a76023e6a56cb625513e1b5ea028bf983.html#a76023e6a56cb625513e1b5ea028bf983" title="Devuelve un iterador apuntando a la posición pasando-el-ultimo del diccionario. ">aed2::map::end()</a> como hint, pero no es un hint válido </p>
@@ -130,37 +130,34 @@ $(document).ready(function(){initNavTree('bug.html','');});
 <p>hint++; Esto esta dentro del if donde hint es el header </p>
 <p class="enddd">hint++; Esto esta dentro del if donde hint es el header  </p>
 </dd>
-<dt><a class="anchor" id="_bug000014"></a>Miembro <a class="el" href="classaed2_1_1map_a2ef6723c183916276b0afc4a4c721475.html#a2ef6723c183916276b0afc4a4c721475">aed2::map&lt; Key, Meaning, Compare &gt;::insert_or_assign</a>  (<a class="el" href="classaed2_1_1map_1_1const__iterator.html" title="Parte del módulo que implementa los iteradores que no permiten la modificación de los significados...">const_iterator</a> hint, const value_type &amp;value)</dt>
+<dt><a class="anchor" id="_bug000013"></a>Miembro <a class="el" href="classaed2_1_1map_a2ef6723c183916276b0afc4a4c721475.html#a2ef6723c183916276b0afc4a4c721475">aed2::map&lt; Key, Meaning, Compare &gt;::insert_or_assign</a>  (<a class="el" href="classaed2_1_1map_1_1const__iterator.html" title="Parte del módulo que implementa los iteradores que no permiten la modificación de los significados...">const_iterator</a> hint, const value_type &amp;value)</dt>
 <dd><p class="startdd"><img class="formulaInl" alt="$ definir(\PI1 value, \PI2 value), self) $" src="form_31.png"/> las "variables" de los TADS no se modifican</p>
 <p>El find del principio les arruina la complejidad ante un buen hint</p>
 <p class="enddd">El find del principio les arruina la complejidad ante un buen hint </p>
 </dd>
-<dt><a class="anchor" id="_bug000026"></a>Miembro <a class="el" href="classaed2_1_1map_1_1iterator_a836c7a166d63f507c4f79085ae953c51.html#a836c7a166d63f507c4f79085ae953c51">aed2::map&lt; Key, Meaning, Compare &gt;::iterator::operator!=</a>  (iterator other) const </dt>
+<dt><a class="anchor" id="_bug000025"></a>Miembro <a class="el" href="classaed2_1_1map_1_1iterator_a836c7a166d63f507c4f79085ae953c51.html#a836c7a166d63f507c4f79085ae953c51">aed2::map&lt; Key, Meaning, Compare &gt;::iterator::operator!=</a>  (iterator other) const </dt>
 <dd>Imaginense que en un par de años cambian la estructura interna de iterator, teniendo que cambiar la igualda, como esta hecho ahora deberían cambiar dos funciones </dd>
-<dt><a class="anchor" id="_bug000024"></a>Miembro <a class="el" href="classaed2_1_1map_1_1iterator_a7c44de7f0508186e135ddbcfe782fec5.html#a7c44de7f0508186e135ddbcfe782fec5">aed2::map&lt; Key, Meaning, Compare &gt;::iterator::operator++</a>  ()</dt>
+<dt><a class="anchor" id="_bug000023"></a>Miembro <a class="el" href="classaed2_1_1map_1_1iterator_a7c44de7f0508186e135ddbcfe782fec5.html#a7c44de7f0508186e135ddbcfe782fec5">aed2::map&lt; Key, Meaning, Compare &gt;::iterator::operator++</a>  ()</dt>
 <dd><p class="startdd">No sigue la especifición, si algo se debería romper es mejor que se rompa </p>
 <p class="enddd">Si quieren poder recorrer la secuencia de forma circular, deberían hacer una operación auxiliar privada </p>
 </dd>
-<dt><a class="anchor" id="_bug000025"></a>Miembro <a class="el" href="classaed2_1_1map_1_1iterator_ad052c1ef8477a1613c292202226053a5.html#ad052c1ef8477a1613c292202226053a5">aed2::map&lt; Key, Meaning, Compare &gt;::iterator::operator==</a>  (iterator other) const </dt>
+<dt><a class="anchor" id="_bug000024"></a>Miembro <a class="el" href="classaed2_1_1map_1_1iterator_ad052c1ef8477a1613c292202226053a5.html#ad052c1ef8477a1613c292202226053a5">aed2::map&lt; Key, Meaning, Compare &gt;::iterator::operator==</a>  (iterator other) const </dt>
 <dd>Su pre es muy fuerte y su POST muy débil </dd>
-<dt><a class="anchor" id="_bug000011"></a>Miembro <a class="el" href="classaed2_1_1map_a3399d36fdd5a880b494f3a5795d3f18f.html#a3399d36fdd5a880b494f3a5795d3f18f">aed2::map&lt; Key, Meaning, Compare &gt;::lower_bound</a>  (const Key &amp;key) const </dt>
+<dt><a class="anchor" id="_bug000010"></a>Miembro <a class="el" href="classaed2_1_1map_a3399d36fdd5a880b494f3a5795d3f18f.html#a3399d36fdd5a880b494f3a5795d3f18f">aed2::map&lt; Key, Meaning, Compare &gt;::lower_bound</a>  (const Key &amp;key) const </dt>
 <dd>not lt(it.n-&gt;key(), key) and not lt(key, it.n-&gt;key()) usen funciones </dd>
-<dt><a class="anchor" id="_bug000003"></a>Miembro <a class="el" href="classaed2_1_1map_a7a77950a3d8e637bfa7cf5dcd904f257.html#a7a77950a3d8e637bfa7cf5dcd904f257">aed2::map&lt; Key, Meaning, Compare &gt;::map</a>  (const map &amp;other)</dt>
+<dt><a class="anchor" id="_bug000002"></a>Miembro <a class="el" href="classaed2_1_1map_a7a77950a3d8e637bfa7cf5dcd904f257.html#a7a77950a3d8e637bfa7cf5dcd904f257">aed2::map&lt; Key, Meaning, Compare &gt;::map</a>  (const map &amp;other)</dt>
 <dd>el hint debería estar en el mismo árbol </dd>
-<dt><a class="anchor" id="_bug000004"></a>Miembro <a class="el" href="classaed2_1_1map_ac606d334809066929522964d45e76317.html#ac606d334809066929522964d45e76317">aed2::map&lt; Key, Meaning, Compare &gt;::operator=</a>  (map other)</dt>
+<dt><a class="anchor" id="_bug000003"></a>Miembro <a class="el" href="classaed2_1_1map_ac606d334809066929522964d45e76317.html#ac606d334809066929522964d45e76317">aed2::map&lt; Key, Meaning, Compare &gt;::operator=</a>  (map other)</dt>
 <dd>Esta función se llama a sí mismo sin reducir el tamaño de entrada Recuerden copy and swap, no copy and assign </dd>
-<dt><a class="anchor" id="_bug000007"></a>Miembro <a class="el" href="classaed2_1_1map_a96f23896164ab47bee48c26b803f9801.html#a96f23896164ab47bee48c26b803f9801">aed2::map&lt; Key, Meaning, Compare &gt;::operator[]</a>  (const Key &amp;key)</dt>
+<dt><a class="anchor" id="_bug000006"></a>Miembro <a class="el" href="classaed2_1_1map_a96f23896164ab47bee48c26b803f9801.html#a96f23896164ab47bee48c26b803f9801">aed2::map&lt; Key, Meaning, Compare &gt;::operator[]</a>  (const Key &amp;key)</dt>
 <dd>Idem antes, "it.n-&gt;color == Color::Header", es mejor usar funciones: son más declarativas y ayuda a que cambios futuros de estructura no afecten a todo el código </dd>
-<dt><a class="anchor" id="_bug000023"></a>Miembro <a class="el" href="classaed2_1_1map_a54b1ea9f8c707232c744a4ac5c5302d2.html#a54b1ea9f8c707232c744a4ac5c5302d2">aed2::map&lt; Key, Meaning, Compare &gt;::Rotate</a>  (<a class="el" href="structaed2_1_1map_1_1Node.html" title="Estructura (privada) de un nodo del árbol red-black. ">Node</a> *n, int i)</dt>
+<dt><a class="anchor" id="_bug000022"></a>Miembro <a class="el" href="classaed2_1_1map_a54b1ea9f8c707232c744a4ac5c5302d2.html#a54b1ea9f8c707232c744a4ac5c5302d2">aed2::map&lt; Key, Meaning, Compare &gt;::Rotate</a>  (<a class="el" href="structaed2_1_1map_1_1Node.html" title="Estructura (privada) de un nodo del árbol red-black. ">Node</a> *n, int i)</dt>
 <dd>Si en los nodos 0 es left y 1 right, por que lo cambian </dd>
-<dt><a class="anchor" id="_bug000005"></a>Miembro <a class="el" href="classaed2_1_1map_ab22c9a85c2dadbc286cd30e97069a8e6.html#ab22c9a85c2dadbc286cd30e97069a8e6">aed2::map&lt; Key, Meaning, Compare &gt;::~map</a>  ()</dt>
+<dt><a class="anchor" id="_bug000004"></a>Miembro <a class="el" href="classaed2_1_1map_ab22c9a85c2dadbc286cd30e97069a8e6.html#ab22c9a85c2dadbc286cd30e97069a8e6">aed2::map&lt; Key, Meaning, Compare &gt;::~map</a>  ()</dt>
 <dd>Por qué los que apuntan a <a class="el" href="classaed2_1_1map_a76023e6a56cb625513e1b5ea028bf983.html#a76023e6a56cb625513e1b5ea028bf983" title="Devuelve un iterador apuntando a la posición pasando-el-ultimo del diccionario. ">end()</a> no?? </dd>
 <dt><a class="anchor" id="_bug000001"></a>Página <a class="el" href="axiomas.html">Axiomas y proposiciones auxiliares</a>  </dt>
-<dd><p class="startdd">Esta operación (y bastantes otras) son muy dificiles de leer </p>
-<p>Además, si hace lo que creo que hace, no verifica correctamente que sea un ADB, piensen en un arbol con la raiz igual a 5, su hijo izq igual a 3 y el hijo derecho de 3 igual a 8, eso no es un ABB pero cumple su proposición.</p>
-<p class="enddd">sinRepetidos(headerToSecu(n.parent)) esto no te soluciona uno de los problemas hablado por Soulignac. Piensen como podrían reescribir a partir del rep de map </p>
-</dd>
-<dt><a class="anchor" id="_bug000020"></a>Grupo <a class="el" href="classaed2_1_1map.html#amgrpd5e8970aaf64693c88c5cfe5802755da">Estructura de representación</a>  </dt>
+<dd>sinRepetidos(headerToSecu(n.parent)) esto no te soluciona uno de los problemas hablado por Soulignac. Piensen como podrían reescribir a partir del rep de map </dd>
+<dt><a class="anchor" id="_bug000019"></a>Grupo <a class="el" href="classaed2_1_1map.html#amgrpd5e8970aaf64693c88c5cfe5802755da">Estructura de representación</a>  </dt>
 <dd><p class="startdd">Este REP es ilegible, intenten formatearlo mejor o subdividir en más suboperaciones</p>
 <p>Hace falta decir lo de cant de claves?</p>
 <p>Hace falta decir lo de cant de claves?</p>
@@ -175,7 +172,7 @@ $(document).ready(function(){initNavTree('bug.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generado el Viernes, 9 de Junio de 2017 18:49:43 para Trabajo práctico 2: diccionario sobre RB-tree por
+    <li class="footer">Generado el Viernes, 9 de Junio de 2017 19:41:00 para Trabajo práctico 2: diccionario sobre RB-tree por
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

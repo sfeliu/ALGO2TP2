@@ -631,14 +631,12 @@
  * devuelve una bool indicando si el arbol tiene una relacion de orden total (cada nodo con sus hijos)
  *
  * \axioma{esADB}: puntero(Node) \TO bool\n
- * esADB(p) \EQUIV \IF p = null \THEN true \ELSE \IF (*p).child[0] != null \THEN
- *				\IF (*p).child[1] != null \THEN\esMenor((*p).child[0], p) \LAND \esMenor(p, (*p).child[1]) \LAND \esADB((*p).child[0]) \LAND \esADB((*p).child[1])
- *              \ELSE \esMenor((*p).child[0], p) \LAND \esADB((*p).child[0]) \FI \ELSE
- *              \IF (*p).child[1] != null \THEN \esMenor(p, (*p).child[1]) \LAND \esADB((*p).child[1]) \ELSE true \FI \FI \FI
+ * esADB(p) \EQUIV (\FORALL n:Node) (n \IN headerToSecu[&header]) \IMPLIES_L (((\FORALL n':Node) (n' \IN headerToSecu[0]) \IMPLIES_L (*n'.value).clave < (*n.value).clave)
+ * \LAND ((\FORALL n'':Node) (n'' \IN headerToSecu[1]) \IMPLIES_L (*n''.value).clave > (*n.value).clave))
  * \endparblock
  *
- * \bug Esta operación (y bastantes otras) son muy dificiles de leer
- * \bug Además, si hace lo que creo que hace, no verifica correctamente que sea un ADB,
+ * \deprecated Esta operación (y bastantes otras) son muy dificiles de leer
+ * \deprecated Además, si hace lo que creo que hace, no verifica correctamente que sea un ADB,
  * piensen en un arbol con la raiz igual a 5, su hijo izq igual a 3 y el hijo derecho de 3 igual a 8, eso
  * no es un ABB pero cumple su proposición.
  *
@@ -972,7 +970,7 @@ public:
      *
      * \complexity{\O(\COPY(\P{other}))}
      *
-     * \bug el hint debería estar en el mismo árbol
+     * \deprecated el hint debería estar en el mismo árbol
      *
      * \attention El parámetro formal \LT del TAD diccionario se establece en esta función.
      * \LT es igual al operator() del comparador de \P{other}
@@ -982,7 +980,7 @@ public:
         const_iterator it = --other.end();
         count = 0;
         lt = other.lt;
-        const_iterator hint = other.end();
+        const_iterator hint = end();
         while(it != other.end()){
             hint = insert(hint, it.n->value());
             --it;

@@ -132,13 +132,13 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 <dl class="section user"><dt>Aspectos de aliasing:</dt><dd>si el iterador me permite modificar, si modificas a lo que apunta res se modifica *this</dd></dl>
 <dl class="section pre"><dt>Precondición</dt><dd><b>P</b> <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> {true} </dd></dl>
 <dl class="section post"><dt>Postcondición</dt><dd><b>Q</b> <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> {this <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> coleccion(res) <img class="formulaInl" alt="$\land$" src="form_12.png"/> (def?(key, *this) <img class="formulaInl" alt="$\Rightarrow_{\rm L}$" src="form_24.png"/> alias(PI1(siguiente(res)) <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> key)) <img class="formulaInl" alt="$\land$" src="form_12.png"/> ((( <img class="formulaInl" alt="$\lnot$" src="form_25.png"/> def?(key, *this) <img class="formulaInl" alt="$\land$" src="form_12.png"/> <img class="formulaInl" alt="$\pi_1$" src="form_21.png"/> ult(secuSuby(res)) &lt; key) <img class="formulaInl" alt="$\Rightarrow_{\rm L}$" src="form_24.png"/> (vacia?(siguientes(res))) <img class="formulaInl" alt="$\land$" src="form_12.png"/> (( <img class="formulaInl" alt="$\lnot$" src="form_25.png"/> def?(key, *this) <img class="formulaInl" alt="$\Rightarrow_{\rm L}$" src="form_24.png"/> ( <img class="formulaInl" alt="$\pi_1$" src="form_21.png"/> siguiente(res) &gt; key <img class="formulaInl" alt="$\land$" src="form_12.png"/> <img class="formulaInl" alt="$\pi_1$" src="form_21.png"/> anterior(res) &lt; key))}</dd></dl>
-<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000011">Bug:</a></b></dt><dd>not lt(it.n-&gt;key(), key) and not lt(key, it.n-&gt;key()) usen funciones</dd></dl>
+<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000010">Bug:</a></b></dt><dd>not lt(it.n-&gt;key(), key) and not lt(key, it.n-&gt;key()) usen funciones</dd></dl>
 <dl class="section complexity">
 <dt>Complejidad Temporal</dt>
 <dd><img class="formulaInl" alt="$O$" src="form_1.png"/>( <img class="formulaInl" alt="$\log$" src="form_27.png"/>(<b>size</b>(<b class="paramname">*this</b>)) <img class="formulaInl" alt="$\cdot$" src="form_26.png"/> <b>cmp</b>(<b class="paramname">*this</b>))</dd>
 </dl>
 
-<p>Definición en la línea <a class="el" href="map_8h_source.html#l01259">1259</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
+<p>Definición en la línea <a class="el" href="map_8h_source.html#l01257">1257</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
 
 </div>
 </div>
@@ -148,7 +148,7 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceaed2.html">aed2</a></li><li class="navelem"><a class="el" href="classaed2_1_1map.html">map</a></li>
-    <li class="footer">Generado el Viernes, 9 de Junio de 2017 18:49:43 para Trabajo práctico 2: diccionario sobre RB-tree por
+    <li class="footer">Generado el Viernes, 9 de Junio de 2017 19:41:00 para Trabajo práctico 2: diccionario sobre RB-tree por
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

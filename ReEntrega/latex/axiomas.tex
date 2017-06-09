@@ -90,12 +90,12 @@ cantidad\+De\+Elementos\+: puntero(\+Node) $\to$ nat~\newline
 devuelve una bool indicando si el arbol tiene una relacion de orden total (cada nodo con sus hijos)
 
 es\+A\+DB\+: puntero(\+Node) $\to$ bool~\newline
- es\+A\+D\+B(p) $\equiv$ {\bfseries if} p = null {\bfseries then} true {\bfseries else} {\bfseries if} ($\ast$p).child\mbox{[}0\mbox{]} != null {\bfseries then} {\bfseries if} ($\ast$p).child\mbox{[}1\mbox{]} != null {\bfseries then} \href{axiomas.html#esMenor}{\tt es\+Menor}(($\ast$p).child\mbox{[}0\mbox{]}, p) $\land$ \href{axiomas.html#esMenor}{\tt es\+Menor}(p, ($\ast$p).child\mbox{[}1\mbox{]}) $\land$ \href{axiomas.html#esADB}{\tt es\+A\+DB}(($\ast$p).child\mbox{[}0\mbox{]}) $\land$ \href{axiomas.html#esADB}{\tt es\+A\+DB}(($\ast$p).child\mbox{[}1\mbox{]}) {\bfseries else} \href{axiomas.html#esMenor}{\tt es\+Menor}(($\ast$p).child\mbox{[}0\mbox{]}, p) $\land$ \href{axiomas.html#esADB}{\tt es\+A\+DB}(($\ast$p).child\mbox{[}0\mbox{]}) {\bfseries fi} {\bfseries else} {\bfseries if} ($\ast$p).child\mbox{[}1\mbox{]} != null {\bfseries then} \href{axiomas.html#esMenor}{\tt es\+Menor}(p, ($\ast$p).child\mbox{[}1\mbox{]}) $\land$ \href{axiomas.html#esADB}{\tt es\+A\+DB}(($\ast$p).child\mbox{[}1\mbox{]}) {\bfseries else} true {\bfseries fi} {\bfseries fi} {\bfseries fi} 
+ es\+A\+D\+B(p) $\equiv$ ( $\forall$ n\+:Node) (n $\in$ header\+To\+Secu\mbox{[}\&header\mbox{]}) $\Rightarrow_{\rm L}$ ((( $\forall$ n\textquotesingle{}\+:Node) (n\textquotesingle{} $\in$ header\+To\+Secu\mbox{[}0\mbox{]}) $\Rightarrow_{\rm L}$ ($\ast$n\textquotesingle{}.value).clave $<$ ($\ast$n.value).clave) $\land$ (( $\forall$ n\textquotesingle{}\textquotesingle{}\+:Node) (n\textquotesingle{}\textquotesingle{} $\in$ header\+To\+Secu\mbox{[}1\mbox{]}) $\Rightarrow_{\rm L}$ ($\ast$n\textquotesingle{}\textquotesingle{}.value).clave $>$ ($\ast$n.value).clave)) 
 \end{DoxyParagraph}
 
 
-\begin{DoxyRefDesc}{Bug}
-\item[\hyperlink{bug__bug000001}{Bug}]Esta operación (y bastantes otras) son muy dificiles de leer 
+\begin{DoxyRefDesc}{Obsoleto}
+\item[\hyperlink{deprecated__deprecated000001}{Obsoleto}]Esta operación (y bastantes otras) son muy dificiles de leer 
 
 Además, si hace lo que creo que hace, no verifica correctamente que sea un A\+DB, piensen en un arbol con la raiz igual a 5, su hijo izq igual a 3 y el hijo derecho de 3 igual a 8, eso no es un A\+BB pero cumple su proposición.\end{DoxyRefDesc}
 
@@ -209,7 +209,7 @@ es\+R\+B\+Tree\+: Node $\to$ Bool~\newline
 
 
 \begin{DoxyRefDesc}{Bug}
-\item[\hyperlink{bug__bug000002}{Bug}]sin\+Repetidos(header\+To\+Secu(n.\+parent)) esto no te soluciona uno de los problemas hablado por Soulignac. Piensen como podrían reescribir a partir del rep de map\end{DoxyRefDesc}
+\item[\hyperlink{bug__bug000001}{Bug}]sin\+Repetidos(header\+To\+Secu(n.\+parent)) esto no te soluciona uno de los problemas hablado por Soulignac. Piensen como podrían reescribir a partir del rep de map\end{DoxyRefDesc}
 
 
 \begin{DoxyParagraph}{padreK}

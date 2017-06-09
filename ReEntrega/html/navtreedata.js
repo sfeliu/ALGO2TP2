@@ -2,6 +2,7 @@ var NAVTREE =
 [
   [ "Trabajo práctico 2: diccionario sobre RB-tree", "index.html", [
     [ "Modulo aed2::map", "index.html", "index" ],
+    [ "Lista de obsoletos", "deprecated.html", null ],
     [ "Lista de bugs", "bug.html", null ],
     [ "Referencias bibliográficas", "citelist.html", null ],
     [ "Namespaces", null, [
