@@ -1224,7 +1224,14 @@ public:
     * no lo vuelvo a mencionar pero se repite mucho este error
     */
     const_iterator find(const Key& key) const {
-        return const_iterator(find(key));
+        const_iterator it = lower_bound(key);
+        if(it.n == &header){
+            return it;
+        }
+        if(lt(it.n->value().first, key) or lt(key, it.n->value().first)){
+            it = const_iterator(&header);
+        }
+        return it;
     }
 
     /**
@@ -1250,7 +1257,28 @@ public:
      *
      */
     const_iterator lower_bound(const Key& key) const {
-        return const_iterator(lower_bound(key));
+        const_iterator it = iterator(header.parent);
+        while(it.n != nullptr){
+            if(not lt(it.n->key(), key) and not lt(key, it.n->key())){
+                return it;
+            }else{
+                if(lt(it.n->key(), key)){
+                    if(it.n->child[1] == nullptr) {
+                        return ++it;
+                    }else{
+                        it.n = it.n->child[1];
+                    }
+                }else{
+                    if(it.n->child[0] == nullptr){
+                        return it;
+                    }else {
+                        it.n = it.n->child[0];
+                    }
+                }
+            }
+        }
+        it = const_iterator(&header);
+        return it;
     }
 
     /** \overload */
