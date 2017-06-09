@@ -1,0 +1,33 @@
+\form#0:$<$
+\form#1:$O$
+\form#2:$=_{\rm obs}$
+\form#3:$\widehat{T}$
+\form#4:$\to$
+\form#5:$\alpha$
+\form#6:$\bullet$
+\form#7:$\times$
+\form#8:$\widehat{\alpha}$
+\form#9:$\bot$
+\form#10:$\equiv$
+\form#11:$\leq$
+\form#12:$\land$
+\form#13:$\geq$
+\form#14:$\emptyset$
+\form#15:$-$
+\form#16:$\in$
+\form#17:$\lor_{\rm L}$
+\form#18:$\lor$
+\form#19:$\land_{\rm L}$
+\form#20:$\beta$
+\form#21:$\pi_1$
+\form#22:$\exists$
+\form#23:$\forall$
+\form#24:$\Rightarrow_{\rm L}$
+\form#25:$\lnot$
+\form#26:$\cdot$
+\form#27:$\log$
+\form#28:$+$
+\form#29:$ #claves(self) + 1 \IGOBS #claves(this))$
+\form#30:$\pi_2$
+\form#31:$ definir(\PI1 value, \PI2 value), self) $
+\form#32:$\Leftrightarrow$

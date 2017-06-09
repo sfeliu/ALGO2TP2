@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.11"/>
+<title>Trabajo práctico 2: diccionario sobre RB-tree: Axiomas y proposiciones auxiliares</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { init_search(); });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="style.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Trabajo práctico 2: diccionario sobre RB-tree
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Bogetti Gianfranco, Ingaramo Pablo, Feliu Santiago y Rios Kennedy</div>
+  </td>
+   <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Buscar" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.8.11 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Buscar');
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('axiomas.html','');});
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">Axiomas y proposiciones auxiliares </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><p>En esta pagina, y por conveniencia, se listan todos los axiomas y proposiciones auxiliares requeridos para formalizar los invariantes de representación y las funciones de abstracción. Previamente se presentan los renombres de los tipos usados.</p>
+<dl class="section user"><dt>Renombres de tipos</dt><dd></dd></dl>
+<ul>
+<li>Node es tupla(child: arreglo[2] de puntero(Node), parent: puntero(Node), color: Color, value: Value)</li>
+<li>Value es Maybe(value_type)</li>
+<li>value_type es tupla(clave: <span class="paramname">Key</span>, significado: <span class="paramname">Meaning</span>)</li>
+</ul>
+<p>El TAD Maybe( <img class="formulaInl" alt="$\alpha$" src="form_5.png"/>) representa un tipo <img class="formulaInl" alt="$\alpha$" src="form_5.png"/> extendido con un valor nulo. En otras palabras, el TAD Maybe se puede usar para representar los valores de los nodos, donde el nodo cabecera no tiene valor y los nodos internos sí tienen valor. (Esto independientemente de si se implementa con herencia o con un puntero o de otra forma.) Tiene dos observadores:</p><ul>
+<li>nothing?(x): que indica si x tiene un valor nulo, y</li>
+<li>data(x): que devuelve el valor de x, suponiendo que no es inválido.</li>
+</ul>
+<p>La especificación de este TAD queda como ejercicio (no obligatorio).</p>
+<h1><a class="anchor" id="sec-Axiomas"></a>
+Axiomas y proposiciones auxiliares</h1>
+<p>En esta sección se deben incluir todos los axiomas y proposiciones auxiliares que se usen para describir los invariantes de representación, las funciones de abstracción, las precondiciones y las postcondiciones.</p>
+<dl class="section remark"><dt>Comentarios</dt><dd>Recordar incluir un alias en el archivo doxyfile a fin de poder referenciar automaticamente a cada axioma desde las otras páginas.</dd></dl>
+<p>Se muestran algunos ejemplos a continuación.</p>
+<dl class="section user"><dt>ArbolValue</dt><dd><p class="startdd">A partir de un puntero a nodo construye el arbol binario al que pertenece ese node.</p>
+<p class="enddd"><span id="ArbolValue">ArbolValue</span>: puntero(Node) <img class="formulaInl" alt="$\to$" src="form_4.png"/> ab(Value) ArbolValue(p) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> <b>if</b> p = null <b>then</b> nil <b>else</b> <b>if</b> nothing?(*p.value) <b>then</b> bin(<a href="axiomas.html#ArbolValue">ArbolValue</a>(*(*p.parent).child[0] , dato(*(*p.parent).value) , <a href="axiomas.html#ArbolValue">ArbolValue</a>(*(*p.parent).child[1]) )) <b>else</b> bin(<a href="axiomas.html#ArbolValue">ArbolValue</a>(*p.child[0] ) , dato(*p.value) , <a href="axiomas.html#ArbolValue">ArbolValue</a>(*p.child[1])) <b>fi</b> <b>fi</b> </p>
+</dd></dl>
+<dl class="section user"><dt>dameHeader</dt><dd><p class="startdd">A partir de un nodo devuelve el dameHeader.</p>
+<p class="enddd"><span id="dameHeader">dameHeader</span>: puntero(Node) <img class="formulaInl" alt="$\to$" src="form_4.png"/> Node<br />
+ dameHeader(p) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> <b>if</b> nothing ((*p).value) <b>then</b> *p <b>else</b> <a href="axiomas.html#dameHeader">dameHeader</a>((*p).padre) <b>fi</b> </p>
+</dd></dl>
+<dl class="section user"><dt>enRango</dt><dd><p class="startdd">A partir de tres punteros a nodo devuelve true si y solo si el primer parametro esta acotado inferiormente por el segundo y superiormente por el tercero.</p>
+<p class="enddd"><span id="enRango">enRango</span>: puntero(Node) x puntero(Node) x puntero(Node) <img class="formulaInl" alt="$\to$" src="form_4.png"/> bool<br />
+ enRango(p1,p2,p3) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> data(*(*p2.value).clave <img class="formulaInl" alt="$\leq$" src="form_11.png"/> data(*p1.value).clave <img class="formulaInl" alt="$\land$" src="form_12.png"/> data(*p3.value).clave <img class="formulaInl" alt="$\geq$" src="form_13.png"/> data(*p1.value).clave) </p>
+</dd></dl>
+<dl class="section user"><dt>anterioresDe</dt><dd><p class="startdd">Devuelve una lista ordenada de todos los valores ateriores a el parametro que recive.</p>
+<p class="enddd"><span id="anterioresDe">anterioresDe</span>: secu(value_type) s x value_type v <img class="formulaInl" alt="$\to$" src="form_4.png"/> secu(value_type) {esta?(v,s)}<br />
+ anterioresDe(s, v) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> <b>if</b> prim(s) == v <b>then</b> &lt;&gt; <b>else</b> prim(s) <img class="formulaInl" alt="$\bullet$" src="form_6.png"/> <a href="axiomas.html#anterioresDe">anterioresDe</a>(s,fin(v)) <b>fi</b> </p>
+</dd></dl>
+<dl class="section user"><dt>siguientesDe</dt><dd><p class="startdd">Devuelve una lista ordenada de todos los valores ateriores a el parametro que recive.</p>
+<p class="enddd"><span id="siguientesDe">siguientesDe</span>: secu(value_type) s x value_type v <img class="formulaInl" alt="$\to$" src="form_4.png"/> secu(value_type) {esta?(v,s)}<br />
+ anterioresDe(s, v) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> <b>if</b> prim(s) == v <b>then</b> &lt;&gt; <b>else</b> prim(s) <img class="formulaInl" alt="$\bullet$" src="form_6.png"/> <a href="axiomas.html#siguientesDe">siguientesDe</a>(s,fin(v)) <b>fi</b> </p>
+</dd></dl>
+<dl class="section user"><dt>menorLexico</dt><dd><p class="startdd">compara lexicograficamente 2 conjuntos.</p>
+<p class="enddd"><span id="menorLexico">menorLexico</span>: conj(key) <img class="formulaInl" alt="$\times$" src="form_7.png"/> conj(key) <img class="formulaInl" alt="$\to$" src="form_4.png"/> bool menorLexico(c1 ,c2) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> <b>if</b> <img class="formulaInl" alt="$\emptyset$" src="form_14.png"/>?(c2) <b>then</b> false <b>else</b> <b>if</b> <img class="formulaInl" alt="$\emptyset$" src="form_14.png"/>?(c1) <b>then</b> true <b>else</b> <b>if</b> <a href="axiomas.html#minimo">minimo</a>(c1,dameUno(c1)) = <a href="axiomas.html#minimo">minimo</a>(c2, dameUno(c2)) <b>then</b> (c1 <img class="formulaInl" alt="$-$" src="form_15.png"/> {<a href="axiomas.html#minimo">minimo</a>(c1,dameUno(c1))}, c2 <img class="formulaInl" alt="$-$" src="form_15.png"/> {<a href="axiomas.html#minimo">minimo</a> (c2, dameUno(c2))} ) <b>else</b> <a href="axiomas.html#minimo">minimo</a>(c1,dameUno(c1)) <img class="formulaInl" alt="$&lt;$" src="form_0.png"/> <a href="axiomas.html#minimo">minimo</a>(c2,dameUno(c2)) <b>fi</b> <b>fi</b> <b>fi</b> </p>
+</dd></dl>
+<dl class="section user"><dt>minimo</dt><dd><p class="startdd">devuelve el elemento menor de un conjunto.</p>
+<p class="enddd"><span id="minimo">minimo</span>: conj(key) c <img class="formulaInl" alt="$\times$" src="form_7.png"/> Key k <img class="formulaInl" alt="$\to$" src="form_4.png"/> key {k <img class="formulaInl" alt="$\in$" src="form_16.png"/> c} minimo(c,k) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> <b>if</b> <img class="formulaInl" alt="$\emptyset$" src="form_14.png"/>?(c) <b>then</b> k <b>else</b> <b>if</b> k <img class="formulaInl" alt="$&lt;$" src="form_0.png"/> dameUno(c) <b>then</b> <a href="axiomas.html#minimo">minimo</a>(sinUno(c),k) <b>else</b> <a href="axiomas.html#minimo">minimo</a>(sinUno(c) ,dameUno(c)) <b>fi</b> <b>fi</b> </p>
+</dd></dl>
+<dl class="section user"><dt>cantidadDeElementos</dt><dd><p class="startdd">devuelve la cantidad de elementos que tiene el diccionario</p>
+<p class="enddd"><span id="cantidadDeElementos">cantidadDeElementos</span>: puntero(Node) <img class="formulaInl" alt="$\to$" src="form_4.png"/> nat<br />
+ cantidadDeElementos(p) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> <b>if</b> p = null <b>then</b> 0 <b>else</b> <b>if</b> nothing?(*p.value) <b>then</b> <a href="axiomas.html#cantidadDeElementos">cantidadDeElementos</a>(*p.parent) <br />
+ <b>else</b> 1 + <a href="axiomas.html#cantidadDeElementos">cantidadDeElementos</a>(*p.child[0]) + <a href="axiomas.html#cantidadDeElementos">cantidadDeElementos</a>(*p.child[1]) <b>fi</b> <b>fi</b> </p>
+</dd></dl>
+<dl class="section user"><dt>esADB</dt><dd><p class="startdd">devuelve una bool indicando si el arbol tiene una relacion de orden total (cada nodo con sus hijos)</p>
+<p class="enddd"><span id="esADB">esADB</span>: puntero(Node) <img class="formulaInl" alt="$\to$" src="form_4.png"/> bool<br />
+ esADB(p) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> <b>if</b> p = null <b>then</b> true <b>else</b> <b>if</b> (*p).child[0] != null <b>then</b> <b>if</b> (*p).child[1] != null <b>then</b> <a href="axiomas.html#esMenor">esMenor</a>((*p).child[0], p) <img class="formulaInl" alt="$\land$" src="form_12.png"/> <a href="axiomas.html#esMenor">esMenor</a>(p, (*p).child[1]) <img class="formulaInl" alt="$\land$" src="form_12.png"/> <a href="axiomas.html#esADB">esADB</a>((*p).child[0]) <img class="formulaInl" alt="$\land$" src="form_12.png"/> <a href="axiomas.html#esADB">esADB</a>((*p).child[1]) <b>else</b> <a href="axiomas.html#esMenor">esMenor</a>((*p).child[0], p) <img class="formulaInl" alt="$\land$" src="form_12.png"/> <a href="axiomas.html#esADB">esADB</a>((*p).child[0]) <b>fi</b> <b>else</b> <b>if</b> (*p).child[1] != null <b>then</b> <a href="axiomas.html#esMenor">esMenor</a>(p, (*p).child[1]) <img class="formulaInl" alt="$\land$" src="form_12.png"/> <a href="axiomas.html#esADB">esADB</a>((*p).child[1]) <b>else</b> true <b>fi</b> <b>fi</b> <b>fi</b> </p>
+</dd></dl>
+<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000001">Bug:</a></b></dt><dd><p class="startdd">Esta operación (y bastantes otras) son muy dificiles de leer </p>
+<p class="enddd">Además, si hace lo que creo que hace, no verifica correctamente que sea un ADB, piensen en un arbol con la raiz igual a 5, su hijo izq igual a 3 y el hijo derecho de 3 igual a 8, eso no es un ABB pero cumple su proposición.</p>
+</dd></dl>
+<dl class="section user"><dt>esMenor</dt><dd><p class="startdd">devuelve una bool indicando si el valor del primer puntero es menor al del segundo.</p>
+<p class="enddd"><span id="esMenor">esMenor</span>: puntero(Node) <img class="formulaInl" alt="$\times$" src="form_7.png"/> puntero(Node) <img class="formulaInl" alt="$\to$" src="form_4.png"/> bool<br />
+ esMenor(p, p') <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> data((*p).value).clave &lt; data((*p).value).clave </p>
+</dd></dl>
+<dl class="section user"><dt>cantBlack</dt><dd><p class="startdd">dado un puntero nod, devuelve la cantidad de nodos negros hay hasta llegar al root</p>
+<p class="enddd"><span id="cantBlack">cantBlack</span>: puntero(Node) <img class="formulaInl" alt="$\to$" src="form_4.png"/> nat<br />
+ cantBlack(p) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> <b>if</b> p = null <b>then</b> 0 <b>else</b> <b>if</b> nothing?(*p.value) <b>then</b> 0 <b>else</b> <b>if</b> p = (*(*p).parent).parent) <b>then</b> 1 <b>else</b> <b>if</b> *p.color = black <b>then</b> 1 + <a href="axiomas.html#cantBlack">cantBlack</a>(*p.parent) <b>else</b> <a href="axiomas.html#cantBlack">cantBlack</a>(*p.parent) <b>fi</b> <b>fi</b> <b>fi</b> </p>
+</dd></dl>
+<dl class="section user"><dt>colorAdecuado</dt><dd><p class="startdd">devuelve un bool que indica si el y el padre, respetan el invariante de coloreo del rb-tree</p>
+<p class="enddd"><span id="colorAdecuado">colorAdecuado</span>: puntero(Node) <img class="formulaInl" alt="$\to$" src="form_4.png"/> bool<br />
+ colorAdecuado(p) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> <b>if</b> p = null <img class="formulaInl" alt="$\lor_{\rm L}$" src="form_17.png"/> (nothing?(*p.value) <img class="formulaInl" alt="$\land$" src="form_12.png"/> *p.color = Header) <img class="formulaInl" alt="$\lor_{\rm L}$" src="form_17.png"/> <br />
+ [*p.color = red <img class="formulaInl" alt="$\land$" src="form_12.png"/> *(*p.parent).color = black] <img class="formulaInl" alt="$\lor$" src="form_18.png"/> [*p.color = black <img class="formulaInl" alt="$\land$" src="form_12.png"/> (*(*p.parent).color = black <img class="formulaInl" alt="$\land$" src="form_12.png"/> *(*p.parent).color = red)] <img class="formulaInl" alt="$\lor_{\rm L}$" src="form_17.png"/> (*p.parent != null <img class="formulaInl" alt="$\land_{\rm L}$" src="form_19.png"/> (*p.parent).color = header <img class="formulaInl" alt="$\land_{\rm L}$" src="form_19.png"/> *p.color = black ) <b>then</b> true <b>else</b> false </p>
+</dd></dl>
+<dl class="section user"><dt>esHoja</dt><dd><p class="startdd">devuelve true si el nodo es hoja</p>
+<p class="enddd"><span id="esHoja">esHoja</span>: puntero(Node) <img class="formulaInl" alt="$\to$" src="form_4.png"/> bool<br />
+ esHoja(p) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> <b>if</b> p = null <img class="formulaInl" alt="$\lor_{\rm L}$" src="form_17.png"/> nothing?(*p.value) <b>then</b> false <b>else</b> *p.child[0] = null <img class="formulaInl" alt="$\lor$" src="form_18.png"/> *p.child[1] = null <b>fi</b> </p>
+</dd></dl>
+<dl class="section user"><dt>estaPtr?</dt><dd><p class="startdd">devuele true si el elemento pertenece al (arbol/diccionario)</p>
+<p class="enddd"><span id="estaPtr?">estaPtr?</span>: puntero(Node) x puntero(Node) <img class="formulaInl" alt="$\to$" src="form_4.png"/> bool<br />
+ estaPtr?(p1,p2) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> *p1.value <img class="formulaInl" alt="$\in$" src="form_16.png"/> <a href="axiomas.html#elementos">elementos</a>(p2) </p>
+</dd></dl>
+<dl class="section user"><dt>sinRepetidos</dt><dd><p class="startdd">devuelve true si no hay elementos repetidos en el arbol/diccionario</p>
+<p class="enddd"><span id="sinRepetidos">sinRepetidos</span>: secu(Key) <img class="formulaInl" alt="$\to$" src="form_4.png"/> bool<br />
+ sinRepetidos(sec) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> if vacia?(sec) <b>then</b> true <b>else</b> <b>if</b> esta?(prim(sec),fin(sec)) <b>then</b> false <b>else</b> <a href="axiomas.html#sinRepetidos">sinRepetidos</a>(fin(sec)) <b>fi</b> </p>
+</dd></dl>
+<dl class="section user"><dt>headerToSecu</dt><dd><p class="startdd">dado un puntero a nodo te devuelve una secuencia de Key</p>
+<p class="enddd"><span id="headerToSecu">headerToSecu</span>: puntero(Node) <img class="formulaInl" alt="$\to$" src="form_4.png"/> secu(Key)<br />
+ headerToSecu(p) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> <b>if</b> p = null <b>then</b> &lt; &gt; <b>else</b> <b>if</b> nothing?(*p.value) <b>then</b> <a href="axiomas.html#headerToSecu">headerToSecu</a>(*p.parent) <br />
+ <b>else</b> data(*p.value).clave o <a href="axiomas.html#headerToSecu">headerToSecu</a>(*p.child[0]) &amp; <a href="axiomas.html#headerToSecu">headerToSecu</a>(*p.child[1]) <b>fi</b> <b>fi</b> </p>
+</dd></dl>
+<dl class="section user"><dt>arbolK</dt><dd><p class="startdd">devuelve un arbol cantidad de niveles igual a K (arbol de cardinal finito)</p>
+<p class="enddd"><span id="arbolK">arbolK</span>: puntero(Node) x nat <img class="formulaInl" alt="$\to$" src="form_4.png"/> AB(puntero(Nodo))<br />
+ arbolK(p) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> <b>if</b> p = null <img class="formulaInl" alt="$\lor$" src="form_18.png"/> p = null <b>then</b> nil  nothing?(*p.value) <b>then</b> arbolK(p-&gt;parent , n) <b>else</b> <br />
+ AB(arbolK(*p.child , n-1), p ,arbolK(*p.child[1] , n-1)) <b>fi</b> <b>fi</b> </p>
+</dd></dl>
+<dl class="section user"><dt>elementos</dt><dd><p class="startdd">devuelve el conjunto de elementos</p>
+<p class="enddd"><span id="elementos">elementos</span>: puntero(Node) <img class="formulaInl" alt="$\to$" src="form_4.png"/> conj(value)<br />
+ elementos(p) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> if p = null <b>then</b> vacio <b>else</b> <b>if</b> nothing?(*p.value) <b>then</b> <a href="axiomas.html#elementos">elementos</a>(*p.parent) <br />
+ <b>else</b> Ag(*p.value,vacio) U <a href="axiomas.html#elementos">elementos</a>(*p.child[0]) U <a href="axiomas.html#elementos">elementos</a>(*p.child[1]) <b>fi</b> </p>
+</dd></dl>
+<dl class="section user"><dt>hijosHeader</dt><dd><p class="startdd">Retorna true si esta vacio y los hijos del header es el mismo o si los hijos pertenecen.</p>
+<p class="enddd"><span id="hijosHeader">hijosHeader</span>: Node <img class="formulaInl" alt="$\to$" src="form_4.png"/> bool<br />
+ hijosHeader(n) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> <b>if</b> n.parent = NULL <b>then</b> n.child[0] = &amp;n <img class="formulaInl" alt="$\land$" src="form_12.png"/> n.child[1] = &amp;n <b>else</b> <a href="axiomas.html#estaPtr">estaPtr</a>?(n.child[0], &amp;n) <img class="formulaInl" alt="$\land$" src="form_12.png"/> <a href="axiomas.html#estaPtr">estaPtr</a>?(n.child[1], &amp;n) </p>
+</dd></dl>
+<dl class="section user"><dt>esDiccionario?</dt><dd><p class="startdd">Retorna true si la secuencia representa un diccionario</p>
+<p class="enddd"><span id="esDiccionario?">esDiccionario?</span>: secu(tupla( <img class="formulaInl" alt="$\alpha$" src="form_5.png"/>, <img class="formulaInl" alt="$\beta$" src="form_20.png"/>)) <img class="formulaInl" alt="$\to$" src="form_4.png"/> bool<br />
+ esDiccionario?(s) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> <a href="axiomas.html#sinRepetidos">sinRepetidos</a>?(<a href="axiomas.html#primeros">primeros</a>(s)) </p>
+</dd></dl>
+<dl class="section user"><dt>primeros</dt><dd><p class="startdd">Proyecta las primeras componentes de una secuencia de pares</p>
+<p class="enddd"><span id="primeros">primeros</span>: secu(tupla( <img class="formulaInl" alt="$\alpha$" src="form_5.png"/>, <img class="formulaInl" alt="$\beta$" src="form_20.png"/>)) <img class="formulaInl" alt="$\to$" src="form_4.png"/> secu( <img class="formulaInl" alt="$\alpha$" src="form_5.png"/>)<br />
+ primeros(s) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> <b>if</b> vacia?(s) <b>then</b> &lt;&gt; <b>else</b> <img class="formulaInl" alt="$\pi_1$" src="form_21.png"/>(prim(s)) <img class="formulaInl" alt="$\bullet$" src="form_6.png"/> <a href="axiomas.html#primeros">primeros</a>(fin(s)) <b>fi</b> </p>
+</dd></dl>
+<dl class="section user"><dt>esRBTree</dt><dd><p class="startdd">Retorna True si a partir del nodo dado se puede reconstruir un Red-Black Tree.</p>
+<p class="enddd"><span id="esRBTree">esRBTree</span>: Node <img class="formulaInl" alt="$\to$" src="form_4.png"/> Bool<br />
+ <a href="axiomas.html#esRBTree">esRBTree</a>(n) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> ( <img class="formulaInl" alt="$\exists$" src="form_22.png"/> k: nat)(<a href="axiomas.html#arbolK">arbolK</a>(n.parent,k) = <a href="axiomas.html#arbolK">arbolK</a>(n.parent,k+1)) <img class="formulaInl" alt="$\land_{\rm L}$" src="form_19.png"/> <a href="axiomas.html#sinRepetidos">sinRepetidos</a>(headerToSecu(n.parent)) <img class="formulaInl" alt="$\land$" src="form_12.png"/> <a href="axiomas.html#esADB">esADB</a>(n.parent) <img class="formulaInl" alt="$\land$" src="form_12.png"/> ( <img class="formulaInl" alt="$\forall$" src="form_23.png"/> p,p':puntero(Node))(<a href="axiomas.html#estaPtr">estaPtr</a>?(*p.value,header.parent) <img class="formulaInl" alt="$\land$" src="form_12.png"/> <a href="axiomas.html#estaPtr">estaPtr</a>?(*p'.value,header.parent) <img class="formulaInl" alt="$\Rightarrow_{\rm L}$" src="form_24.png"/> <a href="axiomas.html#colorAdecuado">colorAdecuado</a>(p) <img class="formulaInl" alt="$\land$" src="form_12.png"/> <a href="axiomas.html#colorAdecuado">colorAdecuado</a>(p') <img class="formulaInl" alt="$\land$" src="form_12.png"/> <img class="formulaInl" alt="$\lnot$" src="form_25.png"/>(nothing?(*p.value)) <img class="formulaInl" alt="$\land$" src="form_12.png"/> <img class="formulaInl" alt="$\lnot$" src="form_25.png"/>(nothing?(*p'.value)) <img class="formulaInl" alt="$\land$" src="form_12.png"/> ((<a href="axiomas.html#esHoja">esHoja</a>(p) <img class="formulaInl" alt="$\land$" src="form_12.png"/> <a href="axiomas.html#esHoja">esHoja</a>(p')) <img class="formulaInl" alt="$\Rightarrow_{\rm L}$" src="form_24.png"/> <a href="axiomas.html#cantBlack">cantBlack</a>(p)=<a href="axiomas.html#cantBlack">cantBlack</a>(p'))) </p>
+</dd></dl>
+<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000002">Bug:</a></b></dt><dd>sinRepetidos(headerToSecu(n.parent)) esto no te soluciona uno de los problemas hablado por Soulignac. Piensen como podrían reescribir a partir del rep de map</dd></dl>
+<dl class="section user"><dt>padreK</dt><dd><p class="startdd">Retorna el k-esimo padre de un puntero a nodo.</p>
+<p class="enddd"><span id="padreK">padreK</span>: puntero(Node) <img class="formulaInl" alt="$\to$" src="form_4.png"/> Node<br />
+ padreK(p, k) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> <b>if</b> k = 0 <img class="formulaInl" alt="$\lor$" src="form_18.png"/> (*p).parent = null <b>then</b> *p <b>else</b> <a href="axiomas.html#padreK">padreK</a>((*p).parent, k-1) <b>fi</b> <b>fi</b> </p>
+</dd></dl>
+</div></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generado el Viernes, 9 de Junio de 2017 18:49:43 para Trabajo práctico 2: diccionario sobre RB-tree por
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
+  </ul>
+</div>
+</body>
+</html>

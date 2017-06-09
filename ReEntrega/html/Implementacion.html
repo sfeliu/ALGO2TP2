@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.11"/>
+<title>Trabajo práctico 2: diccionario sobre RB-tree: Implementación del árbol red-black</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { init_search(); });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="style.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Trabajo práctico 2: diccionario sobre RB-tree
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Bogetti Gianfranco, Ingaramo Pablo, Feliu Santiago y Rios Kennedy</div>
+  </td>
+   <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Buscar" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.8.11 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Buscar');
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('Implementacion.html','');});
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">Implementación del árbol red-black </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><p>La implementación básica de un árbol red-black está explicada, algoritmos incluidos, en <a class="el" href="citelist.html#CITEREF_CormenLeisersonRivestStein2009">[1]</a>. Sin embargo, hay algunas pequeñas diferencias y algunas sutilezas a la hora de definirlos en C++ para implementar un diccionario. En esta sección discutimos estas cuestiones.</p>
+<p>Lo primero a notar es que el árbol es un ABB, implementado con nodos que almacenan cada valor (par <code>(clave, significado)</code>) junto con los punteros a sus hijos. Asimismo, cada nodo tiene un color, que puede ser rojo o negro. Un tema particular de los ABB es que la iteración se puede hacer en tiempo lineal aplicando el algoritmo inorder. Este algoritmo se puede implementar de dos formas. La primera es guardando una pila con los nodos no recorridos. El inconveniente de este método es que requiere que los iteradores almacenen pilas de <img class="formulaInl" alt="$O$" src="form_1.png"/>(<em>h</em>) elementos, siendo <em>h</em> la altura del árbol. El segundo método es manteniendo exclusivamente un puntero al nodo, que requiere <img class="formulaInl" alt="$O$" src="form_1.png"/>(1) espacio. Para poder aplicar este método, sin embargo, se requiere que cada nodo conozca a su padre. En resumen, la estructura de un nodo almacena los siguientes campos:</p><ul>
+<li>puntero a hijo izquierdo</li>
+<li>puntero a hijo derecho</li>
+<li>puntero al padre</li>
+<li>valor almacenado, y</li>
+<li>color del nodo: rojo o negro.</li>
+</ul>
+<h1><a class="anchor" id="Cabecera"></a>
+Nodo cabecera</h1>
+<p>En <a class="el" href="citelist.html#CITEREF_CormenLeisersonRivestStein2009">[1]</a> se sugiere mantener un nodo especial, llamado centinela, que sirva para representar hojas <em>externas</em> al árbol. Es decir, suponer que el árbol consiste de nodos internos y que sus hojas son <em>centinelas</em> (i.e., nodos sin valor) que se usan por comodidad. En esta implementación, en lugar de nodos centinela para la hojas, vamos a usar un nodo centinela para la <em>cabecera</em>. Las razones de esta elección, y las implicancias se discuten en esta sección.</p>
+<p>Un primer problema a resolver es cómo ubicar el primer nodo del recorrido inorder. Obviamente, alcanza con descender hacia la izquierda hasta encontrar un nodo sin hijo izquierdo. El problema de esta implementación es que toma tiempo <img class="formulaInl" alt="$O$" src="form_1.png"/>(<em>h</em>). La solución obvia es mantener un puntero que apunte al primer nodo. Análogamente, podemos mantener un puntero al último nodo. Sin embargo, esta solución no es del todo satisfactoria, porque complica la implementación de los iteradores. Si un iterador <code>it</code> es únicamente un puntero a nodo, entonces no hay forma de que <code>it</code> sepa si está o no apuntando al último nodo. Esto se puede determinar una vez que se avanza <code>it</code>, en cuyo caso <code>it</code> debe apuntar a una dirección inválida, digamos <code>nullptr</code>. El problema de este enfoque es que no hay forma de saber, una vez parado en <code>nullptr</code>, a qué dirección retroceder. Hay dos soluciones posibles. La primera es almacenar, además del puntero al nodo, un puntero al diccionario para tener acceso al puntero al último. La segunda es apuntar a un nodo especial que sirva para retroceder. La ventaja de esta última solución es que los iteradores son más livianos.</p>
+<p>En esta implementación optamos por la segunda versión, aprovechando el nodo especial para que funcione como <em>cabecera</em>, i.e., como punto de acceso a la estructura. Este nodo cabecera tiene como padre a la raíz del RB-tree, como hijo izquierdo al primero nodo y como hijo derecho al último. Asimismo, la raíz tiene como padre al nodo cabecera. De esta forma, podemos:</p><ol type="1">
+<li>Acceder en <img class="formulaInl" alt="$O$" src="form_1.png"/>(1) tanto al primer como al último nodo del recorrido inorder</li>
+<li>Garantizar que la cabecera se corresponde al siguiente del último nodo y al previo del primero, en la implementación usual del algoritmo inorder. De esta forma, obtenemos un recorrido circular, en los que el iterador pasando-el-fin se corresponde al nodo cabecera, y</li>
+<li>Acceso al RB-tree a partir de la raíz en <img class="formulaInl" alt="$O$" src="form_1.png"/>(1) tiempo.</li>
+</ol>
+<p>Hay dos inconvenientes a resolver: el color de la cabecera y el valor. En cuanto al color, se puede implementar la cabecera usando el color rojo para distinguirla del nodo raíz. Sin embargo, con ciertas rotaciones puede ocurrir que temporalmente tanto la cabecera como la raíz tengan el mismo color. Para evitar bugs innecesarios, se propone un nuevo color (digamos azul) para la cabecera. (Esto requiere un bit mas por nodo, pero igualmente el color usa al menos 8 bits en cualquier implementación real).</p>
+<p>El problema del valor del nodo cabecera es más complejo ya que, aun así pudiéramos asignarle un valor arbitrario al nodo, no sabemos de dónde obtener dicho valor (notar que los tipos <code>Key</code> y <code>Value</code> podrían no tener constructores sin parámetros). La solución, pues, es usar un tipo de nodo especial para la cabecera, que no contenga ningún valor. El inconveniente de esta solución es que el puntero de la raíz (potencialmente cualquier nodo) debe apuntar a un nodo de este tipo nuevo, mientras que el resto deben apuntar a los nodos del árbol. La solución propuesta en esta implementación es con herencia. (Otras opciones incluyen usar un puntero al valor, que puede ser nulo. La ventaja de la herencia es que evita una indirección.) Básicamente, tenemos un tipo nodo básico, que se usa para la cabecera, y tenemos un tipo <em>nodos extendido</em> que se utiliza para implementar a los nodos internos.</p>
+<p>Resumiendo, la estructura de representación propuesta es la siguiente: </p><div class="fragment"><div class="line"><span class="keyword">struct </span>Node {</div><div class="line">  <span class="comment">//punteros a los hijos izquierdo (child[0]) y derecho (child[1])</span></div><div class="line">  Node* child[2]{<span class="keyword">nullptr</span>,<span class="keyword">nullptr</span>};</div><div class="line">  <span class="comment">//puntero al padre: garantiza insercion con puntero en O(1) amortizado e iteracion en O(1) memoria</span></div><div class="line">  Node* parent{<span class="keyword">nullptr</span>};</div><div class="line">  <span class="comment">//color del nodo</span></div><div class="line">  Color color{Color::Red};</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">struct </span>InnerNode : <span class="keyword">public</span> Node {</div><div class="line">  <span class="comment">//Valor del nodo</span></div><div class="line">  value_type _value;</div><div class="line">}</div></div><!-- fragment --><p> Vale notar, por una parte, que los hijos se implementan en un array. Esto permite simplificar algunos algoritmos en donde para el hijo derecho se hace lo mismo que para el izquierdo, cambiando direcciones (acá se cambia un número). Por otra parte, para acceder al valor de un nodo, se puede utilizar un <code>static_cast&lt;InnerNode*&gt;(n)-&gt;_value</code> para cualquier nodo <code>n</code>. Hay que tener cuidado de no aplicar dicho <code>static_cast</code> en el nodo cabecera, ya que no tiene un valor. Salvo por este detalle, no hay inconveniente y no se afecta la complejidad de la solución.</p>
+<dl class="section remark"><dt>Comentarios</dt><dd>El estándar C++17 contiene un tipo, llamado optional, que implementa el concepto de un valor que es potencialmente inválido, sin gastar tiempo en la indirección.</dd></dl>
+<h1><a class="anchor" id="Inserciones"></a>
+Complejidad de la inserción y la remoción.</h1>
+<p>Si bien no es obvio, la inserción y remoción de cada nodo se puede hacer en tiempo <img class="formulaInl" alt="$O$" src="form_1.png"/>(1) <b>amortizado</b>, si:</p><ul>
+<li>cada nodo tiene un puntero a su padre, y</li>
+<li>un puntero al nodo a eliminar o al nodo anterior/siguiente al nodo a insertar es dado.</li>
+</ul>
+<p>El algoritmo es exactamente el mismo que se muestra en <a class="el" href="citelist.html#CITEREF_CormenLeisersonRivestStein2009">[1]</a> y la razón de este costo puede consultarse, por ejemplo, en <a class="el" href="citelist.html#CITEREF_MehlhornSanders2008">[2]</a>. </p>
+</div></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generado el Viernes, 9 de Junio de 2017 18:49:43 para Trabajo práctico 2: diccionario sobre RB-tree por
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
+  </ul>
+</div>
+</body>
+</html>

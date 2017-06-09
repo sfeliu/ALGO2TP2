@@ -1,0 +1,54 @@
+La implementación básica de un árbol red-\/black está explicada, algoritmos incluidos, en \cite{CormenLeisersonRivestStein2009}. Sin embargo, hay algunas pequeñas diferencias y algunas sutilezas a la hora de definirlos en C++ para implementar un diccionario. En esta sección discutimos estas cuestiones.
+
+Lo primero a notar es que el árbol es un A\+BB, implementado con nodos que almacenan cada valor (par {\ttfamily (clave, significado)}) junto con los punteros a sus hijos. Asimismo, cada nodo tiene un color, que puede ser rojo o negro. Un tema particular de los A\+BB es que la iteración se puede hacer en tiempo lineal aplicando el algoritmo inorder. Este algoritmo se puede implementar de dos formas. La primera es guardando una pila con los nodos no recorridos. El inconveniente de este método es que requiere que los iteradores almacenen pilas de $O$({\itshape h}) elementos, siendo {\itshape h} la altura del árbol. El segundo método es manteniendo exclusivamente un puntero al nodo, que requiere $O$(1) espacio. Para poder aplicar este método, sin embargo, se requiere que cada nodo conozca a su padre. En resumen, la estructura de un nodo almacena los siguientes campos\+:
+\begin{DoxyItemize}
+\item puntero a hijo izquierdo
+\item puntero a hijo derecho
+\item puntero al padre
+\item valor almacenado, y
+\item color del nodo\+: rojo o negro.
+\end{DoxyItemize}\hypertarget{Implementacion_Cabecera}{}\subsection{Nodo cabecera}\label{Implementacion_Cabecera}
+En \cite{CormenLeisersonRivestStein2009} se sugiere mantener un nodo especial, llamado centinela, que sirva para representar hojas {\itshape externas} al árbol. Es decir, suponer que el árbol consiste de nodos internos y que sus hojas son {\itshape centinelas} (i.\+e., nodos sin valor) que se usan por comodidad. En esta implementación, en lugar de nodos centinela para la hojas, vamos a usar un nodo centinela para la {\itshape cabecera}. Las razones de esta elección, y las implicancias se discuten en esta sección.
+
+Un primer problema a resolver es cómo ubicar el primer nodo del recorrido inorder. Obviamente, alcanza con descender hacia la izquierda hasta encontrar un nodo sin hijo izquierdo. El problema de esta implementación es que toma tiempo $O$({\itshape h}). La solución obvia es mantener un puntero que apunte al primer nodo. Análogamente, podemos mantener un puntero al último nodo. Sin embargo, esta solución no es del todo satisfactoria, porque complica la implementación de los iteradores. Si un iterador {\ttfamily it} es únicamente un puntero a nodo, entonces no hay forma de que {\ttfamily it} sepa si está o no apuntando al último nodo. Esto se puede determinar una vez que se avanza {\ttfamily it}, en cuyo caso {\ttfamily it} debe apuntar a una dirección inválida, digamos {\ttfamily nullptr}. El problema de este enfoque es que no hay forma de saber, una vez parado en {\ttfamily nullptr}, a qué dirección retroceder. Hay dos soluciones posibles. La primera es almacenar, además del puntero al nodo, un puntero al diccionario para tener acceso al puntero al último. La segunda es apuntar a un nodo especial que sirva para retroceder. La ventaja de esta última solución es que los iteradores son más livianos.
+
+En esta implementación optamos por la segunda versión, aprovechando el nodo especial para que funcione como {\itshape cabecera}, i.\+e., como punto de acceso a la estructura. Este nodo cabecera tiene como padre a la raíz del R\+B-\/tree, como hijo izquierdo al primero nodo y como hijo derecho al último. Asimismo, la raíz tiene como padre al nodo cabecera. De esta forma, podemos\+:
+\begin{DoxyEnumerate}
+\item Acceder en $O$(1) tanto al primer como al último nodo del recorrido inorder
+\item Garantizar que la cabecera se corresponde al siguiente del último nodo y al previo del primero, en la implementación usual del algoritmo inorder. De esta forma, obtenemos un recorrido circular, en los que el iterador pasando-\/el-\/fin se corresponde al nodo cabecera, y
+\item Acceso al R\+B-\/tree a partir de la raíz en $O$(1) tiempo.
+\end{DoxyEnumerate}
+
+Hay dos inconvenientes a resolver\+: el color de la cabecera y el valor. En cuanto al color, se puede implementar la cabecera usando el color rojo para distinguirla del nodo raíz. Sin embargo, con ciertas rotaciones puede ocurrir que temporalmente tanto la cabecera como la raíz tengan el mismo color. Para evitar bugs innecesarios, se propone un nuevo color (digamos azul) para la cabecera. (Esto requiere un bit mas por nodo, pero igualmente el color usa al menos 8 bits en cualquier implementación real).
+
+El problema del valor del nodo cabecera es más complejo ya que, aun así pudiéramos asignarle un valor arbitrario al nodo, no sabemos de dónde obtener dicho valor (notar que los tipos {\ttfamily Key} y {\ttfamily Value} podrían no tener constructores sin parámetros). La solución, pues, es usar un tipo de nodo especial para la cabecera, que no contenga ningún valor. El inconveniente de esta solución es que el puntero de la raíz (potencialmente cualquier nodo) debe apuntar a un nodo de este tipo nuevo, mientras que el resto deben apuntar a los nodos del árbol. La solución propuesta en esta implementación es con herencia. (Otras opciones incluyen usar un puntero al valor, que puede ser nulo. La ventaja de la herencia es que evita una indirección.) Básicamente, tenemos un tipo nodo básico, que se usa para la cabecera, y tenemos un tipo {\itshape nodos extendido} que se utiliza para implementar a los nodos internos.
+
+Resumiendo, la estructura de representación propuesta es la siguiente\+: 
+\begin{DoxyCode}
+\textcolor{keyword}{struct }Node \{
+  \textcolor{comment}{//punteros a los hijos izquierdo (child[0]) y derecho (child[1])}
+  Node* child[2]\{\textcolor{keyword}{nullptr},\textcolor{keyword}{nullptr}\};
+  \textcolor{comment}{//puntero al padre: garantiza insercion con puntero en O(1) amortizado e iteracion en O(1) memoria}
+  Node* parent\{\textcolor{keyword}{nullptr}\};
+  \textcolor{comment}{//color del nodo}
+  Color color\{Color::Red\};
+\}
+
+\textcolor{keyword}{struct }InnerNode : \textcolor{keyword}{public} Node \{
+  \textcolor{comment}{//Valor del nodo}
+  value\_type \_value;
+\}
+\end{DoxyCode}
+ Vale notar, por una parte, que los hijos se implementan en un array. Esto permite simplificar algunos algoritmos en donde para el hijo derecho se hace lo mismo que para el izquierdo, cambiando direcciones (acá se cambia un número). Por otra parte, para acceder al valor de un nodo, se puede utilizar un {\ttfamily static\+\_\+cast$<$Inner\+Node$\ast$$>$(n)-\/$>$\+\_\+value} para cualquier nodo {\ttfamily n}. Hay que tener cuidado de no aplicar dicho {\ttfamily static\+\_\+cast} en el nodo cabecera, ya que no tiene un valor. Salvo por este detalle, no hay inconveniente y no se afecta la complejidad de la solución.
+
+\begin{DoxyRemark}{Comentarios}
+El estándar C++17 contiene un tipo, llamado optional, que implementa el concepto de un valor que es potencialmente inválido, sin gastar tiempo en la indirección.
+\end{DoxyRemark}
+\hypertarget{Implementacion_Inserciones}{}\subsection{Complejidad de la inserción y la remoción.}\label{Implementacion_Inserciones}
+Si bien no es obvio, la inserción y remoción de cada nodo se puede hacer en tiempo $O$(1) {\bfseries amortizado}, si\+:
+\begin{DoxyItemize}
+\item cada nodo tiene un puntero a su padre, y
+\item un puntero al nodo a eliminar o al nodo anterior/siguiente al nodo a insertar es dado.
+\end{DoxyItemize}
+
+El algoritmo es exactamente el mismo que se muestra en \cite{CormenLeisersonRivestStein2009} y la razón de este costo puede consultarse, por ejemplo, en \cite{MehlhornSanders2008}. 

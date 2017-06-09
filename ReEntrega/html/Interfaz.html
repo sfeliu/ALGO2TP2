@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.11"/>
+<title>Trabajo práctico 2: diccionario sobre RB-tree: Descripción de la interfaz</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { init_search(); });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="style.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Trabajo práctico 2: diccionario sobre RB-tree
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Bogetti Gianfranco, Ingaramo Pablo, Feliu Santiago y Rios Kennedy</div>
+  </td>
+   <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Buscar" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.8.11 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Buscar');
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('Interfaz.html','');});
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">Descripción de la interfaz </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><p>La interfaz del diccionario es muy parecida a la usada en la biblioteca estándar en su versión C++03. El diccionario se implementa usando una clase llamada <a class="el" href="classaed2_1_1map.html" title="Modulo que implementa un diccionario. ">aed2::map</a>. Vale notar el uso del namespace <a class="el" href="namespaceaed2.html" title="Namespace para las clases de AED2. ">aed2</a> para evitar conflictos con std::map.</p>
+<p>La clase <a class="el" href="classaed2_1_1map.html" title="Modulo que implementa un diccionario. ">aed2::map</a> es un <em>template</em> (clase paramétrica) cuyos parámetros de tipo son:</p><ul>
+<li><span class="paramname">Key</span> (<a class="el" href="classaed2_1_1map_a4273e8812e7105a618df58a2c8b72b7d.html#a4273e8812e7105a618df58a2c8b72b7d" title="Renombre para poder acceder al tipo de las claves. Compatible con estándar C++. ">aed2::map::key_type</a>): tipo de las claves.</li>
+<li><span class="paramname">Meaning</span> (<a class="el" href="classaed2_1_1map_aa3e34bf624f3009884a71b18f4ddae40.html#aa3e34bf624f3009884a71b18f4ddae40" title="Renombre para poder acceder al tipo de los significados. Compatible con estándar C++. ">aed2::map::mapped_type</a>): tipo de los significados.</li>
+<li><span class="paramname">Compare</span> (<a class="el" href="classaed2_1_1map_a3efa081d3379ab76f33a5ef9fe697523.html#a3efa081d3379ab76f33a5ef9fe697523" title="Renombre para poder acceder al tipo del comparador. Compatible con estándar C++. ">aed2::map::key_compare</a>): functor de comparación. Puede ser cualquier objeto que se pueda invocar con dos parámetros de tipo <span class="paramname">Key</span>, retornando <code>bool</code>. La función <img class="formulaInl" alt="$&lt;$" src="form_0.png"/> así definida debe ser un orden total. Notar que dentro de la implementación se considera que <code>k</code> y <code>k'</code> representan la misma clave si y sólo si tanto <code>k</code> <img class="formulaInl" alt="$&lt;$" src="form_0.png"/> <code>k'</code> como <code>k'</code> <img class="formulaInl" alt="$&lt;$" src="form_0.png"/> <code>k</code> retornan <code>false</code>.</li>
+</ul>
+<h1><a class="anchor" id="Diferencias"></a>
+Significados vs. Valores</h1>
+<p>En la materia, el uso del diccionario se presenta diferenciando claramente los roles de las claves y los significados. Esta diferenciación hace más simple y abstracto el manejo del diccionario. Por diversas razones, entre las que se incluyen la compatibilidad con la biblioteca de algoritmos, C++ toma una postura diferente. En lugar de explicitar que un diccionario es una asociación de claves a significados, en C++ un diccionario es una colección de pares <code>(k, s)</code>. Obviamente, el diccionario incluye las funciones requeridas para manipular el diccionario a través de las claves, pero no separa los valores de los significados. Entender esta diferencia es importante para no llevarse algunas sorpresas. Por ejemplo, en AED2 solemos definir un significado <code>s</code> a una clave <code>k</code> de un diccionario <code>d</code> invocando: </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;d.definir(k, s).</div></div><!-- fragment --><p> En cambio, en C++, se <em>inserta un par</em> <code>(k, s)</code> en el diccionario <code>d</code>. Si disponemos de <code>k</code> y <code>s</code> por separado, vamos a tener que generar el par antes de insertar: </p><div class="fragment"><div class="line">d.insert(std::make_pair(k, s))</div></div><!-- fragment --><p>Como segundo ejemplo, en la materia uno suele verificar si una clave esta definida para acceder a su significado, invocando algo como: </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;if(d.definido(k)) { ... Meaning s = d.significado(k) ... }</div></div><!-- fragment --><p> Obviamente, podemos evitar la doble búsqueda si <code>significado</code> retorna un handle (i.e., puntero) al significado: </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;Meaning s = d.significado(k)</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;if(s != d.null()) { *s += 1; }</div></div><!-- fragment --><p> En cualquier caso, lo importante es que <code>s</code> es un significado. En C++, en cambio, la función de búsqueda (llamada <code>find</code>) retorna el par <code>(k, s)</code> (obviamente, <code>k</code> no es modificable), con lo cual el código anterior se transforma en: </p><div class="fragment"><div class="line"><span class="keyword">auto</span> v = d.find(k)</div><div class="line"><span class="keywordflow">if</span>(v != d.end()) {</div><div class="line">   assert(k == v-&gt;first); <span class="comment">//la clave es el primero!</span></div><div class="line">   v-&gt;second += 1;        <span class="comment">//el significado es el segundo!</span></div><div class="line">}</div></div><!-- fragment --><p>En el ejemplo anterior, usamos <code>auto</code> para definir el tipo de <code>v</code>. Los tipos correctos de <code>v</code> y <code>*v</code> son: </p><div class="fragment"><div class="line">std::map&lt;const Key, Meaning&gt;::iterator v</div><div class="line">std::pair&lt;const Key, Meaning&gt;&amp; *v</div></div><!-- fragment --><p> Este ejemplo muestra la importancia de tener definidos <code>key_type</code> y <code>mapped_type</code>, ya que si no podemos acceder a <span class="paramname">Key</span> y <span class="paramname">Meaning</span> pero sí a un renombre T del tipo std::map (e.g., en una funcion template), aún podemos acceder al tipo del valor apuntado por el iterador escribiendo: </p><div class="fragment"><div class="line">std::map&lt;const typename T::key_type, typename T::meaning&gt;&amp;</div></div><!-- fragment --><p> para poder describir el tipo. Igualmente, es muy incomodo escribir el tipo así y es por eso que la clase también incluye el siguiente renombre: </p><div class="fragment"><div class="line"><span class="keyword">using</span> value_type = std::pair&lt;const key_type, mapped_type&gt;;</div></div><!-- fragment --><p> De esta forma, podemos describir el tipo anterior como <code>typename T::value_type</code>.</p>
+<p>La clase viene equipada con otros renombres para respetar el estándar, pero los vamos a ignorar por ahora. (Nota: recordar los traits de la clase de templates)</p>
+<h1><a class="anchor" id="Iteradores"></a>
+Iteradores</h1>
+<p>El módulo que implementamos viene equipado con iteradores que siguen el estándar C++. Estos iteradores son bidireccionales, ya que también permiten recorrer la estructura en el orden inverso. Obviamente, como estamos implementando un diccionario <b>ordenado</b>, la iteración sigue el orden definido por las claves de acuerdo al functor de comparación (<a class="el" href="classaed2_1_1map_a3efa081d3379ab76f33a5ef9fe697523.html#a3efa081d3379ab76f33a5ef9fe697523" title="Renombre para poder acceder al tipo del comparador. Compatible con estándar C++. ">aed2::map::key_compare</a>).</p>
+<p>Como vemos en la materia, los iteradores no se usan exclusivamente para recorrer la estructura, sino que también se usan como <em>handles</em> (punteros) a la misma. De esta forma, podemos acceder a los valores en <img class="formulaInl" alt="$O$" src="form_1.png"/>(1) sin exhibir la implementación. La desventaja de este esquema (que queda opacada en cuanto a sus ventajas) es que los iteradores se pueden invalidar cuando la estructura cambia. En esta implementación, salvo excepciones puntuales bien documentadas, se <b>garantiza</b> que un iterador se invalida únicamente cuando se elimina el valor referenciado por el mismo. Ninguna otra operación puede invalidar el iterador (obviamente, la secuencia iterada sí cambia, pero no se invalida).</p>
+<p>Aprovechando esta interpretación de iteradores como handles, la interfaz de C++ tiene muchas funciones que retornan iteradores, y algunas que se aprovechan de la existencia de los iteradores para mejorar el tiempo de computo. Por ejemplo, es posible eliminar un valor en <img class="formulaInl" alt="$O$" src="form_1.png"/>(1) (amortizado) si se provee un iterador apuntando al valor a eliminar <a class="el" href="citelist.html#CITEREF_MehlhornSanders2008">[2]</a>.</p>
+<p>Con respecto a la eficiencia, vamos a <b>garantizar</b> que los iteradores son <em>livianos</em> (i.e., ocupan <img class="formulaInl" alt="$O$" src="form_1.png"/>(1) memoria y son copiables en <img class="formulaInl" alt="$O$" src="form_1.png"/>(1) tiempo). En consecuencia, se pueden pasar iteradores por copia sin ningún costo. Asimismo, vamos a <b>garantizar</b> que la creación de iteradores apuntando a la primer posición (<code>begin</code>) y la posición pasando-el-fin (<code>end</code>) toman tiempo <img class="formulaInl" alt="$O$" src="form_1.png"/>(1). Esto nos permite verificar si llegamos al fin del recorrido en <img class="formulaInl" alt="$O$" src="form_1.png"/>(1) tiempo, de la siguiente forma: </p><div class="fragment"><div class="line"><span class="keywordflow">for</span>(<span class="keyword">auto</span> it = d.begin(); it != d.end(); ++it) {...}   <span class="comment">//cada comparacion en O(1)</span></div><div class="line"><span class="keywordflow">for</span>(<span class="keyword">auto</span> it = d.rbegin(); it != d.rend(); ++it) {...} <span class="comment">//cada comparacion en O(1)</span></div></div><!-- fragment --><p> Asimismo, podemos determinar si una clave existe, comparando el resultado de <code>find</code> con el iterador <code>d.end()</code>, usando <img class="formulaInl" alt="$O$" src="form_1.png"/>(1) tiempo para la comparación.</p>
+<dl class="section see"><dt>Ver también</dt><dd><a href="http://en.cppreference.com/w/cpp/container/map">Documentación de std::map</a><br />
+ <a href="http://en.cppreference.com/w/cpp/concept/BidirectionalIterator">Documentación de BidirectionalIterator</a> </dd></dl>
+</div></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generado el Viernes, 9 de Junio de 2017 18:49:43 para Trabajo práctico 2: diccionario sobre RB-tree por
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
+  </ul>
+</div>
+</body>
+</html>

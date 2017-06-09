@@ -1,0 +1,70 @@
+La interfaz del diccionario es muy parecida a la usada en la biblioteca estándar en su versión C++03. El diccionario se implementa usando una clase llamada \hyperlink{classaed2_1_1map}{aed2\+::map}. Vale notar el uso del namespace \hyperlink{namespaceaed2}{aed2} para evitar conflictos con std\+::map.
+
+La clase \hyperlink{classaed2_1_1map}{aed2\+::map} es un {\itshape template} (clase paramétrica) cuyos parámetros de tipo son\+:
+\begin{DoxyItemize}
+\item Key (\hyperlink{classaed2_1_1map_a4273e8812e7105a618df58a2c8b72b7d_a4273e8812e7105a618df58a2c8b72b7d}{aed2\+::map\+::key\+\_\+type})\+: tipo de las claves.
+\item Meaning (\hyperlink{classaed2_1_1map_aa3e34bf624f3009884a71b18f4ddae40_aa3e34bf624f3009884a71b18f4ddae40}{aed2\+::map\+::mapped\+\_\+type})\+: tipo de los significados.
+\item Compare (\hyperlink{classaed2_1_1map_a3efa081d3379ab76f33a5ef9fe697523_a3efa081d3379ab76f33a5ef9fe697523}{aed2\+::map\+::key\+\_\+compare})\+: functor de comparación. Puede ser cualquier objeto que se pueda invocar con dos parámetros de tipo Key, retornando {\ttfamily bool}. La función $<$ así definida debe ser un orden total. Notar que dentro de la implementación se considera que {\ttfamily k} y {\ttfamily k\textquotesingle{}} representan la misma clave si y sólo si tanto {\ttfamily k} $<$ {\ttfamily k\textquotesingle{}} como {\ttfamily k\textquotesingle{}} $<$ {\ttfamily k} retornan {\ttfamily false}.
+\end{DoxyItemize}\hypertarget{Interfaz_Diferencias}{}\subsection{Significados vs. Valores}\label{Interfaz_Diferencias}
+En la materia, el uso del diccionario se presenta diferenciando claramente los roles de las claves y los significados. Esta diferenciación hace más simple y abstracto el manejo del diccionario. Por diversas razones, entre las que se incluyen la compatibilidad con la biblioteca de algoritmos, C++ toma una postura diferente. En lugar de explicitar que un diccionario es una asociación de claves a significados, en C++ un diccionario es una colección de pares {\ttfamily (k, s)}. Obviamente, el diccionario incluye las funciones requeridas para manipular el diccionario a través de las claves, pero no separa los valores de los significados. Entender esta diferencia es importante para no llevarse algunas sorpresas. Por ejemplo, en A\+E\+D2 solemos definir un significado {\ttfamily s} a una clave {\ttfamily k} de un diccionario {\ttfamily d} invocando\+: 
+\begin{DoxyCode}
+00001 d.definir(k, s).
+\end{DoxyCode}
+ En cambio, en C++, se {\itshape inserta un par} {\ttfamily (k, s)} en el diccionario {\ttfamily d}. Si disponemos de {\ttfamily k} y {\ttfamily s} por separado, vamos a tener que generar el par antes de insertar\+: 
+\begin{DoxyCode}
+d.insert(std::make\_pair(k, s))
+\end{DoxyCode}
+
+
+Como segundo ejemplo, en la materia uno suele verificar si una clave esta definida para acceder a su significado, invocando algo como\+: 
+\begin{DoxyCode}
+00001 if(d.definido(k)) \{ ... Meaning s = d.significado(k) ... \}
+\end{DoxyCode}
+ Obviamente, podemos evitar la doble búsqueda si {\ttfamily significado} retorna un handle (i.\+e., puntero) al significado\+: 
+\begin{DoxyCode}
+00001 Meaning s = d.significado(k)
+00002 if(s != d.null()) \{ *s += 1; \}
+\end{DoxyCode}
+ En cualquier caso, lo importante es que {\ttfamily s} es un significado. En C++, en cambio, la función de búsqueda (llamada {\ttfamily find}) retorna el par {\ttfamily (k, s)} (obviamente, {\ttfamily k} no es modificable), con lo cual el código anterior se transforma en\+: 
+\begin{DoxyCode}
+\textcolor{keyword}{auto} v = d.find(k)
+\textcolor{keywordflow}{if}(v != d.end()) \{
+   assert(k == v->first); \textcolor{comment}{//la clave es el primero!}
+   v->second += 1;        \textcolor{comment}{//el significado es el segundo!}
+\}
+\end{DoxyCode}
+
+
+En el ejemplo anterior, usamos {\ttfamily auto} para definir el tipo de {\ttfamily v}. Los tipos correctos de {\ttfamily v} y {\ttfamily $\ast$v} son\+: 
+\begin{DoxyCode}
+std::map<const Key, Meaning>::iterator v
+std::pair<const Key, Meaning>& *v
+\end{DoxyCode}
+ Este ejemplo muestra la importancia de tener definidos {\ttfamily key\+\_\+type} y {\ttfamily mapped\+\_\+type}, ya que si no podemos acceder a Key y Meaning pero sí a un renombre T del tipo std\+::map (e.\+g., en una funcion template), aún podemos acceder al tipo del valor apuntado por el iterador escribiendo\+: 
+\begin{DoxyCode}
+std::map<const typename T::key\_type, typename T::meaning>&
+\end{DoxyCode}
+ para poder describir el tipo. Igualmente, es muy incomodo escribir el tipo así y es por eso que la clase también incluye el siguiente renombre\+: 
+\begin{DoxyCode}
+\textcolor{keyword}{using} value\_type = std::pair<const key\_type, mapped\_type>;
+\end{DoxyCode}
+ De esta forma, podemos describir el tipo anterior como {\ttfamily typename T\+::value\+\_\+type}.
+
+La clase viene equipada con otros renombres para respetar el estándar, pero los vamos a ignorar por ahora. (Nota\+: recordar los traits de la clase de templates)\hypertarget{Interfaz_Iteradores}{}\subsection{Iteradores}\label{Interfaz_Iteradores}
+El módulo que implementamos viene equipado con iteradores que siguen el estándar C++. Estos iteradores son bidireccionales, ya que también permiten recorrer la estructura en el orden inverso. Obviamente, como estamos implementando un diccionario {\bfseries ordenado}, la iteración sigue el orden definido por las claves de acuerdo al functor de comparación (\hyperlink{classaed2_1_1map_a3efa081d3379ab76f33a5ef9fe697523_a3efa081d3379ab76f33a5ef9fe697523}{aed2\+::map\+::key\+\_\+compare}).
+
+Como vemos en la materia, los iteradores no se usan exclusivamente para recorrer la estructura, sino que también se usan como {\itshape handles} (punteros) a la misma. De esta forma, podemos acceder a los valores en $O$(1) sin exhibir la implementación. La desventaja de este esquema (que queda opacada en cuanto a sus ventajas) es que los iteradores se pueden invalidar cuando la estructura cambia. En esta implementación, salvo excepciones puntuales bien documentadas, se {\bfseries garantiza} que un iterador se invalida únicamente cuando se elimina el valor referenciado por el mismo. Ninguna otra operación puede invalidar el iterador (obviamente, la secuencia iterada sí cambia, pero no se invalida).
+
+Aprovechando esta interpretación de iteradores como handles, la interfaz de C++ tiene muchas funciones que retornan iteradores, y algunas que se aprovechan de la existencia de los iteradores para mejorar el tiempo de computo. Por ejemplo, es posible eliminar un valor en $O$(1) (amortizado) si se provee un iterador apuntando al valor a eliminar \cite{MehlhornSanders2008}.
+
+Con respecto a la eficiencia, vamos a {\bfseries garantizar} que los iteradores son {\itshape livianos} (i.\+e., ocupan $O$(1) memoria y son copiables en $O$(1) tiempo). En consecuencia, se pueden pasar iteradores por copia sin ningún costo. Asimismo, vamos a {\bfseries garantizar} que la creación de iteradores apuntando a la primer posición ({\ttfamily begin}) y la posición pasando-\/el-\/fin ({\ttfamily end}) toman tiempo $O$(1). Esto nos permite verificar si llegamos al fin del recorrido en $O$(1) tiempo, de la siguiente forma\+: 
+\begin{DoxyCode}
+\textcolor{keywordflow}{for}(\textcolor{keyword}{auto} it = d.begin(); it != d.end(); ++it) \{...\}   \textcolor{comment}{//cada comparacion en O(1)}
+\textcolor{keywordflow}{for}(\textcolor{keyword}{auto} it = d.rbegin(); it != d.rend(); ++it) \{...\} \textcolor{comment}{//cada comparacion en O(1)}
+\end{DoxyCode}
+ Asimismo, podemos determinar si una clave existe, comparando el resultado de {\ttfamily find} con el iterador {\ttfamily d.\+end()}, usando $O$(1) tiempo para la comparación.
+
+\begin{DoxySeeAlso}{Ver también}
+\href{http://en.cppreference.com/w/cpp/container/map}{\tt Documentación de std\+::map}~\newline
+ \href{http://en.cppreference.com/w/cpp/concept/BidirectionalIterator}{\tt Documentación de Bidirectional\+Iterator} 
+\end{DoxySeeAlso}

@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.11"/>
+<title>Trabajo práctico 2: diccionario sobre RB-tree: Enunciado</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { init_search(); });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="style.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Trabajo práctico 2: diccionario sobre RB-tree
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+   <div id="projectbrief">Bogetti Gianfranco, Ingaramo Pablo, Feliu Santiago y Rios Kennedy</div>
+  </td>
+   <td>        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Buscar" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+</td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.8.11 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Buscar');
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('Enunciado.html','');});
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">Enunciado </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><ul>
+<li>Fecha de entrega: 2 de Junio, hasta las 16:00 hs.</li>
+</ul>
+<h1><a class="anchor" id="intro-enunciado"></a>
+Introducción</h1>
+<p>El objetivo del trabajo práctico es implementar y documentar nuestra versión de un diccionario que emule al diccionario <code>std::map</code> del estándar C++03. Para ello, se pide completar el archivo <code><a class="el" href="map_8h.html">map.h</a></code> que se adjunta como parte del enunciado. La implementación debe respetar las complejidades solicitadas y no debe perder memoria. A continuación se describen los lineamientos para resolver el TP.</p>
+<h2><a class="anchor" id="intro-doc"></a>
+Documentación</h2>
+<p>El archivo <code><a class="el" href="map_8h.html">map.h</a></code> sirve a la vez como implementación y documentación. Dentro de este archivo hay una serie de comentarios C++ que sirven para generar una pagina web con la documentación. Para ello, es necesario compilar el archivo fuente usando el sistema <a href="http://www.doxygen.org">doxygen</a>. En dicha página web de documentación, además del presente enunciado, se encuentra:</p>
+<ul>
+<li>Una descripción general de cómo se usa el módulo <code><a class="el" href="classaed2_1_1map.html" title="Modulo que implementa un diccionario. ">aed2::map</a></code> (o <code>std::map</code>).</li>
+<li>Una explicación detallada de la estructura de datos a utilizar, con las justificaciones para la elección de dicha estructura.</li>
+<li>Una explicación de cómo especificar formalmente las distintas funciones que utilizan punteros.</li>
+<li>Algunas consideraciones a la hora de especificar las funciones que usan iteradores.</li>
+<li>Una descripción de cómo especificar los aspectos de aliasing de un módulo.</li>
+<li>La interfaz del módulo <code><a class="el" href="classaed2_1_1map.html" title="Modulo que implementa un diccionario. ">aed2::map</a></code>, incluyendo <b>todas</b> las funciones públicas, escrita en lenguaje coloquial.</li>
+<li>Algunas funciones completamente especificadas e implementadas que sirven como ejemplo de lo que se espera del TP.</li>
+</ul>
+<p>Para generar la documentación, alcanza con ejecutar <code>doxygen <a class="el" href="map_8h.html">map.h</a></code>, teniendo en cuenta que el archivo <code>map.doxyfile</code> debe estar en la misma carpeta que <code><a class="el" href="map_8h.html">map.h</a></code>. Se recomienda el uso de Eclipse, junto con plugins para <code>google test</code>, <code>valgrind</code> y <code>doxygen</code>.</p>
+<h2><a class="anchor" id="enun-lineamiento"></a>
+Lineamientos para la resolución</h2>
+<ul>
+<li>Estructura de representación: la estructura de representación se encuentra en la parte privada de la clase y <b>no se puede modificar</b>. En pocas palabras, implementa un red-black tree con un nodo cabecera.</li>
+<li>Implementación: se deben implementar todas las funciones públicas. No se pueden agregar funciones en la parte pública, aunque sí se pueden agregar en la parte privada (recomendado).</li>
+<li>Eficiencia: las funciones implementadas deben satisfacer las cotas de complejidad requeridas. Asimismo, todas las funciones privadas que se agreguen deben indicar cuál es su complejidad.</li>
+<li>Aspectos no funcionales: además de la corrección y la eficiencia, se va a evaluar la claridad del código, la reutilización de funciones, y la no perdida de memoria.</li>
+<li>Especificación formal: se debe completar la especificación de todas las funciones publicas, escribiendo las pre y postcondiciones en lenguaje formal. Asimismo, se deben especificar los invariantes de representación y las funciones de abstracción de todas las estructuras (diccionario e iteradores), tanto en lenguaje coloquial como formal.</li>
+<li>Especificación coloquial: no es necesario especificar las funciones privadas en términos formales. Sí se deben documentar en lenguaje coloquial, describiendo los parámetros requeridos y el valor de retorno, siguiendo el mismo estilo que se usa para las funciones públicas.</li>
+<li>Axiomas y proposiciones auxiliares: las funciones auxiliares del lenguaje de especificación, deben axiomatizarse en la sección correspondiente dentro del archivo <code><a class="el" href="map_8h.html">map.h</a></code>. Se sugiere agregar la función dentro del archivo <code>map.doxyfile</code> a fin de poder generar links desde las otras secciones del documento. Ver los ejemplos incluidos en el archivo.</li>
+<li>Testing: una semana antes de la entrega se van a publicar la batería de test que se van a utilizar para testear el módulo. Pasar o no pasar los casos de test es irrelevante para la aprobación del TP, que será corregido por uno de los docentes.</li>
+<li>Forma de entrega: El trabajo práctico se entrega enviando un mail a <code>algo2.dc+tp2</code> en <code>gmail.com</code>. El mail debe incluir a los integrantes del grupo y debe tener adjunto el archivo <code><a class="el" href="map_8h.html">map.h</a></code>. El bot de la materia podría llegar a responder si se pasan los casos de test o no; tener en cuenta el punto anterior. </li>
+</ul>
+</div></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generado el Viernes, 9 de Junio de 2017 18:49:43 para Trabajo práctico 2: diccionario sobre RB-tree por
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
+  </ul>
+</div>
+</body>
+</html>

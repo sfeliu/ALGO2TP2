@@ -1,0 +1,103 @@
+\hypertarget{Aliasing_sec-Resumen}{}\subsection{Resumen}\label{Aliasing_sec-Resumen}
+Como referencia (y para los perezosos), escribimos un resumen antes de justificar las decisiones tomadas\+:
+\begin{DoxyItemize}
+\item Los valores computacionales se pueden transformar en términos algebraicos usando sombrerito (ver apunte de diseño). Vamos a omitir el uso del sombrerito.
+\item Las variables computacionales tienen una dirección de memoria que se puede obtener con el operador \&. Este operador devuelve una instancia algebraica de tipo puntero (que es un renombre de tupla) con dos operaciones\+:
+\begin{DoxyEnumerate}
+\item \textquotesingle{}$\ast$\textquotesingle{}\+: que retorna el valor apuntado, y
+\item \textquotesingle{}get\textquotesingle{}\+: que retorna el entero con la dirección de memoria.
+\end{DoxyEnumerate}
+\item Para saber si dos variables computacionales {\ttfamily x} e {\ttfamily y} son alias a la misma posición de memoria alcanza con verificar que \&{\ttfamily x} $=_{\rm obs}$ \&{\ttfamily y}.
+\item Los aspectos de aliasing, que describen los efectos de una operación en aliases a los que no tenemos acceso, se describen en castellano.
+\item Los iteradores cuentan con un observador {\ttfamily coleccion} que retorna un puntero a la colección recorrida. En consecuencia, podemos saber si dos iteradores recorrer la misma colección verificando la igualdad observacional de este observador.
+\end{DoxyItemize}
+
+En el enunciado del TP hay algunas funciones que muestran cómo describir los aspectos de aliasing.\hypertarget{Aliasing_sec-puntero}{}\subsection{Álgebra vs. computadora}\label{Aliasing_sec-puntero}
+Hay una diferencia esencial entre las instancias de T\+A\+Ds construidas en las especificaciones algebraicas y los valores que se usan en un programa de computadora. Mientras que las primeras son sólo construcciones de términos cuya igualdad se define a través de un predicado de observación, los segundos son secuencias de bits, guardadas en memoria, cuya interpretación se comprende a través de su tipo (estructura). Asimismo, hay una diferencia fundamental entre los identificadores usados en el lenguaje algebraico y aquellos usados en una máquina R\+AM. Los primeros se usan únicamente para denotar las instancias que son parámetro de las funciones, mientras que los segundos se refieren a las direcciones de memoria en los que se guarda un valor computacional. En consecuencia, mientras que las operaciones algebraicas transforman términos {\itshape sin modificar el significado del término dado como parámetro}, las operaciones computacionales leen y escriben espacios de memoria y, por lo tanto, {\itshape modifican el espacio de memoria de sus parámetros (posiblemente de salida), afectando su significado}.
+
+Dado que son conceptos distintos, no es obvio cómo los valores computacional se usan para referirse a términos algebraicos. Es por esto que el apunte de diseño propone el uso de un operador (no definido formalmente ahí), llamado \char`\"{}sombrerito\char`\"{}, que transforma cada valor computacional en un término algebraico, bajo la hipótesis de que dicho espacio de memoria representa un valor válido de acuerdo a la interpretación de su tipo.
+
+\begin{DoxyRemark}{Comentarios}
+La definición de sombrerito sigue un esquema recursivo. Para cada tipo {\itshape T} provisto por el lenguaje existe una versión de sombrerito que define la interpretación de los valores de {\itshape T} como tipos algebraicos. Por ejemplo, en C++ tenemos una versión de sombrerito que dado un unsigned int nos devuelve un \hyperlink{classNat}{Nat}. Asimismo, tenemos una versión de sombrerito que dado un bool nos devuelve una instancia del T\+AD Booleano. Para ser explícitos con los tipos, vamos a escribir term$<${\itshape T$>$} para designar a la función sombrerito de {\itshape T}. Acá, {\itshape T} es un tipo computacional (i.\+e., C++) que se interpreta usando un T\+AD que lo explica. El género de dicho T\+AD es $\widehat{T}$. Luego, el tipo de term es\+:
+\begin{DoxyEnumerate}
+\item term \+: {\itshape T} t $\to$ $\widehat{T}$ \{rep(t)\} para cada tipo básico {\itshape T}, donde rep es una restricción definida sobre bits, y
+\item term \+: {\itshape T} t $\to$ $\widehat{T}$ \{rep(term$<$\+E$>$(t))\} para cada tipo no básico {\itshape T} que se representa con una estructura E.
+\end{DoxyEnumerate}
+
+En este esquema, la función term$<$struct$>$ juega un rol importante, ya que dice cómo se interpreta una estructura de C++. En pocas palabras\+:
+\begin{DoxyItemize}
+\item term$<$struct$>$(struct \{T1 c1, ..., Tk ck\} x) = tupla(term$<$\+T1$>$(x.\+c1), ..., term$<$\+Tk$>$(x.\+ck))
+\end{DoxyItemize}
+
+Es decir, term sobre una variable x de tipo struct se corresponde con la tupla que se obtiene de interpretar cada uno de sus campos con los tipos correctos.
+
+Una vez que term ya está definido para los tipos provistos por el lenguaje, su definición para los tipos creados por un usuario es simple. Si T es una estructura representada por un tipo E, entonces\+:
+\begin{DoxyItemize}
+\item term$<$\+T$>$(x) = abs$<$\+T$>$(term$<$\+E$>$(x))
+\end{DoxyItemize}
+
+En otras palabras, interpretamos el valor computacional x como si fuera de tipo E y luego aplicamos la función de abstracción. 
+\end{DoxyRemark}
+
+
+En este TP vamos a obviar el uso del operador sombrerito y de la función term. Sin embargo, necesitamos entender el concepto de valor computacional, ya que el mismo permite definir un concepto que no tiene sentido en el mundo algebraico\+: los {\itshape punteros}. Para poder interpretar el tipo puntero, que es una construcción del lenguaje de implementación, necesitamos definir su operador sombrerito (term). En términos de la implementación, podemos decir que un puntero es simplemente un número natural. Sin embargo, dicho numero se usa para referirse a una posición de memoria que se interpreta con algún tipo. Así pues, desde el punto de vista semántico, un puntero de tipo {\itshape T} {\itshape apunta} a un espacio de memoria que se interpreta bajo el tipo {\itshape T}.
+
+Existen muchas sutilezas en el uso de los punteros, como el hecho de que podamos interpretar a la misma posición de memoria con distintos tipos. No vamos a describir esto en este documento, ya que este concepto está más que estudiado en las clases de laboratorio de la materia. Empero, destacamos este hecho para mencionar que el concepto de puntero es un concepto computacional, que surge de la misma definición de variable computacional. Sin embargo, en esta materia escribimos nuestras precondiciones y postcondiciones en términos algebraicos, razón por la cual, como dijimos antes, necesitamos un enlace entre los conceptos. Lo primero es definir el T\+AD puntero. Si bien este tipo es simplemente un renombre del T\+AD tupla( $\alpha$, nat), vamos a escribirlo para tener una interfaz más amigable.
+
+T\+AD puntero( $\alpha$)~\newline
+{\bfseries observadores} ~\newline
+
+\begin{DoxyItemize}
+\item $\ast$ $\bullet$\+: puntero( $\alpha$) $\to$ $\alpha$~\newline
+
+\item get\+: puntero( $\alpha$) $\to$ \hyperlink{classNat}{Nat}
+\end{DoxyItemize}
+
+{\bfseries generadores} ~\newline
+
+\begin{DoxyItemize}
+\item set\+: \hyperlink{classNat}{Nat} $\times$ $\alpha$ $\to$ puntero( $\alpha$)
+\end{DoxyItemize}
+
+Vale remarcar que dicho T\+AD no es más que un T\+AD sintáctico, cuyo único propósito es almacenar la información de un puntero. Más aun, cuando $\alpha$ sea de tipo tupla, vamos a suponer la existencia de la función -\/$>$ que permite acceder a los campos de la tupla apuntada. Luego, la función term queda definida como\+:
+\begin{DoxyItemize}
+\item term$<$\+T$>$ \+: T$\ast$ p $\to$ puntero(\+T) \{rep(term$<$\+T$>$($\ast$p))\}
+\item term$<$\+T$>$(x) = set(x, $\ast$x)
+\end{DoxyItemize}
+
+es decir, term$<$\+T$>$(x) guarda la dirección apuntada por x junto con su valor.
+
+Si bien el modelado de los punteros no lleva una gran dificultad intrínseca, lo importante son sus implicancias para las {\itshape variables} computacionales. Recordemos que una variable computacional es un nombre que se refiere a un valor almacenado en una posición de memoria. En este sentido, las variables computaciones no son solo identificadores, ya que tienen asociada una dirección de memoria, aunque no sepamos qué dirección se le asigna a cada variable. Podemos suponer, pues, que existe una función que, dada una variable computacional {\itshape v}, nos retorna el término algebraico (de tipo puntero) que apunta a la posición de memoria de {\itshape v}. A diferencia de term, no tenemos herramientas adecuadas para definir esta función, que depende de la compilación. (Notar que \& es una función del mundo de diseño). Sin embargo, podemos describir su nombre y (una aproximación de su) tipo\+:
+\begin{DoxyItemize}
+\item \& $\bullet$\+: $\alpha$ $\to$ puntero( $\widehat{\alpha}$)
+\end{DoxyItemize}
+
+indicando que se satisfacen las siguientes propiedades\+:
+\begin{DoxyEnumerate}
+\item $\ast$(\&{\itshape x}) $=_{\rm obs}$ term$<${\itshape T$>$}({\itshape y}) para cualquier variable computacional {\itshape x} de tipo {\itshape T} cuyo valor es {\itshape y}, y
+\item \&{\itshape x} es invariante para cualquier variable computacional {\itshape x}.
+\end{DoxyEnumerate}
+
+En resumen, podemos observar que las variables computacionales forman, en cierto sentido informal, un tipo nuevo distinto al del valor que denotan. En efecto, una variable computacional {\itshape v} tiene dos operaciones\+:
+\begin{DoxyEnumerate}
+\item \&{\itshape v\+:} para acceder al valor, y
+\item eval({\itshape v})\+: que denota el valor \char`\"{}almacenado\char`\"{} en la posición de memoria de {\itshape v}. Esta función suele ser implícita, ya que uno suele escribir {\itshape v} para referirse a su valor.
+\end{DoxyEnumerate}
+
+La existencia del operador \& sobre variables computacionales nos permite definir lo que seria el símil de la igualdad observacional de estos objetos, i.\+e., el alias. Es decir, cuándo dos variables refieren a la misma posición de memoria. En este caso, {\itshape v} y {\itshape w} tiene alias si y sólo si \&{\itshape v} $=_{\rm obs}$ \&{\itshape w}.\hypertarget{Aliasing_sec-invalido}{}\subsubsection{Variables y punteros inválidos y el problema de la memoria finita}\label{Aliasing_sec-invalido}
+Claramente, no todas las combinaciones de bits representan información válida, cuando queremos interpretar una posición de memoria con un tipo {\itshape T}. El comportamiento de la función sombrerito sobre dichas variables está indefinido (ver restricción). Sin embargo, no podemos especificar nada de las variables {\itshape antes} de aplicar sombrerito. Por ello, simplemente asumimos que las variables de nuestro mundo computacional son {\itshape válidas}. En términos formales, suponemos que sombrerito de {\itshape x} siempre denota un valor correcto, más allá de la restricción.
+
+Análogamente, un puntero a {\itshape T}, al ser una valor computacional, puede tener un valor inválido. Esto ocurre, por ejemplo, cuando la posición de memoria a la que apunta no se puede interpretar correctamente bajo el tipo {\itshape T}. Es decir, si {\itshape x} es una variable inválida, entonces \&{\itshape x} es un puntero inválido.
+
+Obviamente, si suponemos que {\itshape x} siempre es válido, entonces huelga decir que \&{\itshape x} es siempre válido. Sin embargo, en sistemas finitos, queremos no perder memoria, razón por la cual tenemos que retornarla al sistema. Una vez más, la devolución de memoria es algo que escapa el mundo algebraico (que supone la existencia de los infinitos términos en simultáneo, i.\+e., memoria infinita). Si bien no vamos a especificarlo, existe una función computacional de {\itshape liberación de memoria}. Esta función (implícitamente) transforma el espacio de memoria en un valor $\bot$ que es inválido para cualquier tipo {\itshape T}. De esta forma, los punteros que apuntan a dicha posición se {\itshape invalidan} aunque lo hayamos inicializado con valores válidos.\hypertarget{Aliasing_sec-aliasing}{}\subsection{Los aspectos de aliasing}\label{Aliasing_sec-aliasing}
+En la computadora, el aliasing ocurre cuando tenemos dos variables que referencian a la misma posición de memoria. Considerando que $\ast${\itshape p} es una variable para cualquier puntero {\itshape p}, es claro que el aliasing es parte de un sistema (por ejemplo, cualquier lista doblemente enlazada de al menos tres elementos tiene aliasing).
+
+El inconveniente con el aliasing es que al liberar la memoria de una variable se invalidan todos los alias que referencian a la misma. Asimismo, cuando modificamos el valor de una variable, se modifican los valores de todos los alias a la misma. No hay forma de especificar estas condiciones en el mundo algebraico, porque no tenemos un mapa de \char`\"{}instancias válidas\char`\"{} que especifique el espacio de memoria disponible. Por supuesto que existen formalizaciones de la memoria y su semántica, pero escapan los contenidos de esta materia. Es por este motivo que vamos a incluir un apartado llamado {\itshape aspectos de aliasing} para discutir, en castellano\+:
+\begin{DoxyItemize}
+\item la existencia de cualquier posible alias entre las variables,
+\item la invalidez o no de todas las variables que podrían tener alias, y
+\item la posibilidad de modificar una variable que tiene alias.
+\end{DoxyItemize}\hypertarget{Aliasing_sec-iteradores}{}\subsection{Especificación de los iteradores y el alias}\label{Aliasing_sec-iteradores}
+De forma similar al T\+AD puntero de más arriba, los T\+A\+Ds para especificar iteradores son más bien construcciones sintácticas que sirven para expresar la secuencia recorrida. Nuevamente, la idea es poder expresar las pre y postcondiciones en términos algebraicos. Sin embargo, los T\+A\+Ds del apunte de Módulos básicos son insuficientes para este TP, porque no conocen cuál es la colección que están iterando. El problema surge cuando queremos especificar una función como, digamos, swap. Supongamos que queremos una función de swap que intercambie las posiciones apuntadas por dos iteradores {\ttfamily it1} e {\ttfamily it2}. ¿\+Cómo hacemos para expresar que {\ttfamily it1} e {\ttfamily it2} recorren la misma colección? Claramente, no alcanza con decir que la secuencia subyacente es la misma, porque podrían ser iteradores a listas observacionalmente iguales, pero en posiciones distintas de la memoria.
+
+El problema con la especificación de los iteradores es que no explotan el concepto de puntero acá descripto. Aunque dejamos como ejercicio (no obligatorio) su especificación, vamos a suponer que los generadores de iteradores reciben un parámetro adicional de tipo puntero(\+T) que determina la variable de tipo T que se está recorriendo. Asimismo, tiene un observador, llamado colección que retorna el puntero al objeto recorrido. Así pues, podemos expresar que {\ttfamily it1} e {\ttfamily it2} recorren la misma coleccion verificando que coleccion({\ttfamily it1}) $=_{\rm obs}$ coleccion({\ttfamily it2}). 

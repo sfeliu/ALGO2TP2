@@ -1552,7 +1552,6 @@ public:
      *
      */
     iterator erase(const_iterator pos) {
-
         iterator y = iterator(const_cast<Node*>(pos.n));
         Color original = y.n->color;
         iterator proximo = iterator(const_cast<Node*>(pos.n));
@@ -1596,6 +1595,7 @@ public:
                     y.n->child[0] = pos.n->child[0];
                     y.n->child[0]->parent = y;
                     y.n->color = pos.n->color;
+                    cambiado.n = y.n;
                 }
             }
             if(original == Color::Black){
