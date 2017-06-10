@@ -561,8 +561,8 @@
  * A partir de un puntero a nodo construye el arbol binario al que pertenece ese node.
  *
  * \axioma{ArbolValue}: puntero(Node) \TO ab(Value)
- * ArbolValue(p) \EQUIV \IF p = null \THEN nil \ELSE \IF nothing?(*p.value) \THEN
- * bin(\ArbolValue(*(*p.parent).child[0] , dato(*(*p.parent).value) , \ArbolValue(*(*p.parent).child[1]) )) \ELSE
+ * ArbolValue(p) \EQUIV \IF p = null \THEN nil \n \ELSE \IF nothing?(*p.value) \THEN
+ * bin(\ArbolValue(*(*p.parent).child[0] , dato(*(*p.parent).value) , \ArbolValue(*(*p.parent).child[1]) )) \n \ELSE
  * bin(\ArbolValue(*p.child[0] ) , dato(*p.value) , \ArbolValue(*p.child[1])) \FI \FI
  *\endparblock
  *
@@ -603,10 +603,10 @@
  * \parblock
  * compara lexicograficamente 2 conjuntos.
  *
- * \axioma{menorLexico}: conj(key) \TIMES conj(key) \TO bool
- * menorLexico(c1 ,c2) \EQUIV \IF \EMPTYSET?(c2) \THEN false \ELSE \IF \EMPTYSET?(c1) \THEN true
- * \ELSE \IF \minimo(c1,dameUno(c1)) = \minimo(c2, dameUno(c2)) \THEN
- * \menorLexicografico(c1 \MINUS {\minimo(c1,dameUno(c1))}, c2 \MINUS {\minimo (c2, dameUno(c2))} )  \ELSE
+ * \axioma{menorLexico}: conj(key) \TIMES conj(key) \TO bool \n
+ * menorLexico(c1 ,c2) \EQUIV \IF \EMPTYSET?(c2) \THEN false \n \ELSE \IF \EMPTYSET?(c1) \THEN true
+ * \n \ELSE \IF \minimo(c1,dameUno(c1)) = \minimo(c2, dameUno(c2)) \THEN
+ * \menorLexicografico(c1 \MINUS {\minimo(c1,dameUno(c1))}, c2 \MINUS {\minimo (c2, dameUno(c2))} ) \n \ELSE
  * \minimo(c1,dameUno(c1)) \LT \minimo(c2,dameUno(c2)) \FI \FI \FI
  * \endparblock
  *
@@ -614,8 +614,8 @@
  * \parblock
  * devuelve el elemento menor de un conjunto.
  *
- * \axioma{minimo}: conj(key) c \TIMES Key k \TO key {k \IN c}
- * minimo(c,k) \EQUIV \IF \EMPTYSET?(c) \THEN k \ELSE \IF  k \LT dameUno(c) \THEN \minimo(sinUno(c),k) \ELSE \minimo(sinUno(c) ,dameUno(c)) \FI \FI
+ * \axioma{minimo}: conj(key) c \TIMES Key k \TO key {k \IN c} \n 
+ * minimo(c,k) \EQUIV \IF \EMPTYSET?(c) \THEN k \n \ELSE \IF  k \LT dameUno(c) \THEN \minimo(sinUno(c),k) \n \ELSE \minimo(sinUno(c) ,dameUno(c)) \FI \FI
  * \endparblock
  *
  * \par cantidadDeElementos
@@ -623,7 +623,7 @@
  * devuelve la cantidad de elementos que tiene el diccionario
  *
  * \axioma{cantidadDeElementos}: puntero(Node) \TO nat\n
- * cantidadDeElementos(p) \EQUIV \IF p = null \THEN 0 \ELSE \IF nothing?(*p.value) \THEN \cantidadDeElementos(*p.parent) \n \ELSE 1 + \cantidadDeElementos(*p.child[0]) + \cantidadDeElementos(*p.child[1]) \FI \FI
+ * cantidadDeElementos(p) \EQUIV \IF p = null \THEN 0 \n \ELSE \IF nothing?(*p.value) \THEN \cantidadDeElementos(*p.parent) \n \ELSE 1 + \cantidadDeElementos(*p.child[0]) + \cantidadDeElementos(*p.child[1]) \FI \FI
  * \endparblock
  *
  * \par esADB
@@ -650,12 +650,12 @@
  *
  * \par cantBlack
  * \parblock
- * dado un puntero nod, devuelve la cantidad de nodos negros hay hasta llegar al root
+ * dado un puntero a nodo, devuelve la cantidad de nodos negros hay hasta llegar al root
  *
  * \axioma{cantBlack}: puntero(Node) \TO nat\n
- * cantBlack(p) \EQUIV \IF p = null \THEN 0 \ELSE \IF nothing?(*p.value) \THEN 0
- * \ELSE \IF p = (*(*p).parent).parent)  \THEN 1
- * \ELSE \IF *p.color = black \THEN 1 + \cantBlack(*p.parent) \ELSE \cantBlack(*p.parent) \FI \FI \FI
+ * cantBlack(p) \EQUIV \IF p = null \THEN 0 \n \ELSE \IF nothing?(*p.value) \THEN 0
+ * \n \ELSE \IF p = (*(*p).parent).parent)  \THEN 1
+ * \n \ELSE \IF *p.color = black \THEN 1 + \cantBlack(*p.parent) \n \ELSE \cantBlack(*p.parent) \FI \FI \FI
  * \endparblock
  *
  * \par colorAdecuado
@@ -690,7 +690,7 @@
  * devuelve true si no hay elementos repetidos en el arbol/diccionario
  *
  * \axioma{sinRepetidos}: secu(Key) \TO bool\n
- * sinRepetidos(sec) \EQUIV if vacia?(sec) \THEN true \ELSE \IF esta?(prim(sec),fin(sec)) \THEN false \ELSE \sinRepetidos(fin(sec)) \FI
+ * sinRepetidos(sec) \EQUIV if vacia?(sec) \THEN true \n \ELSE \IF esta?(prim(sec),fin(sec)) \THEN false \n \ELSE \sinRepetidos(fin(sec)) \FI
  * \endparblock
  *
  * \par headerToSecu
@@ -698,7 +698,7 @@
  * dado un puntero a nodo te devuelve una secuencia de Key
  *
  * \axioma{headerToSecu}: puntero(Node) \TO secu(Key)\n
- * headerToSecu(p) \EQUIV \IF p = null \THEN < > \ELSE \IF nothing?(*p.value) \THEN \headerToSecu(*p.parent)
+ * headerToSecu(p) \EQUIV \IF p = null \THEN < > \n \ELSE \IF nothing?(*p.value) \THEN \headerToSecu(*p.parent)
  * \n \ELSE data(*p.value).clave o \headerToSecu(*p.child[0]) & \headerToSecu(*p.child[1]) \FI \FI
  * \endparblock
  *
@@ -707,8 +707,8 @@
  * devuelve un arbol cantidad de niveles igual a K (arbol de cardinal finito)
  *
  * \axioma{arbolK}: puntero(Node) x nat \TO AB(puntero(Nodo))\n
- * arbolK(p) \EQUIV \IF p = null \LOR p = null \THEN nil \ELSEIF nothing?(*p.value) \THEN arbolK(p->parent , n) \ELSE
- * \n AB(arbolK(*p.child , n-1), p ,arbolK(*p.child[1] , n-1)) \FI \FI
+ * arbolK(p) \EQUIV \IF p = null \LOR p = null \THEN nil \n \ELSE \IF nothing?(*p.value) \THEN arbolK(p->parent , n) \n \ELSE
+ *  AB(arbolK(*p.child , n-1), p ,arbolK(*p.child[1] , n-1)) \FI \FI
  * \endparblock
  *
  * \par elementos
@@ -716,7 +716,7 @@
  * devuelve el conjunto de elementos
  *
  *\axioma{elementos}: puntero(Node)  \TO conj(value)\n
- * elementos(p) \EQUIV if p = null \THEN vacio \ELSE \IF  nothing?(*p.value) \THEN \elementos(*p.parent) \n \ELSE
+ * elementos(p) \EQUIV if p = null \THEN vacio \n \ELSE \IF  nothing?(*p.value) \THEN \elementos(*p.parent) \n \ELSE
  * Ag(*p.value,vacio) U \elementos(*p.child[0]) U \elementos(*p.child[1]) \FI
  * \endparblock
  *
@@ -725,7 +725,7 @@
  * Retorna true si esta vacio y los hijos del header es el mismo o si los hijos pertenecen.
  *
  * \axioma{hijosHeader}: Node \TO bool\n
- * hijosHeader(n) \EQUIV \IF n.parent = NULL \THEN n.child[0] = &n \LAND n.child[1] = &n \ELSE \estaPtr?(n.child[0], &n) \LAND \estaPtr?(n.child[1], &n)
+ * hijosHeader(n) \EQUIV \IF n.parent = NULL \THEN n.child[0] = &n \LAND n.child[1] = &n \n \ELSE \estaPtr?(n.child[0], &n) \LAND \estaPtr?(n.child[1], &n)
  * \endparblock
  *
  * \par esDiccionario?
@@ -736,6 +736,30 @@
  * esDiccionario?(s) \EQUIV \sinRepetidos?(\primeros(s))
  * \endparblock
  *
+ * \par sonValidos
+ * \parblock
+ * Retorna true si los nodos tienen significado valido 
+ *
+ * \axioma{sonValidos}: Puntero(Node) x Puntero(Node) \TO bool\n
+ * sonValidos(p,p') \EQUIV \LNOT (nothing?(*p.value)) \LAND \LNOT (nothing?(*p'.value))
+ * \endparblock
+ *
+ * \par estan
+ * \parblock
+ * Retorna true si los nodos tienen significado valido 
+ *
+ * \axioma{estan}: Puntero(Node) x Puntero(Node) \TO bool\n
+ * estan(p,p') \EQUIV \estaPtr(p) \LAND \estaPtr(p')
+ * \endparblock
+ *
+ * \par coloresAdecuados
+ * \parblock
+ * Retorna true si los nodos tienen significado valido 
+ *
+ * \axioma{coloresAdecuados}: Puntero(Node) x Puntero(Node) \TO bool\n
+ * coloresAdecuados(s) \EQUIV \colorAdecuado(p) \LAND \colorAdecuado(p')
+ * \endparblock
+ *
  * \par primeros
  * \parblock
  * Proyecta las primeras componentes de una secuencia de pares
@@ -744,14 +768,22 @@
  * primeros(s) \EQUIV \IF vacia?(s) \THEN <> \ELSE \PI1(prim(s)) \BULLET \primeros(fin(s)) \FI
  * \endparblock
  *
+ * \par sonHoja
+ * \parblock
+ * Retorna true si los nodos tienen significado valido 
+ *
+ * \axioma{sonHoja}: Puntero(Node) x Puntero(Node) \TO bool\n
+ * sonHoja(p,p') \EQUIV \esHoja(p) \LAND \esHoja(p')
+ * \endparblock
+ *
  * \par esRBTree
  * \parblock
  * Retorna True si a partir del nodo dado se puede reconstruir un Red-Black Tree.
  *
  * \axioma{esRBTree}: Node \TO Bool\n
  * \esRBTree(n) \EQUIV (\EXISTS k: nat)(\arbolK(n.parent,k) = \arbolK(n.parent,k+1)) \LAND_L \sinRepetidos(headerToSecu(n.parent))
- * \LAND \esADB(n.parent) \LAND (\FORALL p,p':puntero(Node))(\estaPtr?(*p.value,header.parent) \LAND \estaPtr?(*p'.value,header.parent) \IMPLIES_L
- * \colorAdecuado(p) \LAND \colorAdecuado(p') \LAND \LNOT(nothing?(*p.value)) \LAND \LNOT(nothing?(*p'.value)) \LAND ((\esHoja(p) \LAND \esHoja(p'))\IMPLIES_L \cantBlack(p)=\cantBlack(p')))
+ * \LAND \esADB(n.parent) \LAND \n (\FORALL p,p':puntero(Node))(\estan(*p.value,header.parent,*p'.value,header.parent) \IMPLIES_L
+ * \coloresAdecuados(p,p') \LAND \n \sonValidos(p,p') \LAND ((\sonHoja(p,p'))\IMPLIES_L \cantBlack(p)=\cantBlack(p')))
  * \endparblock
  *
  * \deprecated sinRepetidos(headerToSecu(n.parent)) esto no te soluciona uno de los problemas hablado por Soulignac.
@@ -2499,11 +2531,7 @@ private:
      * \par Invariante de representacion
 	 * \parblock
 	 * rep: map \TO bool\n
-	 * rep(m) \EQUIV (nothing?(Header.value)\LAND (\EXISTS k: nat)() \arbolK(m.header.parent,k) = \arbolK(m.header.parent,k+1) )
-     * \LAND_L \sinRepetidos(\headerToSecu(m.header.parent)) \LAND cant(m.header.parent) = m.count \LAND \hijosHeader(header) \LAND \esADB(m.header.parent) \LAND
-     * (\FORALL p,p':puntero(Node))(\estaPtr?(p,header.parent) \LAND \estaPtr?(p',header.parent) \IMPLIES_L \colorAdecuado(p) \LAND \colorAdecuado(p')
-     * \LAND \LNOT(nothing?(*p.value)) \LAND \LNOT(nothing?(*p'.value)) \LAND_L \enRango(p,header.child[0],header.child[1])
-     * \LAND_L \enRango(p',header.child[0],header.child[1]) \LAND ((\esHoja(p) \LAND \esHoja(p'))\IMPLIES_L \cantBlack(p)=\cantBlack(p'))
+	 * rep(m) \EQUIV nothing?(Header.value)\LAND \esRBTree(Header) \LAND \cantidadDeElementos(m.header.parent) = count
 	 * \endparblock
      *
      * \bug Este REP es ilegible, intenten formatearlo mejor o subdividir en más suboperaciones
@@ -2511,7 +2539,7 @@ private:
 	 * \par Función de abstracción
 	 * \parblock
 	 * abs: map m \TO Diccionario(\T{Key}, \T{Meaning})  {rep(m)}\n
-	 * abs(m) \IGOBS dic : diccionario | #claves(dic) = #\elementos(&m.Header) \LAND (\FORALL k: Key)( k \IN claves(dic) \IFF <k,obtener(k,dic)> \IN \elementos(&m.Header))
+	 * abs(m) \IGOBS dic : diccionario | (\FORALL k: Key)( k \IN claves(dic) \IFF <k,obtener(k,dic)> \IN \elementos(&m.Header))
 	 * \endparblock
      *
      * \bug Hace falta decir lo de cant de claves?
