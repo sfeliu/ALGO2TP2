@@ -1563,7 +1563,7 @@ public:
                 header.child[0] = header.child[1] = &header;
             }else {
                 if (pos.n->parent->child[0] == pos.n) {
-                    if(begin() == pos){
+                    if(begin() == pos){                     //Esto me parece que se puede achicar a una funcion.
                         header.child[0] = pos.n->parent;
                     }
                     pos.n->parent->child[0] = nullptr;
@@ -1600,7 +1600,7 @@ public:
                 }
             }
             if(original == Color::Black){
-                deleteFixUp(cambiado.n);
+                deleteFixUp(cambiado.n);    //Modificarlo de tal forma que reciba al padre y un int sabiendo cual es su hijo. (0 o 1)
             }
         }
         delete pos.n;
@@ -2038,10 +2038,10 @@ public:
          * - false, cuando alguno de ellos es no nulo, o
          * - true, cuando ambos son nulos.}
          *
-         * \pre \aedpre{haySiguiente?(*this) \LAND haySiguiente?(*this)}
-         * \post \aedpost{res \IGOBS (anteriores(*this) \IGOBS anteriores(other) \LAND siguientes(*this) \IGOBS siguientes(other))}
+         * \pre \aedpre{TRUE}
+         * \post \aedpost{res \IGOBS (anteriores(*this) \IGOBS anteriores(other) \LAND siguientes(*this) \IGOBS siguientes(other) \LAND coleccion(*this) \IGOBS coleccion(other)}
          *
-         * \bug Su pre es muy fuerte y su POST muy débil
+         * \deprecated Su pre es muy fuerte y su POST muy débil
          *
          * \complexity{\O(1)}
          */
@@ -2050,12 +2050,12 @@ public:
         }
         /** \brief idem !|operator==
          *
-         * \bug Imaginense que en un par de años cambian la estructura interna de iterator, teniendo que cambiar
+         * \deprecated Imaginense que en un par de años cambian la estructura interna de iterator, teniendo que cambiar
          * la igualda, como esta hecho ahora deberían cambiar dos funciones
          *
          **/
         bool operator!=(iterator other) const {
-            return n != other.n;
+            return not(*this == other);
         }
 
     private:
