@@ -435,7 +435,7 @@ struct TeoInstances : public ::testing::Test
 	std::map<int, std::string> cinco_elementos_std;
 };
 
-#define ABORT 0
+#define ABORT 1
 
 TEST_F(TeoInstances, REND){
 	if (ABORT) {
@@ -548,6 +548,18 @@ TEST_F(TeoInstances, DELFUP_NULL){
         EXPECT_EQ(5, prueba.at(5));
 
         prueba.erase(it);
+    }
+}
+
+TEST_F(TeoInstances, ASSIGN){
+    if (1){
+		aed2::map<int, int> b;
+        aed2::map<int, int> a;
+		b[6]=4;
+		b[3]=3;
+		a[2]=9;
+		a.insert(std::make_pair(1,2));
+		b=a;
     }
 }
 

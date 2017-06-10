@@ -754,8 +754,8 @@
  * \colorAdecuado(p) \LAND \colorAdecuado(p') \LAND \LNOT(nothing?(*p.value)) \LAND \LNOT(nothing?(*p'.value)) \LAND ((\esHoja(p) \LAND \esHoja(p'))\IMPLIES_L \cantBlack(p)=\cantBlack(p')))
  * \endparblock
  *
- * \bug sinRepetidos(headerToSecu(n.parent)) esto no te soluciona uno de los problemas hablado por Soulignac.
- * Piensen como podrían reescribir a partir del rep de map
+ * \deprecated sinRepetidos(headerToSecu(n.parent)) esto no te soluciona uno de los problemas hablado por Soulignac.
+ * Piensen como podrían reescribir a partir del rep de map VISTO
  *
  * \par padreK
  * \parblock
@@ -982,7 +982,7 @@ public:
         lt = other.lt;
         const_iterator hint = end();
         while(it != other.end()){
-            hint = insert(hint, it.n->value());
+            hint = insert(hint, *it);
             --it;
         }
     }
@@ -1052,13 +1052,15 @@ public:
      *
      * \complexity{\O(\DEL(\P{*this}) \PLUS \COPY(\P{other}))}
      *
-     * \bug Esta función se llama a sí mismo sin reducir el tamaño de entrada
+     * \deprecated Esta función se llama a sí mismo sin reducir el tamaño de entrada
      * Recuerden copy and swap, no copy and assign
      *
      * \note Es importante remarcar que no se realiza ninguna comparación entre los elementos.
      */
     map& operator=(map other) {
-        *this = map(other);
+        map* m = new map(other);
+        swap(*m);
+        delete m;
         return *this;
     }
 
@@ -1066,9 +1068,9 @@ public:
      * @brief Destructor
      *
      *
-     * \aliasing{Se invalidan todos los iteradores asociados a \P{*this}, con excepcion de aquellos que apuntan a la posicion pasando-el-ultimo}
+     * \aliasing{Se invalidan todos los iteradores asociados a *this}
      *
-     * \bug Por qué los que apuntan a end() no??
+     * \deprecated Por qué los que apuntan a end() no??
      *
      * \pre \aedpre{true}
      * \post \aedpost{true}
@@ -1108,7 +1110,7 @@ public:
      *
      * \complexity{\O(\LOG(\SIZE(\P{*this}) \CDOT \CMP(\P{*this}))}
      *
-     * \bug find retorna un const_iterator
+     * \deprecated find retorna un const_iterator
      * \bug Siempre que puedan usen operaciones del iterador en vez de acceder a su estructura interna
      *
      * \remark Esta función, que se asemeja más a la forma de programar propuesta en AED2
@@ -1116,7 +1118,7 @@ public:
      * recurrir a la función find.
      */
     const Meaning& at(const Key& key) const {
-        iterator it = find(key);
+        const_iterator it = find(key);
         return it.n->value().second;
     }
 
@@ -1171,6 +1173,7 @@ public:
         value_type v = value_type(key, Meaning());
         if(it.n->color == Color::Header){
             insert(v);
+            iterator it = find(key);
             return it.n->value().second;
         }else{
             return it.n->value().second;
@@ -1488,9 +1491,9 @@ public:
      * \aliasing{Si modificas a lo que apunta res se modifica *this}
      *
      * \pre \aedpre{*this \IGOBS self}
-     * \post  \aedpost{(alias(siguiente(res) \IGOBS value)) \LAND (colleccion(res) \IGOBS this) \LAND (definir(\PI1 value, \PI2 value), self)}
+     * \post  \aedpost{(alias(siguiente(res) \IGOBS value)) \LAND (colleccion(res) \IGOBS this) \LAND (definir(\PI1 value, \PI2 value), self) \IGOBS *this}
      *
-     * \bug \f$ definir(\PI1 value, \PI2 value), self) \f$ las "variables" de los TADS no se modifican
+     * \deprecated \f$ definir(\PI1 value, \PI2 value), self) \f$ las "variables" de los TADS no se modifican
      *
      * \bug El find del principio les arruina la complejidad ante un buen hint
      *
@@ -1534,10 +1537,10 @@ public:
      * \pre \aedpre{colleccion(pos)=this \LAND \LNOT vacio?(siguientes(pos)) \LAND self \IGOBS *this}
      * \post \aedpost{*this \IGOBS borrar(\PI1(siguiente(pos)), self) \LAND alias(res \IGOBS avanzar(pos))}
      *
-     * \bug No dicen nada sobre res
+     * \deprecated No dicen nada sobre res
      *
      *
-     * \bug Intenten no repetir código (iterator(const_cast<Node*>(pos.n));), idem aed2::map::insert
+     * \bug Intenten no repetir código (iterator(const_cast<Node*>(pos0.n));), idem aed2::map::insert
      * \bug No es verdad que si no se cumple pos.n->child[0] == nullptr and pos.n->child[1] == nullptr
      * no necesite hacer fixup, piensen en una hoja negra
      * \bug Para la reentrega deberían repensar las operaciones de insercion y de eliminación

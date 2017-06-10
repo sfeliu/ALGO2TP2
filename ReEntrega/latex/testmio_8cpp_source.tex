@@ -422,7 +422,7 @@
 00435     std::map<int, std::string> cinco\_elementos\_std;
 00436 \};
 00437 
-00438 \textcolor{preprocessor}{#define ABORT 0}
+00438 \textcolor{preprocessor}{#define ABORT 1}
 00439 
 00440 TEST\_F(TeoInstances, REND)\{
 00441     \textcolor{keywordflow}{if} (ABORT) \{
@@ -538,10 +538,22 @@
 00551     \}
 00552 \}
 00553 
-00555 \textcolor{comment}{// Correr todos los test //}
-00557 \textcolor{comment}{}
-00558 \textcolor{keywordtype}{int} main(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char}* argv[]) \{
-00559     ::testing::InitGoogleTest(&argc, argv);
-00560   \textcolor{keywordflow}{return} RUN\_ALL\_TESTS();
-00561 \}
+00554 TEST\_F(TeoInstances, ASSIGN)\{
+00555     \textcolor{keywordflow}{if} (1)\{
+00556         \hyperlink{classaed2_1_1map}{aed2::map<int, int>} b;
+00557         \hyperlink{classaed2_1_1map}{aed2::map<int, int>} a;
+00558         b[6]=4;
+00559         b[3]=3;
+00560         a[2]=9;
+00561         a.\hyperlink{classaed2_1_1map_a6941cde9a79c27f054b5c97a587a1854_a6941cde9a79c27f054b5c97a587a1854}{insert}(std::make\_pair(1,2));
+00562         b=a;
+00563     \}
+00564 \}
+00565 
+00567 \textcolor{comment}{// Correr todos los test //}
+00569 \textcolor{comment}{}
+00570 \textcolor{keywordtype}{int} main(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char}* argv[]) \{
+00571     ::testing::InitGoogleTest(&argc, argv);
+00572   \textcolor{keywordflow}{return} RUN\_ALL\_TESTS();
+00573 \}
 \end{DoxyCode}

@@ -151,16 +151,16 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 </ul>
 </dd>
 </dl>
-<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000011">Bug:</a></b></dt><dd><p class="startdd">Digan algo en la PRE (y aliasing) sobre el iterador hint, que debe cumplir </p>
+<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000007">Bug:</a></b></dt><dd><p class="startdd">Digan algo en la PRE (y aliasing) sobre el iterador hint, que debe cumplir </p>
 <p><img class="formulaInl" alt="$ #claves(self) + 1 \IGOBS #claves(this))$" src="form_29.png"/> tiene sentido eso?? </p>
 <p>Qué pasa si te pasan el <a class="el" href="classaed2_1_1map_a76023e6a56cb625513e1b5ea028bf983.html#a76023e6a56cb625513e1b5ea028bf983" title="Devuelve un iterador apuntando a la posición pasando-el-ultimo del diccionario. ">aed2::map::end()</a> como hint, pero no es un hint válido </p>
 <p>Intenten no repetir tanto código, tal vez pueden hacer que todas las inserciones se hagan a través de una sola función </p>
 <p class="enddd">Tantos ifs anidados complican la comprensión de código, intenten reescribir</p>
 </dd></dl>
-<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000012">Bug:</a></b></dt><dd>hint++; Esto esta dentro del if donde hint es el header </dd></dl>
+<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000008">Bug:</a></b></dt><dd>hint++; Esto esta dentro del if donde hint es el header </dd></dl>
 <dl class="section attention"><dt>Atención</dt><dd>Para garantizar que el nuevo elemento se inserte sí o sí, usar <a class="el" href="classaed2_1_1map_a2ef6723c183916276b0afc4a4c721475.html#a2ef6723c183916276b0afc4a4c721475" title="Inserta o redefine value en el diccionario. ">aed2::map::insert_or_assign</a>. </dd></dl>
 
-<p>Definición en la línea <a class="el" href="map_8h_source.html#l01385">1385</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
+<p>Definición en la línea <a class="el" href="map_8h_source.html#l01388">1388</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
 
 </div>
 </div>
@@ -170,7 +170,7 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceaed2.html">aed2</a></li><li class="navelem"><a class="el" href="classaed2_1_1map.html">map</a></li>
-    <li class="footer">Generado el Viernes, 9 de Junio de 2017 19:41:00 para Trabajo práctico 2: diccionario sobre RB-tree por
+    <li class="footer">Generado el Sábado, 10 de Junio de 2017 00:32:00 para Trabajo práctico 2: diccionario sobre RB-tree por
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>
