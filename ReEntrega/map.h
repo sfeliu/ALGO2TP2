@@ -2751,12 +2751,12 @@ private:
 			const_cast<Node*>(hint.n)->child[0] = nuevo.n;
 			return nuevo;
 		}else{
-			iterator padre = iterator(const_cast<Node*>(hint.n->child[0]));
+			iterator padre = iterator(hint.n->child[0]);
 			while(padre.n->child[1] != nullptr){
 				padre.n = padre.n->child[1];
 			}
 			iterator nuevo = iterator(new InnerNode(padre.n, value));
-			const_cast<Node*>(nuevo.n)->child[1] = nuevo.n;
+			padre.n->child[1] = nuevo.n;
 			return nuevo;
 		}
 	}
