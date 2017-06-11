@@ -1476,7 +1476,7 @@ public:
             return nuevo;
         }
         if(esBuenHint(hint,value)){
-            if( lt(header.child[1]->key(), value.first) || not lt(header.child[0]->key(), value.first)){
+            if( lt(header.child[1]->key(), value.first) || lt(value.first, header.child[0]->key())){
                 iterator it = insertMinOMax(value);
                 insertFixUp(it.n);
                 count++;
@@ -1496,7 +1496,7 @@ public:
         }
     }
 
-    /** \overload*/
+    /** \overload */
     iterator insert(const value_type& value) {
         const_iterator it = lower_bound(value.first);
         return insert(it, value);
