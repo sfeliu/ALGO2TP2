@@ -1589,51 +1589,35 @@ public:
         Color original = y.n->color;
         iterator proximo = iterator(const_cast<Node*>(pos.n));
         proximo++;
-        if(pos.n->child[0] == nullptr and pos.n->child[1] == nullptr){
-            if(pos.n == header.parent){
-                header.parent = nullptr;
-                header.child[0] = header.child[1] = &header;
-            }else {
-                if (pos.n->parent->child[0] == pos.n) {
-                    if(begin() == pos){                     //Esto me parece que se puede achicar a una funcion.
-                        header.child[0] = pos.n->parent;
-                    }
-                    pos.n->parent->child[0] = nullptr;
-                } else {
-                    if(header.child[1] == pos.n){
-                        header.child[1] = pos.n->parent;
-                    }
-                    pos.n->parent->child[1] = nullptr;
-                }
-            }
-        }else{
-            iterator cambiado;
-            if(pos.n->child[0] == nullptr){
-                cambiado = iterator(pos.n->child[1]);
-                transplant(const_cast<Node*>(pos.n), pos.n->child[1]);
+        iterator cambiado;
+        iterator padre_cambiado;
+        if(pos.n->child[0] == nullptr){
+            cambiado = iterator(pos.n->child[1]);
+            padre_cambiado = y.n->parent;
+            transplant(const_cast<Node*>(pos.n), pos.n->child[1]);
+        } else{
+            if(pos.n->child[1] == nullptr){
+                cambiado = iterator(pos.n->child[0]);
+                padre_cambiado = y.n->parent;
+                transplant(const_cast<Node*>(pos.n), pos.n->child[0]);
             } else{
-                if(pos.n->child[1] == nullptr){
-                    cambiado = iterator(pos.n->child[0]);
-                    transplant(const_cast<Node*>(pos.n), pos.n->child[0]);
-                } else{
-                    y++;
-                    original = y.n->color;
-                    cambiado = iterator(y.n->child[1]);
-                    if(y.n->parent != pos) {
-                        transplant(y.n, y.n->child[1]);
-                        y.n->child[1] = pos.n->child[1];
-                        y.n->child[1]->parent = y;
-                    }
-                    transplant(const_cast<Node*>(pos.n), y.n);
-                    y.n->child[0] = pos.n->child[0];
-                    y.n->child[0]->parent = y;
-                    y.n->color = pos.n->color;
-                    cambiado.n = y.n;
+                y++;
+                original = y.n->color;
+                padre_cambiado = y;
+                cambiado = iterator(y.n->child[1]);
+                if(y.n->parent != pos) {
+                    transplant(y.n, y.n->child[1]);
+                    y.n->child[1] = pos.n->child[1];
+                    y.n->child[1]->parent = y;
                 }
+                transplant(const_cast<Node*>(pos.n), y.n);
+                y.n->child[0] = pos.n->child[0];
+                y.n->child[0]->parent = y;
+                y.n->color = pos.n->color;
             }
-            if(original == Color::Black){
-                deleteFixUp(cambiado.n);    //Modificarlo de tal forma que reciba al padre y un int sabiendo cual es su hijo. (0 o 1)
-            }
+        }
+        if(original == Color::Black){
+            deleteFixUp(padre_cambiado.n, cambiado.n);
         }
         delete pos.n;
         count--;
@@ -2597,18 +2581,20 @@ private:
          *
          * \complexity{\O(\LOG(\SIZE(\P{*this})))}
          */
-    void deleteFixUp(Node* nodo){
-        iterator x = iterator(nodo);
-        while((root() != x)and(is_black(x.n))){
-            if(x.n == x.n->parent->child[0]){
-                deleteFixUpAux(x.n, 0);
+    void deleteFixUp(Node* padre_nodo, Node* hijo_nodo){
+        iterator hijo = iterator(hijo_nodo);
+        iterator padre = iterator(padre_nodo);
+        while((root() != hijo)and(is_black(hijo.n))){
+            if(hijo.n == padre.n->child[0]){
+                deleteFixUpAux(padre, hijo, 1);
             } else{
-                deleteFixUpAux(x.n, 1);
+                deleteFixUpAux(padre, hijo, 0);
             }
         }
-        x.n->color = Color::Black;
+        if(hijo.n != nullptr) {
+            hijo.n->color = Color::Black;
+        }
     }
-
         /**
          * \brief deleteFixUpAux
          *
@@ -2628,31 +2614,31 @@ private:
          *
          * \complexity{\O(\LOG(\SIZE(\P{*this})))}
          */
-    void deleteFixUpAux(Node* nodo, int i){
-        iterator x = iterator(nodo);
-        iterator w = iterator(x.n->parent->child[i]);
-        if(not(is_black(w.n))){
-            w.n->color = Color::Black;
-            x.n->parent->color = Color::Red;
-            Rotate(x.n->parent, 1);
-            w = x.n->parent->child[1];
+    void deleteFixUpAux(iterator& padre, iterator& hijo, int i){
+        iterator hermano = iterator(padre.n->child[i]);
+        if(not(is_black(hermano.n))){
+            hermano.n->color = Color::Black;
+            padre.n->color = Color::Red;
+            Rotate(padre.n, i);
+            hermano = padre.n->child[i];
         }
-        if(w.n != nullptr){
-            if(is_black(w.n->child[0]) and is_black(w.n->child[1])){
-                w.n->color = Color::Red;
-                x.n = x.n->parent;
+        if(hermano.n != nullptr){
+            if(is_black(hermano.n->child[0]) and is_black(hermano.n->child[1])){
+                hermano.n->color = Color::Red;
+                hijo.n = padre.n;
+                padre.n = padre.n->parent;
             } else{
-                if(is_black(w.n->child[1])){
-                    w.n->color = Color::Red;
-                    w.n->child[0]->color = Color::Black;
-                    Rotate(w.n, 0);
-                    w.n = x.n->parent->child[1];
+                if(is_black(hermano.n->child[i])){
+                    hermano.n->color = Color::Red;
+                    hermano.n->child[(i+1)%2]->color = Color::Black;
+                    Rotate(hermano.n, (i+1)%2);
+                    hermano.n = padre.n->child[i];
                 }
-                w.n->color = x.n->parent->color;
-                x.n->parent->color = Color::Black;
-                w.n->child[1]->color = Color::Black;
-                Rotate(x.n->parent, 1);
-                x = root();
+                hermano.n->color = padre.n->color;
+                padre.n->color = Color::Black;
+                hermano.n->child[i]->color = Color::Black;
+                Rotate(padre.n, i);
+                hijo = root();
             }
         }
     }
@@ -2769,6 +2755,8 @@ private:
             iterator min = iterator(viejo);
             header.child[1] = --min;
         }
+
+        if(nuevo != nullptr)                // De esta forma admite la chance de que nuevo sea nullptr
         nuevo->parent = viejo->parent;
     }
 
