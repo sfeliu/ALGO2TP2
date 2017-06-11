@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Trabajo práctico 2: diccionario sobre RB-tree: aed2::map::root</title>
+<title>Trabajo práctico 2: diccionario sobre RB-tree: aed2::map::insertMinOMax</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -73,7 +73,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Buscar');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('classaed2_1_1map_a89cf44cf0661a97f5dd0985160dcc0e7.html','');});
+$(document).ready(function(){initNavTree('classaed2_1_1map_a9128f5099069eef8876464c1651e3237.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -91,7 +91,7 @@ $(document).ready(function(){initNavTree('classaed2_1_1map_a89cf44cf0661a97f5dd0
 </div>
 
 <div class="contents">
-<a class="anchor" id="a89cf44cf0661a97f5dd0985160dcc0e7"></a>
+<a class="anchor" id="a9128f5099069eef8876464c1651e3237"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -101,10 +101,11 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="structaed2_1_1map_1_1InnerNode.html">InnerNode</a>* <a class="el" href="classaed2_1_1map.html">aed2::map</a>&lt; Key, Meaning, Compare &gt;::root </td>
+          <td class="memname"><a class="el" href="classaed2_1_1map_1_1iterator.html">iterator</a> <a class="el" href="classaed2_1_1map.html">aed2::map</a>&lt; Key, Meaning, Compare &gt;::insertMinOMax </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td class="paramtype">const <a class="el" href="classaed2_1_1map_a719db98e0ff9a837610f76be33264680.html#a719db98e0ff9a837610f76be33264680">value_type</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
   </td>
@@ -113,9 +114,18 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Esta es una función miembro sobrecargada que se suministra por conveniencia. Difiere de la anterior función solamente en los argumentos que acepta. </p>
 
-<p>Definición en la línea <a class="el" href="map_8h_source.html#l02495">2495</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
+<p>Retorna true si las claves son iguales con respecto a <b class="paramname">this</b>-&gt;lt. </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">k1</td><td>clave a comparar </td></tr>
+    <tr><td class="paramname">k2</td><td>clave a comparar </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Devuelve</dt><dd>true cuando <b class="paramname">k1</b> y <b class="paramname">k2</b> son iguales con respecto a <b class="paramname">this</b>-&gt;lt. </dd></dl>
+
+<p>Definición en la línea <a class="el" href="map_8h_source.html#l02733">2733</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
 
 </div>
 </div>

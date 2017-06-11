@@ -134,15 +134,15 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 <li>true, cuando ambos son nulos.</li>
 </ul>
 </dd></dl>
-<dl class="section pre"><dt>Precondición</dt><dd><b>P</b> <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> {haySiguiente?(*this) <img class="formulaInl" alt="$\land$" src="form_12.png"/> haySiguiente?(*this)} </dd></dl>
-<dl class="section post"><dt>Postcondición</dt><dd><b>Q</b> <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> {res <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> (anteriores(*this) <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> anteriores(other) <img class="formulaInl" alt="$\land$" src="form_12.png"/> siguientes(*this) <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> siguientes(other))}</dd></dl>
-<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000018">Bug:</a></b></dt><dd>Su pre es muy fuerte y su POST muy débil</dd></dl>
+<dl class="section pre"><dt>Precondición</dt><dd><b>P</b> <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> {TRUE} </dd></dl>
+<dl class="section post"><dt>Postcondición</dt><dd><b>Q</b> <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> {res <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> (anteriores(*this) <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> anteriores(other) <img class="formulaInl" alt="$\land$" src="form_12.png"/> siguientes(*this) <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> siguientes(other) <img class="formulaInl" alt="$\land$" src="form_12.png"/> coleccion(*this) <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> coleccion(other)}</dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000009">Obsoleto:</a></b></dt><dd>Su pre es muy fuerte y su POST muy débil</dd></dl>
 <dl class="section complexity">
 <dt>Complejidad Temporal</dt>
 <dd><img class="formulaInl" alt="$O$" src="form_1.png"/>(1)</dd>
 </dl>
 
-<p>Definición en la línea <a class="el" href="map_8h_source.html#l02048">2048</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
+<p>Definición en la línea <a class="el" href="map_8h_source.html#l02002">2002</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
 
 </div>
 </div>
@@ -152,7 +152,7 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceaed2.html">aed2</a></li><li class="navelem"><a class="el" href="classaed2_1_1map.html">map</a></li><li class="navelem"><a class="el" href="classaed2_1_1map_1_1iterator.html">iterator</a></li>
-    <li class="footer">Generado el Sábado, 10 de Junio de 2017 00:32:00 para Trabajo práctico 2: diccionario sobre RB-tree por
+    <li class="footer">Generado el Domingo, 11 de Junio de 2017 20:25:57 para Trabajo práctico 2: diccionario sobre RB-tree por
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

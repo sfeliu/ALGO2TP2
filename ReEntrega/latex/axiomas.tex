@@ -27,7 +27,9 @@ Se muestran algunos ejemplos a continuación.
 \begin{DoxyParagraph}{Arbol\+Value}
 A partir de un puntero a nodo construye el arbol binario al que pertenece ese node.
 
-Arbol\+Value\+: puntero(\+Node) $\to$ ab(\+Value) Arbol\+Value(p) $\equiv$ {\bfseries if} p = null {\bfseries then} nil {\bfseries else} {\bfseries if} nothing?($\ast$p.value) {\bfseries then} bin(\href{axiomas.html#ArbolValue}{\tt Arbol\+Value}($\ast$($\ast$p.parent).child\mbox{[}0\mbox{]} , dato($\ast$($\ast$p.parent).value) , \href{axiomas.html#ArbolValue}{\tt Arbol\+Value}($\ast$($\ast$p.parent).child\mbox{[}1\mbox{]}) )) {\bfseries else} bin(\href{axiomas.html#ArbolValue}{\tt Arbol\+Value}($\ast$p.child\mbox{[}0\mbox{]} ) , dato($\ast$p.value) , \href{axiomas.html#ArbolValue}{\tt Arbol\+Value}($\ast$p.child\mbox{[}1\mbox{]})) {\bfseries fi} {\bfseries fi} 
+Arbol\+Value\+: puntero(\+Node) $\to$ ab(\+Value) Arbol\+Value(p) $\equiv$ {\bfseries if} p = null {\bfseries then} nil ~\newline
+ {\bfseries else} {\bfseries if} nothing?($\ast$p.value) {\bfseries then} bin(\href{axiomas.html#ArbolValue}{\tt Arbol\+Value}($\ast$($\ast$p.parent).child\mbox{[}0\mbox{]} , dato($\ast$($\ast$p.parent).value) , \href{axiomas.html#ArbolValue}{\tt Arbol\+Value}($\ast$($\ast$p.parent).child\mbox{[}1\mbox{]}) )) ~\newline
+ {\bfseries else} bin(\href{axiomas.html#ArbolValue}{\tt Arbol\+Value}($\ast$p.child\mbox{[}0\mbox{]} ) , dato($\ast$p.value) , \href{axiomas.html#ArbolValue}{\tt Arbol\+Value}($\ast$p.child\mbox{[}1\mbox{]})) {\bfseries fi} {\bfseries fi} 
 \end{DoxyParagraph}
 
 
@@ -66,14 +68,21 @@ siguientes\+De\+: secu(value\+\_\+type) s x value\+\_\+type v $\to$ secu(value\+
 \begin{DoxyParagraph}{menor\+Lexico}
 compara lexicograficamente 2 conjuntos.
 
-menor\+Lexico\+: conj(key) $\times$ conj(key) $\to$ bool menor\+Lexico(c1 ,c2) $\equiv$ {\bfseries if} $\emptyset$?(c2) {\bfseries then} false {\bfseries else} {\bfseries if} $\emptyset$?(c1) {\bfseries then} true {\bfseries else} {\bfseries if} \href{axiomas.html#minimo}{\tt minimo}(c1,dame\+Uno(c1)) = \href{axiomas.html#minimo}{\tt minimo}(c2, dame\+Uno(c2)) {\bfseries then} (c1 $-$ \{\href{axiomas.html#minimo}{\tt minimo}(c1,dame\+Uno(c1))\}, c2 $-$ \{\href{axiomas.html#minimo}{\tt minimo} (c2, dame\+Uno(c2))\} ) {\bfseries else} \href{axiomas.html#minimo}{\tt minimo}(c1,dame\+Uno(c1)) $<$ \href{axiomas.html#minimo}{\tt minimo}(c2,dame\+Uno(c2)) {\bfseries fi} {\bfseries fi} {\bfseries fi} 
+menor\+Lexico\+: conj(key) $\times$ conj(key) $\to$ bool ~\newline
+ menor\+Lexico(c1 ,c2) $\equiv$ {\bfseries if} $\emptyset$?(c2) {\bfseries then} false ~\newline
+ {\bfseries else} {\bfseries if} $\emptyset$?(c1) {\bfseries then} true ~\newline
+ {\bfseries else} {\bfseries if} \href{axiomas.html#minimo}{\tt minimo}(c1,dame\+Uno(c1)) = \href{axiomas.html#minimo}{\tt minimo}(c2, dame\+Uno(c2)) {\bfseries then} (c1 $-$ \{\href{axiomas.html#minimo}{\tt minimo}(c1,dame\+Uno(c1))\}, c2 $-$ \{\href{axiomas.html#minimo}{\tt minimo} (c2, dame\+Uno(c2))\} ) ~\newline
+ {\bfseries else} \href{axiomas.html#minimo}{\tt minimo}(c1,dame\+Uno(c1)) $<$ \href{axiomas.html#minimo}{\tt minimo}(c2,dame\+Uno(c2)) {\bfseries fi} {\bfseries fi} {\bfseries fi} 
 \end{DoxyParagraph}
 
 
 \begin{DoxyParagraph}{minimo}
 devuelve el elemento menor de un conjunto.
 
-minimo\+: conj(key) c $\times$ Key k $\to$ key \{k $\in$ c\} minimo(c,k) $\equiv$ {\bfseries if} $\emptyset$?(c) {\bfseries then} k {\bfseries else} {\bfseries if} k $<$ dame\+Uno(c) {\bfseries then} \href{axiomas.html#minimo}{\tt minimo}(sin\+Uno(c),k) {\bfseries else} \href{axiomas.html#minimo}{\tt minimo}(sin\+Uno(c) ,dame\+Uno(c)) {\bfseries fi} {\bfseries fi} 
+minimo\+: conj(key) c $\times$ Key k $\to$ key \{k $\in$ c\} ~\newline
+ minimo(c,k) $\equiv$ {\bfseries if} $\emptyset$?(c) {\bfseries then} k ~\newline
+ {\bfseries else} {\bfseries if} k $<$ dame\+Uno(c) {\bfseries then} \href{axiomas.html#minimo}{\tt minimo}(sin\+Uno(c),k) ~\newline
+ {\bfseries else} \href{axiomas.html#minimo}{\tt minimo}(sin\+Uno(c) ,dame\+Uno(c)) {\bfseries fi} {\bfseries fi} 
 \end{DoxyParagraph}
 
 
@@ -81,7 +90,8 @@ minimo\+: conj(key) c $\times$ Key k $\to$ key \{k $\in$ c\} minimo(c,k) $\equiv
 devuelve la cantidad de elementos que tiene el diccionario
 
 cantidad\+De\+Elementos\+: puntero(\+Node) $\to$ nat~\newline
- cantidad\+De\+Elementos(p) $\equiv$ {\bfseries if} p = null {\bfseries then} 0 {\bfseries else} {\bfseries if} nothing?($\ast$p.value) {\bfseries then} \href{axiomas.html#cantidadDeElementos}{\tt cantidad\+De\+Elementos}($\ast$p.parent) ~\newline
+ cantidad\+De\+Elementos(p) $\equiv$ {\bfseries if} p = null {\bfseries then} 0 ~\newline
+ {\bfseries else} {\bfseries if} nothing?($\ast$p.value) {\bfseries then} \href{axiomas.html#cantidadDeElementos}{\tt cantidad\+De\+Elementos}($\ast$p.parent) ~\newline
  {\bfseries else} 1 + \href{axiomas.html#cantidadDeElementos}{\tt cantidad\+De\+Elementos}($\ast$p.child\mbox{[}0\mbox{]}) + \href{axiomas.html#cantidadDeElementos}{\tt cantidad\+De\+Elementos}($\ast$p.child\mbox{[}1\mbox{]}) {\bfseries fi} {\bfseries fi} 
 \end{DoxyParagraph}
 
@@ -109,10 +119,14 @@ es\+Menor\+: puntero(\+Node) $\times$ puntero(\+Node) $\to$ bool~\newline
 
 
 \begin{DoxyParagraph}{cant\+Black}
-dado un puntero nod, devuelve la cantidad de nodos negros hay hasta llegar al root
+dado un puntero a nodo, devuelve la cantidad de nodos negros hay hasta llegar al root
 
 cant\+Black\+: puntero(\+Node) $\to$ nat~\newline
- cant\+Black(p) $\equiv$ {\bfseries if} p = null {\bfseries then} 0 {\bfseries else} {\bfseries if} nothing?($\ast$p.value) {\bfseries then} 0 {\bfseries else} {\bfseries if} p = ($\ast$($\ast$p).parent).parent) {\bfseries then} 1 {\bfseries else} {\bfseries if} $\ast$p.color = black {\bfseries then} 1 + \href{axiomas.html#cantBlack}{\tt cant\+Black}($\ast$p.parent) {\bfseries else} \href{axiomas.html#cantBlack}{\tt cant\+Black}($\ast$p.parent) {\bfseries fi} {\bfseries fi} {\bfseries fi} 
+ cant\+Black(p) $\equiv$ {\bfseries if} p = null {\bfseries then} 0 ~\newline
+ {\bfseries else} {\bfseries if} nothing?($\ast$p.value) {\bfseries then} 0 ~\newline
+ {\bfseries else} {\bfseries if} p = ($\ast$($\ast$p).parent).parent) {\bfseries then} 1 ~\newline
+ {\bfseries else} {\bfseries if} $\ast$p.color = black {\bfseries then} 1 + \href{axiomas.html#cantBlack}{\tt cant\+Black}($\ast$p.parent) ~\newline
+ {\bfseries else} \href{axiomas.html#cantBlack}{\tt cant\+Black}($\ast$p.parent) {\bfseries fi} {\bfseries fi} {\bfseries fi} 
 \end{DoxyParagraph}
 
 
@@ -145,7 +159,9 @@ esta\+Ptr?\+: puntero(\+Node) x puntero(\+Node) $\to$ bool~\newline
 devuelve true si no hay elementos repetidos en el arbol/diccionario
 
 sin\+Repetidos\+: secu(\+Key) $\to$ bool~\newline
- sin\+Repetidos(sec) $\equiv$ if vacia?(sec) {\bfseries then} true {\bfseries else} {\bfseries if} esta?(prim(sec),fin(sec)) {\bfseries then} false {\bfseries else} \href{axiomas.html#sinRepetidos}{\tt sin\+Repetidos}(fin(sec)) {\bfseries fi} 
+ sin\+Repetidos(sec) $\equiv$ if vacia?(sec) {\bfseries then} true ~\newline
+ {\bfseries else} {\bfseries if} esta?(prim(sec),fin(sec)) {\bfseries then} false ~\newline
+ {\bfseries else} \href{axiomas.html#sinRepetidos}{\tt sin\+Repetidos}(fin(sec)) {\bfseries fi} 
 \end{DoxyParagraph}
 
 
@@ -153,7 +169,8 @@ sin\+Repetidos\+: secu(\+Key) $\to$ bool~\newline
 dado un puntero a nodo te devuelve una secuencia de Key
 
 header\+To\+Secu\+: puntero(\+Node) $\to$ secu(\+Key)~\newline
- header\+To\+Secu(p) $\equiv$ {\bfseries if} p = null {\bfseries then} $<$ $>$ {\bfseries else} {\bfseries if} nothing?($\ast$p.value) {\bfseries then} \href{axiomas.html#headerToSecu}{\tt header\+To\+Secu}($\ast$p.parent) ~\newline
+ header\+To\+Secu(p) $\equiv$ {\bfseries if} p = null {\bfseries then} $<$ $>$ ~\newline
+ {\bfseries else} {\bfseries if} nothing?($\ast$p.value) {\bfseries then} \href{axiomas.html#headerToSecu}{\tt header\+To\+Secu}($\ast$p.parent) ~\newline
  {\bfseries else} data($\ast$p.value).clave o \href{axiomas.html#headerToSecu}{\tt header\+To\+Secu}($\ast$p.child\mbox{[}0\mbox{]}) \& \href{axiomas.html#headerToSecu}{\tt header\+To\+Secu}($\ast$p.child\mbox{[}1\mbox{]}) {\bfseries fi} {\bfseries fi} 
 \end{DoxyParagraph}
 
@@ -162,8 +179,9 @@ header\+To\+Secu\+: puntero(\+Node) $\to$ secu(\+Key)~\newline
 devuelve un arbol cantidad de niveles igual a K (arbol de cardinal finito)
 
 arbolK\+: puntero(\+Node) x nat $\to$ A\+B(puntero(\+Nodo))~\newline
- arbol\+K(p) $\equiv$ {\bfseries if} p = null $\lor$ p = null {\bfseries then} nil  nothing?($\ast$p.value) {\bfseries then} arbolK(p-\/$>$parent , n) {\bfseries else} ~\newline
- AB(arbolK($\ast$p.child , n-\/1), p ,arbolK($\ast$p.child\mbox{[}1\mbox{]} , n-\/1)) {\bfseries fi} {\bfseries fi} 
+ arbol\+K(p) $\equiv$ {\bfseries if} p = null $\lor$ p = null {\bfseries then} nil ~\newline
+ {\bfseries else} {\bfseries if} nothing?($\ast$p.value) {\bfseries then} arbolK(p-\/$>$parent , n) ~\newline
+ {\bfseries else} AB(arbolK($\ast$p.child , n-\/1), p ,arbolK($\ast$p.child\mbox{[}1\mbox{]} , n-\/1)) {\bfseries fi} {\bfseries fi} 
 \end{DoxyParagraph}
 
 
@@ -171,7 +189,8 @@ arbolK\+: puntero(\+Node) x nat $\to$ A\+B(puntero(\+Nodo))~\newline
 devuelve el conjunto de elementos
 
 elementos\+: puntero(\+Node) $\to$ conj(value)~\newline
- elementos(p) $\equiv$ if p = null {\bfseries then} vacio {\bfseries else} {\bfseries if} nothing?($\ast$p.value) {\bfseries then} \href{axiomas.html#elementos}{\tt elementos}($\ast$p.parent) ~\newline
+ elementos(p) $\equiv$ if p = null {\bfseries then} vacio ~\newline
+ {\bfseries else} {\bfseries if} nothing?($\ast$p.value) {\bfseries then} \href{axiomas.html#elementos}{\tt elementos}($\ast$p.parent) ~\newline
  {\bfseries else} Ag($\ast$p.value,vacio) U \href{axiomas.html#elementos}{\tt elementos}($\ast$p.child\mbox{[}0\mbox{]}) U \href{axiomas.html#elementos}{\tt elementos}($\ast$p.child\mbox{[}1\mbox{]}) {\bfseries fi} 
 \end{DoxyParagraph}
 
@@ -180,7 +199,8 @@ elementos\+: puntero(\+Node) $\to$ conj(value)~\newline
 Retorna true si esta vacio y los hijos del header es el mismo o si los hijos pertenecen.
 
 hijos\+Header\+: Node $\to$ bool~\newline
- hijos\+Header(n) $\equiv$ {\bfseries if} n.\+parent = N\+U\+LL {\bfseries then} n.\+child\mbox{[}0\mbox{]} = \&n $\land$ n.\+child\mbox{[}1\mbox{]} = \&n {\bfseries else} \href{axiomas.html#estaPtr}{\tt esta\+Ptr}?(n.\+child\mbox{[}0\mbox{]}, \&n) $\land$ \href{axiomas.html#estaPtr}{\tt esta\+Ptr}?(n.\+child\mbox{[}1\mbox{]}, \&n) 
+ hijos\+Header(n) $\equiv$ {\bfseries if} n.\+parent = N\+U\+LL {\bfseries then} n.\+child\mbox{[}0\mbox{]} = \&n $\land$ n.\+child\mbox{[}1\mbox{]} = \&n ~\newline
+ {\bfseries else} \href{axiomas.html#estaPtr}{\tt esta\+Ptr}?(n.\+child\mbox{[}0\mbox{]}, \&n) $\land$ \href{axiomas.html#estaPtr}{\tt esta\+Ptr}?(n.\+child\mbox{[}1\mbox{]}, \&n) 
 \end{DoxyParagraph}
 
 
@@ -192,6 +212,30 @@ es\+Diccionario?\+: secu(tupla( $\alpha$, $\beta$)) $\to$ bool~\newline
 \end{DoxyParagraph}
 
 
+\begin{DoxyParagraph}{son\+Validos}
+Retorna true si los nodos tienen significado valido
+
+son\+Validos\+: Puntero(\+Node) x Puntero(\+Node) $\to$ bool~\newline
+ son\+Validos(p,p\textquotesingle{}) $\equiv$ $\lnot$ (nothing?($\ast$p.value)) $\land$ $\lnot$ (nothing?($\ast$p\textquotesingle{}.value)) 
+\end{DoxyParagraph}
+
+
+\begin{DoxyParagraph}{estan}
+Retorna true si los nodos tienen significado valido
+
+estan\+: Puntero(\+Node) x Puntero(\+Node) $\to$ bool~\newline
+ estan(p,p\textquotesingle{}) $\equiv$ \href{axiomas.html#estaPtr}{\tt esta\+Ptr}(p) $\land$ \href{axiomas.html#estaPtr}{\tt esta\+Ptr}(p\textquotesingle{}) 
+\end{DoxyParagraph}
+
+
+\begin{DoxyParagraph}{colores\+Adecuados}
+Retorna true si los nodos tienen significado valido
+
+colores\+Adecuados\+: Puntero(\+Node) x Puntero(\+Node) $\to$ bool~\newline
+ colores\+Adecuados(s) $\equiv$ \href{axiomas.html#colorAdecuado}{\tt color\+Adecuado}(p) $\land$ \href{axiomas.html#colorAdecuado}{\tt color\+Adecuado}(p\textquotesingle{}) 
+\end{DoxyParagraph}
+
+
 \begin{DoxyParagraph}{primeros}
 Proyecta las primeras componentes de una secuencia de pares
 
@@ -200,11 +244,21 @@ primeros\+: secu(tupla( $\alpha$, $\beta$)) $\to$ secu( $\alpha$)~\newline
 \end{DoxyParagraph}
 
 
+\begin{DoxyParagraph}{son\+Hoja}
+Retorna true si los nodos tienen significado valido
+
+son\+Hoja\+: Puntero(\+Node) x Puntero(\+Node) $\to$ bool~\newline
+ son\+Hoja(p,p\textquotesingle{}) $\equiv$ \href{axiomas.html#esHoja}{\tt es\+Hoja}(p) $\land$ \href{axiomas.html#esHoja}{\tt es\+Hoja}(p\textquotesingle{}) 
+\end{DoxyParagraph}
+
+
 \begin{DoxyParagraph}{es\+R\+B\+Tree}
 Retorna True si a partir del nodo dado se puede reconstruir un Red-\/\+Black Tree.
 
 es\+R\+B\+Tree\+: Node $\to$ Bool~\newline
- \href{axiomas.html#esRBTree}{\tt es\+R\+B\+Tree}(n) $\equiv$ ( $\exists$ k\+: nat)(\href{axiomas.html#arbolK}{\tt arbolK}(n.\+parent,k) = \href{axiomas.html#arbolK}{\tt arbolK}(n.\+parent,k+1)) $\land_{\rm L}$ \href{axiomas.html#sinRepetidos}{\tt sin\+Repetidos}(header\+To\+Secu(n.\+parent)) $\land$ \href{axiomas.html#esADB}{\tt es\+A\+DB}(n.\+parent) $\land$ ( $\forall$ p,p\textquotesingle{}\+:puntero(\+Node))(\href{axiomas.html#estaPtr}{\tt esta\+Ptr}?($\ast$p.value,header.\+parent) $\land$ \href{axiomas.html#estaPtr}{\tt esta\+Ptr}?($\ast$p\textquotesingle{}.value,header.\+parent) $\Rightarrow_{\rm L}$ \href{axiomas.html#colorAdecuado}{\tt color\+Adecuado}(p) $\land$ \href{axiomas.html#colorAdecuado}{\tt color\+Adecuado}(p\textquotesingle{}) $\land$ $\lnot$(nothing?($\ast$p.value)) $\land$ $\lnot$(nothing?($\ast$p\textquotesingle{}.value)) $\land$ ((\href{axiomas.html#esHoja}{\tt es\+Hoja}(p) $\land$ \href{axiomas.html#esHoja}{\tt es\+Hoja}(p\textquotesingle{})) $\Rightarrow_{\rm L}$ \href{axiomas.html#cantBlack}{\tt cant\+Black}(p)=\href{axiomas.html#cantBlack}{\tt cant\+Black}(p\textquotesingle{}))) 
+ \href{axiomas.html#esRBTree}{\tt es\+R\+B\+Tree}(n) $\equiv$ ( $\exists$ k\+: nat)(\href{axiomas.html#arbolK}{\tt arbolK}(n.\+parent,k) = \href{axiomas.html#arbolK}{\tt arbolK}(n.\+parent,k+1)) $\land_{\rm L}$ \href{axiomas.html#sinRepetidos}{\tt sin\+Repetidos}(header\+To\+Secu(n.\+parent)) $\land$ \href{axiomas.html#esADB}{\tt es\+A\+DB}(n.\+parent) $\land$ ~\newline
+ ( $\forall$ p,p\textquotesingle{}\+:puntero(\+Node))(\href{axiomas.html#estan}{\tt estan}($\ast$p.value,header.\+parent,$\ast$p\textquotesingle{}.value,header.\+parent) $\Rightarrow_{\rm L}$ \href{axiomas.html#coloresAdecuados}{\tt colores\+Adecuados}(p,p\textquotesingle{}) $\land$ ~\newline
+ \href{axiomas.html#sonValidos}{\tt son\+Validos}(p,p\textquotesingle{}) $\land$ ((\href{axiomas.html#sonHoja}{\tt son\+Hoja}(p,p\textquotesingle{})) $\Rightarrow_{\rm L}$ \href{axiomas.html#cantBlack}{\tt cant\+Black}(p)=\href{axiomas.html#cantBlack}{\tt cant\+Black}(p\textquotesingle{}))) 
 \end{DoxyParagraph}
 
 

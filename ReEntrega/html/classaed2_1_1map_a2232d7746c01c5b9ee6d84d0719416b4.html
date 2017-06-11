@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Trabajo práctico 2: diccionario sobre RB-tree: aed2::map::root</title>
+<title>Trabajo práctico 2: diccionario sobre RB-tree: aed2::map::deleteFixUpAux</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -73,7 +73,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Buscar');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('classaed2_1_1map_a89cf44cf0661a97f5dd0985160dcc0e7.html','');});
+$(document).ready(function(){initNavTree('classaed2_1_1map_a2232d7746c01c5b9ee6d84d0719416b4.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -91,7 +91,7 @@ $(document).ready(function(){initNavTree('classaed2_1_1map_a89cf44cf0661a97f5dd0
 </div>
 
 <div class="contents">
-<a class="anchor" id="a89cf44cf0661a97f5dd0985160dcc0e7"></a>
+<a class="anchor" id="a2232d7746c01c5b9ee6d84d0719416b4"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -101,10 +101,27 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="structaed2_1_1map_1_1InnerNode.html">InnerNode</a>* <a class="el" href="classaed2_1_1map.html">aed2::map</a>&lt; Key, Meaning, Compare &gt;::root </td>
+          <td class="memname">void <a class="el" href="classaed2_1_1map.html">aed2::map</a>&lt; Key, Meaning, Compare &gt;::deleteFixUpAux </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td class="paramtype"><a class="el" href="classaed2_1_1map_1_1iterator.html">iterator</a> &amp;&#160;</td>
+          <td class="paramname"><em>padre</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classaed2_1_1map_1_1iterator.html">iterator</a> &amp;&#160;</td>
+          <td class="paramname"><em>hijo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -113,9 +130,15 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Esta es una función miembro sobrecargada que se suministra por conveniencia. Difiere de la anterior función solamente en los argumentos que acepta. </p>
 
-<p>Definición en la línea <a class="el" href="map_8h_source.html#l02495">2495</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
+<p>deleteFixUpAux </p>
+<p>Esta funcion recive dos parametros:puntero(nodo)'nodo' e int:'i' este ultimo solo avisa si 'nodo' es hijo derecho o izquierdo de su padre. Aqui se compara al nodo con su 'hermano': primer caso: Chequea si 'hermano' es rojo, si lo es le cambia el color a el y a su padre y luego los rota, cambiando asi al hermano de nodo por el que era hijo izquierdo de 'hermano', luego continua con los otros casos. segundo caso: Si 'hermano' es negro y sus hijos tambien lo cambia de color, luego 'nodo' pasa a ser su padre y vuelve a iniciar el ciclo. Si no se utiliza el segundo caso se sabe que 'hermano' es negro y que tiene al menos un hijo rojo tercer caso: Si nos encontramos aca se sabe que el hijo derecho de 'hermano' es negro, por lo tanto su hijo izquierdo sera negro. Para solucionarlo a 'hermano' se le cambia de color y se lo rota con su hijo izquierdo, el cual es negro y queda como nuevo 'hermano', luego pasa al cuarto caso. cuarto caso: Queda un ultimo caso posible, donde 'hermano' es negro y su hijo izquierdo es rojo, por lo tanto le modifica el color a 'hermano' y al padre, y luego los rota, quedando asi ya solucionado el invariante. Esta funcion modifica el arbol de tal forma que se siga cumpliendo el invariante.</p>
+<dl class="section complexity">
+<dt>Complejidad Temporal</dt>
+<dd><img class="formulaInl" alt="$O$" src="form_1.png"/>( <img class="formulaInl" alt="$\log$" src="form_27.png"/>(<b>size</b>(<b class="paramname">*this</b>)))</dd>
+</dl>
+
+<p>Definición en la línea <a class="el" href="map_8h_source.html#l02556">2556</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
 
 </div>
 </div>

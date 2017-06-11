@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Trabajo práctico 2: diccionario sobre RB-tree: aed2::map::root</title>
+<title>Trabajo práctico 2: diccionario sobre RB-tree: aed2::map::deleteFixUp</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -73,7 +73,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Buscar');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('classaed2_1_1map_a89cf44cf0661a97f5dd0985160dcc0e7.html','');});
+$(document).ready(function(){initNavTree('classaed2_1_1map_a8fc6c73e0fcd59ae86887300b7287d9f.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -91,7 +91,7 @@ $(document).ready(function(){initNavTree('classaed2_1_1map_a89cf44cf0661a97f5dd0
 </div>
 
 <div class="contents">
-<a class="anchor" id="a89cf44cf0661a97f5dd0985160dcc0e7"></a>
+<a class="anchor" id="a8fc6c73e0fcd59ae86887300b7287d9f"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -101,10 +101,21 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="structaed2_1_1map_1_1InnerNode.html">InnerNode</a>* <a class="el" href="classaed2_1_1map.html">aed2::map</a>&lt; Key, Meaning, Compare &gt;::root </td>
+          <td class="memname">void <a class="el" href="classaed2_1_1map.html">aed2::map</a>&lt; Key, Meaning, Compare &gt;::deleteFixUp </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td class="paramtype"><a class="el" href="structaed2_1_1map_1_1Node.html">Node</a> *&#160;</td>
+          <td class="paramname"><em>padre_nodo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structaed2_1_1map_1_1Node.html">Node</a> *&#160;</td>
+          <td class="paramname"><em>hijo_nodo</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -113,9 +124,16 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Esta es una función miembro sobrecargada que se suministra por conveniencia. Difiere de la anterior función solamente en los argumentos que acepta. </p>
 
-<p>Definición en la línea <a class="el" href="map_8h_source.html#l02495">2495</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
+<p>deleteFixUp </p>
+<p>En esta funcion se recibe un parametro:'nodo' de tipo puntero a nodo, la cual viene derivada del erase. Se trata de implementar el FixUp del cormen, donde 'nodo' modifica su lugar y este puede llegar a romper el invariante RB-Tree, tanto como que la raiz no sea negra, que cada nodo rojo tenga hijo rojo, o que todos los caminos tengan distinta cantidad de nodos negros. El primer problema lo arregla si no entra en el ciclo ya que seria que la raiz es roja, entonces luego se le modifica el color. Si entra en el ciclo tiene dos casos particulares que dependen de si 'nodo' es hijo derecho o izquierdo de su padre, esto se ve en mas detalle en el deleteFixUpAux.</p>
+<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000015">Bug:</a></b></dt><dd>Suena a que les vendría bien una operación que te diga si un nodo es hijo derecho o izquierdo de su padre Donde la pondrían??</dd></dl>
+<dl class="section complexity">
+<dt>Complejidad Temporal</dt>
+<dd><img class="formulaInl" alt="$O$" src="form_1.png"/>( <img class="formulaInl" alt="$\log$" src="form_27.png"/>(<b>size</b>(<b class="paramname">*this</b>)))</dd>
+</dl>
+
+<p>Definición en la línea <a class="el" href="map_8h_source.html#l02522">2522</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
 
 </div>
 </div>

@@ -1414,95 +1414,41 @@ public:
      *
      * \attention Para garantizar que el nuevo elemento se inserte sí o sí, usar aed2::map::insert_or_assign.
      */
-    iterator insert(const_iterator hint, const value_type& value) {
-        if(hint.n->color == Color::Header) {
-            if (empty()) {
-                iterator nuevo = iterator(new InnerNode(&header, value, Color::Black));
-                header.child[0] = nuevo.n;
-                header.child[1] = nuevo.n;
-                header.parent = nuevo.n;
-                count++;
-                return nuevo;
-            }
-            if(lt(header.child[1]->key(), value.first)){
-                iterator nuevo = iterator(new InnerNode(header.child[1],value));
-                header.child[1]->child[1] = nuevo.n;
-                header.child[1] = nuevo.n;
-                insertFixUp(nuevo.n);
-                count++;
-                return nuevo;
-            }
-            hint++;
-        }
-        if(eq(hint.n->value().first, value.first)){
-            iterator it = iterator(const_cast<Node*>(hint.n));
-            return it;
-        }
-        if(lt(value.first, hint.n->key())){
-            if(hint.n->child[0] == nullptr){
-                iterator nuevo = iterator(new InnerNode(const_cast<Node*>(hint.n), value));
-                if(hint == begin()){
-                    header.child[0] = nuevo.n;
-                }
-                const_cast<Node*>(hint.n)->child[0] = nuevo.n;
-                insertFixUp(nuevo.n);
-                count++;
-                return nuevo;
-            }else {
-                if(lt(hint--.n->key(), value.first)){
-                    iterator nuevo = iterator(new InnerNode(hint.n->child[1], value));
-                    const_cast<Node*>(hint.n)->child[1] = nuevo.n;
-                    insertFixUp(nuevo.n);
-                    count++;
-                    return nuevo;
-                }else{
-                    return insert(value);
-                }
-            }
-        }else{
-            return insert(value);
-        }
-    }
+	 iterator insert(const_iterator hint, const value_type& value) {
+         if(empty()){
+             iterator nuevo = iterator(new InnerNode(&header, value, Color::Black));
+             header.child[0] = nuevo.n;
+             header.child[1] = nuevo.n;
+             header.parent = nuevo.n;
+             count++;
+             return nuevo;
+         }
+         if(esBuenHint(hint,value)){
+             if( lt(header.child[1]->key(), value.first) || lt(value.first, header.child[0]->key())){
+                 iterator it = insertMinOMax(value);
+                 insertFixUp(it.n);
+                 count++;
+                 return it;
+             }
+             if(eq(hint.n->value().first , value.first)){
+                 iterator it = iterator(const_cast<Node*>(hint.n));
+                 return it;
+             }else{
+                 iterator it = insertConLB(hint,value);
+                 insertFixUp(it.n);
+                 count++;
+                 return it;
+             }
+         }else{
+             insert(value);
+         }
+     }
 
-    /** \overload*/
-    iterator insert(const value_type& value) {
-        if(empty()){
-            iterator nuevo = iterator(new InnerNode(&header, value, Color::Black));
-            header.child[0] = nuevo.n;
-            header.child[1] = nuevo.n;
-            header.parent = nuevo.n;
-            count++;
-            return nuevo;
-        }
-        iterator padre = iterator(header.parent);
-        iterator actual = iterator(header.parent);
-        while(actual.n != nullptr){
-            padre = actual;
-            if(not lt(actual.n->value().first, value.first) and not lt(value.first, actual.n->value().first)){
-                return actual;
-            }
-            if(lt(value.first, actual.n->value().first)){
-                actual = actual.n->child[0];
-            }else{
-                actual = actual.n->child[1];
-            }
-        }
-        iterator nuevo = iterator(new InnerNode(padre.n,value));
-        if(lt(value.first, padre.n->key())){
-            padre.n->child[0] = nuevo.n;
-            if(begin() == padre){
-                header.child[0] = nuevo.n;
-            }
-        }else {
-            padre.n->child[1] = nuevo.n;
-            if(header.child[1] == padre.n){
-                header.child[1] = nuevo.n;
-            }
-        }
-        insertFixUp(nuevo.n);
-        count++;
-        return  nuevo;
-    }
+     /** \overload */
+     iterator insert(const value_type& value) {
+         const_iterator it = lower_bound(value.first);
+         return insert(it, value);
+     }
 
     /**
      * @brief Inserta o redefine \P{value} en el diccionario
@@ -2573,32 +2519,18 @@ private:
          *
          * \complexity{\O(\LOG(\SIZE(\P{*this})))}
          */
-    void deleteFixUp(Node* nodo){
-		iterator hermano = iterator(padre.n->child[i]);
-        if(not(is_black(hermano.n))){
-            hermano.n->color = Color::Black;
-            padre.n->color = Color::Red;
-            Rotate(padre.n, i);
-            hermano = padre.n->child[i];
-		}
-		if(hermano.n != nullptr){
-			if(is_black(hermano.n->child[0]) and is_black(hermano.n->child[1])){
-				hermano.n->color = Color::Red;
-				hijo.n = padre.n;
-				padre.n = padre.n->parent;
+    void deleteFixUp(Node* padre_nodo, Node* hijo_nodo){
+		iterator hijo = iterator(hijo_nodo);
+		iterator padre = iterator(padre_nodo);
+		while((root() != hijo)and(is_black(hijo.n))){
+			if(hijo.n == padre.n->child[0]){
+				deleteFixUpAux(padre, hijo, 1);
 			}else{
-				if(is_black(hermano.n->child[i])){
-					hermano.n->color = Color::Red;
-					hermano.n->child[(i+1)%2]->color = Color::Black;
-					Rotate(hermano.n, (i+1)%2);
-					hermano.n = padre.n->child[i];
-				}
-            	hermano.n->color = padre.n->color;
-            	padre.n->color = Color::Black;
-            	hermano.n->child[i]->color = Color::Black;
-            	Rotate(padre.n, i);
-            	hijo = root();
+				deleteFixUpAux(padre, hijo, 0);
 			}
+		}
+		if(hijo.n != nullptr) {
+			hijo.n->color = Color::Black;
 		}
     }
 
@@ -2621,40 +2553,7 @@ private:
          *
          * \complexity{\O(\LOG(\SIZE(\P{*this})))}
          */
-    void deleteFixUpAux(Node* nodo, int i){
-			iterator hijo = iterator(hijo_nodo);
-			iterator padre = iterator(padre_nodo);
-			while((root() != hijo)and(is_black(hijo.n))){
-				if(hijo.n == padre.n->child[0]){
-					deleteFixUpAux(padre, hijo, 1);
-				}else{
-					deleteFixUpAux(padre, hijo, 0);
-				}
-			}
-			if(hijo.n != nullptr) {
-				hijo.n->color = Color::Black;
-			}
-    }
-
-        /**
-         * \brief insertFixUp
-         *
-         * \Descripcion La función de inserción acude a este auxiliar para arreglar posibles violaciones del
-         * invariante de representación de la estructura del árbol Red-Black al insertar un nuevo nodo.
-         * El parámetro de entrada es un puntero al nodo insertado por la función insertar.
-         * La función tiene un ciclo que abarca tres casos. En el primer caso si el padre del nodo pasado como
-         * parámetro es rojo y su tío también entonces se invierten los colores del padre, el abuelo y el tío,
-         * y el nodo con el que se itera pasa a ser el abuelo.El segundo caso siempre lleva al caso tres.
-         * En el segundo caso si el nodo con el que se itera  es hijo derecho entonces el nodo pasa a ser su padre
-         * y se hace una rotación. Si el nodo es hijo izquierdo entonces es una rotación derecha sino es
-         * rotación izquierda(rotación es explica en Rotate). En el tercer caso se invierten los colores del padre
-         * y el abuelo y si en el caso dos el padre es hijo derecho entonces se hace una rotación derecha sino una
-         * rotación izquierda. Mientras que el padre de nodo sea rojo el ciclo sigue iterando.
-         *
-         *
-         * \complexity{\O(1)}
-         */
-    void insertFixUp(Node* n){
+    void deleteFixUpAux(iterator& padre, iterator& hijo, int i){
 		iterator hermano = iterator(padre.n->child[i]);
         if(not(is_black(hermano.n))){
             hermano.n->color = Color::Black;
@@ -2681,6 +2580,63 @@ private:
 				hijo = root();
 			}
 		}
+    }
+
+        /**
+         * \brief insertFixUp
+         *
+         * \Descripcion La función de inserción acude a este auxiliar para arreglar posibles violaciones del
+         * invariante de representación de la estructura del árbol Red-Black al insertar un nuevo nodo.
+         * El parámetro de entrada es un puntero al nodo insertado por la función insertar.
+         * La función tiene un ciclo que abarca tres casos. En el primer caso si el padre del nodo pasado como
+         * parámetro es rojo y su tío también entonces se invierten los colores del padre, el abuelo y el tío,
+         * y el nodo con el que se itera pasa a ser el abuelo.El segundo caso siempre lleva al caso tres.
+         * En el segundo caso si el nodo con el que se itera  es hijo derecho entonces el nodo pasa a ser su padre
+         * y se hace una rotación. Si el nodo es hijo izquierdo entonces es una rotación derecha sino es
+         * rotación izquierda(rotación es explica en Rotate). En el tercer caso se invierten los colores del padre
+         * y el abuelo y si en el caso dos el padre es hijo derecho entonces se hace una rotación derecha sino una
+         * rotación izquierda. Mientras que el padre de nodo sea rojo el ciclo sigue iterando.
+         *
+         *
+         * \complexity{\O(1)}
+         */
+    void insertFixUp(Node* n){
+		while(n->parent->color == Color::Red){
+			if(n->parent == n->parent->parent->child[0]){
+				iterator y = iterator(n->parent->parent->child[1]);
+				if(not is_black(y)){
+					n->parent->color = Color::Black;
+					y.n->color = Color::Black;
+					n->parent->parent->color = Color::Red;
+					n = n->parent->parent;
+				}else{
+					if(n == n->parent->child[1]){
+						n = n->parent;
+						Rotate(n,1);
+					}
+					n->parent->color = Color::Black;
+					n->parent->parent->color = Color::Red;
+					Rotate(n->parent->parent,0);
+				}
+			}else{
+				iterator y = iterator(n->parent->parent->child[0]);
+				if(not is_black(y.n)){
+					n->parent->color = Color::Black;
+					y.n->color = Color::Black;
+					n->parent->parent->color = Color::Red;
+					n = n->parent->parent;
+				}else{
+					if(n == n->parent->child[0]){
+						n = n->parent;
+						Rotate(n,0);
+					}
+					n->parent->color = Color::Black;
+					n->parent->parent->color = Color::Red;
+					Rotate(n->parent->parent,1);
+				}
+			}
+		}
+		root()->color = Color::Black;
     }
 
         /**
@@ -2756,6 +2712,55 @@ private:
             return n->color == Color::Black;
         }
     }
+
+	bool esBuenHint(const_iterator hint, const value_type& value){
+		if(hint.n->color == Color::Header){
+			return not(empty()) & lt(header.child[1]->key(), value.first);
+		}
+		if(eq(hint.n->value().first , value.first)){
+			return true;
+		}
+		if(not lt(hint.n->value().first , value.first) ){
+			if(hint.n == header.child[0]){
+				return true;
+			}else{
+				--hint;
+				return lt((hint).n->value().first , value.first);
+			}
+		}
+	}
+
+	iterator insertMinOMax(const value_type& value){
+		if(lt(header.child[1]->key(), value.first)){
+			iterator nuevo = iterator(new InnerNode(header.child[1],value));
+			header.child[1]->child[1] = nuevo.n;
+			header.child[1] = nuevo.n;
+			return nuevo;
+		}
+		if(not lt(header.child[0]->key(), value.first)){
+			iterator nuevo = iterator(new InnerNode(header.child[0],value));
+			header.child[0]->child[0] = nuevo.n;
+			header.child[0] = nuevo.n;
+			return nuevo;
+		}
+	}
+
+	iterator insertConLB(const_iterator hint, const value_type& value){
+		if(hint.n->child[0] == nullptr){
+			iterator nuevo = iterator(new InnerNode(const_cast<Node*>(hint.n), value));
+			const_cast<Node*>(hint.n)->child[0] = nuevo.n;
+			return nuevo;
+		}else{
+			iterator padre = iterator(const_cast<Node*>(hint.n->child[0]));
+			while(padre.n->child[1] != nullptr){
+				padre.n = padre.n->child[1];
+			}
+			iterator nuevo = iterator(new InnerNode(padre.n, value));
+			const_cast<Node*>(nuevo.n)->child[1] = nuevo.n;
+			return nuevo;
+		}
+	}
+
 };
 
 //////////////////////////////////////
