@@ -1242,7 +1242,7 @@ public:
      */
     iterator find(const Key& key) {
         iterator it = lower_bound(key);
-        if(it.n == &header or lt(it.n->value().first, key) or lt(key, it.n->value().first)){
+        if(it.n == &header or not eq(it.n->value().first, key)){
            return iterator(&header);
         }
         return it;
@@ -1258,7 +1258,7 @@ public:
         if(it.n == &header){
             return it;
         }
-        if(lt(it.n->value().first, key) or lt(key, it.n->value().first)){
+        if(not eq(it.n->value().first, key)){
             it = const_iterator(&header);
         }
         return it;
@@ -1424,7 +1424,7 @@ public:
              return nuevo;
          }
          if(esBuenHint(hint,value)){
-             if( lt(header.child[1]->key(), value.first) || lt(value.first, header.child[0]->key())){
+             if( lt(header.child[1]->key(), value.first) or lt(value.first, header.child[0]->key())){
                  iterator it = insertMinOMax(value);
                  insertFixUp(it.n);
                  count++;
