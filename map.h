@@ -44,63 +44,63 @@
  */
 /**
  * \page Enunciado Enunciado
- * 
+ *
  * - Fecha de entrega: 2 de Junio, hasta las 16:00 hs.
- * 
+ *
  * \section intro-enunciado Introducción
- * 
- * El objetivo del trabajo práctico es implementar y documentar nuestra versión de un diccionario que emule al 
- * diccionario `std::map` del estándar C++03.  Para ello, se pide completar el archivo `map.h` que se adjunta como 
- * parte del enunciado.  La implementación debe respetar las complejidades solicitadas y no debe perder memoria.  A 
+ *
+ * El objetivo del trabajo práctico es implementar y documentar nuestra versión de un diccionario que emule al
+ * diccionario `std::map` del estándar C++03.  Para ello, se pide completar el archivo `map.h` que se adjunta como
+ * parte del enunciado.  La implementación debe respetar las complejidades solicitadas y no debe perder memoria.  A
  * continuación se describen los lineamientos para resolver el TP.
- * 
+ *
  * \subsection intro-doc Documentación
- * 
+ *
  * El archivo `map.h` sirve a la vez como implementación y documentación.  Dentro de este archivo hay una serie de
- * comentarios C++ que sirven para generar una pagina web con la documentación.  Para ello, es necesario compilar el 
- * archivo fuente usando el sistema [doxygen](http://www.doxygen.org).  En dicha página web de documentación, 
+ * comentarios C++ que sirven para generar una pagina web con la documentación.  Para ello, es necesario compilar el
+ * archivo fuente usando el sistema [doxygen](http://www.doxygen.org).  En dicha página web de documentación,
  * además del presente enunciado, se encuentra:
- * 
+ *
  * - Una descripción general de cómo se usa el módulo `aed2::map` (o `std::map`).
- * - Una explicación detallada de la estructura de datos a utilizar, con las justificaciones para la elección de dicha 
+ * - Una explicación detallada de la estructura de datos a utilizar, con las justificaciones para la elección de dicha
  * estructura.
  * - Una explicación de cómo especificar formalmente las distintas funciones que utilizan punteros.
  * - Algunas consideraciones a la hora de especificar las funciones que usan iteradores.
  * - Una descripción de cómo especificar los aspectos de aliasing de un módulo.
- * - La interfaz del módulo `aed2::map`, incluyendo \b todas las funciones públicas, escrita en lenguaje 
+ * - La interfaz del módulo `aed2::map`, incluyendo \b todas las funciones públicas, escrita en lenguaje
  * coloquial.
  * - Algunas funciones completamente especificadas e implementadas que sirven como ejemplo de lo que se espera del TP.
  *
  * Para generar la documentación, alcanza con ejecutar `doxygen map.h`, teniendo en cuenta que el archivo `map.doxyfile`
- * debe estar en la misma carpeta que `map.h`.  Se recomienda el uso de Eclipse, junto con plugins para `google test`, 
+ * debe estar en la misma carpeta que `map.h`.  Se recomienda el uso de Eclipse, junto con plugins para `google test`,
  * `valgrind` y `doxygen`.
- * 
+ *
  * \subsection enun-lineamiento Lineamientos para la resolución
  *
- * - Estructura de representación: la estructura de representación se encuentra en la parte privada de la clase y 
+ * - Estructura de representación: la estructura de representación se encuentra en la parte privada de la clase y
  * <b>no se puede modificar</b>.  En pocas palabras, implementa un red-black tree con un nodo cabecera.
- * - Implementación: se deben implementar todas las funciones públicas.  No se pueden agregar funciones en la parte 
+ * - Implementación: se deben implementar todas las funciones públicas.  No se pueden agregar funciones en la parte
  * pública, aunque sí se pueden agregar en la parte privada (recomendado).
- * - Eficiencia: las funciones implementadas deben satisfacer las cotas de complejidad requeridas.  Asimismo, todas 
+ * - Eficiencia: las funciones implementadas deben satisfacer las cotas de complejidad requeridas.  Asimismo, todas
  * las funciones privadas que se agreguen deben indicar cuál es su complejidad.
- * - Aspectos no funcionales:  además de la corrección y la eficiencia, se va a evaluar la claridad del código, la 
+ * - Aspectos no funcionales:  además de la corrección y la eficiencia, se va a evaluar la claridad del código, la
  * reutilización de funciones, y la no perdida de memoria.
- * - Especificación formal: se debe completar la especificación de todas las funciones publicas, escribiendo las pre 
- * y postcondiciones en lenguaje formal.  Asimismo, se deben especificar los invariantes de representación y las 
+ * - Especificación formal: se debe completar la especificación de todas las funciones publicas, escribiendo las pre
+ * y postcondiciones en lenguaje formal.  Asimismo, se deben especificar los invariantes de representación y las
  * funciones de abstracción de todas las estructuras (diccionario e iteradores), tanto en lenguaje coloquial como formal.
- * - Especificación coloquial: no es necesario especificar las funciones privadas en términos formales.  Sí se 
- * deben documentar en lenguaje coloquial, describiendo los parámetros requeridos y el valor de retorno, siguiendo 
+ * - Especificación coloquial: no es necesario especificar las funciones privadas en términos formales.  Sí se
+ * deben documentar en lenguaje coloquial, describiendo los parámetros requeridos y el valor de retorno, siguiendo
  * el mismo estilo que se usa para las funciones públicas.
- * - Axiomas y proposiciones auxiliares: las funciones auxiliares del lenguaje de especificación, deben axiomatizarse 
- * en la sección correspondiente dentro del archivo `map.h`.  Se sugiere agregar la función dentro del archivo 
- * `map.doxyfile` a fin de poder generar links desde las otras secciones del documento.  Ver los ejemplos incluidos en 
+ * - Axiomas y proposiciones auxiliares: las funciones auxiliares del lenguaje de especificación, deben axiomatizarse
+ * en la sección correspondiente dentro del archivo `map.h`.  Se sugiere agregar la función dentro del archivo
+ * `map.doxyfile` a fin de poder generar links desde las otras secciones del documento.  Ver los ejemplos incluidos en
  * el archivo.
- * - Testing: una semana antes de la entrega se van a publicar la batería de test que se van a utilizar para testear 
- * el módulo.  Pasar o no pasar los casos de test es irrelevante para la aprobación del TP, que será corregido por uno 
+ * - Testing: una semana antes de la entrega se van a publicar la batería de test que se van a utilizar para testear
+ * el módulo.  Pasar o no pasar los casos de test es irrelevante para la aprobación del TP, que será corregido por uno
  * de los docentes.
- * - Forma de entrega:  El trabajo práctico se entrega enviando un mail a `algo2.dc+tp2` en `gmail.com`.  El mail 
- * debe incluir a los integrantes del grupo y debe tener adjunto el archivo `map.h`.  El bot de la materia podría 
- * llegar a responder si se pasan los casos de test o no; tener en cuenta el punto anterior. 
+ * - Forma de entrega:  El trabajo práctico se entrega enviando un mail a `algo2.dc+tp2` en `gmail.com`.  El mail
+ * debe incluir a los integrantes del grupo y debe tener adjunto el archivo `map.h`.  El bot de la materia podría
+ * llegar a responder si se pasan los casos de test o no; tener en cuenta el punto anterior.
  */
 /**
  * \page Interfaz Descripción de la interfaz
@@ -561,8 +561,8 @@
  * A partir de un puntero a nodo construye el arbol binario al que pertenece ese node.
  *
  * \axioma{ArbolValue}: puntero(Node) \TO ab(Value)
- * ArbolValue(p) \EQUIV \IF p = null \THEN nil \ELSE \IF nothing?(*p.value) \THEN
- * bin(\ArbolValue(*(*p.parent).child[0] , dato(*(*p.parent).value) , \ArbolValue(*(*p.parent).child[1]) )) \ELSE
+ * ArbolValue(p) \EQUIV \IF p = null \THEN nil \n \ELSE \IF nothing?(*p.value) \THEN
+ * bin(\ArbolValue(*(*p.parent).child[0] , dato(*(*p.parent).value) , \ArbolValue(*(*p.parent).child[1]) )) \n \ELSE
  * bin(\ArbolValue(*p.child[0] ) , dato(*p.value) , \ArbolValue(*p.child[1])) \FI \FI
  *\endparblock
  *
@@ -602,40 +602,43 @@
  * \par menorLexico
  * \parblock
  * compara lexicograficamente 2 conjuntos.
- * 
- * \axioma{menorLexico}: conj(key) \TIMES conj(key) \TO bool
- * menorLexico(c1 ,c2) \EQUIV \IF \EMPTYSET?(c2) \THEN false \ELSE \IF \EMPTYSET?(c1) \THEN true
- * \ELSE \IF \minimo(c1,dameUno(c1)) = \minimo(c2, dameUno(c2)) \THEN
- * \menorLexicografico(c1 \MINUS {\minimo(c1,dameUno(c1))}, c2 \MINUS {\minimo (c2, dameUno(c2))} )  \ELSE
+ *
+ * \axioma{menorLexico}: conj(key) \TIMES conj(key) \TO bool \n
+ * menorLexico(c1 ,c2) \EQUIV \IF \EMPTYSET?(c2) \THEN false \n \ELSE \IF \EMPTYSET?(c1) \THEN true
+ * \n \ELSE \IF \minimo(c1,dameUno(c1)) = \minimo(c2, dameUno(c2)) \THEN
+ * \menorLexicografico(c1 \MINUS {\minimo(c1,dameUno(c1))}, c2 \MINUS {\minimo (c2, dameUno(c2))} ) \n \ELSE
  * \minimo(c1,dameUno(c1)) \LT \minimo(c2,dameUno(c2)) \FI \FI \FI
- * \endparblock	
+ * \endparblock
  *
  * \par minimo
  * \parblock
  * devuelve el elemento menor de un conjunto.
- * 
- * \axioma{minimo}: conj(key) c \TIMES Key k \TO key {k \IN c}
- * minimo(c,k) \EQUIV \IF \EMPTYSET?(c) \THEN k \ELSE \IF  k \LT dameUno(c) \THEN \minimo(sinUno(c),k) \ELSE \minimo(sinUno(c) ,dameUno(c)) \FI \FI
- * \endparblock	
+ *
+ * \axioma{minimo}: conj(key) c \TIMES Key k \TO key {k \IN c} \n 
+ * minimo(c,k) \EQUIV \IF \EMPTYSET?(c) \THEN k \n \ELSE \IF  k \LT dameUno(c) \THEN \minimo(sinUno(c),k) \n \ELSE \minimo(sinUno(c) ,dameUno(c)) \FI \FI
+ * \endparblock
  *
  * \par cantidadDeElementos
  * \parblock
  * devuelve la cantidad de elementos que tiene el diccionario
- * 
+ *
  * \axioma{cantidadDeElementos}: puntero(Node) \TO nat\n
- * cantidadDeElementos(p) \EQUIV \IF p = null \THEN 0 \ELSE \IF nothing?(*p.value) \THEN \cantidadDeElementos(*p.parent) \n \ELSE 1 + \cantidadDeElementos(*p.child[0]) + \cantidadDeElementos(*p.child[1]) \FI \FI
+ * cantidadDeElementos(p) \EQUIV \IF p = null \THEN 0 \n \ELSE \IF nothing?(*p.value) \THEN \cantidadDeElementos(*p.parent) \n \ELSE 1 + \cantidadDeElementos(*p.child[0]) + \cantidadDeElementos(*p.child[1]) \FI \FI
  * \endparblock
- * 
+ *
  * \par esADB
  * \parblock
  * devuelve una bool indicando si el arbol tiene una relacion de orden total (cada nodo con sus hijos)
  *
  * \axioma{esADB}: puntero(Node) \TO bool\n
- * esADB(p) \EQUIV \IF p = null \THEN true \ELSE \IF (*p).child[0] != null \THEN 
- *				\IF (*p).child[1] != null \THEN\esMenor((*p).child[0], p) \LAND \esMenor(p, (*p).child[1]) \LAND \esADB((*p).child[0]) \LAND \esADB((*p).child[1])
- *              \ELSE \esMenor((*p).child[0], p) \LAND \esADB((*p).child[0]) \FI \ELSE 
- *              \IF (*p).child[1] != null \THEN \esMenor(p, (*p).child[1]) \LAND \esADB((*p).child[1]) \ELSE true \FI \FI \FI
+ * esADB(p) \EQUIV (\FORALL n:Node) (n \IN headerToSecu[&header]) \IMPLIES_L (((\FORALL n':Node) (n' \IN headerToSecu[0]) \IMPLIES_L (*n'.value).clave < (*n.value).clave)
+ * \LAND ((\FORALL n'':Node) (n'' \IN headerToSecu[1]) \IMPLIES_L (*n''.value).clave > (*n.value).clave))
  * \endparblock
+ *
+ * \deprecated Esta operación (y bastantes otras) son muy dificiles de leer
+ * \deprecated Además, si hace lo que creo que hace, no verifica correctamente que sea un ADB,
+ * piensen en un arbol con la raiz igual a 5, su hijo izq igual a 3 y el hijo derecho de 3 igual a 8, eso
+ * no es un ABB pero cumple su proposición.
  *
  * \par esMenor
  * \parblock
@@ -647,12 +650,12 @@
  *
  * \par cantBlack
  * \parblock
- * dado un puntero nod, devuelve la cantidad de nodos negros hay hasta llegar al root
+ * dado un puntero a nodo, devuelve la cantidad de nodos negros hay hasta llegar al root
  *
  * \axioma{cantBlack}: puntero(Node) \TO nat\n
- * cantBlack(p) \EQUIV \IF p = null \THEN 0 \ELSE \IF nothing?(*p.value) \THEN 0
- * \ELSE \IF p = (*(*p).parent).parent)  \THEN 1
- * \ELSE \IF *p.color = black \THEN 1 + \cantBlack(*p.parent) \ELSE \cantBlack(*p.parent) \FI \FI \FI
+ * cantBlack(p) \EQUIV \IF p = null \THEN 0 \n \ELSE \IF nothing?(*p.value) \THEN 0
+ * \n \ELSE \IF p = (*(*p).parent).parent)  \THEN 1
+ * \n \ELSE \IF *p.color = black \THEN 1 + \cantBlack(*p.parent) \n \ELSE \cantBlack(*p.parent) \FI \FI \FI
  * \endparblock
  *
  * \par colorAdecuado
@@ -661,7 +664,7 @@
  *
  * \axioma{colorAdecuado}: puntero(Node) \TO bool\n
  *
- * colorAdecuado(p) \EQUIV \IF p = null \LOR_L (nothing?(*p.value) \LAND *p.color = Header) \LOR_L 
+ * colorAdecuado(p) \EQUIV \IF p = null \LOR_L (nothing?(*p.value) \LAND *p.color = Header) \LOR_L
  *\n [*p.color = red \LAND *(*p.parent).color = black] \LOR [*p.color = black \LAND (*(*p.parent).color = black \LAND
  * *(*p.parent).color = red)] \LOR_L (*p.parent != null \LAND_L (*p.parent).color = header \LAND_L *p.color = black ) \THEN true \ELSE false
  * \endparblock
@@ -687,25 +690,25 @@
  * devuelve true si no hay elementos repetidos en el arbol/diccionario
  *
  * \axioma{sinRepetidos}: secu(Key) \TO bool\n
- * sinRepetidos(sec) \EQUIV if vacia?(sec) \THEN true \ELSE \IF esta?(prim(sec),fin(sec)) \THEN false \ELSE \sinRepetidos(fin(sec)) \FI
+ * sinRepetidos(sec) \EQUIV if vacia?(sec) \THEN true \n \ELSE \IF esta?(prim(sec),fin(sec)) \THEN false \n \ELSE \sinRepetidos(fin(sec)) \FI
  * \endparblock
  *
  * \par headerToSecu
  * \parblock
  * dado un puntero a nodo te devuelve una secuencia de Key
- * 
+ *
  * \axioma{headerToSecu}: puntero(Node) \TO secu(Key)\n
- * headerToSecu(p) \EQUIV \IF p = null \THEN < > \ELSE \IF nothing?(*p.value) \THEN \headerToSecu(*p.parent)
+ * headerToSecu(p) \EQUIV \IF p = null \THEN < > \n \ELSE \IF nothing?(*p.value) \THEN \headerToSecu(*p.parent)
  * \n \ELSE data(*p.value).clave o \headerToSecu(*p.child[0]) & \headerToSecu(*p.child[1]) \FI \FI
  * \endparblock
  *
  * \par arbolK
- * \parblock 
+ * \parblock
  * devuelve un arbol cantidad de niveles igual a K (arbol de cardinal finito)
  *
- * \axioma{arbolK}: puntero(Node) x nat \TO AB(puntero(Nodo))\n	
- * arbolK(p) \EQUIV \IF p = null \LOR p = null \THEN nil \ELSEIF nothing?(*p.value) \THEN arbolK(p->parent , n) \ELSE
- * \n AB(arbolK(*p.child , n-1), p ,arbolK(*p.child[1] , n-1)) \FI \FI 
+ * \axioma{arbolK}: puntero(Node) x nat \TO AB(puntero(Nodo))\n
+ * arbolK(p) \EQUIV \IF p = null \LOR p = null \THEN nil \n \ELSE \IF nothing?(*p.value) \THEN arbolK(p->parent , n) \n \ELSE
+ *  AB(arbolK(*p.child , n-1), p ,arbolK(*p.child[1] , n-1)) \FI \FI
  * \endparblock
  *
  * \par elementos
@@ -713,7 +716,7 @@
  * devuelve el conjunto de elementos
  *
  *\axioma{elementos}: puntero(Node)  \TO conj(value)\n
- * elementos(p) \EQUIV if p = null \THEN vacio \ELSE \IF  nothing?(*p.value) \THEN \elementos(*p.parent) \n \ELSE
+ * elementos(p) \EQUIV if p = null \THEN vacio \n \ELSE \IF  nothing?(*p.value) \THEN \elementos(*p.parent) \n \ELSE
  * Ag(*p.value,vacio) U \elementos(*p.child[0]) U \elementos(*p.child[1]) \FI
  * \endparblock
  *
@@ -722,7 +725,7 @@
  * Retorna true si esta vacio y los hijos del header es el mismo o si los hijos pertenecen.
  *
  * \axioma{hijosHeader}: Node \TO bool\n
- * hijosHeader(n) \EQUIV \IF n.parent = NULL \THEN n.child[0] = &n \LAND n.child[1] = &n \ELSE \estaPtr?(n.child[0], &n) \LAND \estaPtr?(n.child[1], &n)
+ * hijosHeader(n) \EQUIV \IF n.parent = NULL \THEN n.child[0] = &n \LAND n.child[1] = &n \n \ELSE \estaPtr?(n.child[0], &n) \LAND \estaPtr?(n.child[1], &n)
  * \endparblock
  *
  * \par esDiccionario?
@@ -733,6 +736,30 @@
  * esDiccionario?(s) \EQUIV \sinRepetidos?(\primeros(s))
  * \endparblock
  *
+ * \par sonValidos
+ * \parblock
+ * Retorna true si los nodos tienen significado valido 
+ *
+ * \axioma{sonValidos}: Puntero(Node) x Puntero(Node) \TO bool\n
+ * sonValidos(p,p') \EQUIV \LNOT (nothing?(*p.value)) \LAND \LNOT (nothing?(*p'.value))
+ * \endparblock
+ *
+ * \par estan
+ * \parblock
+ * Retorna true si los nodos tienen significado valido 
+ *
+ * \axioma{estan}: Puntero(Node) x Puntero(Node) \TO bool\n
+ * estan(p,p') \EQUIV \estaPtr(p) \LAND \estaPtr(p')
+ * \endparblock
+ *
+ * \par coloresAdecuados
+ * \parblock
+ * Retorna true si los nodos tienen significado valido 
+ *
+ * \axioma{coloresAdecuados}: Puntero(Node) x Puntero(Node) \TO bool\n
+ * coloresAdecuados(s) \EQUIV \colorAdecuado(p) \LAND \colorAdecuado(p')
+ * \endparblock
+ *
  * \par primeros
  * \parblock
  * Proyecta las primeras componentes de una secuencia de pares
@@ -741,14 +768,26 @@
  * primeros(s) \EQUIV \IF vacia?(s) \THEN <> \ELSE \PI1(prim(s)) \BULLET \primeros(fin(s)) \FI
  * \endparblock
  *
+ * \par sonHoja
+ * \parblock
+ * Retorna true si los nodos tienen significado valido 
+ *
+ * \axioma{sonHoja}: Puntero(Node) x Puntero(Node) \TO bool\n
+ * sonHoja(p,p') \EQUIV \esHoja(p) \LAND \esHoja(p')
+ * \endparblock
+ *
  * \par esRBTree
  * \parblock
  * Retorna True si a partir del nodo dado se puede reconstruir un Red-Black Tree.
  *
  * \axioma{esRBTree}: Node \TO Bool\n
  * \esRBTree(n) \EQUIV (\EXISTS k: nat)(\arbolK(n.parent,k) = \arbolK(n.parent,k+1)) \LAND_L \sinRepetidos(headerToSecu(n.parent))
- * \LAND \esADB(n.parent) \LAND (\FORALL p,p':puntero(Node))(\estaPtr?(*p.value,header.parent) \LAND \estaPtr?(*p'.value,header.parent) \IMPLIES_L
- * \colorAdecuado(p) \LAND \colorAdecuado(p') \LAND \LNOT(nothing?(*p.value)) \LAND \LNOT(nothing?(*p'.value)) \LAND ((\esHoja(p) \LAND \esHoja(p'))\IMPLIES_L \cantBlack(p)=\cantBlack(p')))
+ * \LAND \esADB(n.parent) \LAND \n (\FORALL p,p':puntero(Node))(\estan(*p.value,header.parent,*p'.value,header.parent) \IMPLIES_L
+ * \coloresAdecuados(p,p') \LAND \n \sonValidos(p,p') \LAND ((\sonHoja(p,p'))\IMPLIES_L \cantBlack(p)=\cantBlack(p')))
+ * \endparblock
+ *
+ * \deprecated sinRepetidos(headerToSecu(n.parent)) esto no te soluciona uno de los problemas hablado por Soulignac.
+ * Piensen como podrían reescribir a partir del rep de map VISTO
  *
  * \par padreK
  * \parblock
@@ -756,6 +795,7 @@
  *
  * \axioma{padreK}: puntero(Node) \TO Node\n
  * padreK(p, k) \EQUIV \IF k = 0 \LOR (*p).parent = null \THEN  *p \ELSE \padreK((*p).parent, k-1) \FI \FI
+ * \endparblock
  */
 
 #ifndef MAP_H_
@@ -962,6 +1002,8 @@ public:
      *
      * \complexity{\O(\COPY(\P{other}))}
      *
+     * \deprecated el hint debería estar en el mismo árbol
+     *
      * \attention El parámetro formal \LT del TAD diccionario se establece en esta función.
      * \LT es igual al operator() del comparador de \P{other}
      *
@@ -970,9 +1012,9 @@ public:
         const_iterator it = --other.end();
         count = 0;
         lt = other.lt;
-        const_iterator hint = other.end();
+        const_iterator hint = end();
         while(it != other.end()){
-            hint = insert(hint, it.n->value());
+            hint = insert(hint, *it);
             --it;
         }
     }
@@ -1042,10 +1084,15 @@ public:
      *
      * \complexity{\O(\DEL(\P{*this}) \PLUS \COPY(\P{other}))}
      *
+     * \deprecated Esta función se llama a sí mismo sin reducir el tamaño de entrada
+     * Recuerden copy and swap, no copy and assign
+     *
      * \note Es importante remarcar que no se realiza ninguna comparación entre los elementos.
      */
     map& operator=(map other) {
-        *this = map(other);
+        map* m = new map(other);
+        swap(*m);
+        delete m;
         return *this;
     }
 
@@ -1053,7 +1100,9 @@ public:
      * @brief Destructor
      *
      *
-     * \aliasing{Se invalidan todos los iteradores asociados a \P{*this}, con excepcion de aquellos que apuntan a la posicion pasando-el-ultimo}
+     * \aliasing{Se invalidan todos los iteradores asociados a *this}
+     *
+     * \deprecated Por qué los que apuntan a end() no??
      *
      * \pre \aedpre{true}
      * \post \aedpost{true}
@@ -1093,19 +1142,24 @@ public:
      *
      * \complexity{\O(\LOG(\SIZE(\P{*this}) \CDOT \CMP(\P{*this}))}
      *
+     * \deprecated find retorna un const_iterator
+     * \bug Siempre que puedan usen operaciones del iterador en vez de acceder a su estructura interna
+     *
      * \remark Esta función, que se asemeja más a la forma de programar propuesta en AED2
      * que al estándar C++, fue incluida en el estándar C++11.  Antes era obligación
      * recurrir a la función find.
      */
     const Meaning& at(const Key& key) const {
-        iterator it = find(key);
+        const_iterator it = find(key);
         return it.n->value().second;
+        //return it.n->value().second;
     }
 
     /** \overload */
     Meaning& at(const Key& key) {
         iterator it = find(key);
-        return it.n->value().second;
+    	return it.n->value().second;
+        //return it.n->value().second;
     }
 
     /**
@@ -1139,7 +1193,10 @@ public:
      *                      (\LNOT(def?(key, self)) \IMPLIES_L
      *                  #claves(self) + 1 \IGOBS #claves(this) \LAND  alias(res \IGOBS obtener(key,*this)))
      *  \LAND def?(key,*this)}
-	 *
+	   *
+     * \bug Idem antes,  "it.n->color == Color::Header", es mejor usar funciones:
+     * son más declarativas y ayuda a que cambios futuros de estructura no afecten a todo el código
+     *
      * \complexity{\O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}) + \a x) donde
      * - \a x = 1 si def?(\a self, \P{key}), y
      * - \a x = \a c en caso contrario.}
@@ -1150,6 +1207,7 @@ public:
         value_type v = value_type(key, Meaning());
         if(it.n->color == Color::Header){
             insert(v);
+            iterator it = find(key);
             return it.n->value().second;
         }else{
             return it.n->value().second;
@@ -1174,6 +1232,11 @@ public:
      *
      * \complexity{\O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}))}
      *
+     * \bug En la post deben decir algo más sobre el iterator res, en particular algun otro de los observadores del
+     * iterador
+     *
+     * \bug Este código se puede mejorar, pero está bien
+     *
      * \attention Si el objetivo es insertar un valor con clave \P{key} de acuerdo a alguna condición,
      * entonces conviene usar aed2::map::lower_bound para la búsqueda, dado que el
      * resultado puede ser usado como hint, mejorando la complejidad de la inserción.
@@ -1181,18 +1244,31 @@ public:
      */
     iterator find(const Key& key) {
         iterator it = lower_bound(key);
+/*        if(lt(it.n->value().first, key) or lt(key, it.n->value().first)){
+        	it.n = &header;
+        }
+        return it; */
+        
+        if(it.n == &header or lt(it.n->value().first, key) or lt(key, it.n->value().first)){
+           return iterator(&header);
+        }
+        return it; 
+    }
+
+    /** \overload
+    *
+    * \bug No pueden llamar a funciones const desde funciones no const,
+    * no lo vuelvo a mencionar pero se repite mucho este error
+    */
+    const_iterator find(const Key& key) const {
+        const_iterator it = lower_bound(key);
         if(it.n == &header){
             return it;
         }
         if(lt(it.n->value().first, key) or lt(key, it.n->value().first)){
-            it = iterator(&header);
+            it = const_iterator(&header);
         }
         return it;
-    }
-
-    /** \overload */
-    const_iterator find(const Key& key) const {
-        return const_iterator(find(key));
     }
 
     /**
@@ -1212,18 +1288,41 @@ public:
 	 *						\LAND (((\LNOT def?(key, *this) \LAND \PI1 ult(secuSuby(res)) < key) \IMPLIES_L (vacia?(siguientes(res)))
 	 *						\LAND ((\LNOT def?(key, *this) \IMPLIES_L (\PI1 siguiente(res) > key \LAND \PI1 anterior(res) < key))}
      *
+     * \bug not lt(it.n->key(), key) and not lt(key, it.n->key()) usen funciones
+     *
      * \complexity{\O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}))}
      *
      */
     const_iterator lower_bound(const Key& key) const {
-        return const_iterator(lower_bound(key));
+        const_iterator it = iterator(header.parent);
+        while(it.n != nullptr){
+            if(eq(it.n->key(), key)){
+                return it;
+            }else{
+                if(lt(it.n->key(), key)){
+                    if(it.n->child[1] == nullptr) {
+                        return ++it;
+                    }else{
+                        it.n = it.n->child[1];
+                    }
+                }else{
+                    if(it.n->child[0] == nullptr){
+                        return it;
+                    }else {
+                        it.n = it.n->child[0];
+                    }
+                }
+            }
+        }
+        it = const_iterator(&header);
+        return it;
     }
 
     /** \overload */
     iterator lower_bound(const Key& key)  {
         iterator it = iterator(header.parent);
         while(it.n != nullptr){
-            if(not lt(it.n->key(), key) and not lt(key, it.n->key())){
+            if(eq(it.n->key(), key)){
                 return it;
             }else{
                 if(lt(it.n->key(), key)){
@@ -1311,6 +1410,15 @@ public:
      *  \O(\CMP(\P{*this}) \PLUS \COPY(\P{value})) amortizado.
      * }
      *
+     * \bug Digan algo en la PRE (y aliasing) sobre el iterador hint, que debe cumplir
+     * \bug \f$  #claves(self) + 1 \IGOBS #claves(this))\f$ tiene sentido eso??
+     *
+     * \bug  hint++; Esto esta dentro del if donde hint es el header
+     * \bug Qué pasa si te pasan el aed2::map::end() como hint, pero no es un hint válido
+     * \bug Intenten no repetir tanto código, tal vez pueden hacer que todas las inserciones se hagan a través
+     * de una sola función
+     * \bug Tantos ifs anidados complican la comprensión de código, intenten reescribir
+     *
      * \attention Para garantizar que el nuevo elemento se inserte sí o sí, usar aed2::map::insert_or_assign.
      */
     iterator insert(const_iterator hint, const value_type& value) {
@@ -1375,7 +1483,7 @@ public:
         }
         iterator padre = iterator(header.parent);
         iterator actual = iterator(header.parent);
-        while(actual.n != nullptr){ 
+        while(actual.n != nullptr){
             padre = actual;
             if(not lt(actual.n->value().first, value.first) and not lt(value.first, actual.n->value().first)){
                 return actual;
@@ -1419,7 +1527,12 @@ public:
      * \aliasing{Si modificas a lo que apunta res se modifica *this}
      *
      * \pre \aedpre{*this \IGOBS self}
-     * \post  \aedpost{(alias(siguiente(res) \IGOBS value)) \LAND (colleccion(res) \IGOBS this) \LAND (definir(\PI1 value, \PI2 value), self)}
+     * \post  \aedpost{(alias(siguiente(res) \IGOBS value)) \LAND (colleccion(res) \IGOBS this) \LAND (definir(\PI1 value, \PI2 value), self) \IGOBS *this}
+     *
+     * \deprecated \f$ definir(\PI1 value, \PI2 value), self) \f$ las "variables" de los TADS no se modifican
+     *
+     * \bug El find del principio les arruina la complejidad ante un buen hint
+     *
      *
      * \complexity{
      *  - Peor caso: \O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}) \PLUS \COPY(\P{value}))
@@ -1433,13 +1546,19 @@ public:
      * \T{Meaning} tenga constructor sin parámetros.  La desventaja es que la notación no es tan bonita.
      */
     iterator insert_or_assign(const_iterator hint, const value_type& value) {
-        iterator encontrado = find(value.first);
+        iterator encontrado = insert(hint, value);
+    	if(encontrado.n->value().first == value.first){
+    		encontrado.n->value().second = value.second;
+    	}
+    	return encontrado;
+    	
+    /*    iterator encontrado = find(value.first);
         if(encontrado.n->color != Color::Header){
             encontrado.n->value().second = value.second;
             return encontrado;
         }else{
             return insert(hint, value);
-        }
+        } */
     }
 
     /** \overload */
@@ -1460,6 +1579,15 @@ public:
      * \pre \aedpre{colleccion(pos)=this \LAND \LNOT vacio?(siguientes(pos)) \LAND self \IGOBS *this}
      * \post \aedpost{*this \IGOBS borrar(\PI1(siguiente(pos)), self) \LAND alias(res \IGOBS avanzar(pos))}
      *
+     * \deprecated No dicen nada sobre res
+     *
+     *
+     * \bug Intenten no repetir código (iterator(const_cast<Node*>(pos0.n));), idem aed2::map::insert
+     * \bug No es verdad que si no se cumple pos.n->child[0] == nullptr and pos.n->child[1] == nullptr
+     * no necesite hacer fixup, piensen en una hoja negra
+     * \bug Para la reentrega deberían repensar las operaciones de insercion y de eliminación
+     * \bug cambiado puede ser nullptr, deletefixup no funciona bien
+     *
      * \complexity{
      * - Peor caso: \O(\DEL(\P{*pos}) + \LOG(\SIZE(\P{*this})))
      * - Peor caso amortizado: \O(\DEL(\P{*pos}))
@@ -1477,7 +1605,7 @@ public:
                 header.child[0] = header.child[1] = &header;
             }else {
                 if (pos.n->parent->child[0] == pos.n) {
-                    if(begin() == pos){
+                    if(begin() == pos){                     //Esto me parece que se puede achicar a una funcion.
                         header.child[0] = pos.n->parent;
                     }
                     pos.n->parent->child[0] = nullptr;
@@ -1510,10 +1638,11 @@ public:
                     y.n->child[0] = pos.n->child[0];
                     y.n->child[0]->parent = y;
                     y.n->color = pos.n->color;
+                    cambiado.n = y.n;
                 }
             }
             if(original == Color::Black){
-                deleteFixUp(cambiado.n);
+                deleteFixUp(cambiado.n);    //Modificarlo de tal forma que reciba al padre y un int sabiendo cual es su hijo. (0 o 1)
             }
         }
         delete pos.n;
@@ -1532,10 +1661,15 @@ public:
      * \pre \aedpre{definido?(key, *this) \LAND self \IGOBS *this}
      * \post \aedpost{*this\IGOBS borrar(key, self)}
      *
+     * \bug Mejor:   const_iterator pos (find(key));
+     * o:         const_iterator pos = find(key);
+     * Ambas funcionan y son más claras.
+     *
      * \complexity{\O(\DEL(\P{*pos}) + \LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}))}
      */
     void erase(const Key& key) {
-        const_iterator pos = const_iterator(find(key));
+        const_iterator pos (find(key));
+        //const_iterator pos = const_iterator(find(key));
         erase(pos);
     }
 
@@ -1548,12 +1682,14 @@ public:
      * \pre \aedpre{true}
      * \post \aedpost{\P{*this} \IGOBS vacio}
      *
+     * \bug Es verdaderamente necesario el primer if??
+     *
      * \complexity{\O(\DEL(\P{*this}))}
      */
     void clear() {
-        if(empty()){
+    /*  if(empty()){
             return;
-        }
+        } */
         iterator it = begin();
         int i = 0;
         size_t j = count;
@@ -1839,6 +1975,9 @@ public:
          * \pre \aedpre{haySiguiente?(*this)}
          * \post \aedpost{res \IGOBS avanzar(*this)}
          *
+         * \bug No sigue la especifición, si algo se debería romper es mejor que se rompa
+         * \bug Si quieren poder recorrer la secuencia de forma circular, deberían hacer una operación auxiliar privada
+         *
          * \complexity{
          * - Peor caso: \O(\LOG(SIZE(\a d)) donde \a d es el diccionario asociado a \P{*this}.
          * - Peor caso amortizado: \O(1)
@@ -1942,17 +2081,24 @@ public:
          * - false, cuando alguno de ellos es no nulo, o
          * - true, cuando ambos son nulos.}
          *
-         * \pre \aedpre{haySiguiente?(*this) \LAND haySiguiente?(*this)}
-         * \post \aedpost{res \IGOBS (anteriores(*this) \IGOBS anteriores(other) \LAND siguientes(*this) \IGOBS siguientes(other))}
+         * \pre \aedpre{TRUE}
+         * \post \aedpost{res \IGOBS (anteriores(*this) \IGOBS anteriores(other) \LAND siguientes(*this) \IGOBS siguientes(other) \LAND coleccion(*this) \IGOBS coleccion(other)}
+         *
+         * \deprecated Su pre es muy fuerte y su POST muy débil
          *
          * \complexity{\O(1)}
          */
         bool operator==(iterator other) const {
             return n == other.n;
         }
-        /** \brief idem !|operator== */
+        /** \brief idem !|operator==
+         *
+         * \deprecated Imaginense que en un par de años cambian la estructura interna de iterator, teniendo que cambiar
+         * la igualda, como esta hecho ahora deberían cambiar dos funciones
+         *
+         **/
         bool operator!=(iterator other) const {
-            return n != other.n;
+            return not(*this == other);
         }
 
     private:
@@ -2034,7 +2180,7 @@ public:
             }
             return ret;
         }
-        
+
          /**
          * \brief min
          *
@@ -2261,7 +2407,7 @@ private:
          */
         Node(Node* p, Color c = Color::Red) : parent(p), color(c) {}
         //@}
-        
+
         /**
          * @brief Destructor de Node
          *
@@ -2379,7 +2525,7 @@ private:
      */
     struct InnerNode : public Node {
        InnerNode( Node* p, value_type v ,Color c = Color::Red ):_value(v), Node(p,c){}
-        
+
         value_type _value;
     };
 
@@ -2396,18 +2542,19 @@ private:
      * \par Invariante de representacion
 	 * \parblock
 	 * rep: map \TO bool\n
-	 * rep(m) \EQUIV (nothing?(Header.value)\LAND (\EXISTS k: nat)() \arbolK(m.header.parent,k) = \arbolK(m.header.parent,k+1) )
-     * \LAND_L \sinRepetidos(\headerToSecu(m.header.parent)) \LAND cant(m.header.parent) = m.count \LAND \hijosHeader(header) \LAND \esADB(m.header.parent) \LAND
-     * (\FORALL p,p':puntero(Node))(\estaPtr?(p,header.parent) \LAND \estaPtr?(p',header.parent) \IMPLIES_L \colorAdecuado(p) \LAND \colorAdecuado(p')
-     * \LAND \LNOT(nothing?(*p.value)) \LAND \LNOT(nothing?(*p'.value)) \LAND_L \enRango(p,header.child[0],header.child[1])
-     * \LAND_L \enRango(p',header.child[0],header.child[1]) \LAND ((\esHoja(p) \LAND \esHoja(p'))\IMPLIES_L \cantBlack(p)=\cantBlack(p'))
+	 * rep(m) \EQUIV nothing?(Header.value)\LAND \esRBTree(Header) \LAND \cantidadDeElementos(m.header.parent) = count
 	 * \endparblock
+     *
+     * \bug Este REP es ilegible, intenten formatearlo mejor o subdividir en más suboperaciones
 	 *
 	 * \par Función de abstracción
 	 * \parblock
 	 * abs: map m \TO Diccionario(\T{Key}, \T{Meaning})  {rep(m)}\n
-	 * abs(m) \IGOBS dic : diccionario | #claves(dic) = #\elementos(&m.Header) \LAND (\FORALL k: Key)( k \IN claves(dic) \IFF <k,obtener(k,dic)> \IN \elementos(&m.Header))
+	 * abs(m) \IGOBS dic : diccionario | (\FORALL k: Key)( k \IN claves(dic) \IFF <k,obtener(k,dic)> \IN \elementos(&m.Header))
 	 * \endparblock
+     *
+     * \bug Hace falta decir lo de cant de claves?
+     *
      */
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     //@{
@@ -2456,6 +2603,9 @@ private:
          *
          * \Descripcion En esta funcion se recibe un parametro:'nodo' de tipo puntero a nodo, la cual viene derivada del erase. Se trata de implementar el FixUp del cormen, donde 'nodo' modifica su lugar y este puede llegar a romper el invariante RB-Tree, tanto como que la raiz no sea negra, que cada nodo rojo tenga hijo rojo, o que todos los caminos tengan distinta cantidad de nodos negros. El primer problema lo arregla si no entra en el ciclo ya que seria que la raiz es roja, entonces luego se le modifica el color. Si entra en el ciclo tiene dos casos particulares que dependen de si 'nodo' es hijo derecho o izquierdo de su padre, esto se ve en mas detalle en el deleteFixUpAux.
          *
+         * \bug Suena a que les vendría bien una operación que te diga si un nodo es hijo derecho o izquierdo de su padre
+         * Donde la pondrían??
+         *
          * \complexity{\O(\LOG(\SIZE(\P{*this})))}
          */
     void deleteFixUp(Node* nodo){
@@ -2473,7 +2623,19 @@ private:
         /**
          * \brief deleteFixUpAux
          *
-         * \Descripcion Esta funcion recive dos parametros:puntero(nodo)'nodo' e int:'i' este ultimo solo avisa si 'nodo' es hijo derecho o izquierdo de su padre. Aqui se compara al nodo con su 'hermano': primer caso: Chequea si 'hermano' es rojo, si lo es le cambia el color a el y a su padre y luego los rota, cambiando asi al hermano de nodo por el que era hijo izquierdo de 'hermano', luego continua con los otros casos. segundo caso: Si 'hermano' es negro y sus hijos tambien lo cambia de color, luego 'nodo' pasa a ser su padre y vuelve a iniciar el ciclo. Si no se utiliza el segundo caso se sabe que 'hermano' es negro y que tiene al menos un hijo rojo tercer caso: Si nos encontramos aca se sabe que el hijo derecho de 'hermano' es negro, por lo tanto su hijo izquierdo sera negro. Para solucionarlo a 'hermano' se le cambia de color y se lo rota con su hijo izquierdo, el cual es negro y queda como nuevo 'hermano', luego pasa al cuarto caso. cuarto caso: Queda un ultimo caso posible, donde 'hermano' es negro y su hijo izquierdo es rojo, por lo tanto le modifica el color a 'hermano' y al padre, y luego los rota, quedando asi ya solucionado el invariante. Esta funcion modifica el arbol de tal forma que se siga cumpliendo el invariante.
+         * \Descripcion Esta funcion recive dos parametros:puntero(nodo)'nodo' e int:'i'
+         * este ultimo solo avisa si 'nodo' es hijo derecho o izquierdo de su padre.
+         * Aqui se compara al nodo con su 'hermano': primer caso: Chequea si 'hermano' es rojo,
+         * si lo es le cambia el color a el y a su padre y luego los rota, cambiando asi al hermano
+         * de nodo por el que era hijo izquierdo de 'hermano', luego continua con los otros casos. segundo caso:
+         * Si 'hermano' es negro y sus hijos tambien lo cambia de color, luego 'nodo' pasa a ser su padre y vuelve a
+         * iniciar el ciclo. Si no se utiliza el segundo caso se sabe que 'hermano' es negro y que tiene al
+         * menos un hijo rojo tercer caso: Si nos encontramos aca se sabe que el hijo derecho de 'hermano' es negro,
+         * por lo tanto su hijo izquierdo sera negro. Para solucionarlo a 'hermano' se le cambia de color y
+         * se lo rota con su hijo izquierdo, el cual es negro y queda como nuevo 'hermano', luego pasa al cuarto caso.
+         * cuarto caso: Queda un ultimo caso posible, donde 'hermano' es negro y su hijo izquierdo es rojo,
+         * por lo tanto le modifica el color a 'hermano' y al padre, y luego los rota, quedando asi ya solucionado
+         * el invariante. Esta funcion modifica el arbol de tal forma que se siga cumpliendo el invariante.
          *
          * \complexity{\O(\LOG(\SIZE(\P{*this})))}
          */
@@ -2509,7 +2671,18 @@ private:
         /**
          * \brief insertFixUp
          *
-         * \Descripcion La función de inserción acude a este auxiliar para arreglar posibles violaciones del invariante de representación de la estructura del árbol Red-Black al insertar un nuevo nodo. El parámetro de entrada es un puntero al nodo insertado por la función insertar. La función tiene un ciclo que abarca tres casos. En el primer caso si el padre del nodo pasado como parámetro es rojo y su tío también entonces se invierten los colores del padre, el abuelo y el tío, y el nodo con el que se itera pasa a ser el abuelo.El segundo caso siempre lleva al caso tres. En el segundo caso si el nodo con el que se itera  es hijo derecho entonces el nodo pasa a ser su padre y se hace una rotación. Si el nodo es hijo izquierdo entonces es una rotación derecha sino es rotación izquierda(rotación es explica en Rotate). En el tercer caso se invierten los colores del padre y el abuelo y si en el caso dos el padre es hijo derecho entonces se hace una rotación derecha sino una rotación izquierda. Mientras que el padre de nodo sea rojo el ciclo sigue iterando.
+         * \Descripcion La función de inserción acude a este auxiliar para arreglar posibles violaciones del
+         * invariante de representación de la estructura del árbol Red-Black al insertar un nuevo nodo.
+         * El parámetro de entrada es un puntero al nodo insertado por la función insertar.
+         * La función tiene un ciclo que abarca tres casos. En el primer caso si el padre del nodo pasado como
+         * parámetro es rojo y su tío también entonces se invierten los colores del padre, el abuelo y el tío,
+         * y el nodo con el que se itera pasa a ser el abuelo.El segundo caso siempre lleva al caso tres.
+         * En el segundo caso si el nodo con el que se itera  es hijo derecho entonces el nodo pasa a ser su padre
+         * y se hace una rotación. Si el nodo es hijo izquierdo entonces es una rotación derecha sino es
+         * rotación izquierda(rotación es explica en Rotate). En el tercer caso se invierten los colores del padre
+         * y el abuelo y si en el caso dos el padre es hijo derecho entonces se hace una rotación derecha sino una
+         * rotación izquierda. Mientras que el padre de nodo sea rojo el ciclo sigue iterando.
+         *
          *
          * \complexity{\O(1)}
          */
@@ -2556,6 +2729,8 @@ private:
          * \brief Rotate
          *
          * \Descripcion La función insertFixUp llama a esta función para hacer rotaciones del nodo pasado como parámetro con fines de restaurar el invariante del árbol Red-Black después de una inserción. Esta función también toma como parámetro un entero que tiene que ser 1 o 0. Si este numero es 0 entonces es una rotacion derecha, es decir el nodo pasada como parámetro pasa a ser el hijo derecho del nodo que solía ser su hijo izquierdo y el hijo derecho del hijo izquierdo del nodo pasado como parámetro pasa a ser hijo  izquierdo del nodo pasado como parámetro. Si el numero es 1, entonces la descripción es la misma pero invirtiendo la palabra izquierda por derecha y derecha por izquierda.
+         *
+         * \bug Si en los nodos 0 es left y 1 right, por que lo cambian
          *
          * \complexity{\O(1)}
          */
