@@ -17,8 +17,8 @@
  *
  * \tableofcontents
  *
- * - \b Autores: Nombre y Apellido (mail), Nombre y Apellido (mail),
- * Nombre y Apellido (mail), Nombre y Apellido (mail)
+ * - \b Autores: Santiago Feliu (santiagofeliu@hotmail.com), Gianfranco Bogetti (gianbogetti7@hotmail.com),
+ * Pablo Ingaramo (pablo2martin@Hotmail.com), Kennedy Williams Rios Cuba (Kennedy.wrc@hotmail.com)
  * - \b Materia: Algoritmos y Estructuras de Datos II
  *
  * El presente documento describe la implementación de un módulo diccionario dentro
@@ -1192,7 +1192,7 @@ public:
      *                  #claves(self) + 1 \IGOBS #claves(this) \LAND  alias(res \IGOBS obtener(key,*this)))
      *  \LAND def?(key,*this)}
 	   *
-     * \bug Idem antes,  "it.n->color == Color::Header", es mejor usar funciones:
+     * \deprecated Idem antes,  "it.n->color == Color::Header", es mejor usar funciones:
      * son más declarativas y ayuda a que cambios futuros de estructura no afecten a todo el código
      *
      * \complexity{\O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}) + \a x) donde
@@ -1203,7 +1203,7 @@ public:
     Meaning& operator[](const Key& key) {
         iterator it = find(key);
         value_type v = value_type(key, Meaning());
-        if(it.n->color == Color::Header){
+        if(it == end()){
             insert(v);
             iterator it = find(key);
             return it.n->value().second;
@@ -1440,7 +1440,7 @@ public:
                  return it;
              }
          }else{
-             iterator it = insert(value);
+			 iterator it = insert(value);
              return it;
          }
      }
@@ -1605,7 +1605,7 @@ public:
         iterator it = begin();
         int i = 0;
         size_t j = count;
-        while(it.n->color != Color::Header){
+        while(it != end()){
             it = erase(it);
             i++;
         }
@@ -1896,18 +1896,7 @@ public:
          * }
          */
         iterator& operator++() {
-            if(n->color == Color::Header) {
-                n = n->child[0];
-            }else if(n->child[1] != nullptr){
-                n = min(n->child[1]);
-            }else{
-                Node* y = n->parent;
-                while(y->color != Color::Header and n == y->child[1]){
-                    n = y;
-                    y = y->parent;
-                }
-                n = y;
-            }
+            this->avanzar();
             return *this;
         }
         /**
@@ -1927,7 +1916,7 @@ public:
          */
         iterator operator++(int) {
             iterator ret = *this;
-            ++*this;
+            this->avanzar();
             return ret;
         }
         /**
@@ -2107,10 +2096,38 @@ public:
            }
            return ret;
         }
-/*
-		iterador avanzar(){
 
-		}*/
+		iterator avanzar(){
+            if(n->color == Color::Header) {
+                n = n->child[0];
+            }else if(n->child[1] != nullptr){
+                n = min(n->child[1]);
+            }else{
+                Node* y = n->parent;
+                while(y->color != Color::Header and n == y->child[1]){
+                    n = y;
+                    y = y->parent;
+                }
+                n = y;
+            }
+            return *this;
+		}
+
+		iterator retroceder(){
+            if(n->color == Color::Header){
+                n = n->child[1];
+            }else if(n->child[0] != nullptr){
+                n = max(n->child[0]);
+            }else{
+                Node* y = n->parent;
+                while(y->color != Color::Header and n == y->child[0]){
+                    n = y;
+                    y = y->parent;
+                }
+                n = y;
+            }
+            return *this;
+		}
     };
 
     /**
@@ -2161,7 +2178,7 @@ public:
         }
         /** \brief Ver aed2::map::iterator::operator++() */
         const_iterator& operator++()  {
-            if(n->color == Color::Header) {
+			if(n->color == Color::Header) {
                 n = n->child[0];
             }else if(n->child[1] != nullptr){
                 n = min(n->child[1]);
