@@ -1009,13 +1009,13 @@ public:
      *
      */
     map(const map& other) {
-        const_iterator it = --other.end();
+        const_iterator it = const_iterator(other.header.child[1]);
         count = 0;
         lt = other.lt;
         const_iterator hint = end();
         while(it != other.end()){
             hint = insert(hint, *it);
-            --it;
+            it.retroceder();
         }
     }
 
@@ -1151,13 +1151,13 @@ public:
      */
     const Meaning& at(const Key& key) const {
         const_iterator it = find(key);
-        return it.n->value().second;
+        return it->second;
     }
 
     /** \overload */
     Meaning& at(const Key& key) {
         iterator it = find(key);
-    	return it.n->value().second;
+    	return it->second;
     }
 
     /**
@@ -1206,9 +1206,9 @@ public:
         if(it == end()){
             insert(v);
             iterator it = find(key);
-            return it.n->value().second;
+            return it->second;
         }else{
-            return it.n->value().second;
+            return it->second;
         }
     }
 
@@ -1242,7 +1242,7 @@ public:
      */
     iterator find(const Key& key) {
         iterator it = lower_bound(key);
-        if(it.n == &header or not eq(it.n->value().first, key)){
+        if(it == end() or not eq(it->first, key)){
            return iterator(&header);
         }
         return it;
@@ -1255,10 +1255,10 @@ public:
     */
     const_iterator find(const Key& key) const {
         const_iterator it = lower_bound(key);
-        if(it.n == &header){
+        if(it == end()){
             return it;
         }
-        if(not eq(it.n->value().first, key)){
+        if(not eq(it->first, key)){
             it = const_iterator(&header);
         }
         return it;
@@ -1294,7 +1294,7 @@ public:
             }else{
                 if(lt(it.n->key(), key)){
                     if(it.n->child[1] == nullptr) {
-                        return ++it;
+                        return it.avanzar();
                     }else{
                         it.n = it.n->child[1];
                     }
@@ -1320,7 +1320,7 @@ public:
             }else{
                 if(lt(it.n->key(), key)){
                     if(it.n->child[1] == nullptr) {
-                        return ++it;
+                        return it.avanzar();
                     }else{
                         it.n = it.n->child[1];
                     }
@@ -1406,8 +1406,8 @@ public:
      * \bug Digan algo en la PRE (y aliasing) sobre el iterador hint, que debe cumplir
      * \bug \f$  #claves(self) + 1 \IGOBS #claves(this))\f$ tiene sentido eso??
      *
-     * \bug  hint++; Esto esta dentro del if donde hint es el header
-     * \bug Qué pasa si te pasan el aed2::map::end() como hint, pero no es un hint válido
+     * \deprecated  hint++; Esto esta dentro del if donde hint es el header
+     * \deprecated Qué pasa si te pasan el aed2::map::end() como hint, pero no es un hint válido
      * \deprecated Intenten no repetir tanto código, tal vez pueden hacer que todas las inserciones se hagan a través
      * de una sola función
      * \deprecated Tantos ifs anidados complican la comprensión de código, intenten reescribir
@@ -1487,8 +1487,8 @@ public:
      */
     iterator insert_or_assign(const_iterator hint, const value_type& value) {
         iterator encontrado = insert(hint, value);
-    	if(encontrado.n->value().second != value.second){
-    		encontrado.n->value().second = value.second;
+    	if(encontrado->second != value.second){
+    		encontrado->second = value.second;
     	}
     	return encontrado;
     }
@@ -1517,8 +1517,8 @@ public:
      * \bug Intenten no repetir código (iterator(const_cast<Node*>(pos0.n));), idem aed2::map::insert
      * \bug No es verdad que si no se cumple pos.n->child[0] == nullptr and pos.n->child[1] == nullptr
      * no necesite hacer fixup, piensen en una hoja negra
-     * \bug Para la reentrega deberían repensar las operaciones de insercion y de eliminación
-     * \bug cambiado puede ser nullptr, deletefixup no funciona bien
+     * \deprecated Para la reentrega deberían repensar las operaciones de insercion y de eliminación
+     * \deprecated cambiado puede ser nullptr, deletefixup no funciona bien
      *
      * \complexity{
      * - Peor caso: \O(\DEL(\P{*pos}) + \LOG(\SIZE(\P{*this})))
@@ -1530,7 +1530,7 @@ public:
         iterator y = iterator(const_cast<Node*>(pos.n));
         Color original = y.n->color;
         iterator proximo = iterator(const_cast<Node*>(pos.n));
-        proximo++;
+        proximo.avanzar();
 		iterator cambiado;
         iterator padre_cambiado;
         if(pos.n->child[0] == nullptr){
@@ -1543,7 +1543,7 @@ public:
                 padre_cambiado = y.n->parent;
                 transplant(const_cast<Node*>(pos.n), pos.n->child[0]);
         	}else{
-				y++;
+				y.avanzar();
 				original = y.n->color;
 				padre_cambiado = y;
 				cambiado = iterator(y.n->child[1]);
@@ -1577,7 +1577,7 @@ public:
      * \pre \aedpre{definido?(key, *this) \LAND self \IGOBS *this}
      * \post \aedpost{*this\IGOBS borrar(key, self)}
      *
-     * \bug Mejor:   const_iterator pos (find(key));
+     * \deprecated Mejor:   const_iterator pos (find(key));
      * o:         const_iterator pos = find(key);
      * Ambas funcionan y son más claras.
      *
@@ -1887,8 +1887,8 @@ public:
          * \pre \aedpre{haySiguiente?(*this)}
          * \post \aedpost{res \IGOBS avanzar(*this)}
          *
-         * \bug No sigue la especifición, si algo se debería romper es mejor que se rompa
-         * \bug Si quieren poder recorrer la secuencia de forma circular, deberían hacer una operación auxiliar privada
+         * \deprecated No sigue la especifición, si algo se debería romper es mejor que se rompa
+         * \deprecated Si quieren poder recorrer la secuencia de forma circular, deberían hacer una operación auxiliar privada
          *
          * \complexity{
          * - Peor caso: \O(\LOG(SIZE(\a d)) donde \a d es el diccionario asociado a \P{*this}.
@@ -1935,18 +1935,7 @@ public:
          * }
          */
         iterator& operator--() {
-            if(n->color == Color::Header){
-                n = n->child[1];
-            }else if(n->child[0] != nullptr){
-                n = max(n->child[0]);
-            }else{
-                Node* y = n->parent;
-                while(y->color != Color::Header and n == y->child[0]){
-                    n = y;
-                    y = y->parent;
-                }
-                n = y;
-            }
+            this->retroceder();
             return *this;
         }
 
@@ -1967,7 +1956,7 @@ public:
          */
         iterator operator--(int) {
             iterator ret = *this;
-            --*this;
+            this->retroceder();
             return ret;
         }
         /**
@@ -1999,7 +1988,7 @@ public:
          *
          **/
         bool operator!=(iterator other) const {
-            return not(*this == other);
+            return not (*this == other);
         }
 
     private:
@@ -2178,48 +2167,26 @@ public:
         }
         /** \brief Ver aed2::map::iterator::operator++() */
         const_iterator& operator++()  {
-			if(n->color == Color::Header) {
-                n = n->child[0];
-            }else if(n->child[1] != nullptr){
-                n = min(n->child[1]);
-            }else{
-                Node* y = n->parent;
-                while(y->color != Color::Header and n == y->child[1]){
-                    n = y;
-                    y = y->parent;
-                }
-                n = y;
-            }
+            this->avanzar();
             return *this;
         }
 
         /** \brief Ver aed2::map::iterator::operator++(int) */
         const_iterator operator++(int)  {
             const_iterator ret = *this;
-            ++*this;
+            this->avanzar();
             return ret;
         }
         /** \brief Ver aed2::map::iterator::operator--() */
         const_iterator& operator--()  {
-            if(n->color == Color::Header){
-                n = n->child[1];
-            }else if(n->child[0] != nullptr){
-                n = max(n->child[0]);
-            }else{
-                Node* y = n->parent;
-                while(y->color != Color::Header and n == y->child[0]){
-                    n = y;
-                    y = y->parent;
-                }
-                n = y;
-            }
+            this->retroceder();
             return *this;
         }
 
         /** \brief Ver aed2::map::iterator::operator--(int) */
         const_iterator operator--(int)  {
             const_iterator ret = *this;
-            --*this;
+            this->retroceder();
             return ret;
         }
         /** \brief Ver aed2::map::iterator::operator==() */
@@ -2228,7 +2195,7 @@ public:
         }
         /** \brief Ver aed2::map::iterator::operator!=() */
         bool operator!=(const_iterator other) const  {
-            return n != other.n;
+            return not (*this == other);
         }
 
     private:
@@ -2270,6 +2237,38 @@ public:
                 ret = ret->child[0];
             }
             return ret;
+        }
+
+        const_iterator avanzar(){
+            if(n->color == Color::Header) {
+                n = n->child[0];
+            }else if(n->child[1] != nullptr){
+                n = min(n->child[1]);
+            }else{
+                Node* y = n->parent;
+                while(y->color != Color::Header and n == y->child[1]){
+                    n = y;
+                    y = y->parent;
+                }
+                n = y;
+            }
+            return *this;
+        }
+
+        const_iterator retroceder(){
+            if(n->color == Color::Header){
+                n = n->child[1];
+            }else if(n->child[0] != nullptr){
+                n = max(n->child[0]);
+            }else{
+                Node* y = n->parent;
+                while(y->color != Color::Header and n == y->child[0]){
+                    n = y;
+                    y = y->parent;
+                }
+                n = y;
+            }
+            return *this;
         }
     };
 
@@ -2536,8 +2535,8 @@ private:
          *
          * \Descripcion En esta funcion se recibe un parametro:'nodo' de tipo puntero a nodo, la cual viene derivada del erase. Se trata de implementar el FixUp del cormen, donde 'nodo' modifica su lugar y este puede llegar a romper el invariante RB-Tree, tanto como que la raiz no sea negra, que cada nodo rojo tenga hijo rojo, o que todos los caminos tengan distinta cantidad de nodos negros. El primer problema lo arregla si no entra en el ciclo ya que seria que la raiz es roja, entonces luego se le modifica el color. Si entra en el ciclo tiene dos casos particulares que dependen de si 'nodo' es hijo derecho o izquierdo de su padre, esto se ve en mas detalle en el deleteFixUpAux.
          *
-         * \bug Suena a que les vendría bien una operación que te diga si un nodo es hijo derecho o izquierdo de su padre
-         * Donde la pondrían??
+         * \deprecated Suena a que les vendría bien una operación que te diga si un nodo es hijo derecho o izquierdo de su padre
+         * Donde la pondrían?? // En la parte privada de Node.
          *
          * \complexity{\O(\LOG(\SIZE(\P{*this})))}
          */
@@ -2710,14 +2709,15 @@ private:
         }
         if(viejo == header.child[0]){
             iterator max = iterator(viejo);
-            header.child[0] = ++max;
+            header.child[0] = max.avanzar();
         }
         if(viejo == header.child[1]){
             iterator min = iterator(viejo);
-            header.child[1] = --min;
+            header.child[1] = min.retroceder();
         }
-		if(nuevo != nullptr)                // De esta forma admite la chance de que nuevo sea nullptr
-        nuevo->parent = viejo->parent;
+		if(nuevo != nullptr){
+            nuevo->parent = viejo->parent;
+        }
     }
 
         /**
@@ -2736,18 +2736,18 @@ private:
     }
 
 	bool esBuenHint(const_iterator hint, const value_type& value){
-		if(hint.n->color == Color::Header){
+		if(hint == end()){
 			return not(empty()) & lt(header.child[1]->key(), value.first);
 		}
-		if(eq(hint.n->value().first , value.first)){
+		if(eq(hint->first , value.first)){
 			return true;
 		}
-		if(not lt(hint.n->value().first , value.first) ){
+		if(not lt(hint->first , value.first) ){
 			if(hint.n == header.child[0]){
 				return true;
 			}else{
-				--hint;
-				return lt((hint).n->value().first , value.first);
+				hint.retroceder();
+				return lt(hint->first , value.first);
 			}
 		}
 	}
