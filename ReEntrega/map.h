@@ -1440,7 +1440,8 @@ public:
                  return it;
              }
          }else{
-             insert(value);
+             iterator it = insert(value);
+             return it;
          }
      }
 
