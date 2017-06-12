@@ -1233,7 +1233,7 @@ public:
      * \bug En la post deben decir algo más sobre el iterator res, en particular algun otro de los observadores del
      * iterador
      *
-     * \bug Este código se puede mejorar, pero está bien
+     * \deprecated Este código se puede mejorar, pero está bien
      *
      * \attention Si el objetivo es insertar un valor con clave \P{key} de acuerdo a alguna condición,
      * entonces conviene usar aed2::map::lower_bound para la búsqueda, dado que el
@@ -1281,7 +1281,7 @@ public:
 	 *						\LAND (((\LNOT def?(key, *this) \LAND \PI1 ult(secuSuby(res)) < key) \IMPLIES_L (vacia?(siguientes(res)))
 	 *						\LAND ((\LNOT def?(key, *this) \IMPLIES_L (\PI1 siguiente(res) > key \LAND \PI1 anterior(res) < key))}
      *
-     * \bug not lt(it.n->key(), key) and not lt(key, it.n->key()) usen funciones
+     * \deprecated not lt(it.n->key(), key) and not lt(key, it.n->key()) usen funciones
      *
      * \complexity{\O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}))}
      *
@@ -1408,9 +1408,9 @@ public:
      *
      * \bug  hint++; Esto esta dentro del if donde hint es el header
      * \bug Qué pasa si te pasan el aed2::map::end() como hint, pero no es un hint válido
-     * \bug Intenten no repetir tanto código, tal vez pueden hacer que todas las inserciones se hagan a través
+     * \deprecated Intenten no repetir tanto código, tal vez pueden hacer que todas las inserciones se hagan a través
      * de una sola función
-     * \bug Tantos ifs anidados complican la comprensión de código, intenten reescribir
+     * \deprecated Tantos ifs anidados complican la comprensión de código, intenten reescribir
      *
      * \attention Para garantizar que el nuevo elemento se inserte sí o sí, usar aed2::map::insert_or_assign.
      */
@@ -1470,7 +1470,7 @@ public:
      *
      * \deprecated \f$ definir(\PI1 value, \PI2 value), self) \f$ las "variables" de los TADS no se modifican
      *
-     * \bug El find del principio les arruina la complejidad ante un buen hint
+     * \deprecated El find del principio les arruina la complejidad ante un buen hint
      *
      *
      * \complexity{
@@ -1486,7 +1486,7 @@ public:
      */
     iterator insert_or_assign(const_iterator hint, const value_type& value) {
         iterator encontrado = insert(hint, value);
-    	if(encontrado.n->value().first == value.first){
+    	if(encontrado.n->value().second != value.second){
     		encontrado.n->value().second = value.second;
     	}
     	return encontrado;
@@ -1494,7 +1494,7 @@ public:
 
     /** \overload */
     iterator insert_or_assign(const value_type& value) {
-        const_iterator hint = const_iterator(root());
+        const_iterator hint = lower_bound(value.first);
         return insert_or_assign(hint, value);
     }
 
@@ -1596,7 +1596,7 @@ public:
      * \pre \aedpre{true}
      * \post \aedpost{\P{*this} \IGOBS vacio}
      *
-     * \bug Es verdaderamente necesario el primer if??
+     * \deprecated Es verdaderamente necesario el primer if??
      *
      * \complexity{\O(\DEL(\P{*this}))}
      */
@@ -2460,7 +2460,7 @@ private:
 	 * rep(m) \EQUIV nothing?(Header.value)\LAND \esRBTree(Header) \LAND \cantidadDeElementos(m.header.parent) = count
 	 * \endparblock
      *
-     * \bug Este REP es ilegible, intenten formatearlo mejor o subdividir en más suboperaciones
+     * \deprecated Este REP es ilegible, intenten formatearlo mejor o subdividir en más suboperaciones
 	 *
 	 * \par Función de abstracción
 	 * \parblock
@@ -2468,7 +2468,7 @@ private:
 	 * abs(m) \IGOBS dic : diccionario | (\FORALL k: Key)( k \IN claves(dic) \IFF <k,obtener(k,dic)> \IN \elementos(&m.Header))
 	 * \endparblock
      *
-     * \bug Hace falta decir lo de cant de claves?
+     * \deprecated Hace falta decir lo de cant de claves?
      *
      */
     //////////////////////////////////////////////////////////////////////////////////////////////////////
