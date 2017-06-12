@@ -2106,6 +2106,10 @@ public:
            }
            return ret;
         }
+/*
+		iterador avanzar(){
+
+		}*/
     };
 
     /**
