@@ -1090,9 +1090,7 @@ public:
      * \note Es importante remarcar que no se realiza ninguna comparación entre los elementos.
      */
     map& operator=(map other) {
-        map* m = new map(other);
-        swap(*m);
-        delete m;
+        swap(other);
         return *this;
     }
 
@@ -1250,7 +1248,7 @@ public:
 
     /** \overload
     *
-    * \bug No pueden llamar a funciones const desde funciones no const,
+    * \deprecated No pueden llamar a funciones const desde funciones no const,
     * no lo vuelvo a mencionar pero se repite mucho este error
     */
     const_iterator find(const Key& key) const {
@@ -1514,8 +1512,8 @@ public:
      * \deprecated No dicen nada sobre res
      *
      *
-     * \bug Intenten no repetir código (iterator(const_cast<Node*>(pos0.n));), idem aed2::map::insert
-     * \bug No es verdad que si no se cumple pos.n->child[0] == nullptr and pos.n->child[1] == nullptr
+     * \deprecated Intenten no repetir código (iterator(const_cast<Node*>(pos0.n));), idem aed2::map::insert
+     * \deprecated No es verdad que si no se cumple pos.n->child[0] == nullptr and pos.n->child[1] == nullptr
      * no necesite hacer fixup, piensen en una hoja negra
      * \deprecated Para la reentrega deberían repensar las operaciones de insercion y de eliminación
      * \deprecated cambiado puede ser nullptr, deletefixup no funciona bien
