@@ -583,7 +583,7 @@
  * \endparblock
  *
  *
- * \par anterioresDe
+	 * \par anterioresDe
  * \parblock
  * Devuelve una lista ordenada de todos los valores ateriores a el parametro que recive.
  *
@@ -596,7 +596,7 @@
  * Devuelve una lista ordenada de todos los valores ateriores a el parametro que recive.
  *
  * \axioma{siguientesDe}: secu(value_type) s x value_type v \TO secu(value_type) 		{esta?(v,s)}\n
- * anterioresDe(s, v) \EQUIV \IF prim(s) == v \THEN <> \ELSE prim(s) \BULLET \siguientesDe(s,fin(v)) \FI
+ * siguientesDe(s, v) \EQUIV \IF prim(s) == v \THEN <> \ELSE prim(s) \BULLET \siguientesDe(s,fin(v)) \FI
  * \endparblock
  *
  * \par menorLexico
@@ -699,7 +699,7 @@
  *
  * \axioma{headerToSecu}: puntero(Node) \TO secu(Key)\n
  * headerToSecu(p) \EQUIV \IF p = null \THEN < > \n \ELSE \IF nothing?(*p.value) \THEN \headerToSecu(*p.parent)
- * \n \ELSE data(*p.value).clave o \headerToSecu(*p.child[0]) & \headerToSecu(*p.child[1]) \FI \FI
+ * \n \ELSE data(*p.value).clave \BULLET \headerToSecu(*p.child[0]) & \headerToSecu(*p.child[1]) \FI \FI
  * \endparblock
  *
  * \par arbolK
@@ -795,6 +795,24 @@
  *
  * \axioma{padreK}: puntero(Node) \TO Node\n
  * padreK(p, k) \EQUIV \IF k = 0 \LOR (*p).parent = null \THEN  *p \ELSE \padreK((*p).parent, k-1) \FI \FI
+ * \endparblock
+ *
+ * \par elementosMayoresA
+ * \parblock
+ * Retorna la secuencia ordenada de elementos mayores al pasado como parametro.
+ * elementosMayoresA(d, c, k) \EQUIV \IF \EMPTYSET(c)? \THEN < > \ELSE \IF maximo(c) < k \THEN elementosMayoresA(d, c - maximo(c), k) o <maximo(c), obtener(minimo(c), d)>
+ * 								\ELSE elementosMayoresA(d, c - maximo(c), k) \FI \FI
+ * \axioma{elementosMayoresA}: deicc(value) x conj(key) x key \TO secu(value)\n
+ *
+ * \endparblock
+ *
+ * \par elementosMenoresA
+ * \parblock
+ * Retorna la secuencia ordenada de elementos menores al pasado como parametro.
+ *
+ * \axioma{elementosMenoresA}: dicc(value) x conj(key) x key \TO secu(value)\n
+ * elementosMenoresA(d, c, k) \EQUIV \IF \EMPTYSET(c)? \THEN < > \ELSE \IF minimo(c) < k \THEN <minimo(c), obtener(minimo(c), d)> \BULLET elementosMenoresA(d, c - minimo(c), k)
+ * 								\ELSE elementosMenoresA(d, c - minimo(c), k) \FI \FI
  * \endparblock
  */
 
@@ -1223,12 +1241,13 @@ public:
      * \aliasing{si el iterador me permite modificar, si modificas a lo que apunta res se modifica *this}
      *
      * \pre \aedpre{true}
-     * \post \aedpost{this \IGOBS coleccion(res) \LAND (def?(key, *this) \IMPLIES_L alias(PI1(siguiente(res)) \IGOBS key))
+     * \post \aedpost{this \IGOBS coleccion(res) \LAND anteriores(res) \IGOBS \elementosMenoresA(*this, claves(*this), key) \LAND siguientes(res) \IGOBS \elementosMayoresA(*this, claves(*this), key)
+	 *						\LAND (def?(key, *this) \IMPLIES_L alias(PI1(siguiente(res)) \IGOBS key))
      *                        \LAND (\LNOT def?(key, *this) \IMPLIES_L alias(vacio?(siguientes(res)))}
      *
      * \complexity{\O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}))}
      *
-     * \bug En la post deben decir algo más sobre el iterator res, en particular algun otro de los observadores del
+     * \deprecated En la post deben decir algo más sobre el iterator res, en particular algun otro de los observadores del
      * iterador
      *
      * \deprecated Este código se puede mejorar, pero está bien
@@ -1275,7 +1294,8 @@ public:
      * \aliasing{si el iterador me permite modificar, si modificas a lo que apunta res se modifica *this}
      *
      * \pre \aedpre{true}
-     * \post \aedpost{this \IGOBS coleccion(res) \LAND (def?(key, *this) \IMPLIES_L alias(PI1(siguiente(res)) \IGOBS key))
+     * \post \aedpost{this \IGOBS this \IGOBS coleccion(res) \LAND anteriores(res) \IGOBS \elementosMenoresA(*this, claves(*this), key) \LAND siguientes(res) \IGOBS \elementosMayoresA(*this, claves(*this), key)
+	 *						 \LAND (def?(key, *this) \IMPLIES_L alias(PI1(siguiente(res)) \IGOBS key))
 	 *						\LAND (((\LNOT def?(key, *this) \LAND \PI1 ult(secuSuby(res)) < key) \IMPLIES_L (vacia?(siguientes(res)))
 	 *						\LAND ((\LNOT def?(key, *this) \IMPLIES_L (\PI1 siguiente(res) > key \LAND \PI1 anterior(res) < key))}
      *
@@ -1386,13 +1406,13 @@ public:
      * Igualmente, la función es robusta y funciona correctamente aunque esto no ocurra.
      * @retval res iterador apuntando al elemento insertado o que previno la inserción
      *
-     * \aliasing{Si modificas a lo que apunta res se modifica *this}
+     * \aliasing{Si modificas a lo que apunta res se modifica *this y hint no se modifica}
      *
      *
-     * \pre \aedpre{*this \IGOBS self}
+     * \pre \aedpre{*this \IGOBS self \LAND coleccion(hint) \IGOBS *this}
      * \post  \aedpost{ (def?(value.first, self) \IMPLIES_L this \IGOBS self) \LAND
-     *                      (not(def?(value.first, self)) \IMPLIES_L this \IGOBS definir(value.first, value.second, self))
-     *                      \LAND coleccion(res) = this \LAND #claves(self) + 1 \IGOBS #claves(this))
+     *                      (not(def?(value.first, self)) \IMPLIES_L this \IGOBS definir(value.first, value.second, self) \LAND #claves(self) + 1 \IGOBS #claves(this))
+     *                      \LAND this \IGOBS coleccion(res) \LAND anteriores(res) \IGOBS \elementosMenoresA(*this, claves(*this), key) \LAND siguientes(res) \IGOBS \elementosMayoresA(*this, claves(*this), key)
      *                      \LAND alias(siguiente(res) \IGOBS value)}
      *
      * \complexity{
@@ -1401,8 +1421,8 @@ public:
      *  \O(\CMP(\P{*this}) \PLUS \COPY(\P{value})) amortizado.
      * }
      *
-     * \bug Digan algo en la PRE (y aliasing) sobre el iterador hint, que debe cumplir
-     * \bug \f$  #claves(self) + 1 \IGOBS #claves(this))\f$ tiene sentido eso??
+     * \deprecated Digan algo en la PRE (y aliasing) sobre el iterador hint, que debe cumplir
+     * \deprecated \f$  #claves(self) + 1 \IGOBS #claves(this))\f$ tiene sentido eso??
      *
      * \deprecated  hint++; Esto esta dentro del if donde hint es el header
      * \deprecated Qué pasa si te pasan el aed2::map::end() como hint, pero no es un hint válido
@@ -1465,7 +1485,8 @@ public:
      * \aliasing{Si modificas a lo que apunta res se modifica *this}
      *
      * \pre \aedpre{*this \IGOBS self}
-     * \post  \aedpost{(alias(siguiente(res) \IGOBS value)) \LAND (colleccion(res) \IGOBS this) \LAND (definir(\PI1 value, \PI2 value), self) \IGOBS *this}
+     * \post  \aedpost{this \IGOBS coleccion(res) \LAND anteriores(res) \IGOBS \elementosMenoresA(*this, claves(*this), key) \LAND siguientes(res) \IGOBS \elementosMayoresA(*this, claves(*this), key)
+	 *					\LAND (alias(siguiente(res) \IGOBS value)) \LAND (colleccion(res) \IGOBS this) \LAND (definir(\PI1 value, \PI2 value), self) \IGOBS *this}
      *
      * \deprecated \f$ definir(\PI1 value, \PI2 value), self) \f$ las "variables" de los TADS no se modifican
      *
@@ -1507,7 +1528,8 @@ public:
      *  Aquellos iteradores que apuntan a la misma posicion que pos, quedan invalidados.}
      *
      * \pre \aedpre{colleccion(pos)=this \LAND \LNOT vacio?(siguientes(pos)) \LAND self \IGOBS *this}
-     * \post \aedpost{*this \IGOBS borrar(\PI1(siguiente(pos)), self) \LAND alias(res \IGOBS avanzar(pos))}
+     * \post \aedpost{this \IGOBS coleccion(res) \LAND anteriores(res) \IGOBS \elementosMenoresA(*this, claves(*this), key) \LAND siguientes(res) \IGOBS \elementosMayoresA(*this, claves(*this), key) \LAND
+	 *					 *this \IGOBS borrar(\PI1(siguiente(pos)), self) \LAND alias(res \IGOBS avanzar(pos))}
      *
      * \deprecated No dicen nada sobre res
      *
@@ -1661,7 +1683,8 @@ public:
      * @retval res iterador al primer valor
      *
      * \pre \aedpre{true}
-     * \post \aedpost{colleccion(pos)=this \LAND res \IGOBS prim(secuSbuy(res))}
+     * \post \aedpost{this \IGOBS coleccion(res) \LAND anteriores(res) \IGOBS \elementosMenoresA(*this, claves(*this), key) \LAND siguientes(res) \IGOBS \elementosMayoresA(*this, claves(*this), key) \LAND
+	 * 					colleccion(pos)=this \LAND res \IGOBS prim(secuSbuy(res))}
      *
      * \complexity{\O(1)}
      */
@@ -1690,7 +1713,8 @@ public:
      * @retval res iterador a la posicion pasando-al-ultimo
      *
      * \pre \aedpre{true}
-     * \post \aedpost{colleccion(pos)=this \LAND res \IGOBS avanzar(ult(secuSbuy(res)))}
+     * \post \aedpost{this \IGOBS coleccion(res) \LAND anteriores(res) \IGOBS \elementosMenoresA(*this, claves(*this), key) \LAND siguientes(res) \IGOBS \elementosMayoresA(*this, claves(*this), key) \LAND
+	 * 					colleccion(pos)=this \LAND res \IGOBS avanzar(ult(secuSbuy(res)))}
      *
      * \complexity{\O(1)}
      */
@@ -1719,7 +1743,8 @@ public:
      * @retval res iterador a la primer posicion en un recorrido al revés
      *
      * \pre \aedpre{true}
-     * \post \aedpost{colleccion(pos)=this \LAND res \IGOBS avanzar(ult(secuSbuy(res)))}
+     * \post \aedpost{this \IGOBS coleccion(res) \LAND anteriores(res) \IGOBS \elementosMenoresA(*this, claves(*this), key) \LAND siguientes(res) \IGOBS \elementosMayoresA(*this, claves(*this), key) \LAND
+	 * 					colleccion(pos)=this \LAND res \IGOBS avanzar(ult(secuSbuy(res)))}
      *
      * \complexity{\O(1)}
      */
@@ -1748,7 +1773,8 @@ public:
      * @retval res iterador a la posicion pasando-al-ultimo, en un recorrido al revés
      *
      * \pre \aedpre{true}
-     * \post \aedpost{colleccion(pos)=this \LAND res \IGOBS prim(secuSbuy(res))}
+     * \post \aedpost{this \IGOBS coleccion(res) \LAND anteriores(res) \IGOBS \elementosMenoresA(*this, claves(*this), key) \LAND siguientes(res) \IGOBS \elementosMayoresA(*this, claves(*this), key) \LAND
+	 *					colleccion(pos)=this \LAND res \IGOBS prim(secuSbuy(res))}
      *
      * \complexity{\O(1)}
      */

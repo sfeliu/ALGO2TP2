@@ -125,13 +125,13 @@ Axiomas y proposiciones auxiliares</h1>
 <p class="enddd"><span id="enRango">enRango</span>: puntero(Node) x puntero(Node) x puntero(Node) <img class="formulaInl" alt="$\to$" src="form_4.png"/> bool<br />
  enRango(p1,p2,p3) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> data(*(*p2.value).clave <img class="formulaInl" alt="$\leq$" src="form_11.png"/> data(*p1.value).clave <img class="formulaInl" alt="$\land$" src="form_12.png"/> data(*p3.value).clave <img class="formulaInl" alt="$\geq$" src="form_13.png"/> data(*p1.value).clave) </p>
 </dd></dl>
-<dl class="section user"><dt>anterioresDe</dt><dd><p class="startdd">Devuelve una lista ordenada de todos los valores ateriores a el parametro que recive.</p>
-<p class="enddd"><span id="anterioresDe">anterioresDe</span>: secu(value_type) s x value_type v <img class="formulaInl" alt="$\to$" src="form_4.png"/> secu(value_type) {esta?(v,s)}<br />
+<pre class="fragment"> \par anterioresDe
+</pre> <p>Devuelve una lista ordenada de todos los valores ateriores a el parametro que recive.</p>
+<p><span id="anterioresDe">anterioresDe</span>: secu(value_type) s x value_type v <img class="formulaInl" alt="$\to$" src="form_4.png"/> secu(value_type) {esta?(v,s)}<br />
  anterioresDe(s, v) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> <b>if</b> prim(s) == v <b>then</b> &lt;&gt; <b>else</b> prim(s) <img class="formulaInl" alt="$\bullet$" src="form_6.png"/> <a href="axiomas.html#anterioresDe">anterioresDe</a>(s,fin(v)) <b>fi</b> </p>
-</dd></dl>
 <dl class="section user"><dt>siguientesDe</dt><dd><p class="startdd">Devuelve una lista ordenada de todos los valores ateriores a el parametro que recive.</p>
 <p class="enddd"><span id="siguientesDe">siguientesDe</span>: secu(value_type) s x value_type v <img class="formulaInl" alt="$\to$" src="form_4.png"/> secu(value_type) {esta?(v,s)}<br />
- anterioresDe(s, v) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> <b>if</b> prim(s) == v <b>then</b> &lt;&gt; <b>else</b> prim(s) <img class="formulaInl" alt="$\bullet$" src="form_6.png"/> <a href="axiomas.html#siguientesDe">siguientesDe</a>(s,fin(v)) <b>fi</b> </p>
+ siguientesDe(s, v) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> <b>if</b> prim(s) == v <b>then</b> &lt;&gt; <b>else</b> prim(s) <img class="formulaInl" alt="$\bullet$" src="form_6.png"/> <a href="axiomas.html#siguientesDe">siguientesDe</a>(s,fin(v)) <b>fi</b> </p>
 </dd></dl>
 <dl class="section user"><dt>menorLexico</dt><dd><p class="startdd">compara lexicograficamente 2 conjuntos.</p>
 <p class="enddd"><span id="menorLexico">menorLexico</span>: conj(key) <img class="formulaInl" alt="$\times$" src="form_7.png"/> conj(key) <img class="formulaInl" alt="$\to$" src="form_4.png"/> bool <br />
@@ -194,7 +194,7 @@ Axiomas y proposiciones auxiliares</h1>
 <p class="enddd"><span id="headerToSecu">headerToSecu</span>: puntero(Node) <img class="formulaInl" alt="$\to$" src="form_4.png"/> secu(Key)<br />
  headerToSecu(p) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> <b>if</b> p = null <b>then</b> &lt; &gt; <br />
  <b>else</b> <b>if</b> nothing?(*p.value) <b>then</b> <a href="axiomas.html#headerToSecu">headerToSecu</a>(*p.parent) <br />
- <b>else</b> data(*p.value).clave o <a href="axiomas.html#headerToSecu">headerToSecu</a>(*p.child[0]) &amp; <a href="axiomas.html#headerToSecu">headerToSecu</a>(*p.child[1]) <b>fi</b> <b>fi</b> </p>
+ <b>else</b> data(*p.value).clave <img class="formulaInl" alt="$\bullet$" src="form_6.png"/> <a href="axiomas.html#headerToSecu">headerToSecu</a>(*p.child[0]) &amp; <a href="axiomas.html#headerToSecu">headerToSecu</a>(*p.child[1]) <b>fi</b> <b>fi</b> </p>
 </dd></dl>
 <dl class="section user"><dt>arbolK</dt><dd><p class="startdd">devuelve un arbol cantidad de niveles igual a K (arbol de cardinal finito)</p>
 <p class="enddd"><span id="arbolK">arbolK</span>: puntero(Node) x nat <img class="formulaInl" alt="$\to$" src="form_4.png"/> AB(puntero(Nodo))<br />
@@ -248,12 +248,18 @@ Axiomas y proposiciones auxiliares</h1>
 <p class="enddd"><span id="padreK">padreK</span>: puntero(Node) <img class="formulaInl" alt="$\to$" src="form_4.png"/> Node<br />
  padreK(p, k) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> <b>if</b> k = 0 <img class="formulaInl" alt="$\lor$" src="form_18.png"/> (*p).parent = null <b>then</b> *p <b>else</b> <a href="axiomas.html#padreK">padreK</a>((*p).parent, k-1) <b>fi</b> <b>fi</b> </p>
 </dd></dl>
+<dl class="section user"><dt>elementosMayoresA</dt><dd>Retorna la secuencia ordenada de elementos mayores al pasado como parametro. elementosMayoresA(d, c, k) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> <b>if</b> <img class="formulaInl" alt="$\emptyset$" src="form_14.png"/>(c)? <b>then</b> &lt; &gt; <b>else</b> <b>if</b> maximo(c) &lt; k <b>then</b> elementosMayoresA(d, c - maximo(c), k) o &lt;maximo(c), obtener(minimo(c), d)&gt; <b>else</b> elementosMayoresA(d, c - maximo(c), k) <b>fi</b> <b>fi</b> <span id="elementosMayoresA">elementosMayoresA</span>: deicc(value) x conj(key) x key <img class="formulaInl" alt="$\to$" src="form_4.png"/> secu(value)<br />
+ </dd></dl>
+<dl class="section user"><dt>elementosMenoresA</dt><dd><p class="startdd">Retorna la secuencia ordenada de elementos menores al pasado como parametro.</p>
+<p class="enddd"><span id="elementosMenoresA">elementosMenoresA</span>: dicc(value) x conj(key) x key <img class="formulaInl" alt="$\to$" src="form_4.png"/> secu(value)<br />
+ elementosMenoresA(d, c, k) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> <b>if</b> <img class="formulaInl" alt="$\emptyset$" src="form_14.png"/>(c)? <b>then</b> &lt; &gt; <b>else</b> <b>if</b> minimo(c) &lt; k <b>then</b> &lt;minimo(c), obtener(minimo(c), d)&gt; <img class="formulaInl" alt="$\bullet$" src="form_6.png"/> elementosMenoresA(d, c - minimo(c), k) <b>else</b> elementosMenoresA(d, c - minimo(c), k) <b>fi</b> <b>fi</b> </p>
+</dd></dl>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generado el Viernes, 16 de Junio de 2017 20:15:31 para Trabajo práctico 2: diccionario sobre RB-tree por
+    <li class="footer">Generado el Domingo, 18 de Junio de 2017 18:10:48 para Trabajo práctico 2: diccionario sobre RB-tree por
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

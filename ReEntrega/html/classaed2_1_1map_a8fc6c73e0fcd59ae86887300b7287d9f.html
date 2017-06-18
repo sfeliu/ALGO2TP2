@@ -127,13 +127,13 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 
 <p>deleteFixUp </p>
 <p>En esta funcion se recibe un parametro:'nodo' de tipo puntero a nodo, la cual viene derivada del erase. Se trata de implementar el FixUp del cormen, donde 'nodo' modifica su lugar y este puede llegar a romper el invariante RB-Tree, tanto como que la raiz no sea negra, que cada nodo rojo tenga hijo rojo, o que todos los caminos tengan distinta cantidad de nodos negros. El primer problema lo arregla si no entra en el ciclo ya que seria que la raiz es roja, entonces luego se le modifica el color. Si entra en el ciclo tiene dos casos particulares que dependen de si 'nodo' es hijo derecho o izquierdo de su padre, esto se ve en mas detalle en el deleteFixUpAux.</p>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000020">Obsoleto:</a></b></dt><dd>Suena a que les vendría bien una operación que te diga si un nodo es hijo derecho o izquierdo de su padre Donde la pondrían?? // En la parte privada de <a class="el" href="structaed2_1_1map_1_1Node.html" title="Estructura (privada) de un nodo del árbol red-black. ">Node</a>.</dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000022">Obsoleto:</a></b></dt><dd>Suena a que les vendría bien una operación que te diga si un nodo es hijo derecho o izquierdo de su padre Donde la pondrían?? // En la parte privada de <a class="el" href="structaed2_1_1map_1_1Node.html" title="Estructura (privada) de un nodo del árbol red-black. ">Node</a>.</dd></dl>
 <dl class="section complexity">
 <dt>Complejidad Temporal</dt>
 <dd><img class="formulaInl" alt="$O$" src="form_1.png"/>( <img class="formulaInl" alt="$\log$" src="form_27.png"/>(<b>size</b>(<b class="paramname">*this</b>)))</dd>
 </dl>
 
-<p>Definición en la línea <a class="el" href="map_8h_source.html#l02541">2541</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
+<p>Definición en la línea <a class="el" href="map_8h_source.html#l02567">2567</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
 
 </div>
 </div>
@@ -143,7 +143,7 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceaed2.html">aed2</a></li><li class="navelem"><a class="el" href="classaed2_1_1map.html">map</a></li>
-    <li class="footer">Generado el Viernes, 16 de Junio de 2017 20:15:31 para Trabajo práctico 2: diccionario sobre RB-tree por
+    <li class="footer">Generado el Domingo, 18 de Junio de 2017 18:10:48 para Trabajo práctico 2: diccionario sobre RB-tree por
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>
