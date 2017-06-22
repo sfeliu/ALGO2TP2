@@ -17,8 +17,8 @@
  *
  * \tableofcontents
  *
- * - \b Autores: Nombre y Apellido (mail), Nombre y Apellido (mail),
- * Nombre y Apellido (mail), Nombre y Apellido (mail)
+ * - \b Autores: Santiago Feliu (santiagofeliu@hotmail.com), Gianfranco Bogetti (gianbogetti7@hotmail.com),
+ * Pablo Ingaramo (pablo2martin@Hotmail.com), Kennedy Williams Rios Cuba (Kennedy.wrc@hotmail.com)
  * - \b Materia: Algoritmos y Estructuras de Datos II
  *
  * El presente documento describe la implementación de un módulo diccionario dentro
@@ -576,12 +576,12 @@
  *
  * \par enRango
  * \parblock
- * A partir de tres punteros a nodo devuelve true si y solo si el primer parametro esta acotado inferiormente por el segundo y superiormente por el tercero.
+ * A partir de cuatro punteros a nodo devuelve true si y solo si el primer y segundo parametro estan acotados inferiormente por el tercero y superiormente por el cuarto.
  *
- * \axioma{enRango}: puntero(Node) x puntero(Node) x puntero(Node)  \TO bool\n
- * enRango(p1,p2,p3) \EQUIV  data(*(*p2.value).clave \LEQ data(*p1.value).clave \LAND data(*p3.value).clave \GEQ data(*p1.value).clave)
+ * \axioma{enRango}: puntero(Node) x puntero(Node) x puntero(Node) x puntero(Node)  \TO bool\n
+ * enRango(p1,p2,p3,p4) \EQUIV  data(*(*p3.value).clave \LEQ data(*p2.value).clave \LAND data(*p4.value).clave \GEQ data(*p2.value).clave)
+ *                          \LAND data(*(*p3.value).clave \LEQ data(*p1.value).clave \LAND data(*p4.value).clave \GEQ data(*p1.value).clave)
  * \endparblock
- *
  *
  * \par anterioresDe
  * \parblock
@@ -596,7 +596,7 @@
  * Devuelve una lista ordenada de todos los valores ateriores a el parametro que recive.
  *
  * \axioma{siguientesDe}: secu(value_type) s x value_type v \TO secu(value_type) 		{esta?(v,s)}\n
- * anterioresDe(s, v) \EQUIV \IF prim(s) == v \THEN <> \ELSE prim(s) \BULLET \siguientesDe(s,fin(v)) \FI
+ * siguientesDe(s, v) \EQUIV \IF prim(s) == v \THEN <> \ELSE prim(s) \BULLET \siguientesDe(s,fin(v)) \FI
  * \endparblock
  *
  * \par menorLexico
@@ -614,7 +614,7 @@
  * \parblock
  * devuelve el elemento menor de un conjunto.
  *
- * \axioma{minimo}: conj(key) c \TIMES Key k \TO key {k \IN c} \n 
+ * \axioma{minimo}: conj(key) c \TIMES Key k \TO key {k \IN c} \n
  * minimo(c,k) \EQUIV \IF \EMPTYSET?(c) \THEN k \n \ELSE \IF  k \LT dameUno(c) \THEN \minimo(sinUno(c),k) \n \ELSE \minimo(sinUno(c) ,dameUno(c)) \FI \FI
  * \endparblock
  *
@@ -699,7 +699,7 @@
  *
  * \axioma{headerToSecu}: puntero(Node) \TO secu(Key)\n
  * headerToSecu(p) \EQUIV \IF p = null \THEN < > \n \ELSE \IF nothing?(*p.value) \THEN \headerToSecu(*p.parent)
- * \n \ELSE data(*p.value).clave o \headerToSecu(*p.child[0]) & \headerToSecu(*p.child[1]) \FI \FI
+ * \n \ELSE data(*p.value).clave \BULLET \headerToSecu(*p.child[0]) & \headerToSecu(*p.child[1]) \FI \FI
  * \endparblock
  *
  * \par arbolK
@@ -738,7 +738,7 @@
  *
  * \par sonValidos
  * \parblock
- * Retorna true si los nodos tienen significado valido 
+ * Retorna true si los nodos tienen significado valido
  *
  * \axioma{sonValidos}: Puntero(Node) x Puntero(Node) \TO bool\n
  * sonValidos(p,p') \EQUIV \LNOT (nothing?(*p.value)) \LAND \LNOT (nothing?(*p'.value))
@@ -746,7 +746,7 @@
  *
  * \par estan
  * \parblock
- * Retorna true si los nodos tienen significado valido 
+ * Retorna true si los nodos tienen significado valido
  *
  * \axioma{estan}: Puntero(Node) x Puntero(Node) \TO bool\n
  * estan(p,p') \EQUIV \estaPtr(p) \LAND \estaPtr(p')
@@ -754,7 +754,7 @@
  *
  * \par coloresAdecuados
  * \parblock
- * Retorna true si los nodos tienen significado valido 
+ * Retorna true si los nodos tienen significado valido
  *
  * \axioma{coloresAdecuados}: Puntero(Node) x Puntero(Node) \TO bool\n
  * coloresAdecuados(s) \EQUIV \colorAdecuado(p) \LAND \colorAdecuado(p')
@@ -770,7 +770,7 @@
  *
  * \par sonHoja
  * \parblock
- * Retorna true si los nodos tienen significado valido 
+ * Retorna true si los nodos tienen significado valido
  *
  * \axioma{sonHoja}: Puntero(Node) x Puntero(Node) \TO bool\n
  * sonHoja(p,p') \EQUIV \esHoja(p) \LAND \esHoja(p')
@@ -782,8 +782,9 @@
  *
  * \axioma{esRBTree}: Node \TO Bool\n
  * \esRBTree(n) \EQUIV (\EXISTS k: nat)(\arbolK(n.parent,k) = \arbolK(n.parent,k+1)) \LAND_L \sinRepetidos(headerToSecu(n.parent))
- * \LAND \esADB(n.parent) \LAND \n (\FORALL p,p':puntero(Node))(\estan(*p.value,header.parent,*p'.value,header.parent) \IMPLIES_L
- * \coloresAdecuados(p,p') \LAND \n \sonValidos(p,p') \LAND ((\sonHoja(p,p'))\IMPLIES_L \cantBlack(p)=\cantBlack(p')))
+ * \LAND \esADB(n.parent) \LAND hijosHeader(header) \LAND \n (\FORALL p,p':puntero(Node))(\estan(*p.value,header.parent,*p'.value,header.parent) \IMPLIES_L
+ * \coloresAdecuados(p,p') \LAND \n \sonValidos(p,p') \LAND ((\sonHoja(p,p'))\IMPLIES_L \cantBlack(p)=\cantBlack(p'))
+ * \LAND enRango(p,p',header.child[0],header.child[1]))
  * \endparblock
  *
  * \deprecated sinRepetidos(headerToSecu(n.parent)) esto no te soluciona uno de los problemas hablado por Soulignac.
@@ -795,6 +796,24 @@
  *
  * \axioma{padreK}: puntero(Node) \TO Node\n
  * padreK(p, k) \EQUIV \IF k = 0 \LOR (*p).parent = null \THEN  *p \ELSE \padreK((*p).parent, k-1) \FI \FI
+ * \endparblock
+ *
+ * \par elementosMayoresA
+ * \parblock
+ * Retorna la secuencia ordenada de elementos mayores al pasado como parametro.
+ * elementosMayoresA(d, c, k) \EQUIV \IF \EMPTYSET(c)? \THEN < > \ELSE \IF maximo(c) < k \THEN elementosMayoresA(d, c - maximo(c), k) o <maximo(c), obtener(minimo(c), d)>
+ * 								\ELSE elementosMayoresA(d, c - maximo(c), k) \FI \FI
+ * \axioma{elementosMayoresA}: deicc(value) x conj(key) x key \TO secu(value)\n
+ *
+ * \endparblock
+ *
+ * \par elementosMenoresA
+ * \parblock
+ * Retorna la secuencia ordenada de elementos menores al pasado como parametro.
+ *
+ * \axioma{elementosMenoresA}: dicc(value) x conj(key) x key \TO secu(value)\n
+ * elementosMenoresA(d, c, k) \EQUIV \IF \EMPTYSET(c)? \THEN < > \ELSE \IF minimo(c) < k \THEN <minimo(c), obtener(minimo(c), d)> \BULLET elementosMenoresA(d, c - minimo(c), k)
+ * 								\ELSE elementosMenoresA(d, c - minimo(c), k) \FI \FI
  * \endparblock
  */
 
@@ -1009,13 +1028,13 @@ public:
      *
      */
     map(const map& other) {
-        const_iterator it = --other.end();
+        const_iterator it = const_iterator(other.header.child[1]);
         count = 0;
         lt = other.lt;
         const_iterator hint = end();
         while(it != other.end()){
             hint = insert(hint, *it);
-            --it;
+            it.retroceder();
         }
     }
 
@@ -1090,9 +1109,7 @@ public:
      * \note Es importante remarcar que no se realiza ninguna comparación entre los elementos.
      */
     map& operator=(map other) {
-        map* m = new map(other);
-        swap(*m);
-        delete m;
+        swap(other);
         return *this;
     }
 
@@ -1151,15 +1168,13 @@ public:
      */
     const Meaning& at(const Key& key) const {
         const_iterator it = find(key);
-        return it.n->value().second;
-        //return it.n->value().second;
+        return it->second;
     }
 
     /** \overload */
     Meaning& at(const Key& key) {
         iterator it = find(key);
-    	return it.n->value().second;
-        //return it.n->value().second;
+    	return it->second;
     }
 
     /**
@@ -1194,7 +1209,7 @@ public:
      *                  #claves(self) + 1 \IGOBS #claves(this) \LAND  alias(res \IGOBS obtener(key,*this)))
      *  \LAND def?(key,*this)}
 	   *
-     * \bug Idem antes,  "it.n->color == Color::Header", es mejor usar funciones:
+     * \deprecated Idem antes,  "it.n->color == Color::Header", es mejor usar funciones:
      * son más declarativas y ayuda a que cambios futuros de estructura no afecten a todo el código
      *
      * \complexity{\O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}) + \a x) donde
@@ -1205,12 +1220,12 @@ public:
     Meaning& operator[](const Key& key) {
         iterator it = find(key);
         value_type v = value_type(key, Meaning());
-        if(it.n->color == Color::Header){
+        if(it == end()){
             insert(v);
             iterator it = find(key);
-            return it.n->value().second;
+            return it->second;
         }else{
-            return it.n->value().second;
+            return it->second;
         }
     }
 
@@ -1227,15 +1242,16 @@ public:
      * \aliasing{si el iterador me permite modificar, si modificas a lo que apunta res se modifica *this}
      *
      * \pre \aedpre{true}
-     * \post \aedpost{this \IGOBS coleccion(res) \LAND (def?(key, *this) \IMPLIES_L alias(PI1(siguiente(res)) \IGOBS key))
+     * \post \aedpost{this \IGOBS coleccion(res) \LAND anteriores(res) \IGOBS \elementosMenoresA(*this, claves(*this), key) \LAND siguientes(res) \IGOBS \elementosMayoresA(*this, claves(*this), key)
+	 *						\LAND (def?(key, *this) \IMPLIES_L alias(PI1(siguiente(res)) \IGOBS key))
      *                        \LAND (\LNOT def?(key, *this) \IMPLIES_L alias(vacio?(siguientes(res)))}
      *
      * \complexity{\O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}))}
      *
-     * \bug En la post deben decir algo más sobre el iterator res, en particular algun otro de los observadores del
+     * \deprecated En la post deben decir algo más sobre el iterator res, en particular algun otro de los observadores del
      * iterador
      *
-     * \bug Este código se puede mejorar, pero está bien
+     * \deprecated Este código se puede mejorar, pero está bien
      *
      * \attention Si el objetivo es insertar un valor con clave \P{key} de acuerdo a alguna condición,
      * entonces conviene usar aed2::map::lower_bound para la búsqueda, dado que el
@@ -1244,28 +1260,23 @@ public:
      */
     iterator find(const Key& key) {
         iterator it = lower_bound(key);
-/*        if(lt(it.n->value().first, key) or lt(key, it.n->value().first)){
-        	it.n = &header;
-        }
-        return it; */
-        
-        if(it.n == &header or lt(it.n->value().first, key) or lt(key, it.n->value().first)){
+        if(it == end() or not eq(it->first, key)){
            return iterator(&header);
         }
-        return it; 
+        return it;
     }
 
     /** \overload
     *
-    * \bug No pueden llamar a funciones const desde funciones no const,
+    * \deprecated No pueden llamar a funciones const desde funciones no const,
     * no lo vuelvo a mencionar pero se repite mucho este error
     */
     const_iterator find(const Key& key) const {
         const_iterator it = lower_bound(key);
-        if(it.n == &header){
+        if(it == end()){
             return it;
         }
-        if(lt(it.n->value().first, key) or lt(key, it.n->value().first)){
+        if(not eq(it->first, key)){
             it = const_iterator(&header);
         }
         return it;
@@ -1284,11 +1295,12 @@ public:
      * \aliasing{si el iterador me permite modificar, si modificas a lo que apunta res se modifica *this}
      *
      * \pre \aedpre{true}
-     * \post \aedpost{this \IGOBS coleccion(res) \LAND (def?(key, *this) \IMPLIES_L alias(PI1(siguiente(res)) \IGOBS key))
+     * \post \aedpost{this \IGOBS this \IGOBS coleccion(res) \LAND anteriores(res) \IGOBS \elementosMenoresA(*this, claves(*this), key) \LAND siguientes(res) \IGOBS \elementosMayoresA(*this, claves(*this), key)
+	 *						 \LAND (def?(key, *this) \IMPLIES_L alias(PI1(siguiente(res)) \IGOBS key))
 	 *						\LAND (((\LNOT def?(key, *this) \LAND \PI1 ult(secuSuby(res)) < key) \IMPLIES_L (vacia?(siguientes(res)))
 	 *						\LAND ((\LNOT def?(key, *this) \IMPLIES_L (\PI1 siguiente(res) > key \LAND \PI1 anterior(res) < key))}
      *
-     * \bug not lt(it.n->key(), key) and not lt(key, it.n->key()) usen funciones
+     * \deprecated not lt(it.n->key(), key) and not lt(key, it.n->key()) usen funciones
      *
      * \complexity{\O(\LOG(\SIZE(\P{*this})) \CDOT \CMP(\P{*this}))}
      *
@@ -1301,7 +1313,7 @@ public:
             }else{
                 if(lt(it.n->key(), key)){
                     if(it.n->child[1] == nullptr) {
-                        return ++it;
+                        return it.avanzar();
                     }else{
                         it.n = it.n->child[1];
                     }
@@ -1327,7 +1339,7 @@ public:
             }else{
                 if(lt(it.n->key(), key)){
                     if(it.n->child[1] == nullptr) {
-                        return ++it;
+                        return it.avanzar();
                     }else{
                         it.n = it.n->child[1];
                     }
@@ -1395,13 +1407,13 @@ public:
      * Igualmente, la función es robusta y funciona correctamente aunque esto no ocurra.
      * @retval res iterador apuntando al elemento insertado o que previno la inserción
      *
-     * \aliasing{Si modificas a lo que apunta res se modifica *this}
+     * \aliasing{Si modificas a lo que apunta res se modifica *this y hint no se modifica}
      *
      *
-     * \pre \aedpre{*this \IGOBS self}
+     * \pre \aedpre{*this \IGOBS self \LAND coleccion(hint) \IGOBS *this}
      * \post  \aedpost{ (def?(value.first, self) \IMPLIES_L this \IGOBS self) \LAND
-     *                      (not(def?(value.first, self)) \IMPLIES_L this \IGOBS definir(value.first, value.second, self))
-     *                      \LAND coleccion(res) = this \LAND #claves(self) + 1 \IGOBS #claves(this))
+     *                      (not(def?(value.first, self)) \IMPLIES_L this \IGOBS definir(value.first, value.second, self) \LAND #claves(self) + 1 \IGOBS #claves(this))
+     *                      \LAND this \IGOBS coleccion(res) \LAND anteriores(res) \IGOBS \elementosMenoresA(*this, claves(*this), key) \LAND siguientes(res) \IGOBS \elementosMayoresA(*this, claves(*this), key)
      *                      \LAND alias(siguiente(res) \IGOBS value)}
      *
      * \complexity{
@@ -1410,106 +1422,53 @@ public:
      *  \O(\CMP(\P{*this}) \PLUS \COPY(\P{value})) amortizado.
      * }
      *
-     * \bug Digan algo en la PRE (y aliasing) sobre el iterador hint, que debe cumplir
-     * \bug \f$  #claves(self) + 1 \IGOBS #claves(this))\f$ tiene sentido eso??
+     * \deprecated Digan algo en la PRE (y aliasing) sobre el iterador hint, que debe cumplir
+     * \deprecated \f$  #claves(self) + 1 \IGOBS #claves(this))\f$ tiene sentido eso??
      *
-     * \bug  hint++; Esto esta dentro del if donde hint es el header
-     * \bug Qué pasa si te pasan el aed2::map::end() como hint, pero no es un hint válido
-     * \bug Intenten no repetir tanto código, tal vez pueden hacer que todas las inserciones se hagan a través
+     * \deprecated  hint++; Esto esta dentro del if donde hint es el header
+     * \deprecated Qué pasa si te pasan el aed2::map::end() como hint, pero no es un hint válido
+     * \deprecated Intenten no repetir tanto código, tal vez pueden hacer que todas las inserciones se hagan a través
      * de una sola función
-     * \bug Tantos ifs anidados complican la comprensión de código, intenten reescribir
+     * \deprecated Tantos ifs anidados complican la comprensión de código, intenten reescribir
      *
      * \attention Para garantizar que el nuevo elemento se inserte sí o sí, usar aed2::map::insert_or_assign.
      */
-    iterator insert(const_iterator hint, const value_type& value) {
-        if(hint.n->color == Color::Header) {
-            if (empty()) {
-                iterator nuevo = iterator(new InnerNode(&header, value, Color::Black));
-                header.child[0] = nuevo.n;
-                header.child[1] = nuevo.n;
-                header.parent = nuevo.n;
-                count++;
-                return nuevo;
-            }
-            if(lt(header.child[1]->key(), value.first)){
-                iterator nuevo = iterator(new InnerNode(header.child[1],value));
-                header.child[1]->child[1] = nuevo.n;
-                header.child[1] = nuevo.n;
-                insertFixUp(nuevo.n);
-                count++;
-                return nuevo;
-            }
-            hint++;
-        }
-        if(eq(hint.n->value().first, value.first)){
-            iterator it = iterator(const_cast<Node*>(hint.n));
-            return it;
-        }
-        if(lt(value.first, hint.n->key())){
-            if(hint.n->child[0] == nullptr){
-                iterator nuevo = iterator(new InnerNode(const_cast<Node*>(hint.n), value));
-                if(hint == begin()){
-                    header.child[0] = nuevo.n;
-                }
-                const_cast<Node*>(hint.n)->child[0] = nuevo.n;
-                insertFixUp(nuevo.n);
-                count++;
-                return nuevo;
-            }else {
-                if(lt(hint--.n->key(), value.first)){
-                    iterator nuevo = iterator(new InnerNode(hint.n->child[1], value));
-                    const_cast<Node*>(hint.n)->child[1] = nuevo.n;
-                    insertFixUp(nuevo.n);
-                    count++;
-                    return nuevo;
-                }else{
-                    return insert(value);
-                }
-            }
-        }else{
-            return insert(value);
-        }
-    }
+	 iterator insert(const_iterator hint, const value_type& value) {
+         if(empty()){
+             iterator nuevo = iterator(new InnerNode(&header, value, Color::Black));
+             header.child[0] = nuevo.n;
+             header.child[1] = nuevo.n;
+             header.parent = nuevo.n;
+             count++;
+             return nuevo;
+         }
+         if(esBuenHint(hint,value)){
+             if( lt(header.child[1]->key(), value.first) or lt(value.first, header.child[0]->key())){
+                 iterator it = insertMinOMax(value);
+                 insertFixUp(it.n);
+                 count++;
+                 return it;
+             }
+             if(eq(hint.n->value().first , value.first)){
+                 iterator it = iterator(const_cast<Node*>(hint.n));
+                 return it;
+             }else{
+                 iterator it = insertConLB(hint,value);
+                 insertFixUp(it.n);
+                 count++;
+                 return it;
+             }
+         }else{
+			 iterator it = insert(value);
+             return it;
+         }
+     }
 
-    /** \overload*/
-    iterator insert(const value_type& value) {
-        if(empty()){
-            iterator nuevo = iterator(new InnerNode(&header, value, Color::Black));
-            header.child[0] = nuevo.n;
-            header.child[1] = nuevo.n;
-            header.parent = nuevo.n;
-            count++;
-            return nuevo;
-        }
-        iterator padre = iterator(header.parent);
-        iterator actual = iterator(header.parent);
-        while(actual.n != nullptr){
-            padre = actual;
-            if(not lt(actual.n->value().first, value.first) and not lt(value.first, actual.n->value().first)){
-                return actual;
-            }
-            if(lt(value.first, actual.n->value().first)){
-                actual = actual.n->child[0];
-            }else{
-                actual = actual.n->child[1];
-            }
-        }
-        iterator nuevo = iterator(new InnerNode(padre.n,value));
-        if(lt(value.first, padre.n->key())){
-            padre.n->child[0] = nuevo.n;
-            if(begin() == padre){
-                header.child[0] = nuevo.n;
-            }
-        }else {
-            padre.n->child[1] = nuevo.n;
-            if(header.child[1] == padre.n){
-                header.child[1] = nuevo.n;
-            }
-        }
-        insertFixUp(nuevo.n);
-        count++;
-        return  nuevo;
-    }
+     /** \overload */
+     iterator insert(const value_type& value) {
+         const_iterator it = lower_bound(value.first);
+         return insert(it, value);
+     }
 
     /**
      * @brief Inserta o redefine \P{value} en el diccionario
@@ -1527,11 +1486,12 @@ public:
      * \aliasing{Si modificas a lo que apunta res se modifica *this}
      *
      * \pre \aedpre{*this \IGOBS self}
-     * \post  \aedpost{(alias(siguiente(res) \IGOBS value)) \LAND (colleccion(res) \IGOBS this) \LAND (definir(\PI1 value, \PI2 value), self) \IGOBS *this}
+     * \post  \aedpost{this \IGOBS coleccion(res) \LAND anteriores(res) \IGOBS \elementosMenoresA(*this, claves(*this), key) \LAND siguientes(res) \IGOBS \elementosMayoresA(*this, claves(*this), key)
+	 *					\LAND (alias(siguiente(res) \IGOBS value)) \LAND (colleccion(res) \IGOBS this) \LAND (definir(\PI1 value, \PI2 value), self) \IGOBS *this}
      *
      * \deprecated \f$ definir(\PI1 value, \PI2 value), self) \f$ las "variables" de los TADS no se modifican
      *
-     * \bug El find del principio les arruina la complejidad ante un buen hint
+     * \deprecated El find del principio les arruina la complejidad ante un buen hint
      *
      *
      * \complexity{
@@ -1547,23 +1507,15 @@ public:
      */
     iterator insert_or_assign(const_iterator hint, const value_type& value) {
         iterator encontrado = insert(hint, value);
-    	if(encontrado.n->value().first == value.first){
-    		encontrado.n->value().second = value.second;
+    	if(encontrado->second != value.second){
+    		encontrado->second = value.second;
     	}
     	return encontrado;
-    	
-    /*    iterator encontrado = find(value.first);
-        if(encontrado.n->color != Color::Header){
-            encontrado.n->value().second = value.second;
-            return encontrado;
-        }else{
-            return insert(hint, value);
-        } */
     }
 
     /** \overload */
     iterator insert_or_assign(const value_type& value) {
-        const_iterator hint = const_iterator(root());
+        const_iterator hint = lower_bound(value.first);
         return insert_or_assign(hint, value);
     }
 
@@ -1577,16 +1529,17 @@ public:
      *  Aquellos iteradores que apuntan a la misma posicion que pos, quedan invalidados.}
      *
      * \pre \aedpre{colleccion(pos)=this \LAND \LNOT vacio?(siguientes(pos)) \LAND self \IGOBS *this}
-     * \post \aedpost{*this \IGOBS borrar(\PI1(siguiente(pos)), self) \LAND alias(res \IGOBS avanzar(pos))}
+     * \post \aedpost{this \IGOBS coleccion(res) \LAND anteriores(res) \IGOBS \elementosMenoresA(*this, claves(*this), key) \LAND siguientes(res) \IGOBS \elementosMayoresA(*this, claves(*this), key) \LAND
+	 *					 *this \IGOBS borrar(\PI1(siguiente(pos)), self) \LAND alias(res \IGOBS avanzar(pos))}
      *
      * \deprecated No dicen nada sobre res
      *
      *
-     * \bug Intenten no repetir código (iterator(const_cast<Node*>(pos0.n));), idem aed2::map::insert
-     * \bug No es verdad que si no se cumple pos.n->child[0] == nullptr and pos.n->child[1] == nullptr
+     * \deprecated Intenten no repetir código (iterator(const_cast<Node*>(pos0.n));), idem aed2::map::insert
+     * \deprecated No es verdad que si no se cumple pos.n->child[0] == nullptr and pos.n->child[1] == nullptr
      * no necesite hacer fixup, piensen en una hoja negra
-     * \bug Para la reentrega deberían repensar las operaciones de insercion y de eliminación
-     * \bug cambiado puede ser nullptr, deletefixup no funciona bien
+     * \deprecated Para la reentrega deberían repensar las operaciones de insercion y de eliminación
+     * \deprecated cambiado puede ser nullptr, deletefixup no funciona bien
      *
      * \complexity{
      * - Peor caso: \O(\DEL(\P{*pos}) + \LOG(\SIZE(\P{*this})))
@@ -1598,56 +1551,40 @@ public:
         iterator y = iterator(const_cast<Node*>(pos.n));
         Color original = y.n->color;
         iterator proximo = iterator(const_cast<Node*>(pos.n));
-        proximo++;
-        if(pos.n->child[0] == nullptr and pos.n->child[1] == nullptr){
-            if(pos.n == header.parent){
-                header.parent = nullptr;
-                header.child[0] = header.child[1] = &header;
-            }else {
-                if (pos.n->parent->child[0] == pos.n) {
-                    if(begin() == pos){                     //Esto me parece que se puede achicar a una funcion.
-                        header.child[0] = pos.n->parent;
-                    }
-                    pos.n->parent->child[0] = nullptr;
-                } else {
-                    if(header.child[1] == pos.n){
-                        header.child[1] = pos.n->parent;
-                    }
-                    pos.n->parent->child[1] = nullptr;
-                }
-            }
-        }else{
-            iterator cambiado;
-            if(pos.n->child[0] == nullptr){
-                cambiado = iterator(pos.n->child[1]);
-                transplant(const_cast<Node*>(pos.n), pos.n->child[1]);
-            } else{
-                if(pos.n->child[1] == nullptr){
-                    cambiado = iterator(pos.n->child[0]);
-                    transplant(const_cast<Node*>(pos.n), pos.n->child[0]);
-                } else{
-                    y++;
-                    original = y.n->color;
-                    cambiado = iterator(y.n->child[1]);
-                    if(y.n->parent != pos) {
-                        transplant(y.n, y.n->child[1]);
-                        y.n->child[1] = pos.n->child[1];
-                        y.n->child[1]->parent = y;
-                    }
-                    transplant(const_cast<Node*>(pos.n), y.n);
-                    y.n->child[0] = pos.n->child[0];
-                    y.n->child[0]->parent = y;
-                    y.n->color = pos.n->color;
-                    cambiado.n = y.n;
-                }
-            }
-            if(original == Color::Black){
-                deleteFixUp(cambiado.n);    //Modificarlo de tal forma que reciba al padre y un int sabiendo cual es su hijo. (0 o 1)
-            }
-        }
+        proximo.avanzar();
+		iterator cambiado;
+        iterator padre_cambiado;
+        if(pos.n->child[0] == nullptr){
+            cambiado = iterator(pos.n->child[1]);
+            padre_cambiado = y.n->parent;
+            transplant(const_cast<Node*>(pos.n), pos.n->child[1]);
+        } else{
+            if(pos.n->child[1] == nullptr){
+                cambiado = iterator(pos.n->child[0]);
+                padre_cambiado = y.n->parent;
+                transplant(const_cast<Node*>(pos.n), pos.n->child[0]);
+        	}else{
+				y.avanzar();
+				original = y.n->color;
+				padre_cambiado = y;
+				cambiado = iterator(y.n->child[1]);
+				if(y.n->parent != pos) {
+					transplant(y.n, y.n->child[1]);
+					y.n->child[1] = pos.n->child[1];
+					y.n->child[1]->parent = y;
+				}
+				transplant(const_cast<Node*>(pos.n), y.n);
+                y.n->child[0] = pos.n->child[0];
+                y.n->child[0]->parent = y;
+                y.n->color = pos.n->color;
+			}
+		}
+		if(original == Color::Black){
+			deleteFixUp(padre_cambiado.n, cambiado.n);
+		}
         delete pos.n;
         count--;
-        return proximo;
+		return proximo;
     }
 
     /**
@@ -1661,7 +1598,7 @@ public:
      * \pre \aedpre{definido?(key, *this) \LAND self \IGOBS *this}
      * \post \aedpost{*this\IGOBS borrar(key, self)}
      *
-     * \bug Mejor:   const_iterator pos (find(key));
+     * \deprecated Mejor:   const_iterator pos (find(key));
      * o:         const_iterator pos = find(key);
      * Ambas funcionan y son más claras.
      *
@@ -1669,7 +1606,6 @@ public:
      */
     void erase(const Key& key) {
         const_iterator pos (find(key));
-        //const_iterator pos = const_iterator(find(key));
         erase(pos);
     }
 
@@ -1682,18 +1618,15 @@ public:
      * \pre \aedpre{true}
      * \post \aedpost{\P{*this} \IGOBS vacio}
      *
-     * \bug Es verdaderamente necesario el primer if??
+     * \deprecated Es verdaderamente necesario el primer if??
      *
      * \complexity{\O(\DEL(\P{*this}))}
      */
     void clear() {
-    /*  if(empty()){
-            return;
-        } */
         iterator it = begin();
         int i = 0;
         size_t j = count;
-        while(it.n->color != Color::Header){
+        while(it != end()){
             it = erase(it);
             i++;
         }
@@ -1751,7 +1684,8 @@ public:
      * @retval res iterador al primer valor
      *
      * \pre \aedpre{true}
-     * \post \aedpost{colleccion(pos)=this \LAND res \IGOBS prim(secuSbuy(res))}
+     * \post \aedpost{this \IGOBS coleccion(res) \LAND anteriores(res) \IGOBS \elementosMenoresA(*this, claves(*this), key) \LAND siguientes(res) \IGOBS \elementosMayoresA(*this, claves(*this), key) \LAND
+	 * 					colleccion(pos)=this \LAND res \IGOBS prim(secuSbuy(res))}
      *
      * \complexity{\O(1)}
      */
@@ -1780,7 +1714,8 @@ public:
      * @retval res iterador a la posicion pasando-al-ultimo
      *
      * \pre \aedpre{true}
-     * \post \aedpost{colleccion(pos)=this \LAND res \IGOBS avanzar(ult(secuSbuy(res)))}
+     * \post \aedpost{this \IGOBS coleccion(res) \LAND anteriores(res) \IGOBS \elementosMenoresA(*this, claves(*this), key) \LAND siguientes(res) \IGOBS \elementosMayoresA(*this, claves(*this), key) \LAND
+	 * 					colleccion(pos)=this \LAND res \IGOBS avanzar(ult(secuSbuy(res)))}
      *
      * \complexity{\O(1)}
      */
@@ -1809,7 +1744,8 @@ public:
      * @retval res iterador a la primer posicion en un recorrido al revés
      *
      * \pre \aedpre{true}
-     * \post \aedpost{colleccion(pos)=this \LAND res \IGOBS avanzar(ult(secuSbuy(res)))}
+     * \post \aedpost{this \IGOBS coleccion(res) \LAND anteriores(res) \IGOBS \elementosMenoresA(*this, claves(*this), key) \LAND siguientes(res) \IGOBS \elementosMayoresA(*this, claves(*this), key) \LAND
+	 * 					colleccion(pos)=this \LAND res \IGOBS avanzar(ult(secuSbuy(res)))}
      *
      * \complexity{\O(1)}
      */
@@ -1838,7 +1774,8 @@ public:
      * @retval res iterador a la posicion pasando-al-ultimo, en un recorrido al revés
      *
      * \pre \aedpre{true}
-     * \post \aedpost{colleccion(pos)=this \LAND res \IGOBS prim(secuSbuy(res))}
+     * \post \aedpost{this \IGOBS coleccion(res) \LAND anteriores(res) \IGOBS \elementosMenoresA(*this, claves(*this), key) \LAND siguientes(res) \IGOBS \elementosMayoresA(*this, claves(*this), key) \LAND
+	 *					colleccion(pos)=this \LAND res \IGOBS prim(secuSbuy(res))}
      *
      * \complexity{\O(1)}
      */
@@ -1975,8 +1912,8 @@ public:
          * \pre \aedpre{haySiguiente?(*this)}
          * \post \aedpost{res \IGOBS avanzar(*this)}
          *
-         * \bug No sigue la especifición, si algo se debería romper es mejor que se rompa
-         * \bug Si quieren poder recorrer la secuencia de forma circular, deberían hacer una operación auxiliar privada
+         * \deprecated No sigue la especifición, si algo se debería romper es mejor que se rompa
+         * \deprecated Si quieren poder recorrer la secuencia de forma circular, deberían hacer una operación auxiliar privada
          *
          * \complexity{
          * - Peor caso: \O(\LOG(SIZE(\a d)) donde \a d es el diccionario asociado a \P{*this}.
@@ -1984,18 +1921,7 @@ public:
          * }
          */
         iterator& operator++() {
-            if(n->color == Color::Header) {
-                n = n->child[0];
-            }else if(n->child[1] != nullptr){
-                n = min(n->child[1]);
-            }else{
-                Node* y = n->parent;
-                while(y->color != Color::Header and n == y->child[1]){
-                    n = y;
-                    y = y->parent;
-                }
-                n = y;
-            }
+            this->avanzar();
             return *this;
         }
         /**
@@ -2015,7 +1941,7 @@ public:
          */
         iterator operator++(int) {
             iterator ret = *this;
-            ++*this;
+            this->avanzar();
             return ret;
         }
         /**
@@ -2034,18 +1960,7 @@ public:
          * }
          */
         iterator& operator--() {
-            if(n->color == Color::Header){
-                n = n->child[1];
-            }else if(n->child[0] != nullptr){
-                n = max(n->child[0]);
-            }else{
-                Node* y = n->parent;
-                while(y->color != Color::Header and n == y->child[0]){
-                    n = y;
-                    y = y->parent;
-                }
-                n = y;
-            }
+            this->retroceder();
             return *this;
         }
 
@@ -2066,7 +1981,7 @@ public:
          */
         iterator operator--(int) {
             iterator ret = *this;
-            --*this;
+            this->retroceder();
             return ret;
         }
         /**
@@ -2098,7 +2013,7 @@ public:
          *
          **/
         bool operator!=(iterator other) const {
-            return not(*this == other);
+            return not (*this == other);
         }
 
     private:
@@ -2195,6 +2110,38 @@ public:
            }
            return ret;
         }
+
+		iterator avanzar(){
+            if(n->color == Color::Header) {
+                n = n->child[0];
+            }else if(n->child[1] != nullptr){
+                n = min(n->child[1]);
+            }else{
+                Node* y = n->parent;
+                while(y->color != Color::Header and n == y->child[1]){
+                    n = y;
+                    y = y->parent;
+                }
+                n = y;
+            }
+            return *this;
+		}
+
+		iterator retroceder(){
+            if(n->color == Color::Header){
+                n = n->child[1];
+            }else if(n->child[0] != nullptr){
+                n = max(n->child[0]);
+            }else{
+                Node* y = n->parent;
+                while(y->color != Color::Header and n == y->child[0]){
+                    n = y;
+                    y = y->parent;
+                }
+                n = y;
+            }
+            return *this;
+		}
     };
 
     /**
@@ -2245,48 +2192,26 @@ public:
         }
         /** \brief Ver aed2::map::iterator::operator++() */
         const_iterator& operator++()  {
-            if(n->color == Color::Header) {
-                n = n->child[0];
-            }else if(n->child[1] != nullptr){
-                n = min(n->child[1]);
-            }else{
-                Node* y = n->parent;
-                while(y->color != Color::Header and n == y->child[1]){
-                    n = y;
-                    y = y->parent;
-                }
-                n = y;
-            }
+            this->avanzar();
             return *this;
         }
 
         /** \brief Ver aed2::map::iterator::operator++(int) */
         const_iterator operator++(int)  {
             const_iterator ret = *this;
-            ++*this;
+            this->avanzar();
             return ret;
         }
         /** \brief Ver aed2::map::iterator::operator--() */
         const_iterator& operator--()  {
-            if(n->color == Color::Header){
-                n = n->child[1];
-            }else if(n->child[0] != nullptr){
-                n = max(n->child[0]);
-            }else{
-                Node* y = n->parent;
-                while(y->color != Color::Header and n == y->child[0]){
-                    n = y;
-                    y = y->parent;
-                }
-                n = y;
-            }
+            this->retroceder();
             return *this;
         }
 
         /** \brief Ver aed2::map::iterator::operator--(int) */
         const_iterator operator--(int)  {
             const_iterator ret = *this;
-            --*this;
+            this->retroceder();
             return ret;
         }
         /** \brief Ver aed2::map::iterator::operator==() */
@@ -2295,7 +2220,7 @@ public:
         }
         /** \brief Ver aed2::map::iterator::operator!=() */
         bool operator!=(const_iterator other) const  {
-            return n != other.n;
+            return not (*this == other);
         }
 
     private:
@@ -2337,6 +2262,38 @@ public:
                 ret = ret->child[0];
             }
             return ret;
+        }
+
+        const_iterator avanzar(){
+            if(n->color == Color::Header) {
+                n = n->child[0];
+            }else if(n->child[1] != nullptr){
+                n = min(n->child[1]);
+            }else{
+                Node* y = n->parent;
+                while(y->color != Color::Header and n == y->child[1]){
+                    n = y;
+                    y = y->parent;
+                }
+                n = y;
+            }
+            return *this;
+        }
+
+        const_iterator retroceder(){
+            if(n->color == Color::Header){
+                n = n->child[1];
+            }else if(n->child[0] != nullptr){
+                n = max(n->child[0]);
+            }else{
+                Node* y = n->parent;
+                while(y->color != Color::Header and n == y->child[0]){
+                    n = y;
+                    y = y->parent;
+                }
+                n = y;
+            }
+            return *this;
         }
     };
 
@@ -2545,7 +2502,7 @@ private:
 	 * rep(m) \EQUIV nothing?(Header.value)\LAND \esRBTree(Header) \LAND \cantidadDeElementos(m.header.parent) = count
 	 * \endparblock
      *
-     * \bug Este REP es ilegible, intenten formatearlo mejor o subdividir en más suboperaciones
+     * \deprecated Este REP es ilegible, intenten formatearlo mejor o subdividir en más suboperaciones
 	 *
 	 * \par Función de abstracción
 	 * \parblock
@@ -2553,7 +2510,7 @@ private:
 	 * abs(m) \IGOBS dic : diccionario | (\FORALL k: Key)( k \IN claves(dic) \IFF <k,obtener(k,dic)> \IN \elementos(&m.Header))
 	 * \endparblock
      *
-     * \bug Hace falta decir lo de cant de claves?
+     * \deprecated Hace falta decir lo de cant de claves?
      *
      */
     //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2603,21 +2560,24 @@ private:
          *
          * \Descripcion En esta funcion se recibe un parametro:'nodo' de tipo puntero a nodo, la cual viene derivada del erase. Se trata de implementar el FixUp del cormen, donde 'nodo' modifica su lugar y este puede llegar a romper el invariante RB-Tree, tanto como que la raiz no sea negra, que cada nodo rojo tenga hijo rojo, o que todos los caminos tengan distinta cantidad de nodos negros. El primer problema lo arregla si no entra en el ciclo ya que seria que la raiz es roja, entonces luego se le modifica el color. Si entra en el ciclo tiene dos casos particulares que dependen de si 'nodo' es hijo derecho o izquierdo de su padre, esto se ve en mas detalle en el deleteFixUpAux.
          *
-         * \bug Suena a que les vendría bien una operación que te diga si un nodo es hijo derecho o izquierdo de su padre
-         * Donde la pondrían??
+         * \deprecated Suena a que les vendría bien una operación que te diga si un nodo es hijo derecho o izquierdo de su padre
+         * Donde la pondrían?? // En la parte privada de Node.
          *
          * \complexity{\O(\LOG(\SIZE(\P{*this})))}
          */
-    void deleteFixUp(Node* nodo){
-        iterator x = iterator(nodo);
-        while((root() != x)and(is_black(x.n))){
-            if(x.n == x.n->parent->child[0]){
-                deleteFixUpAux(x.n, 0);
-            } else{
-                deleteFixUpAux(x.n, 1);
-            }
-        }
-        x.n->color = Color::Black;
+    void deleteFixUp(Node* padre_nodo, Node* hijo_nodo){
+		iterator hijo = iterator(hijo_nodo);
+		iterator padre = iterator(padre_nodo);
+		while((root() != hijo)and(is_black(hijo.n))){
+			if(hijo.n == padre.n->child[0]){
+				deleteFixUpAux(padre, hijo, 1);
+			}else{
+				deleteFixUpAux(padre, hijo, 0);
+			}
+		}
+		if(hijo.n != nullptr) {
+			hijo.n->color = Color::Black;
+		}
     }
 
         /**
@@ -2639,33 +2599,33 @@ private:
          *
          * \complexity{\O(\LOG(\SIZE(\P{*this})))}
          */
-    void deleteFixUpAux(Node* nodo, int i){
-        iterator x = iterator(nodo);
-        iterator w = iterator(x.n->parent->child[i]);
-        if(not(is_black(w.n))){
-            w.n->color = Color::Black;
-            x.n->parent->color = Color::Red;
-            Rotate(x.n->parent, 1);
-            w = x.n->parent->child[1];
-        }
-        if(w.n != nullptr){
-            if(is_black(w.n->child[0]) and is_black(w.n->child[1])){
-                w.n->color = Color::Red;
-                x.n = x.n->parent;
-            } else{
-                if(is_black(w.n->child[1])){
-                    w.n->color = Color::Red;
-                    w.n->child[0]->color = Color::Black;
-                    Rotate(w.n, 0);
-                    w.n = x.n->parent->child[1];
-                }
-                w.n->color = x.n->parent->color;
-                x.n->parent->color = Color::Black;
-                w.n->child[1]->color = Color::Black;
-                Rotate(x.n->parent, 1);
-                x = root();
-            }
-        }
+    void deleteFixUpAux(iterator& padre, iterator& hijo, int i){
+		iterator hermano = iterator(padre.n->child[i]);
+        if(not(is_black(hermano.n))){
+            hermano.n->color = Color::Black;
+            padre.n->color = Color::Red;
+            Rotate(padre.n, i);
+            hermano = padre.n->child[i];
+		}
+		if(hermano.n != nullptr){
+			if(is_black(hermano.n->child[0]) and is_black(hermano.n->child[1])){
+				hermano.n->color = Color::Red;
+				hijo.n = padre.n;
+				padre.n = padre.n->parent;
+			}else{
+				if(is_black(hermano.n->child[i])){
+					hermano.n->color = Color::Red;
+					hermano.n->child[(i+1)%2]->color = Color::Black;
+					Rotate(hermano.n, (i+1)%2);
+					hermano.n = padre.n->child[i];
+				}
+				hermano.n->color = padre.n->color;
+				padre.n->color = Color::Black;
+				hermano.n->child[i]->color = Color::Black;
+				Rotate(padre.n, i);
+				hijo = root();
+			}
+		}
     }
 
         /**
@@ -2687,42 +2647,42 @@ private:
          * \complexity{\O(1)}
          */
     void insertFixUp(Node* n){
-        while(n->parent->color == Color::Red){
-            if(n->parent == n->parent->parent->child[0]){
-                iterator y = iterator(n->parent->parent->child[1]);
-                if(not is_black(y)){
-                    n->parent->color = Color::Black;
-                    y.n->color = Color::Black;
-                    n->parent->parent->color = Color::Red;
-                    n = n->parent->parent;
-                }else{
-                    if(n == n->parent->child[1]){
-                        n = n->parent;
-                        Rotate(n,1);
-                    }
-                    n->parent->color = Color::Black;
-                    n->parent->parent->color = Color::Red;
-                    Rotate(n->parent->parent,0);
-                }
-            }else{
-                iterator y = iterator(n->parent->parent->child[0]);
-                if(not is_black(y.n)){
-                    n->parent->color = Color::Black;
-                    y.n->color = Color::Black;
-                    n->parent->parent->color = Color::Red;
-                    n = n->parent->parent;
-                }else{
-                    if(n == n->parent->child[0]){
-                        n = n->parent;
-                        Rotate(n,0);
-                    }
-                    n->parent->color = Color::Black;
-                    n->parent->parent->color = Color::Red;
-                    Rotate(n->parent->parent,1);
-                }
-            }
-        }
-        root()->color = Color::Black;
+		while(n->parent->color == Color::Red){
+			if(n->parent == n->parent->parent->child[0]){
+				iterator y = iterator(n->parent->parent->child[1]);
+				if(not is_black(y)){
+					n->parent->color = Color::Black;
+					y.n->color = Color::Black;
+					n->parent->parent->color = Color::Red;
+					n = n->parent->parent;
+				}else{
+					if(n == n->parent->child[1]){
+						n = n->parent;
+						Rotate(n,1);
+					}
+					n->parent->color = Color::Black;
+					n->parent->parent->color = Color::Red;
+					Rotate(n->parent->parent,0);
+				}
+			}else{
+				iterator y = iterator(n->parent->parent->child[0]);
+				if(not is_black(y.n)){
+					n->parent->color = Color::Black;
+					y.n->color = Color::Black;
+					n->parent->parent->color = Color::Red;
+					n = n->parent->parent;
+				}else{
+					if(n == n->parent->child[0]){
+						n = n->parent;
+						Rotate(n,0);
+					}
+					n->parent->color = Color::Black;
+					n->parent->parent->color = Color::Red;
+					Rotate(n->parent->parent,1);
+				}
+			}
+		}
+		root()->color = Color::Black;
     }
 
         /**
@@ -2774,13 +2734,15 @@ private:
         }
         if(viejo == header.child[0]){
             iterator max = iterator(viejo);
-            header.child[0] = ++max;
+            header.child[0] = max.avanzar();
         }
         if(viejo == header.child[1]){
             iterator min = iterator(viejo);
-            header.child[1] = --min;
+            header.child[1] = min.retroceder();
         }
-        nuevo->parent = viejo->parent;
+		if(nuevo != nullptr){
+            nuevo->parent = viejo->parent;
+        }
     }
 
         /**
@@ -2797,6 +2759,55 @@ private:
             return n->color == Color::Black;
         }
     }
+
+	bool esBuenHint(const_iterator hint, const value_type& value){
+		if(hint == end()){
+			return not(empty()) & lt(header.child[1]->key(), value.first);
+		}
+		if(eq(hint->first , value.first)){
+			return true;
+		}
+		if(not lt(hint->first , value.first) ){
+			if(hint.n == header.child[0]){
+				return true;
+			}else{
+				hint.retroceder();
+				return lt(hint->first , value.first);
+			}
+		}
+	}
+
+	iterator insertMinOMax(const value_type& value){
+		if(lt(header.child[1]->key(), value.first)){
+			iterator nuevo = iterator(new InnerNode(header.child[1],value));
+			header.child[1]->child[1] = nuevo.n;
+			header.child[1] = nuevo.n;
+			return nuevo;
+		}
+		if(not lt(header.child[0]->key(), value.first)){
+			iterator nuevo = iterator(new InnerNode(header.child[0],value));
+			header.child[0]->child[0] = nuevo.n;
+			header.child[0] = nuevo.n;
+			return nuevo;
+		}
+	}
+
+	iterator insertConLB(const_iterator hint, const value_type& value){
+		if(hint.n->child[0] == nullptr){
+			iterator nuevo = iterator(new InnerNode(const_cast<Node*>(hint.n), value));
+			const_cast<Node*>(hint.n)->child[0] = nuevo.n;
+			return nuevo;
+		}else{
+			iterator padre = iterator(hint.n->child[0]);
+			while(padre.n->child[1] != nullptr){
+				padre.n = padre.n->child[1];
+			}
+			iterator nuevo = iterator(new InnerNode(padre.n, value));
+			padre.n->child[1] = nuevo.n;
+			return nuevo;
+		}
+	}
+
 };
 
 //////////////////////////////////////
