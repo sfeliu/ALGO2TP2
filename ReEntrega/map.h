@@ -576,14 +576,14 @@
  *
  * \par enRango
  * \parblock
- * A partir de tres punteros a nodo devuelve true si y solo si el primer parametro esta acotado inferiormente por el segundo y superiormente por el tercero.
+ * A partir de cuatro punteros a nodo devuelve true si y solo si el primer y segundo parametro estan acotados inferiormente por el tercero y superiormente por el cuarto.
  *
- * \axioma{enRango}: puntero(Node) x puntero(Node) x puntero(Node)  \TO bool\n
- * enRango(p1,p2,p3) \EQUIV  data(*(*p2.value).clave \LEQ data(*p1.value).clave \LAND data(*p3.value).clave \GEQ data(*p1.value).clave)
+ * \axioma{enRango}: puntero(Node) x puntero(Node) x puntero(Node) x puntero(Node)  \TO bool\n
+ * enRango(p1,p2,p3,p4) \EQUIV  data(*(*p3.value).clave \LEQ data(*p2.value).clave \LAND data(*p4.value).clave \GEQ data(*p2.value).clave)
+ *                          \LAND data(*(*p3.value).clave \LEQ data(*p1.value).clave \LAND data(*p4.value).clave \GEQ data(*p1.value).clave)
  * \endparblock
  *
- *
-	 * \par anterioresDe
+ * \par anterioresDe
  * \parblock
  * Devuelve una lista ordenada de todos los valores ateriores a el parametro que recive.
  *
@@ -782,8 +782,9 @@
  *
  * \axioma{esRBTree}: Node \TO Bool\n
  * \esRBTree(n) \EQUIV (\EXISTS k: nat)(\arbolK(n.parent,k) = \arbolK(n.parent,k+1)) \LAND_L \sinRepetidos(headerToSecu(n.parent))
- * \LAND \esADB(n.parent) \LAND \n (\FORALL p,p':puntero(Node))(\estan(*p.value,header.parent,*p'.value,header.parent) \IMPLIES_L
- * \coloresAdecuados(p,p') \LAND \n \sonValidos(p,p') \LAND ((\sonHoja(p,p'))\IMPLIES_L \cantBlack(p)=\cantBlack(p')))
+ * \LAND \esADB(n.parent) \LAND hijosHeader(header) \LAND \n (\FORALL p,p':puntero(Node))(\estan(*p.value,header.parent,*p'.value,header.parent) \IMPLIES_L
+ * \coloresAdecuados(p,p') \LAND \n \sonValidos(p,p') \LAND ((\sonHoja(p,p'))\IMPLIES_L \cantBlack(p)=\cantBlack(p'))
+ * \LAND enRango(p,p',header.child[0],header.child[1]))
  * \endparblock
  *
  * \deprecated sinRepetidos(headerToSecu(n.parent)) esto no te soluciona uno de los problemas hablado por Soulignac.
@@ -800,7 +801,7 @@
  * \par elementosMayoresA
  * \parblock
  * Retorna la secuencia ordenada de elementos mayores al pasado como parametro.
- * elementosMayoresA(d, c, k) \EQUIV \IF \EMPTYSET(c)? \THEN < > \ELSE \IF maximo(c) < k \THEN elementosMayoresA(d, c - maximo(c), k) o <maximo(c), obtener(minimo(c), d)>
+ * elementosMayoresA(d, c, k) \EQUIV \IF \EMPTYSET(c)? \THEN < > \ELSE \IF maximo(c) \LEQ k \THEN elementosMayoresA(d, c - maximo(c), k) o <maximo(c), obtener(minimo(c), d)>
  * 								\ELSE elementosMayoresA(d, c - maximo(c), k) \FI \FI
  * \axioma{elementosMayoresA}: deicc(value) x conj(key) x key \TO secu(value)\n
  *
@@ -2063,7 +2064,7 @@ public:
          * abs_iter: puntero(Node) n \TO IteradorBidireccional(Diccionario(\T{Key}, \T{Meaning}), tupla(\T{Key}, \T{Meaning}))  {rep_iter(n)}\n
          * abs_iter(n) \IGOBS b:IteradorBidireccional(d,value_type) | \IF n = NULL \THEN anteriores(b) = <> \LAND siguientes(b) = <> \ELSE
          *              \IF nothing?((*n).Value) \THEN anteriores(b) = inorder(\ArbolValue(&\dameHeader(n))) \LAND siguientes(b) = <>
-         *              \ELSE anteriores(b) = \AnterioresDe(inorder(\ArbolValue(&\dameHeader(n))),data(*n).value) \LAND
+         *              \ELSE anteriores(b) = \anterioresDe(inorder(\ArbolValue(&\dameHeader(n))),data(*n).value) \LAND
          *              siguientes(b) = siguientesDe(inorder(\ArbolValue(&\dameHeader(n))),data(*n).value) \FI \FI \FI
          *
          * Nota: se puede usar `d` para referirse al valor computacional del diccionario definido desde la cabecera (como en el constructor).
