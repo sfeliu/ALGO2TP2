@@ -256,9 +256,10 @@ son\+Hoja\+: Puntero(\+Node) x Puntero(\+Node) $\to$ bool~\newline
 Retorna True si a partir del nodo dado se puede reconstruir un Red-\/\+Black Tree.
 
 es\+R\+B\+Tree\+: Node $\to$ Bool~\newline
- \href{axiomas.html#esRBTree}{\tt es\+R\+B\+Tree}(n) $\equiv$ ( $\exists$ k\+: nat)(\href{axiomas.html#arbolK}{\tt arbolK}(n.\+parent,k) = \href{axiomas.html#arbolK}{\tt arbolK}(n.\+parent,k+1)) $\land_{\rm L}$ \href{axiomas.html#sinRepetidos}{\tt sin\+Repetidos}(header\+To\+Secu(n.\+parent)) $\land$ \href{axiomas.html#esADB}{\tt es\+A\+DB}(n.\+parent) $\land$ hijos\+Header(header) $\land$ ~\newline
- ( $\forall$ p,p\textquotesingle{}\+:puntero(\+Node))(\href{axiomas.html#estan}{\tt estan}($\ast$p.value,header.\+parent,$\ast$p\textquotesingle{}.value,header.\+parent) $\Rightarrow_{\rm L}$ \href{axiomas.html#coloresAdecuados}{\tt colores\+Adecuados}(p,p\textquotesingle{}) $\land$ ~\newline
- \href{axiomas.html#sonValidos}{\tt son\+Validos}(p,p\textquotesingle{}) $\land$ ((\href{axiomas.html#sonHoja}{\tt son\+Hoja}(p,p\textquotesingle{})) $\Rightarrow_{\rm L}$ \href{axiomas.html#cantBlack}{\tt cant\+Black}(p)=\href{axiomas.html#cantBlack}{\tt cant\+Black}(p\textquotesingle{})) $\land$ en\+Rango(p,p\textquotesingle{},header.\+child\mbox{[}0\mbox{]},header.\+child\mbox{[}1\mbox{]})) 
+ \href{axiomas.html#esRBTree}{\tt es\+R\+B\+Tree}(n) $\equiv$ ( $\exists$ k\+: nat)(\href{axiomas.html#arbolK}{\tt arbolK}(n.\+parent,k) = \href{axiomas.html#arbolK}{\tt arbolK}(n.\+parent,k+1)) $\land_{\rm L}$ ~\newline
+ \href{axiomas.html#sinRepetidos}{\tt sin\+Repetidos}(header\+To\+Secu(n.\+parent)) $\land$ \href{axiomas.html#esADB}{\tt es\+A\+DB}(n.\+parent) $\land$ hijos\+Header(header) $\land$ ~\newline
+ ( $\forall$ p,p\textquotesingle{}\+:puntero(\+Node))(\href{axiomas.html#sonValidos}{\tt son\+Validos}(p,p\textquotesingle{}) $\land_{\rm L}$ \href{axiomas.html#estan}{\tt estan}(p,p\textquotesingle{},header.\+parent) $\Rightarrow_{\rm L}$ \href{axiomas.html#coloresAdecuados}{\tt colores\+Adecuados}(p,p\textquotesingle{}) $\land$ ~\newline
+ ((\href{axiomas.html#sonHoja}{\tt son\+Hoja}(p,p\textquotesingle{})) $\Rightarrow_{\rm L}$ \href{axiomas.html#cantBlack}{\tt cant\+Black}(p)=\href{axiomas.html#cantBlack}{\tt cant\+Black}(p\textquotesingle{})) $\land$ en\+Rango(p,p\textquotesingle{},header.\+child\mbox{[}0\mbox{]},header.\+child\mbox{[}1\mbox{]})) 
 \end{DoxyParagraph}
 
 

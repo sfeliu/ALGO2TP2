@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['uso_20del_20lenguaje_20coloquial',['Uso del lenguaje coloquial',['../Castellano.html',1,'index']]]
+  ['referencias_20bibliográficas',['Referencias bibliográficas',['../citelist.html',1,'']]]
 ];

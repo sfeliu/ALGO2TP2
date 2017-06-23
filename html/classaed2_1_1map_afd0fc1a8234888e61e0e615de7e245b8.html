@@ -136,9 +136,11 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 <dt>Complejidad Temporal</dt>
 <dd><img class="formulaInl" alt="$O$" src="form_1.png"/>( <img class="formulaInl" alt="$\log$" src="form_19.png"/>(<b>size</b>(<b class="paramname">*this</b>)) <img class="formulaInl" alt="$\cdot$" src="form_13.png"/> <b>cmp</b>(<b class="paramname">*this</b>))</dd>
 </dl>
+<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000005">Bug:</a></b></dt><dd>En la post deben decir algo más sobre el iterator res, en particular algun otro de los observadores del iterador</dd></dl>
+<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000006">Bug:</a></b></dt><dd>Este código se puede mejorar, pero está bien</dd></dl>
 <dl class="section attention"><dt>Atención</dt><dd>Si el objetivo es insertar un valor con clave <b class="paramname">key</b> de acuerdo a alguna condición, entonces conviene usar <a class="el" href="classaed2_1_1map_a3399d36fdd5a880b494f3a5795d3f18f.html#a3399d36fdd5a880b494f3a5795d3f18f" title="Devuelve un iterador al primer valor con clave mayor o igual a key ">aed2::map::lower_bound</a> para la búsqueda, dado que el resultado puede ser usado como hint, mejorando la complejidad de la inserción. </dd></dl>
 
-<p>Definición en la línea <a class="el" href="map_8h_source.html#l01182">1182</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
+<p>Definición en la línea <a class="el" href="mapPablo_8h_source.html#l01243">1243</a> del archivo <a class="el" href="mapPablo_8h_source.html">mapPablo.h</a>.</p>
 
 </div>
 </div>
@@ -148,7 +150,7 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceaed2.html">aed2</a></li><li class="navelem"><a class="el" href="classaed2_1_1map.html">map</a></li>
-    <li class="footer">Generado el Viernes, 2 de Junio de 2017 17:45:21 para Trabajo práctico 2: diccionario sobre RB-tree por
+    <li class="footer">Generado el Viernes, 23 de Junio de 2017 15:29:30 para Trabajo práctico 2: diccionario sobre RB-tree por
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

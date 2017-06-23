@@ -1,0 +1,121 @@
+
+\begin{DoxyRefList}
+\item[\label{deprecated__deprecated000006}%
+\hypertarget{deprecated__deprecated000006}{}%
+Miembro \hyperlink{classaed2_1_1map_a0b0a11f906da2926f9eb342fcee79fd7_a0b0a11f906da2926f9eb342fcee79fd7}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:at} (const Key \&key) const ]find retorna un \hyperlink{classaed2_1_1map_1_1const__iterator}{const\+\_\+iterator} 
+
+find retorna un \hyperlink{classaed2_1_1map_1_1const__iterator}{const\+\_\+iterator} 
+
+find retorna un \hyperlink{classaed2_1_1map_1_1const__iterator}{const\+\_\+iterator}  
+\item[\label{deprecated__deprecated000019}%
+\hypertarget{deprecated__deprecated000019}{}%
+Miembro \hyperlink{classaed2_1_1map_a2bfa5165825979bf2431db55bc6bc9ca_a2bfa5165825979bf2431db55bc6bc9ca}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:clear} ()]Es verdaderamente necesario el primer if?? 
+\item[\label{deprecated__deprecated000022}%
+\hypertarget{deprecated__deprecated000022}{}%
+Miembro \hyperlink{classaed2_1_1map_a8fc6c73e0fcd59ae86887300b7287d9f_a8fc6c73e0fcd59ae86887300b7287d9f}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:delete\+Fix\+Up} (\hyperlink{structaed2_1_1map_1_1Node}{Node} $\ast$padre\+\_\+nodo, \hyperlink{structaed2_1_1map_1_1Node}{Node} $\ast$hijo\+\_\+nodo)]Suena a que les vendría bien una operación que te diga si un nodo es hijo derecho o izquierdo de su padre Donde la pondrían?? // En la parte privada de \hyperlink{structaed2_1_1map_1_1Node}{Node}. 
+\item[\label{deprecated__deprecated000016}%
+\hypertarget{deprecated__deprecated000016}{}%
+Miembro \hyperlink{classaed2_1_1map_ad8e796bf9c9c558e5ce6b61e116253fe_ad8e796bf9c9c558e5ce6b61e116253fe}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:erase} (\hyperlink{classaed2_1_1map_1_1const__iterator}{const\+\_\+iterator} pos)]No dicen nada sobre res 
+
+No es verdad que si no se cumple pos.\+n-\/$>$child\mbox{[}0\mbox{]} == nullptr and pos.\+n-\/$>$child\mbox{[}1\mbox{]} == nullptr no necesite hacer fixup, piensen en una hoja negra 
+
+Para la reentrega deberían repensar las operaciones de insercion y de eliminación 
+
+cambiado puede ser nullptr, deletefixup no funciona bien
+
+Intenten no repetir código (iterator(const\+\_\+cast$<$\+Node$\ast$$>$(pos0.\+n));), idem \hyperlink{classaed2_1_1map_a6941cde9a79c27f054b5c97a587a1854_a6941cde9a79c27f054b5c97a587a1854}{aed2\+::map\+::insert} 
+
+No dicen nada sobre res
+
+Intenten no repetir código (iterator(const\+\_\+cast$<$\+Node$\ast$$>$(pos0.\+n));), idem \hyperlink{classaed2_1_1map_a6941cde9a79c27f054b5c97a587a1854_a6941cde9a79c27f054b5c97a587a1854}{aed2\+::map\+::insert} 
+
+No dicen nada sobre res 
+\item[\label{deprecated__deprecated000018}%
+\hypertarget{deprecated__deprecated000018}{}%
+Miembro \hyperlink{classaed2_1_1map_a2ffadb42cd5f0bc7b3752ff159b75334_a2ffadb42cd5f0bc7b3752ff159b75334}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:erase} (const Key \&key)]Mejor\+: \hyperlink{classaed2_1_1map_1_1const__iterator}{const\+\_\+iterator} pos (find(key)); o\+: \hyperlink{classaed2_1_1map_1_1const__iterator}{const\+\_\+iterator} pos = find(key); Ambas funcionan y son más claras. 
+\item[\label{deprecated__deprecated000008}%
+\hypertarget{deprecated__deprecated000008}{}%
+Miembro \hyperlink{classaed2_1_1map_afd0fc1a8234888e61e0e615de7e245b8_afd0fc1a8234888e61e0e615de7e245b8}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:find} (const Key \&key)]En la post deben decir algo más sobre el iterator res, en particular algun otro de los observadores del iterador
+
+Este código se puede mejorar, pero está bien
+
+Este código se puede mejorar, pero está bien 
+\item[\label{deprecated__deprecated000010}%
+\hypertarget{deprecated__deprecated000010}{}%
+Miembro \hyperlink{classaed2_1_1map_ab8f3e41b1a0d7b74645836f8d2e1acfc_ab8f3e41b1a0d7b74645836f8d2e1acfc}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:find} (const Key \&key) const ]No pueden llamar a funciones const desde funciones no const, no lo vuelvo a mencionar pero se repite mucho este error  
+\item[\label{deprecated__deprecated000012}%
+\hypertarget{deprecated__deprecated000012}{}%
+Miembro \hyperlink{classaed2_1_1map_a6941cde9a79c27f054b5c97a587a1854_a6941cde9a79c27f054b5c97a587a1854}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:insert} (\hyperlink{classaed2_1_1map_1_1const__iterator}{const\+\_\+iterator} hint, const value\+\_\+type \&value)]Digan algo en la P\+RE (y aliasing) sobre el iterador hint, que debe cumplir 
+
+$ #claves(self) + 1 \IGOBS #claves(this))$ tiene sentido eso?? 
+
+Qué pasa si te pasan el \hyperlink{classaed2_1_1map_a76023e6a56cb625513e1b5ea028bf983_a76023e6a56cb625513e1b5ea028bf983}{aed2\+::map\+::end()} como hint, pero no es un hint válido 
+
+Intenten no repetir tanto código, tal vez pueden hacer que todas las inserciones se hagan a través de una sola función 
+
+Tantos ifs anidados complican la comprensión de código, intenten reescribir
+
+hint++; Esto esta dentro del if donde hint es el header 
+
+hint++; Esto esta dentro del if donde hint es el header  
+\item[\label{deprecated__deprecated000014}%
+\hypertarget{deprecated__deprecated000014}{}%
+Miembro \hyperlink{classaed2_1_1map_a2ef6723c183916276b0afc4a4c721475_a2ef6723c183916276b0afc4a4c721475}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:insert\+\_\+or\+\_\+assign} (\hyperlink{classaed2_1_1map_1_1const__iterator}{const\+\_\+iterator} hint, const value\+\_\+type \&value)]$ definir(\PI1 value, \PI2 value), self) $ las \char`\"{}variables\char`\"{} de los T\+A\+DS no se modifican
+
+El find del principio les arruina la complejidad ante un buen hint
+
+$ definir(\PI1 value, \PI2 value), self) $ las \char`\"{}variables\char`\"{} de los T\+A\+DS no se modifican
+
+El find del principio les arruina la complejidad ante un buen hint
+
+$ definir(\PI1 value, \PI2 value), self) $ las \char`\"{}variables\char`\"{} de los T\+A\+DS no se modifican 
+\item[\label{deprecated__deprecated000025}%
+\hypertarget{deprecated__deprecated000025}{}%
+Miembro \hyperlink{classaed2_1_1map_1_1iterator_a836c7a166d63f507c4f79085ae953c51_a836c7a166d63f507c4f79085ae953c51}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:iterator\+:\+:operator!=} (iterator other) const ]Imaginense que en un par de años cambian la estructura interna de iterator, teniendo que cambiar la igualda, como esta hecho ahora deberían cambiar dos funciones
+
+Imaginense que en un par de años cambian la estructura interna de iterator, teniendo que cambiar la igualda, como esta hecho ahora deberían cambiar dos funciones 
+\item[\label{deprecated__deprecated000023}%
+\hypertarget{deprecated__deprecated000023}{}%
+Miembro \hyperlink{classaed2_1_1map_1_1iterator_a7c44de7f0508186e135ddbcfe782fec5_a7c44de7f0508186e135ddbcfe782fec5}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:iterator\+:\+:operator++} ()]No sigue la especifición, si algo se debería romper es mejor que se rompa 
+
+Si quieren poder recorrer la secuencia de forma circular, deberían hacer una operación auxiliar privada 
+\item[\label{deprecated__deprecated000024}%
+\hypertarget{deprecated__deprecated000024}{}%
+Miembro \hyperlink{classaed2_1_1map_1_1iterator_ad052c1ef8477a1613c292202226053a5_ad052c1ef8477a1613c292202226053a5}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:iterator\+:\+:operator==} (iterator other) const ]Su pre es muy fuerte y su P\+O\+ST muy débil
+
+Su pre es muy fuerte y su P\+O\+ST muy débil 
+\item[\label{deprecated__deprecated000011}%
+\hypertarget{deprecated__deprecated000011}{}%
+Miembro \hyperlink{classaed2_1_1map_a3399d36fdd5a880b494f3a5795d3f18f_a3399d36fdd5a880b494f3a5795d3f18f}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:lower\+\_\+bound} (const Key \&key) const ]not lt(it.\+n-\/$>$key(), key) and not lt(key, it.\+n-\/$>$key()) usen funciones 
+\item[\label{deprecated__deprecated000003}%
+\hypertarget{deprecated__deprecated000003}{}%
+Miembro \hyperlink{classaed2_1_1map_a7a77950a3d8e637bfa7cf5dcd904f257_a7a77950a3d8e637bfa7cf5dcd904f257}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:map} (const map \&other)]el hint debería estar en el mismo árbol
+
+el hint debería estar en el mismo árbol
+
+el hint debería estar en el mismo árbol 
+\item[\label{deprecated__deprecated000004}%
+\hypertarget{deprecated__deprecated000004}{}%
+Miembro \hyperlink{classaed2_1_1map_ac606d334809066929522964d45e76317_ac606d334809066929522964d45e76317}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:operator=} (map other)]Esta función se llama a sí mismo sin reducir el tamaño de entrada Recuerden copy and swap, no copy and assign
+
+Esta función se llama a sí mismo sin reducir el tamaño de entrada Recuerden copy and swap, no copy and assign
+
+Esta función se llama a sí mismo sin reducir el tamaño de entrada Recuerden copy and swap, no copy and assign 
+\item[\label{deprecated__deprecated000007}%
+\hypertarget{deprecated__deprecated000007}{}%
+Miembro \hyperlink{classaed2_1_1map_a96f23896164ab47bee48c26b803f9801_a96f23896164ab47bee48c26b803f9801}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:operator\mbox{[}\mbox{]}} (const Key \&key)]Idem antes, \char`\"{}it.\+n-\/$>$color == Color\+::\+Header\char`\"{}, es mejor usar funciones\+: son más declarativas y ayuda a que cambios futuros de estructura no afecten a todo el código 
+\item[\label{deprecated__deprecated000005}%
+\hypertarget{deprecated__deprecated000005}{}%
+Miembro \hyperlink{classaed2_1_1map_ab22c9a85c2dadbc286cd30e97069a8e6_ab22c9a85c2dadbc286cd30e97069a8e6}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:$\sim$map} ()]Por qué los que apuntan a \hyperlink{classaed2_1_1map_a76023e6a56cb625513e1b5ea028bf983_a76023e6a56cb625513e1b5ea028bf983}{end()} no??
+
+Por qué los que apuntan a \hyperlink{classaed2_1_1map_a76023e6a56cb625513e1b5ea028bf983_a76023e6a56cb625513e1b5ea028bf983}{end()} no??
+
+Por qué los que apuntan a \hyperlink{classaed2_1_1map_a76023e6a56cb625513e1b5ea028bf983_a76023e6a56cb625513e1b5ea028bf983}{end()} no?? 
+\item[\label{deprecated__deprecated000001}%
+\hypertarget{deprecated__deprecated000001}{}%
+Página \hyperlink{axiomas}{Axiomas y proposiciones auxiliares} ]Esta operación (y bastantes otras) son muy dificiles de leer 
+
+Además, si hace lo que creo que hace, no verifica correctamente que sea un A\+DB, piensen en un arbol con la raiz igual a 5, su hijo izq igual a 3 y el hijo derecho de 3 igual a 8, eso no es un A\+BB pero cumple su proposición.
+
+sin\+Repetidos(header\+To\+Secu(n.\+parent)) esto no te soluciona uno de los problemas hablado por Soulignac. Piensen como podrían reescribir a partir del rep de map V\+I\+S\+TO
+\end{DoxyRefList}

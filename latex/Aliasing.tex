@@ -18,7 +18,7 @@ Hay una diferencia esencial entre las instancias de T\+A\+Ds construidas en las 
 Dado que son conceptos distintos, no es obvio cómo los valores computacional se usan para referirse a términos algebraicos. Es por esto que el apunte de diseño propone el uso de un operador (no definido formalmente ahí), llamado \char`\"{}sombrerito\char`\"{}, que transforma cada valor computacional en un término algebraico, bajo la hipótesis de que dicho espacio de memoria representa un valor válido de acuerdo a la interpretación de su tipo.
 
 \begin{DoxyRemark}{Comentarios}
-La definición de sombrerito sigue un esquema recursivo. Para cada tipo {\itshape T} provisto por el lenguaje existe una versión de sombrerito que define la interpretación de los valores de {\itshape T} como tipos algebraicos. Por ejemplo, en C++ tenemos una versión de sombrerito que dado un unsigned int nos devuelve un Nat. Asimismo, tenemos una versión de sombrerito que dado un bool nos devuelve una instancia del T\+AD Booleano. Para ser explícitos con los tipos, vamos a escribir term$<${\itshape T$>$} para designar a la función sombrerito de {\itshape T}. Acá, {\itshape T} es un tipo computacional (i.\+e., C++) que se interpreta usando un T\+AD que lo explica. El género de dicho T\+AD es $\widehat{T}$. Luego, el tipo de term es\+:
+La definición de sombrerito sigue un esquema recursivo. Para cada tipo {\itshape T} provisto por el lenguaje existe una versión de sombrerito que define la interpretación de los valores de {\itshape T} como tipos algebraicos. Por ejemplo, en C++ tenemos una versión de sombrerito que dado un unsigned int nos devuelve un \hyperlink{classNat}{Nat}. Asimismo, tenemos una versión de sombrerito que dado un bool nos devuelve una instancia del T\+AD Booleano. Para ser explícitos con los tipos, vamos a escribir term$<${\itshape T$>$} para designar a la función sombrerito de {\itshape T}. Acá, {\itshape T} es un tipo computacional (i.\+e., C++) que se interpreta usando un T\+AD que lo explica. El género de dicho T\+AD es $\widehat{T}$. Luego, el tipo de term es\+:
 \begin{DoxyEnumerate}
 \item term \+: {\itshape T} t $\to$ $\widehat{T}$ \{rep(t)\} para cada tipo básico {\itshape T}, donde rep es una restricción definida sobre bits, y
 \item term \+: {\itshape T} t $\to$ $\widehat{T}$ \{rep(term$<$\+E$>$(t))\} para cada tipo no básico {\itshape T} que se representa con una estructura E.
@@ -50,13 +50,13 @@ T\+AD puntero( $\alpha$)~\newline
 \begin{DoxyItemize}
 \item $\ast$ $\bullet$\+: puntero( $\alpha$) $\to$ $\alpha$~\newline
 
-\item get\+: puntero( $\alpha$) $\to$ Nat
+\item get\+: puntero( $\alpha$) $\to$ \hyperlink{classNat}{Nat}
 \end{DoxyItemize}
 
 {\bfseries generadores} ~\newline
 
 \begin{DoxyItemize}
-\item set\+: Nat $\times$ $\alpha$ $\to$ puntero( $\alpha$)
+\item set\+: \hyperlink{classNat}{Nat} $\times$ $\alpha$ $\to$ puntero( $\alpha$)
 \end{DoxyItemize}
 
 Vale remarcar que dicho T\+AD no es más que un T\+AD sintáctico, cuyo único propósito es almacenar la información de un puntero. Más aun, cuando $\alpha$ sea de tipo tupla, vamos a suponer la existencia de la función -\/$>$ que permite acceder a los campos de la tupla apuntada. Luego, la función term queda definida como\+:

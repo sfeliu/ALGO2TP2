@@ -133,6 +133,7 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 <dl class="section user"><dt>Aspectos de aliasing:</dt><dd>si modificas res entonces se modifica *this</dd></dl>
 <dl class="section pre"><dt>Precondición</dt><dd><b>P</b> <img class="formulaInl" alt="$\equiv$" src="form_11.png"/> {*this = self} </dd></dl>
 <dl class="section post"><dt>Postcondición</dt><dd><b>Q</b> <img class="formulaInl" alt="$\equiv$" src="form_11.png"/> { (def?(key, self) <img class="formulaInl" alt="$\Rightarrow_{\rm L}$" src="form_23.png"/> alias(res <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> obtener(key,self))) <img class="formulaInl" alt="$\land$" src="form_14.png"/> ( <img class="formulaInl" alt="$\lnot$" src="form_24.png"/>(def?(key, self)) <img class="formulaInl" alt="$\Rightarrow_{\rm L}$" src="form_23.png"/> #claves(self) + 1 <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> #claves(this) <img class="formulaInl" alt="$\land$" src="form_14.png"/> alias(res <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> obtener(key,*this))) <img class="formulaInl" alt="$\land$" src="form_14.png"/> def?(key,*this)}</dd></dl>
+<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000004">Bug:</a></b></dt><dd>Idem antes, "it.n-&gt;color == Color::Header", es mejor usar funciones: son más declarativas y ayuda a que cambios futuros de estructura no afecten a todo el código</dd></dl>
 <dl class="section complexity">
 <dt>Complejidad Temporal</dt>
 <dd><img class="formulaInl" alt="$O$" src="form_1.png"/>( <img class="formulaInl" alt="$\log$" src="form_19.png"/>(<b>size</b>(<b class="paramname">*this</b>)) <img class="formulaInl" alt="$\cdot$" src="form_13.png"/> <b>cmp</b>(<b class="paramname">*this</b>) + <em>x</em>) donde<ul>
@@ -142,7 +143,7 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 </dd>
 </dl>
 
-<p>Definición en la línea <a class="el" href="map_8h_source.html#l01148">1148</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
+<p>Definición en la línea <a class="el" href="mapPablo_8h_source.html#l01203">1203</a> del archivo <a class="el" href="mapPablo_8h_source.html">mapPablo.h</a>.</p>
 
 </div>
 </div>
@@ -152,7 +153,7 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceaed2.html">aed2</a></li><li class="navelem"><a class="el" href="classaed2_1_1map.html">map</a></li>
-    <li class="footer">Generado el Viernes, 2 de Junio de 2017 17:45:21 para Trabajo práctico 2: diccionario sobre RB-tree por
+    <li class="footer">Generado el Viernes, 23 de Junio de 2017 15:29:30 para Trabajo práctico 2: diccionario sobre RB-tree por
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

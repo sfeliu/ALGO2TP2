@@ -239,9 +239,10 @@ Axiomas y proposiciones auxiliares</h1>
 </dd></dl>
 <dl class="section user"><dt>esRBTree</dt><dd><p class="startdd">Retorna True si a partir del nodo dado se puede reconstruir un Red-Black Tree.</p>
 <p class="enddd"><span id="esRBTree">esRBTree</span>: Node <img class="formulaInl" alt="$\to$" src="form_4.png"/> Bool<br />
- <a href="axiomas.html#esRBTree">esRBTree</a>(n) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> ( <img class="formulaInl" alt="$\exists$" src="form_22.png"/> k: nat)(<a href="axiomas.html#arbolK">arbolK</a>(n.parent,k) = <a href="axiomas.html#arbolK">arbolK</a>(n.parent,k+1)) <img class="formulaInl" alt="$\land_{\rm L}$" src="form_19.png"/> <a href="axiomas.html#sinRepetidos">sinRepetidos</a>(headerToSecu(n.parent)) <img class="formulaInl" alt="$\land$" src="form_12.png"/> <a href="axiomas.html#esADB">esADB</a>(n.parent) <img class="formulaInl" alt="$\land$" src="form_12.png"/> hijosHeader(header) <img class="formulaInl" alt="$\land$" src="form_12.png"/> <br />
- ( <img class="formulaInl" alt="$\forall$" src="form_23.png"/> p,p':puntero(Node))(<a href="axiomas.html#estan">estan</a>(*p.value,header.parent,*p'.value,header.parent) <img class="formulaInl" alt="$\Rightarrow_{\rm L}$" src="form_24.png"/> <a href="axiomas.html#coloresAdecuados">coloresAdecuados</a>(p,p') <img class="formulaInl" alt="$\land$" src="form_12.png"/> <br />
- <a href="axiomas.html#sonValidos">sonValidos</a>(p,p') <img class="formulaInl" alt="$\land$" src="form_12.png"/> ((<a href="axiomas.html#sonHoja">sonHoja</a>(p,p')) <img class="formulaInl" alt="$\Rightarrow_{\rm L}$" src="form_24.png"/> <a href="axiomas.html#cantBlack">cantBlack</a>(p)=<a href="axiomas.html#cantBlack">cantBlack</a>(p')) <img class="formulaInl" alt="$\land$" src="form_12.png"/> enRango(p,p',header.child[0],header.child[1])) </p>
+ <a href="axiomas.html#esRBTree">esRBTree</a>(n) <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> ( <img class="formulaInl" alt="$\exists$" src="form_22.png"/> k: nat)(<a href="axiomas.html#arbolK">arbolK</a>(n.parent,k) = <a href="axiomas.html#arbolK">arbolK</a>(n.parent,k+1)) <img class="formulaInl" alt="$\land_{\rm L}$" src="form_19.png"/> <br />
+ <a href="axiomas.html#sinRepetidos">sinRepetidos</a>(headerToSecu(n.parent)) <img class="formulaInl" alt="$\land$" src="form_12.png"/> <a href="axiomas.html#esADB">esADB</a>(n.parent) <img class="formulaInl" alt="$\land$" src="form_12.png"/> hijosHeader(header) <img class="formulaInl" alt="$\land$" src="form_12.png"/> <br />
+ ( <img class="formulaInl" alt="$\forall$" src="form_23.png"/> p,p':puntero(Node))(<a href="axiomas.html#sonValidos">sonValidos</a>(p,p') <img class="formulaInl" alt="$\land_{\rm L}$" src="form_19.png"/> <a href="axiomas.html#estan">estan</a>(p,p',header.parent) <img class="formulaInl" alt="$\Rightarrow_{\rm L}$" src="form_24.png"/> <a href="axiomas.html#coloresAdecuados">coloresAdecuados</a>(p,p') <img class="formulaInl" alt="$\land$" src="form_12.png"/> <br />
+ ((<a href="axiomas.html#sonHoja">sonHoja</a>(p,p')) <img class="formulaInl" alt="$\Rightarrow_{\rm L}$" src="form_24.png"/> <a href="axiomas.html#cantBlack">cantBlack</a>(p)=<a href="axiomas.html#cantBlack">cantBlack</a>(p')) <img class="formulaInl" alt="$\land$" src="form_12.png"/> enRango(p,p',header.child[0],header.child[1])) </p>
 </dd></dl>
 <dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000002">Obsoleto:</a></b></dt><dd>sinRepetidos(headerToSecu(n.parent)) esto no te soluciona uno de los problemas hablado por Soulignac. Piensen como podrían reescribir a partir del rep de map VISTO</dd></dl>
 <dl class="section user"><dt>padreK</dt><dd><p class="startdd">Retorna el k-esimo padre de un puntero a nodo.</p>
@@ -261,7 +262,7 @@ Axiomas y proposiciones auxiliares</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generado el Viernes, 23 de Junio de 2017 14:17:28 para Trabajo práctico 2: diccionario sobre RB-tree por
+    <li class="footer">Generado el Viernes, 23 de Junio de 2017 15:29:53 para Trabajo práctico 2: diccionario sobre RB-tree por
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

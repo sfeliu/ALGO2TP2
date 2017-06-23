@@ -130,15 +130,15 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 </dl>
 <dl class="section user"><dt>Aspectos de aliasing:</dt><dd>La dirección <b class="paramname">pos</b> debe apuntar a un nodo del árbol red-black que se usa para implementar un diccionario <code>d</code>. El iterador <b class="paramname">res</b> queda asociado a <code>d</code> y permite modificar el significado del valor que apunte.</dd></dl>
 <dl class="section pre"><dt>Precondición</dt><dd><b>P</b> <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> {rep_iter(pos)} </dd></dl>
-<dl class="section post"><dt>Postcondición</dt><dd><b>Q</b> <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> {res <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> CrearItBi(&amp;<code>d</code>, <a href="axiomas.html#anterioresDe">anterioresDe</a>(inorder(<a href="axiomas.html#ArbolValue">ArbolValue</a>(&amp;<a href="axiomas.html#dameHeader">dameHeader</a>(pos))), data(*pos).value), <a href="axiomas.html#siguientesDe">siguientesDe</a>(inorder(<a href="axiomas.html#ArbolValue">ArbolValue</a>(&amp;<a href="axiomas.html#dameHeader">dameHeader</a>(pos))), data(*pos).value))}</dd></dl>
-<dl class="section complexity">
+<dl class="section post"><dt>Postcondición</dt><dd><b>Q</b> <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> {res <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> CrearItBi(&amp;<code>d</code>, anteriores(abs_iter(pos)), siguientes(abs_iter(pos)))} <dl class="section complexity">
 <dt>Complejidad Temporal</dt>
 <dd><img class="formulaInl" alt="$O$" src="form_1.png"/>(1)</dd>
 </dl>
+</dd></dl>
 <dl class="section attention"><dt>Atención</dt><dd>El diccionario <code>d</code> se describe en castellano, porque depende de un aspecto de aliasing. Es la interpretacion de la posicion de memoria del nodo cabecera como si fuera un diccionario. No hay forma de expresar este hecho. Igualmente, estamos en la parte privada de nuestro modulo, con lo cual permitimos el castellano.</dd></dl>
 <dl class="section note"><dt>Nota</dt><dd>Este constructor permite castear punteros a nodos en iteradores. </dd></dl>
 
-<p>Definición en la línea <a class="el" href="map_8h_source.html#l02040">2040</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
+<p>Definición en la línea <a class="el" href="map_8h_source.html#l02037">2037</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
 
 </div>
 </div>
@@ -148,7 +148,7 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceaed2.html">aed2</a></li><li class="navelem"><a class="el" href="classaed2_1_1map.html">map</a></li><li class="navelem"><a class="el" href="classaed2_1_1map_1_1iterator.html">iterator</a></li>
-    <li class="footer">Generado el Viernes, 23 de Junio de 2017 14:17:28 para Trabajo práctico 2: diccionario sobre RB-tree por
+    <li class="footer">Generado el Viernes, 23 de Junio de 2017 15:29:53 para Trabajo práctico 2: diccionario sobre RB-tree por
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

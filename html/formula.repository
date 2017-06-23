@@ -30,3 +30,5 @@
 \form#29:$\leq$
 \form#30:$\geq$
 \form#31:$\Rightarrow$
+\form#32:$ #claves(self) + 1 \IGOBS #claves(this))$
+\form#33:$ definir(\PI1 value, \PI2 value), self) $

@@ -135,10 +135,10 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 <p>Esta funcion recive dos parametros:puntero(nodo)'nodo' e int:'i' este ultimo solo avisa si 'nodo' es hijo derecho o izquierdo de su padre. Aqui se compara al nodo con su 'hermano': primer caso: Chequea si 'hermano' es rojo, si lo es le cambia el color a el y a su padre y luego los rota, cambiando asi al hermano de nodo por el que era hijo izquierdo de 'hermano', luego continua con los otros casos. segundo caso: Si 'hermano' es negro y sus hijos tambien lo cambia de color, luego 'nodo' pasa a ser su padre y vuelve a iniciar el ciclo. Si no se utiliza el segundo caso se sabe que 'hermano' es negro y que tiene al menos un hijo rojo tercer caso: Si nos encontramos aca se sabe que el hijo derecho de 'hermano' es negro, por lo tanto su hijo izquierdo sera negro. Para solucionarlo a 'hermano' se le cambia de color y se lo rota con su hijo izquierdo, el cual es negro y queda como nuevo 'hermano', luego pasa al cuarto caso. cuarto caso: Queda un ultimo caso posible, donde 'hermano' es negro y su hijo izquierdo es rojo, por lo tanto le modifica el color a 'hermano' y al padre, y luego los rota, quedando asi ya solucionado el invariante. Esta funcion modifica el arbol de tal forma que se siga cumpliendo el invariante.</p>
 <dl class="section complexity">
 <dt>Complejidad Temporal</dt>
-<dd><img class="formulaInl" alt="$O$" src="form_1.png"/>( <img class="formulaInl" alt="$\log$" src="form_27.png"/>(<b>size</b>(<b class="paramname">*this</b>)))</dd>
+<dd><img class="formulaInl" alt="$O$" src="form_1.png"/>(1)</dd>
 </dl>
 
-<p>Definición en la línea <a class="el" href="map_8h_source.html#l02642">2642</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
+<p>Definición en la línea <a class="el" href="map_8h_source.html#l02639">2639</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
 
 </div>
 </div>
@@ -148,7 +148,7 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceaed2.html">aed2</a></li><li class="navelem"><a class="el" href="classaed2_1_1map.html">map</a></li>
-    <li class="footer">Generado el Viernes, 23 de Junio de 2017 14:17:28 para Trabajo práctico 2: diccionario sobre RB-tree por
+    <li class="footer">Generado el Viernes, 23 de Junio de 2017 15:29:53 para Trabajo práctico 2: diccionario sobre RB-tree por
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

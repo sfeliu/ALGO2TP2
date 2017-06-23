@@ -2,6 +2,8 @@ var NAVTREE =
 [
   [ "Trabajo práctico 2: diccionario sobre RB-tree", "index.html", [
     [ "Modulo aed2::map", "index.html", "index" ],
+    [ "Lista de obsoletos", "deprecated.html", null ],
+    [ "Lista de bugs", "bug.html", null ],
     [ "Referencias bibliográficas", "citelist.html", null ],
     [ "Namespaces", null, [
       [ "Lista de 'namespaces'", "namespaces.html", "namespaces" ]
@@ -10,7 +12,7 @@ var NAVTREE =
       [ "Lista de clases", "annotated.html", "annotated_dup" ],
       [ "Jerarquía de la clase", "hierarchy.html", "hierarchy" ],
       [ "Miembros de las clases", "functions.html", [
-        [ "Todo", "functions.html", null ],
+        [ "Todo", "functions.html", "functions_dup" ],
         [ "Funciones", "functions_func.html", null ],
         [ "Variables", "functions_vars.html", null ],
         [ "'typedefs'", "functions_type.html", null ],
@@ -25,7 +27,8 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"Aliasing.html"
+"Aliasing.html",
+"functions_0x7e.html"
 ];
 
 var SYNCONMSG = 'click en deshabilitar sincronización';

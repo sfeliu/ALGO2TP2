@@ -1,0 +1,89 @@
+
+\begin{DoxyRefList}
+\item[\label{bug__bug000001}%
+\hypertarget{bug__bug000001}{}%
+Miembro \hyperlink{classaed2_1_1map_a0b0a11f906da2926f9eb342fcee79fd7_a0b0a11f906da2926f9eb342fcee79fd7}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:at} (const Key \&key) const ]Siempre que puedan usen operaciones del iterador en vez de acceder a su estructura interna
+
+Siempre que puedan usen operaciones del iterador en vez de acceder a su estructura interna
+
+Siempre que puedan usen operaciones del iterador en vez de acceder a su estructura interna 
+\item[\label{bug__bug000014}%
+\hypertarget{bug__bug000014}{}%
+Miembro \hyperlink{classaed2_1_1map_a2bfa5165825979bf2431db55bc6bc9ca_a2bfa5165825979bf2431db55bc6bc9ca}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:clear} ()]Es verdaderamente necesario el primer if?? 
+\item[\label{bug__bug000017}%
+\hypertarget{bug__bug000017}{}%
+Miembro \hyperlink{classaed2_1_1map_af2eed16fe5e8bdbe5a9d979a5d136732_af2eed16fe5e8bdbe5a9d979a5d136732}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:delete\+Fix\+Up} (\hyperlink{structaed2_1_1map_1_1Node}{Node} $\ast$nodo)]Suena a que les vendría bien una operación que te diga si un nodo es hijo derecho o izquierdo de su padre Donde la pondrían?? 
+\item[\label{bug__bug000012}%
+\hypertarget{bug__bug000012}{}%
+Miembro \hyperlink{classaed2_1_1map_ad8e796bf9c9c558e5ce6b61e116253fe_ad8e796bf9c9c558e5ce6b61e116253fe}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:erase} (\hyperlink{classaed2_1_1map_1_1const__iterator}{const\+\_\+iterator} pos)]Intenten no repetir código (iterator(const\+\_\+cast$<$\+Node$\ast$$>$(pos0.\+n));), idem \hyperlink{classaed2_1_1map_a6941cde9a79c27f054b5c97a587a1854_a6941cde9a79c27f054b5c97a587a1854}{aed2\+::map\+::insert} 
+
+No es verdad que si no se cumple pos.\+n-\/$>$child\mbox{[}0\mbox{]} == nullptr and pos.\+n-\/$>$child\mbox{[}1\mbox{]} == nullptr no necesite hacer fixup, piensen en una hoja negra 
+
+Para la reentrega deberían repensar las operaciones de insercion y de eliminación 
+
+cambiado puede ser nullptr, deletefixup no funciona bien 
+\item[\label{bug__bug000013}%
+\hypertarget{bug__bug000013}{}%
+Miembro \hyperlink{classaed2_1_1map_a2ffadb42cd5f0bc7b3752ff159b75334_a2ffadb42cd5f0bc7b3752ff159b75334}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:erase} (const Key \&key)]Mejor\+: \hyperlink{classaed2_1_1map_1_1const__iterator}{const\+\_\+iterator} pos (find(key)); o\+: \hyperlink{classaed2_1_1map_1_1const__iterator}{const\+\_\+iterator} pos = find(key); Ambas funcionan y son más claras. 
+\item[\label{bug__bug000009}%
+\hypertarget{bug__bug000009}{}%
+Miembro \hyperlink{classaed2_1_1map_a5890f3a706f415c8b47032a6d85e6582_a5890f3a706f415c8b47032a6d85e6582}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:es\+Buen\+Hint} (\hyperlink{classaed2_1_1map_1_1const__iterator}{const\+\_\+iterator} hint, const value\+\_\+type \&value)]Digan algo en la P\+RE (y aliasing) sobre el iterador hint, que debe cumplir 
+
+$ #claves(self) + 1 \IGOBS #claves(this))$ tiene sentido eso?? 
+
+Qué pasa si te pasan el \hyperlink{classaed2_1_1map_a76023e6a56cb625513e1b5ea028bf983_a76023e6a56cb625513e1b5ea028bf983}{aed2\+::map\+::end()} como hint, pero no es un hint válido 
+
+Intenten no repetir tanto código, tal vez pueden hacer que todas las inserciones se hagan a través de una sola función 
+
+Tantos ifs anidados complican la comprensión de código, intenten reescribir
+
+hint++; Esto esta dentro del if donde hint es el header 
+
+hint++; Esto esta dentro del if donde hint es el header  
+\item[\label{bug__bug000005}%
+\hypertarget{bug__bug000005}{}%
+Miembro \hyperlink{classaed2_1_1map_afd0fc1a8234888e61e0e615de7e245b8_afd0fc1a8234888e61e0e615de7e245b8}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:find} (const Key \&key)]En la post deben decir algo más sobre el iterator res, en particular algun otro de los observadores del iterador
+
+Este código se puede mejorar, pero está bien
+
+Este código se puede mejorar, pero está bien 
+\item[\label{bug__bug000007}%
+\hypertarget{bug__bug000007}{}%
+Miembro \hyperlink{classaed2_1_1map_ab8f3e41b1a0d7b74645836f8d2e1acfc_ab8f3e41b1a0d7b74645836f8d2e1acfc}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:find} (const Key \&key) const ]No pueden llamar a funciones const desde funciones no const, no lo vuelvo a mencionar pero se repite mucho este error  
+\item[\label{bug__bug000011}%
+\hypertarget{bug__bug000011}{}%
+Miembro \hyperlink{classaed2_1_1map_a2ef6723c183916276b0afc4a4c721475_a2ef6723c183916276b0afc4a4c721475}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:insert\+\_\+or\+\_\+assign} (\hyperlink{classaed2_1_1map_1_1const__iterator}{const\+\_\+iterator} hint, const value\+\_\+type \&value)]El find del principio les arruina la complejidad ante un buen hint 
+\item[\label{bug__bug000019}%
+\hypertarget{bug__bug000019}{}%
+Miembro \hyperlink{classaed2_1_1map_1_1iterator_a7c44de7f0508186e135ddbcfe782fec5_a7c44de7f0508186e135ddbcfe782fec5}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:iterator\+:\+:operator++} ()]No sigue la especifición, si algo se debería romper es mejor que se rompa 
+
+Si quieren poder recorrer la secuencia de forma circular, deberían hacer una operación auxiliar privada 
+\item[\label{bug__bug000008}%
+\hypertarget{bug__bug000008}{}%
+Miembro \hyperlink{classaed2_1_1map_a3399d36fdd5a880b494f3a5795d3f18f_a3399d36fdd5a880b494f3a5795d3f18f}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:lower\+\_\+bound} (const Key \&key) const ]not lt(it.\+n-\/$>$key(), key) and not lt(key, it.\+n-\/$>$key()) usen funciones 
+\item[\label{bug__bug000004}%
+\hypertarget{bug__bug000004}{}%
+Miembro \hyperlink{classaed2_1_1map_a96f23896164ab47bee48c26b803f9801_a96f23896164ab47bee48c26b803f9801}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:operator\mbox{[}\mbox{]}} (const Key \&key)]Idem antes, \char`\"{}it.\+n-\/$>$color == Color\+::\+Header\char`\"{}, es mejor usar funciones\+: son más declarativas y ayuda a que cambios futuros de estructura no afecten a todo el código 
+\item[\label{bug__bug000002}%
+\hypertarget{bug__bug000002}{}%
+Miembro \hyperlink{classaed2_1_1map_a54b1ea9f8c707232c744a4ac5c5302d2_a54b1ea9f8c707232c744a4ac5c5302d2}{aed2\+:\+:map$<$ Key, Meaning, Compare $>$\+:\+:Rotate} (\hyperlink{structaed2_1_1map_1_1Node}{Node} $\ast$n, int i)]Si en los nodos 0 es left y 1 right, por que lo cambian
+
+Si en los nodos 0 es left y 1 right, por que lo cambian
+
+Si en los nodos 0 es left y 1 right, por que lo cambian 
+\item[\label{bug__bug000015}%
+\hypertarget{bug__bug000015}{}%
+Grupo \hyperlink{classaed2_1_1map_amgrpd5e8970aaf64693c88c5cfe5802755da}{Estructura de representación} ]Este R\+EP es ilegible, intenten formatearlo mejor o subdividir en más suboperaciones
+
+Hace falta decir lo de cant de claves?
+
+Hace falta decir lo de cant de claves?
+
+Hace falta decir lo de cant de claves?
+
+Hace falta decir lo de cant de claves?
+
+Hace falta decir lo de cant de claves?
+
+Hace falta decir lo de cant de claves?
+\end{DoxyRefList}

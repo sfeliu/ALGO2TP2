@@ -125,12 +125,13 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 <dl class="section user"><dt>Aspectos de aliasing:</dt><dd>Todos los iteradores, salvo aquellos que apuntan al nodo donde se encuentra key, se mantienen validos. Aquellos iteradores que apuntan al nodo donde se encuentra key, quedan invalidados.</dd></dl>
 <dl class="section pre"><dt>Precondición</dt><dd><b>P</b> <img class="formulaInl" alt="$\equiv$" src="form_11.png"/> {definido?(key, *this) <img class="formulaInl" alt="$\land$" src="form_14.png"/> self <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> *this} </dd></dl>
 <dl class="section post"><dt>Postcondición</dt><dd><b>Q</b> <img class="formulaInl" alt="$\equiv$" src="form_11.png"/> {*this <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> borrar(key, self)}</dd></dl>
+<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000013">Bug:</a></b></dt><dd>Mejor: <a class="el" href="classaed2_1_1map_1_1const__iterator.html" title="Parte del módulo que implementa los iteradores que no permiten la modificación de los significados...">const_iterator</a> pos (find(key)); o: <a class="el" href="classaed2_1_1map_1_1const__iterator.html" title="Parte del módulo que implementa los iteradores que no permiten la modificación de los significados...">const_iterator</a> pos = find(key); Ambas funcionan y son más claras.</dd></dl>
 <dl class="section complexity">
 <dt>Complejidad Temporal</dt>
 <dd><img class="formulaInl" alt="$O$" src="form_1.png"/>(<b>del</b>(<b class="paramname">*pos</b>) + <img class="formulaInl" alt="$\log$" src="form_19.png"/>(<b>size</b>(<b class="paramname">*this</b>)) <img class="formulaInl" alt="$\cdot$" src="form_13.png"/> <b>cmp</b>(<b class="paramname">*this</b>))</dd>
 </dl>
 
-<p>Definición en la línea <a class="el" href="map_8h_source.html#l01537">1537</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
+<p>Definición en la línea <a class="el" href="mapPablo_8h_source.html#l01655">1655</a> del archivo <a class="el" href="mapPablo_8h_source.html">mapPablo.h</a>.</p>
 
 </div>
 </div>
@@ -140,7 +141,7 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceaed2.html">aed2</a></li><li class="navelem"><a class="el" href="classaed2_1_1map.html">map</a></li>
-    <li class="footer">Generado el Viernes, 2 de Junio de 2017 17:45:21 para Trabajo práctico 2: diccionario sobre RB-tree por
+    <li class="footer">Generado el Viernes, 23 de Junio de 2017 15:29:30 para Trabajo práctico 2: diccionario sobre RB-tree por
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

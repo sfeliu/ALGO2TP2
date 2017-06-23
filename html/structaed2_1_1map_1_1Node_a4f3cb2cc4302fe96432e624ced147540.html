@@ -118,7 +118,7 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 <p>Como <a class="el" href="structaed2_1_1map_1_1Node.html" title="Estructura (privada) de un nodo del árbol red-black. ">Node</a> funciona de clase base, el destructor es virtual, asi se puede invocar delete de un Node* que apunta a un <a class="el" href="structaed2_1_1map_1_1InnerNode.html" title="Estructura (privada) de un nodo no cabecera del árbol red-black. ">InnerNode</a>, destruyendo el valor contenido en el <a class="el" href="structaed2_1_1map_1_1InnerNode.html" title="Estructura (privada) de un nodo no cabecera del árbol red-black. ">InnerNode</a>.</p>
 <dl class="section remark"><dt>Comentarios</dt><dd>En rigor, nunca deberíamos invocar new <a class="el" href="structaed2_1_1map_1_1Node.html" title="Estructura (privada) de un nodo del árbol red-black. ">Node</a>, asi que no tiene sentido hacer delete de un Node*. Podemos evitar esta invocación poniendo el destructor como protegido y no virtual. De esa forma, nos obliga a tener un InnerNode* para el delete, lo cual efectivamente llama al destructor del valor. Sin embargo, por simplicidad, vamos a permitir que el destructor sea virtual. Además, así no es necesario que hagan el <code>static_cast</code> y evitamos errores de memoria difíciles de debugguear. </dd></dl>
 
-<p>Definición en la línea <a class="el" href="map_8h_source.html#l02279">2279</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
+<p>Definición en la línea <a class="el" href="mapPablo_8h_source.html#l02409">2409</a> del archivo <a class="el" href="mapPablo_8h_source.html">mapPablo.h</a>.</p>
 
 </div>
 </div>
@@ -128,7 +128,7 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceaed2.html">aed2</a></li><li class="navelem"><a class="el" href="classaed2_1_1map.html">map</a></li><li class="navelem"><a class="el" href="structaed2_1_1map_1_1Node.html">Node</a></li>
-    <li class="footer">Generado el Viernes, 2 de Junio de 2017 17:45:21 para Trabajo práctico 2: diccionario sobre RB-tree por
+    <li class="footer">Generado el Viernes, 23 de Junio de 2017 15:29:30 para Trabajo práctico 2: diccionario sobre RB-tree por
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>
