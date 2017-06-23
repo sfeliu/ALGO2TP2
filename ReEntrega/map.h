@@ -585,18 +585,18 @@
  *
  * \par anterioresDe
  * \parblock
- * Devuelve una lista ordenada de todos los valores ateriores a el parametro que recive.
+ * Devuelve la sublista ordenada desde el comienzo de la lista hasta v, sin incluir.
  *
  * \axioma{anterioresDe}: secu(value_type) s x value_type v \TO secu(value_type) 		{esta?(v,s)}\n
- * anterioresDe(s, v) \EQUIV \IF prim(s) == v \THEN <> \ELSE prim(s) \BULLET \anterioresDe(s,fin(v)) \FI
+ * anterioresDe(s, v) \EQUIV \IF prim(s) == v \THEN <> \ELSE prim(s) \BULLET \anterioresDe(fin(s),v) \FI
  * \endparblock
 
  * \par siguientesDe
  * \parblock
- * Devuelve una lista ordenada de todos los valores ateriores a el parametro que recive.
+ * Devuelve la sublista ordenada desde v, incluyendolo, hasta el final de la lista.
  *
  * \axioma{siguientesDe}: secu(value_type) s x value_type v \TO secu(value_type) 		{esta?(v,s)}\n
- * siguientesDe(s, v) \EQUIV \IF prim(s) == v \THEN <> \ELSE prim(s) \BULLET \siguientesDe(s,fin(v)) \FI
+ * siguientesDe(s, v) \EQUIV \IF prim(s) == v \THEN v \BULLET <> \ELSE  \siguientesDe(com(s),v) \BULLET ult(s) \FI
  * \endparblock
  *
  * \par menorLexico
@@ -2026,8 +2026,8 @@ public:
          * \aliasing{La dirección \P{pos} debe apuntar a un nodo del árbol red-black que se usa para implementar un diccionario `d`.
          * El iterador \P{res} queda asociado a `d` y permite modificar el significado del valor que apunte.}
          *
-         * \pre \aedpre{rep_iter(n)}
-         * \post \aedpost{res \IGOBS CrearItBi(&`d`, \anterioresDe(pos), \siguientesDe(pos))}
+         * \pre \aedpre{rep_iter(pos)}
+         * \post \aedpost{res \IGOBS CrearItBi(&`d`, \anterioresDe(inorder(\ArbolValue(&\dameHeader(pos))), data(*pos).value), \siguientesDe(inorder(\ArbolValue(&\dameHeader(pos))), data(*pos).value))}
          *
          * \complexity{\O(1)}
          *
@@ -2065,7 +2065,7 @@ public:
          * abs_iter(n) \IGOBS b:IteradorBidireccional(d,value_type) | \IF n = NULL \THEN anteriores(b) = <> \LAND siguientes(b) = <> \ELSE
          *              \IF nothing?((*n).Value) \THEN anteriores(b) = inorder(\ArbolValue(&\dameHeader(n))) \LAND siguientes(b) = <>
          *              \ELSE anteriores(b) = \anterioresDe(inorder(\ArbolValue(&\dameHeader(n))),data(*n).value) \LAND
-         *              siguientes(b) = siguientesDe(inorder(\ArbolValue(&\dameHeader(n))),data(*n).value) \FI \FI \FI
+         *              siguientes(b) = \siguientesDe(inorder(\ArbolValue(&\dameHeader(n))),data(*n).value) \FI \FI \FI
          *
          * Nota: se puede usar `d` para referirse al valor computacional del diccionario definido desde la cabecera (como en el constructor).
          *
