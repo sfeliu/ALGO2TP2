@@ -781,9 +781,9 @@
  * Retorna True si a partir del nodo dado se puede reconstruir un Red-Black Tree.
  *
  * \axioma{esRBTree}: Node \TO Bool\n
- * \esRBTree(n) \EQUIV (\EXISTS k: nat)(\arbolK(n.parent,k) = \arbolK(n.parent,k+1)) \LAND_L \sinRepetidos(headerToSecu(n.parent))
- * \LAND \esADB(n.parent) \LAND hijosHeader(header) \LAND \n (\FORALL p,p':puntero(Node))(\estan(*p.value,header.parent,*p'.value,header.parent) \IMPLIES_L
- * \coloresAdecuados(p,p') \LAND \n \sonValidos(p,p') \LAND ((\sonHoja(p,p'))\IMPLIES_L \cantBlack(p)=\cantBlack(p'))
+ * \esRBTree(n) \EQUIV (\EXISTS k: nat)(\arbolK(n.parent,k) = \arbolK(n.parent,k+1)) \LAND_L \n \sinRepetidos(headerToSecu(n.parent))
+ * \LAND  \esADB(n.parent) \LAND hijosHeader(header) \LAND \n (\FORALL p,p':puntero(Node))(\sonValidos(p,p') \LAND_L \estan(p,p',header.parent) \IMPLIES_L
+ * \coloresAdecuados(p,p') \LAND \n  ((\sonHoja(p,p'))\IMPLIES_L \cantBlack(p)=\cantBlack(p'))
  * \LAND enRango(p,p',header.child[0],header.child[1]))
  * \endparblock
  *
@@ -1507,9 +1507,7 @@ public:
      */
     iterator insert_or_assign(const_iterator hint, const value_type& value) {
         iterator encontrado = insert(hint, value);
-    	if(encontrado->second != value.second){
-    		encontrado->second = value.second;
-    	}
+    	encontrado->second = value.second;
     	return encontrado;
     }
 
@@ -2637,7 +2635,7 @@ private:
          * por lo tanto le modifica el color a 'hermano' y al padre, y luego los rota, quedando asi ya solucionado
          * el invariante. Esta funcion modifica el arbol de tal forma que se siga cumpliendo el invariante.
          *
-         * \complexity{\O(\LOG(\SIZE(\P{*this})))}
+         * \complexity{\O(1)}
          */
     void deleteFixUpAux(iterator& padre, iterator& hijo, int i){
 		iterator hermano = iterator(padre.n->child[i]);
@@ -2760,7 +2758,8 @@ private:
          *
          * \Descripcion Los parametro de esta función son dos punteros a nodos, "viejo" y "nuevo", que tienen que ser no nulos. Esta función hace que el padre del nodo "viejo" pase a ser el padre del nodo "nuevo" y que el padre del nodo "viejo" pase a tener de hijo al nodo "nuevo". En el caso de que el "viejo" sea la raíz del árbol el header pasa a tener al "nuevo" como padre y el "nuevo" pasa a tener como padre al header.
          *
-         * \complexity{\O(1)}
+         *  - Peor caso: \O(\LOG(\SIZE(\P{*this})))
+         * \complexity{\O(1)} amortizada
          */
     void transplant(Node* viejo, Node* nuevo){
         if(viejo == root()){
@@ -2806,8 +2805,10 @@ private:
          * \Descripcion Esta funcion se usa en el metodo insert. Devuelve un booleano y toma como parametro un const_iterator y un
          * value_type. No tiene precondiciones pero  la post condicion es que devulve true si y solo si se cumple que
          * el valor del nodo en el que se encuentra el const_iterator es el lower_bound del value_type pasado como parametro.
-         *
-         * \complexity{\O(1)}
+         *\complexity{
+     	 *  - Peor caso: \O(\LOG(\SIZE(\P{*this})))
+     	 *  \O(1) amortizado.
+         * }
          */
 
 	bool esBuenHint(const_iterator hint, const value_type& value){
