@@ -2760,6 +2760,16 @@ private:
         }
     }
 
+        /**
+         * \brief esBuenHint
+         *
+         * \Descripcion Esta funcion se usa en el metodo insert. Devuelve un booleano y toma como parametro un const_iterator y un
+         * value_type. No tiene precondiciones pero  la post condicion es que devulve true si y solo si se cumple que
+         * el valor del nodo en el que se encuentra el const_iterator es el lower_bound del value_type pasado como parametro.
+         *
+         * \complexity{\O(1)}
+         */
+
 	bool esBuenHint(const_iterator hint, const value_type& value){
 		if(hint == end()){
 			return not(empty()) & lt(header.child[1]->key(), value.first);
@@ -2777,6 +2787,17 @@ private:
 		}
 	}
 
+        /**
+         * \brief insertMinOMax
+         *
+         * \Descripcion Esta funcion auxiliar se usa en el metodo insert y su proposito es insertar un nodo con el value_type
+         * pasado como parametro asumiendo que este es mas grande que el maximo o mas chico que el minimo.
+         * Por lo cual la precondicion de esta funcion es que el arbol en el que inserta no es vacio y que el value_type pasado como parametro
+         * es  es mas grande que el maximo o mas chico que el minimo del arbol.
+         *
+         * \complexity{\O(1)}
+         */
+
 	iterator insertMinOMax(const value_type& value){
 		if(lt(header.child[1]->key(), value.first)){
 			iterator nuevo = iterator(new InnerNode(header.child[1],value));
@@ -2791,6 +2812,17 @@ private:
 			return nuevo;
 		}
 	}
+
+        /**
+         * \brief insertConLB
+         *
+         * \Descripcion Esta funcion auxiliar se usa en el metodo insert. Toma como parametro un const_iterator y un value_type.
+         * Las precondiciones de esta funcion son que el const_iterator que toma como parametro sea un buen 'hint', lo cual
+         * quiere decir que es el lower_bound del value_type que toma como parametro, y tambien que el arbol RB en el que esta
+         * insertando no es vacio.
+         *
+         * \complexity{\O(log(n))}
+         */
 
 	iterator insertConLB(const_iterator hint, const value_type& value){
 		if(hint.n->child[0] == nullptr){
