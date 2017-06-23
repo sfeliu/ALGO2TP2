@@ -801,10 +801,10 @@
  * \par elementosMayoresA
  * \parblock
  * Retorna la secuencia ordenada de elementos mayores al pasado como parametro.
- * elementosMayoresA(d, c, k) \EQUIV \IF \EMPTYSET(c)? \THEN < > \ELSE \IF maximo(c) \LEQ k \THEN elementosMayoresA(d, c - maximo(c), k) o <maximo(c), obtener(minimo(c), d)>
- * 								\ELSE elementosMayoresA(d, c - maximo(c), k) \FI \FI
+
  * \axioma{elementosMayoresA}: deicc(value) x conj(key) x key \TO secu(value)\n
- *
+ * elementosMayoresA(d, c, k) \EQUIV \IF \EMPTYSET(c)? \THEN < > \ELSE \IF maximo(c) \LEQ k \THEN \elementosMayoresA(d, c - maximo(c), k) o <maximo(c), obtener(minimo(c), d)>
+ * 								\ELSE \elementosMayoresA(d, c - maximo(c), k) \FI \FI
  * \endparblock
  *
  * \par elementosMenoresA
@@ -812,8 +812,8 @@
  * Retorna la secuencia ordenada de elementos menores al pasado como parametro.
  *
  * \axioma{elementosMenoresA}: dicc(value) x conj(key) x key \TO secu(value)\n
- * elementosMenoresA(d, c, k) \EQUIV \IF \EMPTYSET(c)? \THEN < > \ELSE \IF minimo(c) < k \THEN <minimo(c), obtener(minimo(c), d)> \BULLET elementosMenoresA(d, c - minimo(c), k)
- * 								\ELSE elementosMenoresA(d, c - minimo(c), k) \FI \FI
+ * elementosMenoresA(d, c, k) \EQUIV \IF \EMPTYSET(c)? \THEN < > \ELSE \IF minimo(c) < k \THEN <minimo(c), obtener(minimo(c), d)> \BULLET \elementosMenoresA(d, c - minimo(c), k)
+ * 								\ELSE \elementosMenoresA(d, c - minimo(c), k) \FI \FI
  * \endparblock
  */
 
@@ -1160,7 +1160,7 @@ public:
      * \complexity{\O(\LOG(\SIZE(\P{*this}) \CDOT \CMP(\P{*this}))}
      *
      * \deprecated find retorna un const_iterator
-     * \bug Siempre que puedan usen operaciones del iterador en vez de acceder a su estructura interna
+     * \bug Siempre que puedan usen operaciones del iterador en vez de acceder a su estructura interna. Cambiamos muchos pero no todos por una cuestion de tiempo.
      *
      * \remark Esta función, que se asemeja más a la forma de programar propuesta en AED2
      * que al estándar C++, fue incluida en el estándar C++11.  Antes era obligación
@@ -2111,6 +2111,16 @@ public:
            return ret;
         }
 
+		/**
+		* \brief min
+		*
+		* \Descripcion Avanza el iterador a la siguiente posicion, si es el ultimo elemento va al header, si esta en header, va al primer elemento.
+		*
+		* \complexity{
+		* - Peor caso: \O(\LOG(SIZE(\a d)) donde \a d es el diccionario asociado a \P{*this}.
+		* - Peor caso amortizado: \O(1)
+		* }
+		*/
 		iterator avanzar(){
             if(n->color == Color::Header) {
                 n = n->child[0];
@@ -2127,6 +2137,16 @@ public:
             return *this;
 		}
 
+		/**
+		* \brief min
+		*
+		* \Descripcion Retrocede el iterador a la posicion anterior, si es el primer elemento va al header, si esta en header, va al ultimo elemento.
+		*
+		* \complexity{
+		* - Peor caso: \O(\LOG(SIZE(\a d)) donde \a d es el diccionario asociado a \P{*this}.
+		* - Peor caso amortizado: \O(1)
+		* }
+		*/
 		iterator retroceder(){
             if(n->color == Color::Header){
                 n = n->child[1];
@@ -2264,6 +2284,16 @@ public:
             return ret;
         }
 
+		/**
+		* \brief min
+		*
+		* \Descripcion Avanza el iterador a la siguiente posicion, si es el ultimo elemento va al header, si esta en header, va al primer elemento.
+		*
+		* \complexity{
+		* - Peor caso: \O(\LOG(SIZE(\a d)) donde \a d es el diccionario asociado a \P{*this}.
+		* - Peor caso amortizado: \O(1)
+		* }
+		*/
         const_iterator avanzar(){
             if(n->color == Color::Header) {
                 n = n->child[0];
@@ -2280,6 +2310,16 @@ public:
             return *this;
         }
 
+		/**
+		* \brief min
+		*
+		* \Descripcion Retrocede el iterador a la posicion anterior, si es el primer elemento va al header, si esta en header, va al ultimo elemento.
+		*
+		* \complexity{
+		* - Peor caso: \O(\LOG(SIZE(\a d)) donde \a d es el diccionario asociado a \P{*this}.
+		* - Peor caso amortizado: \O(1)
+		* }
+		*/
         const_iterator retroceder(){
             if(n->color == Color::Header){
                 n = n->child[1];
@@ -2690,7 +2730,7 @@ private:
          *
          * \Descripcion La función insertFixUp llama a esta función para hacer rotaciones del nodo pasado como parámetro con fines de restaurar el invariante del árbol Red-Black después de una inserción. Esta función también toma como parámetro un entero que tiene que ser 1 o 0. Si este numero es 0 entonces es una rotacion derecha, es decir el nodo pasada como parámetro pasa a ser el hijo derecho del nodo que solía ser su hijo izquierdo y el hijo derecho del hijo izquierdo del nodo pasado como parámetro pasa a ser hijo  izquierdo del nodo pasado como parámetro. Si el numero es 1, entonces la descripción es la misma pero invirtiendo la palabra izquierda por derecha y derecha por izquierda.
          *
-         * \bug Si en los nodos 0 es left y 1 right, por que lo cambian
+         * \bug Si en los nodos 0 es left y 1 right, por que lo cambian. Esto no lo modificamos por una cuestion de tiempo.
          *
          * \complexity{\O(1)}
          */

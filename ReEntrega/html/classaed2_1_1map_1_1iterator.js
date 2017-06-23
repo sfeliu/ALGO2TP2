@@ -18,5 +18,7 @@ var classaed2_1_1map_1_1iterator =
     [ "operator Node *", "classaed2_1_1map_1_1iterator_a7fe2cdc033cd899dc9fd1da08ac3b39e.html#a7fe2cdc033cd899dc9fd1da08ac3b39e", null ],
     [ "max", "classaed2_1_1map_1_1iterator_a15d8ac3fe9294cbdf769f3f3aeae4390.html#a15d8ac3fe9294cbdf769f3f3aeae4390", null ],
     [ "min", "classaed2_1_1map_1_1iterator_a2af3a44486e6d6f9503ed5a543363e64.html#a2af3a44486e6d6f9503ed5a543363e64", null ],
+    [ "avanzar", "classaed2_1_1map_1_1iterator_ad291b0db9d79cc319ffeeedbadf2650e.html#ad291b0db9d79cc319ffeeedbadf2650e", null ],
+    [ "retroceder", "classaed2_1_1map_1_1iterator_aba08a1a2b9df6d740a74a679b2ed6643.html#aba08a1a2b9df6d740a74a679b2ed6643", null ],
     [ "n", "classaed2_1_1map_1_1iterator_adf8633ef71bb6c1fc01c0abe8728fd93.html#adf8633ef71bb6c1fc01c0abe8728fd93", null ]
 ];

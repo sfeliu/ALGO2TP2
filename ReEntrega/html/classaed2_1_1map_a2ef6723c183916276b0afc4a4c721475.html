@@ -142,7 +142,7 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 </dl>
 <dl class="section user"><dt>Aspectos de aliasing:</dt><dd>Si modificas a lo que apunta res se modifica *this</dd></dl>
 <dl class="section pre"><dt>Precondición</dt><dd><b>P</b> <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> {*this <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> self} </dd></dl>
-<dl class="section post"><dt>Postcondición</dt><dd><b>Q</b> <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> {this <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> coleccion(res) <img class="formulaInl" alt="$\land$" src="form_12.png"/> anteriores(res) <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> (*this, claves(*this), key) <img class="formulaInl" alt="$\land$" src="form_12.png"/> siguientes(res) <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> (*this, claves(*this), key) <img class="formulaInl" alt="$\land$" src="form_12.png"/> (alias(siguiente(res) <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> value)) <img class="formulaInl" alt="$\land$" src="form_12.png"/> (colleccion(res) <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> this) <img class="formulaInl" alt="$\land$" src="form_12.png"/> (definir( <img class="formulaInl" alt="$\pi_1$" src="form_21.png"/> value, <img class="formulaInl" alt="$\pi_2$" src="form_30.png"/> value), self) <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> *this}</dd></dl>
+<dl class="section post"><dt>Postcondición</dt><dd><b>Q</b> <img class="formulaInl" alt="$\equiv$" src="form_10.png"/> {this <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> coleccion(res) <img class="formulaInl" alt="$\land$" src="form_12.png"/> anteriores(res) <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> <a href="axiomas.html#elementosMenoresA">elementosMenoresA</a>(*this, claves(*this), key) <img class="formulaInl" alt="$\land$" src="form_12.png"/> siguientes(res) <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> <a href="axiomas.html#elementosMayoresA">elementosMayoresA</a>(*this, claves(*this), key) <img class="formulaInl" alt="$\land$" src="form_12.png"/> (alias(siguiente(res) <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> value)) <img class="formulaInl" alt="$\land$" src="form_12.png"/> (colleccion(res) <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> this) <img class="formulaInl" alt="$\land$" src="form_12.png"/> (definir( <img class="formulaInl" alt="$\pi_1$" src="form_21.png"/> value, <img class="formulaInl" alt="$\pi_2$" src="form_30.png"/> value), self) <img class="formulaInl" alt="$=_{\rm obs}$" src="form_2.png"/> *this}</dd></dl>
 <dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000014">Obsoleto:</a></b></dt><dd><img class="formulaInl" alt="$ definir(\PI1 value, \PI2 value), self) $" src="form_31.png"/> las "variables" de los TADS no se modifican</dd></dl>
 <dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000015">Obsoleto:</a></b></dt><dd>El find del principio les arruina la complejidad ante un buen hint</dd></dl>
 <dl class="section complexity">
@@ -156,7 +156,7 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 <dl class="section attention"><dt>Atención</dt><dd>Para prevenir que el nuevo valor redefina uno ya existente, usar <a class="el" href="classaed2_1_1map_a6941cde9a79c27f054b5c97a587a1854.html#a6941cde9a79c27f054b5c97a587a1854" title="Inserta value en el diccionario. ">aed2::map::insert</a>. </dd></dl>
 <dl class="section remark"><dt>Comentarios</dt><dd>Esta función es similar al operator[], pero tiene dos ventajas y una desventaja. Las ventajas es que 1. se puede indicar un <b class="paramname">hint</b> para la búsqueda y 2. no es necesario que <span class="paramname">Meaning</span> tenga constructor sin parámetros. La desventaja es que la notación no es tan bonita. </dd></dl>
 
-<p>Definición en la línea <a class="el" href="map_8h_source.html#l01507">1507</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
+<p>Definición en la línea <a class="el" href="map_8h_source.html#l01508">1508</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
 
 </div>
 </div>
@@ -166,7 +166,7 @@ template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; <
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceaed2.html">aed2</a></li><li class="navelem"><a class="el" href="classaed2_1_1map.html">map</a></li>
-    <li class="footer">Generado el Domingo, 18 de Junio de 2017 18:10:48 para Trabajo práctico 2: diccionario sobre RB-tree por
+    <li class="footer">Generado el Viernes, 23 de Junio de 2017 14:11:44 para Trabajo práctico 2: diccionario sobre RB-tree por
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

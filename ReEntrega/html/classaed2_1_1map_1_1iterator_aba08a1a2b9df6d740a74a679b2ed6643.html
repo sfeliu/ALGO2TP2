@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Trabajo práctico 2: diccionario sobre RB-tree: aed2::map::iterator::pointer</title>
+<title>Trabajo práctico 2: diccionario sobre RB-tree: aed2::map::iterator::retroceder</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -73,7 +73,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Buscar');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('classaed2_1_1map_1_1iterator_a52ea7bdbf1dc6b252aec76633564bdf5.html','');});
+$(document).ready(function(){initNavTree('classaed2_1_1map_1_1iterator_aba08a1a2b9df6d740a74a679b2ed6643.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -91,21 +91,41 @@ $(document).ready(function(){initNavTree('classaed2_1_1map_1_1iterator_a52ea7bdb
 </div>
 
 <div class="contents">
-<a class="anchor" id="a52ea7bdbf1dc6b252aec76633564bdf5"></a>
+<a class="anchor" id="aba08a1a2b9df6d740a74a679b2ed6643"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class Key, class Meaning, class Compare = std::less&lt;Key&gt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classaed2_1_1map.html">aed2::map</a>&lt; Key, Meaning, Compare &gt;::<a class="el" href="classaed2_1_1map_1_1iterator_a52ea7bdbf1dc6b252aec76633564bdf5.html#a52ea7bdbf1dc6b252aec76633564bdf5">iterator::pointer</a> =  <a class="el" href="classaed2_1_1map_a7394e98a23b86bc008ad73326b273fd5.html#a7394e98a23b86bc008ad73326b273fd5">map::pointer</a></td>
+          <td class="memname"><a class="el" href="classaed2_1_1map_1_1iterator.html">iterator</a> <a class="el" href="classaed2_1_1map.html">aed2::map</a>&lt; Key, Meaning, Compare &gt;::iterator::retroceder </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Tipo del puntero (resultado de operator-&gt;). Requerido por estándar C++. </p>
+<p>min </p>
+<p>Retrocede el iterador a la posicion anterior, si es el primer elemento va al header, si esta en header, va al ultimo elemento.</p>
+<dl class="section complexity">
+<dt>Complejidad Temporal</dt>
+<dd><ul>
+<li>Peor caso: <img class="formulaInl" alt="$O$" src="form_1.png"/>( <img class="formulaInl" alt="$\log$" src="form_27.png"/>(SIZE(<em>d</em>)) donde <em>d</em> es el diccionario asociado a <b class="paramname">*this</b>.</li>
+<li>Peor caso amortizado: <img class="formulaInl" alt="$O$" src="form_1.png"/>(1) </li>
+</ul>
+</dd>
+</dl>
 
-<p>Definición en la línea <a class="el" href="map_8h_source.html#l01841">1841</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
+<p>Definición en la línea <a class="el" href="map_8h_source.html#l02150">2150</a> del archivo <a class="el" href="map_8h_source.html">map.h</a>.</p>
 
 </div>
 </div>

@@ -42,25 +42,26 @@ dame\+Header\+: puntero(\+Node) $\to$ Node~\newline
 
 
 \begin{DoxyParagraph}{en\+Rango}
-A partir de tres punteros a nodo devuelve true si y solo si el primer parametro esta acotado inferiormente por el segundo y superiormente por el tercero.
+A partir de cuatro punteros a nodo devuelve true si y solo si el primer y segundo parametro estan acotados inferiormente por el tercero y superiormente por el cuarto.
 
-en\+Rango\+: puntero(\+Node) x puntero(\+Node) x puntero(\+Node) $\to$ bool~\newline
- en\+Rango(p1,p2,p3) $\equiv$ data($\ast$($\ast$p2.value).clave $\leq$ data($\ast$p1.value).clave $\land$ data($\ast$p3.value).clave $\geq$ data($\ast$p1.value).clave) 
+en\+Rango\+: puntero(\+Node) x puntero(\+Node) x puntero(\+Node) x puntero(\+Node) $\to$ bool~\newline
+ en\+Rango(p1,p2,p3,p4) $\equiv$ data($\ast$($\ast$p3.value).clave $\leq$ data($\ast$p2.value).clave $\land$ data($\ast$p4.value).clave $\geq$ data($\ast$p2.value).clave) $\land$ data($\ast$($\ast$p3.value).clave $\leq$ data($\ast$p1.value).clave $\land$ data($\ast$p4.value).clave $\geq$ data($\ast$p1.value).clave) 
 \end{DoxyParagraph}
 
 
-\begin{DoxyVerb} \par anterioresDe
-\end{DoxyVerb}
- Devuelve una lista ordenada de todos los valores ateriores a el parametro que recive.
+\begin{DoxyParagraph}{anteriores\+De}
+Devuelve la sublista ordenada desde el comienzo de la lista hasta v, sin incluir.
 
 anteriores\+De\+: secu(value\+\_\+type) s x value\+\_\+type v $\to$ secu(value\+\_\+type) \{esta?(v,s)\}~\newline
- anteriores\+De(s, v) $\equiv$ {\bfseries if} prim(s) == v {\bfseries then} $<$$>$ {\bfseries else} prim(s) $\bullet$ \href{axiomas.html#anterioresDe}{\tt anteriores\+De}(s,fin(v)) {\bfseries fi} 
+ anteriores\+De(s, v) $\equiv$ {\bfseries if} prim(s) == v {\bfseries then} $<$$>$ {\bfseries else} prim(s) $\bullet$ \href{axiomas.html#anterioresDe}{\tt anteriores\+De}(fin(s),v) {\bfseries fi} 
+\end{DoxyParagraph}
+
 
 \begin{DoxyParagraph}{siguientes\+De}
-Devuelve una lista ordenada de todos los valores ateriores a el parametro que recive.
+Devuelve la sublista ordenada desde v, incluyendolo, hasta el final de la lista.
 
 siguientes\+De\+: secu(value\+\_\+type) s x value\+\_\+type v $\to$ secu(value\+\_\+type) \{esta?(v,s)\}~\newline
- siguientes\+De(s, v) $\equiv$ {\bfseries if} prim(s) == v {\bfseries then} $<$$>$ {\bfseries else} prim(s) $\bullet$ \href{axiomas.html#siguientesDe}{\tt siguientes\+De}(s,fin(v)) {\bfseries fi} 
+ siguientes\+De(s, v) $\equiv$ {\bfseries if} prim(s) == v {\bfseries then} v $\bullet$ $<$$>$ {\bfseries else} \href{axiomas.html#siguientesDe}{\tt siguientes\+De}(com(s),v) $\bullet$ ult(s) {\bfseries fi} 
 \end{DoxyParagraph}
 
 
@@ -255,9 +256,9 @@ son\+Hoja\+: Puntero(\+Node) x Puntero(\+Node) $\to$ bool~\newline
 Retorna True si a partir del nodo dado se puede reconstruir un Red-\/\+Black Tree.
 
 es\+R\+B\+Tree\+: Node $\to$ Bool~\newline
- \href{axiomas.html#esRBTree}{\tt es\+R\+B\+Tree}(n) $\equiv$ ( $\exists$ k\+: nat)(\href{axiomas.html#arbolK}{\tt arbolK}(n.\+parent,k) = \href{axiomas.html#arbolK}{\tt arbolK}(n.\+parent,k+1)) $\land_{\rm L}$ \href{axiomas.html#sinRepetidos}{\tt sin\+Repetidos}(header\+To\+Secu(n.\+parent)) $\land$ \href{axiomas.html#esADB}{\tt es\+A\+DB}(n.\+parent) $\land$ ~\newline
+ \href{axiomas.html#esRBTree}{\tt es\+R\+B\+Tree}(n) $\equiv$ ( $\exists$ k\+: nat)(\href{axiomas.html#arbolK}{\tt arbolK}(n.\+parent,k) = \href{axiomas.html#arbolK}{\tt arbolK}(n.\+parent,k+1)) $\land_{\rm L}$ \href{axiomas.html#sinRepetidos}{\tt sin\+Repetidos}(header\+To\+Secu(n.\+parent)) $\land$ \href{axiomas.html#esADB}{\tt es\+A\+DB}(n.\+parent) $\land$ hijos\+Header(header) $\land$ ~\newline
  ( $\forall$ p,p\textquotesingle{}\+:puntero(\+Node))(\href{axiomas.html#estan}{\tt estan}($\ast$p.value,header.\+parent,$\ast$p\textquotesingle{}.value,header.\+parent) $\Rightarrow_{\rm L}$ \href{axiomas.html#coloresAdecuados}{\tt colores\+Adecuados}(p,p\textquotesingle{}) $\land$ ~\newline
- \href{axiomas.html#sonValidos}{\tt son\+Validos}(p,p\textquotesingle{}) $\land$ ((\href{axiomas.html#sonHoja}{\tt son\+Hoja}(p,p\textquotesingle{})) $\Rightarrow_{\rm L}$ \href{axiomas.html#cantBlack}{\tt cant\+Black}(p)=\href{axiomas.html#cantBlack}{\tt cant\+Black}(p\textquotesingle{}))) 
+ \href{axiomas.html#sonValidos}{\tt son\+Validos}(p,p\textquotesingle{}) $\land$ ((\href{axiomas.html#sonHoja}{\tt son\+Hoja}(p,p\textquotesingle{})) $\Rightarrow_{\rm L}$ \href{axiomas.html#cantBlack}{\tt cant\+Black}(p)=\href{axiomas.html#cantBlack}{\tt cant\+Black}(p\textquotesingle{})) $\land$ en\+Rango(p,p\textquotesingle{},header.\+child\mbox{[}0\mbox{]},header.\+child\mbox{[}1\mbox{]})) 
 \end{DoxyParagraph}
 
 
@@ -274,8 +275,10 @@ padreK\+: puntero(\+Node) $\to$ Node~\newline
 
 
 \begin{DoxyParagraph}{elementos\+MayoresA}
-Retorna la secuencia ordenada de elementos mayores al pasado como parametro. elementos\+Mayores\+A(d, c, k) $\equiv$ {\bfseries if} $\emptyset$(c)? {\bfseries then} $<$ $>$ {\bfseries else} {\bfseries if} maximo(c) $<$ k {\bfseries then} elementos\+MayoresA(d, c -\/ maximo(c), k) o $<$maximo(c), obtener(minimo(c), d)$>$ {\bfseries else} elementos\+MayoresA(d, c -\/ maximo(c), k) {\bfseries fi} {\bfseries fi} elementos\+MayoresA\+: deicc(value) x conj(key) x key $\to$ secu(value)~\newline
- 
+Retorna la secuencia ordenada de elementos mayores al pasado como parametro.
+
+elementos\+MayoresA\+: deicc(value) x conj(key) x key $\to$ secu(value)~\newline
+ elementos\+Mayores\+A(d, c, k) $\equiv$ {\bfseries if} $\emptyset$(c)? {\bfseries then} $<$ $>$ {\bfseries else} {\bfseries if} maximo(c) $\leq$ k {\bfseries then} \href{axiomas.html#elementosMayoresA}{\tt elementos\+MayoresA}(d, c -\/ maximo(c), k) o $<$maximo(c), obtener(minimo(c), d)$>$ {\bfseries else} \href{axiomas.html#elementosMayoresA}{\tt elementos\+MayoresA}(d, c -\/ maximo(c), k) {\bfseries fi} {\bfseries fi} 
 \end{DoxyParagraph}
 
 
@@ -283,5 +286,5 @@ Retorna la secuencia ordenada de elementos mayores al pasado como parametro. ele
 Retorna la secuencia ordenada de elementos menores al pasado como parametro.
 
 elementos\+MenoresA\+: dicc(value) x conj(key) x key $\to$ secu(value)~\newline
- elementos\+Menores\+A(d, c, k) $\equiv$ {\bfseries if} $\emptyset$(c)? {\bfseries then} $<$ $>$ {\bfseries else} {\bfseries if} minimo(c) $<$ k {\bfseries then} $<$minimo(c), obtener(minimo(c), d)$>$ $\bullet$ elementos\+MenoresA(d, c -\/ minimo(c), k) {\bfseries else} elementos\+MenoresA(d, c -\/ minimo(c), k) {\bfseries fi} {\bfseries fi} 
+ elementos\+Menores\+A(d, c, k) $\equiv$ {\bfseries if} $\emptyset$(c)? {\bfseries then} $<$ $>$ {\bfseries else} {\bfseries if} minimo(c) $<$ k {\bfseries then} $<$minimo(c), obtener(minimo(c), d)$>$ $\bullet$ \href{axiomas.html#elementosMenoresA}{\tt elementos\+MenoresA}(d, c -\/ minimo(c), k) {\bfseries else} \href{axiomas.html#elementosMenoresA}{\tt elementos\+MenoresA}(d, c -\/ minimo(c), k) {\bfseries fi} {\bfseries fi} 
 \end{DoxyParagraph}
