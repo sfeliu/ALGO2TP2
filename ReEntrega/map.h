@@ -2025,8 +2025,7 @@ public:
          * El iterador \P{res} queda asociado a `d` y permite modificar el significado del valor que apunte.}
          *
          * \pre \aedpre{rep_iter(pos)}
-         * \post \aedpost{res \IGOBS CrearItBi(&`d`, \anterioresDe(inorder(\ArbolValue(&\dameHeader(pos))), data(*pos).value), \siguientesDe(inorder(\ArbolValue(&\dameHeader(pos))), data(*pos).value))}
-         *
+         * \post \aedpost{res \IGOBS CrearItBi(&`d`, anteriores(abs_iter(pos)), siguientes(abs_iter(pos)))}
          * \complexity{\O(1)}
          *
          * \attention El diccionario `d` se describe en castellano, porque depende de un aspecto de aliasing.  Es la interpretacion de la
