@@ -2112,7 +2112,7 @@ public:
         }
 
 		/**
-		* \brief min
+		* \brief avanzar
 		*
 		* \Descripcion Avanza el iterador a la siguiente posicion, si es el ultimo elemento va al header, si esta en header, va al primer elemento.
 		*
@@ -2138,7 +2138,7 @@ public:
 		}
 
 		/**
-		* \brief min
+		* \brief retroceder
 		*
 		* \Descripcion Retrocede el iterador a la posicion anterior, si es el primer elemento va al header, si esta en header, va al ultimo elemento.
 		*
@@ -2285,7 +2285,7 @@ public:
         }
 
 		/**
-		* \brief min
+		* \brief avanzar
 		*
 		* \Descripcion Avanza el iterador a la siguiente posicion, si es el ultimo elemento va al header, si esta en header, va al primer elemento.
 		*
@@ -2311,7 +2311,7 @@ public:
         }
 
 		/**
-		* \brief min
+		* \brief retroceder
 		*
 		* \Descripcion Retrocede el iterador a la posicion anterior, si es el primer elemento va al header, si esta en header, va al ultimo elemento.
 		*
